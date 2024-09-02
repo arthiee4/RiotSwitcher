@@ -383,6 +383,8 @@ func _riot_kill():
 func _on_account_prof_pressed(account_prof):
 	print("Perfil selecionado: ", account_prof.name)
 	_riot_configs_move_selected(account_prof.name)
+	await get_tree().create_timer(1.0).timeout
+	_open_riot_shortcut()
 
 
 func _riot_configs_delete():
