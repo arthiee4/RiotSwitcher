@@ -1,0 +1,52 @@
+[gd_scene load_steps=5 format=3 uid="uid://delcdyafptuwr"]
+
+[ext_resource type="Texture2D" uid="uid://bx48w6wgx4owm" path="res://assets/add_text.png" id="1_vqu36"]
+[ext_resource type="VideoStream" path="res://buttonvd.ogv" id="2_646kl"]
+[ext_resource type="Material" path="res://buttonshader.tres" id="2_ixepb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x2sws"]
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[node name="TextureButton" type="TextureButton"]
+offset_right = 113.0
+offset_bottom = 113.0
+
+[node name="Panel" type="Panel" parent="."]
+clip_children = 1
+layout_mode = 1
+anchors_preset = -1
+offset_left = 41.76
+offset_top = 41.165
+offset_right = 81.76
+offset_bottom = 81.165
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3.095, 3.095)
+pivot_offset = Vector2(20, 20)
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_x2sws")
+
+[node name="TextureRect" type="TextureRect" parent="Panel"]
+visible = false
+layout_mode = 2
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource("1_vqu36")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Panel"]
+material = ExtResource("2_ixepb")
+layout_mode = 0
+offset_left = -37.75
+offset_top = -11.965
+offset_right = 1242.25
+offset_bottom = 708.035
+scale = Vector2(0.09, 0.09)
+mouse_filter = 2
+stream = ExtResource("2_646kl")
+autoplay = true

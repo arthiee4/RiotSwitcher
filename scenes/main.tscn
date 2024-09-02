@@ -1,0 +1,377 @@
+[gd_scene load_steps=22 format=3 uid="uid://k5mao0fsud7k"]
+
+[ext_resource type="Script" path="res://src/main.gd" id="1_xubh8"]
+[ext_resource type="PackedScene" uid="uid://dtolwjg03hirt" path="res://scenes/func/account_prof.tscn" id="2_dhjuy"]
+[ext_resource type="PackedScene" uid="uid://delcdyafptuwr" path="res://scenes/func/add_prof.tscn" id="3_aqrub"]
+[ext_resource type="PackedScene" uid="uid://pwkoxfdjfkyn" path="res://scenes/menu/mouse_menu.tscn" id="4_g58s2"]
+[ext_resource type="PackedScene" uid="uid://b5dgxndjgcqqh" path="res://scenes/menu/createmenu.tscn" id="5_asp4q"]
+[ext_resource type="PackedScene" uid="uid://dmshylqkyjqb2" path="res://scenes/menu/newaddmenu.tscn" id="6_nitp4"]
+[ext_resource type="Texture2D" uid="uid://n4pgh0efpgdm" path="res://assets/icons/0.png" id="8_1rdj0"]
+[ext_resource type="VideoStream" path="res://scenes/bg_loop.ogv" id="8_mrn6k"]
+[ext_resource type="Texture2D" uid="uid://wwr57p4ctqox" path="res://assets/icons/1.png" id="9_5apnn"]
+[ext_resource type="Texture2D" uid="uid://caw2n65nj3knf" path="res://assets/icons/2.png" id="10_ofhc2"]
+[ext_resource type="Texture2D" uid="uid://yyudcvtl8s7u" path="res://assets/icons/3.png" id="11_6nno1"]
+[ext_resource type="Texture2D" uid="uid://c17ngcwfb02me" path="res://assets/icons/4.png" id="12_wpefk"]
+[ext_resource type="Texture2D" uid="uid://b3vci2m0ifsio" path="res://assets/icons/5.png" id="13_nnh04"]
+[ext_resource type="Texture2D" uid="uid://bytkm20qt4x50" path="res://assets/icons/6.png" id="14_8jem0"]
+[ext_resource type="Texture2D" uid="uid://b8tefa7kfl6ci" path="res://assets/icons/7.png" id="15_wavs1"]
+[ext_resource type="Texture2D" uid="uid://cc6dvesdk3tmy" path="res://assets/icons/8.png" id="16_26y0l"]
+[ext_resource type="Texture2D" uid="uid://c16p5hbl5ekhp" path="res://assets/icons/9.png" id="17_tu8xg"]
+[ext_resource type="Texture2D" uid="uid://cpog08xide5m0" path="res://assets/arr.png" id="18_36g8h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_spb0v"]
+bg_color = Color(0, 0, 0, 0.72549)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ll2r2"]
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7dyxq"]
+
+[node name="main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("1_xubh8")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+modulate = Color(0.243137, 0.243137, 0.243137, 1)
+self_modulate = Color(1, 0.188235, 1, 1)
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+stream = ExtResource("8_mrn6k")
+autoplay = true
+loop = true
+
+[node name="Label" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 360.0
+offset_top = 13.435
+offset_right = 930.0
+offset_bottom = 116.435
+theme_override_font_sizes/font_size = 75
+text = "sei lá oq por aq "
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.445004
+anchor_top = 0.391852
+anchor_right = 0.445004
+anchor_bottom = 0.391852
+offset_left = 0.00500488
+offset_right = 0.00500488
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="accounts_container" type="GridContainer" parent="CenterContainer"]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/h_separation = 160
+theme_override_constants/v_separation = 160
+columns = 7
+
+[node name="account_prof" parent="CenterContainer/accounts_container" instance=ExtResource("2_dhjuy")]
+visible = false
+layout_mode = 2
+
+[node name="add_prof" parent="CenterContainer/accounts_container" instance=ExtResource("3_aqrub")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+mouse_force_pass_scroll_events = false
+mouse_default_cursor_shape = 5
+
+[node name="mouse_menu" parent="." instance=ExtResource("4_g58s2")]
+visible = false
+layout_mode = 1
+
+[node name="createmenupanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.471
+anchor_right = 0.5
+anchor_bottom = 0.471
+offset_left = -649.5
+offset_top = -339.12
+offset_right = 639.5
+offset_bottom = 386.88
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_spb0v")
+
+[node name="createmenu" parent="createmenupanel" instance=ExtResource("5_asp4q")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.527369
+anchor_top = 0.500752
+anchor_right = 0.527369
+anchor_bottom = 0.500752
+offset_left = -157.022
+offset_top = -214.0
+offset_right = -157.022
+offset_bottom = -214.0
+scale = Vector2(0.62, 0.62)
+metadata/_edit_use_anchors_ = true
+
+[node name="browser_image" parent="createmenupanel/createmenu" index="3"]
+visible = false
+offset_left = -668.962
+offset_top = -208.945
+offset_right = -545.962
+offset_bottom = -177.945
+
+[node name="iconsgrid_edit" type="GridContainer" parent="createmenupanel"]
+visible = false
+layout_mode = 0
+offset_left = 58.0
+offset_top = 59.0
+offset_right = 343.0
+offset_bottom = 675.0
+columns = 2
+
+[node name="0" type="TextureButton" parent="createmenupanel/iconsgrid_edit"]
+layout_mode = 2
+texture_normal = ExtResource("8_1rdj0")
+
+[node name="1" type="TextureButton" parent="createmenupanel/iconsgrid_edit"]
+layout_mode = 2
+texture_normal = ExtResource("9_5apnn")
+
+[node name="2" type="TextureButton" parent="createmenupanel/iconsgrid_edit"]
+layout_mode = 2
+texture_normal = ExtResource("10_ofhc2")
+
+[node name="3" type="TextureButton" parent="createmenupanel/iconsgrid_edit"]
+layout_mode = 2
+texture_normal = ExtResource("11_6nno1")
+
+[node name="4" type="TextureButton" parent="createmenupanel/iconsgrid_edit"]
+layout_mode = 2
+texture_normal = ExtResource("12_wpefk")
+
+[node name="5" type="TextureButton" parent="createmenupanel/iconsgrid_edit"]
+layout_mode = 2
+texture_normal = ExtResource("13_nnh04")
+
+[node name="6" type="TextureButton" parent="createmenupanel/iconsgrid_edit"]
+layout_mode = 2
+texture_normal = ExtResource("14_8jem0")
+
+[node name="7" type="TextureButton" parent="createmenupanel/iconsgrid_edit"]
+layout_mode = 2
+texture_normal = ExtResource("15_wavs1")
+
+[node name="8" type="TextureButton" parent="createmenupanel/iconsgrid_edit"]
+layout_mode = 2
+texture_normal = ExtResource("16_26y0l")
+
+[node name="9" type="TextureButton" parent="createmenupanel/iconsgrid_edit"]
+layout_mode = 2
+texture_normal = ExtResource("17_tu8xg")
+
+[node name="debuglabel" type="Label" parent="."]
+layout_mode = 1
+offset_right = 90.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 25
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_top = 310.0
+offset_right = 292.0
+offset_bottom = 728.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ll2r2")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Panel"]
+modulate = Color(0.092397, 0.0923971, 0.092397, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = -313.0
+offset_right = 1281.0
+offset_bottom = 407.0
+mouse_filter = 2
+stream = ExtResource("8_mrn6k")
+autoplay = true
+loop = true
+
+[node name="newaddmenu" parent="Panel" instance=ExtResource("6_nitp4")]
+layout_mode = 1
+offset_left = 70.0
+offset_top = 139.0
+offset_right = -596.0
+offset_bottom = 131.0
+scale = Vector2(0.64, 0.64)
+
+[node name="GridContainer" parent="Panel/newaddmenu" index="0"]
+offset_left = 959.375
+offset_top = -484.375
+offset_right = 1578.38
+offset_bottom = 145.625
+
+[node name="LineEdit" parent="Panel/newaddmenu/GridContainer" index="1"]
+placeholder_text = "Profile name"
+max_length = 18
+
+[node name="iconsgrid" type="GridContainer" parent="Panel"]
+visible = false
+layout_mode = 0
+offset_left = 28.0
+offset_top = -247.0
+offset_right = 272.0
+offset_bottom = 369.0
+columns = 2
+
+[node name="0" type="TextureButton" parent="Panel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("8_1rdj0")
+
+[node name="1" type="TextureButton" parent="Panel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("9_5apnn")
+
+[node name="2" type="TextureButton" parent="Panel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("10_ofhc2")
+
+[node name="3" type="TextureButton" parent="Panel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("11_6nno1")
+
+[node name="4" type="TextureButton" parent="Panel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("12_wpefk")
+
+[node name="5" type="TextureButton" parent="Panel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("13_nnh04")
+
+[node name="6" type="TextureButton" parent="Panel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("14_8jem0")
+
+[node name="7" type="TextureButton" parent="Panel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("15_wavs1")
+
+[node name="8" type="TextureButton" parent="Panel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("16_26y0l")
+
+[node name="9" type="TextureButton" parent="Panel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("17_tu8xg")
+
+[node name="Label" type="Label" parent="Panel"]
+visible = false
+layout_mode = 0
+offset_left = 39.0
+offset_top = -278.0
+offset_right = 156.0
+offset_bottom = -255.0
+text = "Choose an icon or "
+
+[node name="creatediag" type="FileDialog" parent="Panel/Label"]
+
+[node name="createfiledialogbutton" type="Button" parent="Panel/Label"]
+layout_mode = 0
+offset_left = 145.0
+offset_top = -3.0
+offset_right = 217.0
+offset_bottom = 28.0
+text = "browser"
+
+[node name="guidebutton" type="TextureButton" parent="Panel"]
+visible = false
+modulate = Color(100, 100, 100, 1)
+layout_mode = 0
+offset_left = 1151.0
+offset_top = 80.0
+offset_right = 1663.0
+offset_bottom = 592.0
+rotation = -1.5708
+scale = Vector2(0.17, 0.17)
+texture_normal = ExtResource("18_36g8h")
+
+[node name="loadbar" type="ProgressBar" parent="."]
+visible = false
+top_level = true
+z_index = 6
+layout_mode = 0
+offset_left = 373.0
+offset_top = 311.0
+offset_right = 890.0
+offset_bottom = 338.0
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="loadbar"]
+modulate = Color(0, 0, 0, 0.764706)
+top_level = true
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7dyxq")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="loadbar"]
+modulate = Color(0.243137, 0.243137, 0.243137, 1)
+top_level = true
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+stream = ExtResource("8_mrn6k")
+autoplay = true
+loop = true
+
+[node name="loadconfirm" type="Button" parent="loadbar"]
+z_index = 4
+layout_mode = 0
+offset_left = 182.46
+offset_top = 51.515
+offset_right = 328.46
+offset_bottom = 82.515
+text = "Already Logged In"
+
+[node name="Panel2" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 1208.0
+offset_right = 1281.0
+offset_bottom = 34.0
+mouse_filter = 2
+
+[node name="closebutton" type="Button" parent="."]
+z_index = 99
+layout_mode = 0
+offset_left = 1244.0
+offset_top = 3.0
+offset_right = 1278.0
+offset_bottom = 34.0
+text = "x"
+flat = true
+
+[node name="minimizebutton" type="Button" parent="."]
+z_index = 99
+layout_mode = 0
+offset_left = 1208.0
+offset_top = 3.0
+offset_right = 1242.0
+offset_bottom = 34.0
+text = "-"
+flat = true
+
+[editable path="CenterContainer/accounts_container/account_prof"]
+[editable path="CenterContainer/accounts_container/add_prof"]
+[editable path="createmenupanel/createmenu"]
+[editable path="Panel/newaddmenu"]

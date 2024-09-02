@@ -1,0 +1,111 @@
+[gd_scene load_steps=6 format=3 uid="uid://c74hmo3rlmec4"]
+
+[ext_resource type="Script" path="res://src/initconfig.gd" id="1_b8ybk"]
+[ext_resource type="Theme" uid="uid://dwe7rxqgkychl" path="res://scenes/initconfig.tres" id="1_t376f"]
+[ext_resource type="PackedScene" uid="uid://j6x14tvfamvo" path="res://scenes/langchanger.tscn" id="2_5l4rx"]
+[ext_resource type="VideoStream" path="res://scenes/bg_loop.ogv" id="2_ghqql"]
+[ext_resource type="VideoStream" path="res://Comp-sdfsdfsd1.ogv" id="5_47how"]
+
+[node name="initconfig" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_t376f")
+script = ExtResource("1_b8ybk")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+modulate = Color(0.244776, 0.244776, 0.244776, 1)
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+stream = ExtResource("2_ghqql")
+autoplay = true
+loop = true
+
+[node name="browserbutton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -61.0
+offset_top = -7.0
+offset_right = 11.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.5, 1.5)
+text = "browser"
+
+[node name="errorlabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 579.0
+offset_top = 652.0
+offset_right = 695.0
+offset_bottom = 675.0
+text = "wrong location"
+
+[node name="FileDialog" type="FileDialog" parent="."]
+title = "Open a Directory"
+initial_position = 1
+size = Vector2i(827, 575)
+ok_button_text = "Select Current Folder"
+cancel_button_text = "Close"
+file_mode = 2
+access = 2
+show_hidden_files = true
+use_native_dialog = true
+
+[node name="closebutton" type="Button" parent="."]
+z_index = 99
+layout_mode = 0
+offset_left = 1241.0
+offset_top = 4.0
+offset_right = 1275.0
+offset_bottom = 35.0
+text = "x"
+
+[node name="minimizebutton" type="Button" parent="."]
+z_index = 99
+layout_mode = 0
+offset_left = 1204.0
+offset_top = 4.0
+offset_right = 1238.0
+offset_bottom = 35.0
+text = "-"
+
+[node name="langchanger" parent="." instance=ExtResource("2_5l4rx")]
+layout_mode = 1
+offset_left = -158.0
+offset_top = 92.0
+offset_right = -693.0
+offset_bottom = -236.0
+
+[node name="OptionButton" parent="langchanger" index="0"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 356.5
+offset_top = 31.0
+offset_right = 479.5
+offset_bottom = 51.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VideoStreamPlayer2" type="VideoStreamPlayer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+stream = ExtResource("5_47how")
+autoplay = true
+
+[editable path="langchanger"]

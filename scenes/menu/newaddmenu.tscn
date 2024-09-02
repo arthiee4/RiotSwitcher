@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmshylqkyjqb2"]
+
+[ext_resource type="Texture2D" uid="uid://3lynnbeqfii3" path="res://assets/default_icon.jpg" id="1_y3jwm"]
+
+[node name="newaddmenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -905.0
+offset_bottom = -217.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 0
+offset_right = 67.0
+offset_bottom = 66.0
+
+[node name="TextureRect" type="TextureRect" parent="GridContainer"]
+layout_mode = 2
+texture = ExtResource("1_y3jwm")
+expand_mode = 4
+
+[node name="LineEdit" type="LineEdit" parent="GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+placeholder_text = "Name"
+alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 2
+
+[node name="create_button" type="Button" parent="GridContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 65
+text = " create "
+
+[node name="cancel_button" type="Button" parent="GridContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 65
+text = " cancel "

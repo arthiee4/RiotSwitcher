@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://pwkoxfdjfkyn"]
+
+[node name="mouse_menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="mouse_menu" type="GridContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/v_separation = 0
+
+[node name="editprofilebutton" type="Button" parent="mouse_menu"]
+layout_mode = 2
+text = "edit"
+
+[node name="deletebutton" type="Button" parent="mouse_menu"]
+layout_mode = 2
+text = "delete"

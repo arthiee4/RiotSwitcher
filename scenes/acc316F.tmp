@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtolwjg03hirt"]
+
+[ext_resource type="Script" path="res://scenes/panel.gd" id="1_kx12e"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kk20g"]
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[node name="account_prof" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(3.095, 3.095)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kk20g")
+script = ExtResource("1_kx12e")
+
+[node name="TextureRect" type="TextureRect" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+stretch_mode = 5

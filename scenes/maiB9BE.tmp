@@ -1,0 +1,142 @@
+[gd_scene load_steps=9 format=3 uid="uid://k5mao0fsud7k"]
+
+[ext_resource type="Script" path="res://src/main.gd" id="1_xubh8"]
+[ext_resource type="PackedScene" uid="uid://dtolwjg03hirt" path="res://scenes/func/account_prof.tscn" id="2_dhjuy"]
+[ext_resource type="PackedScene" uid="uid://delcdyafptuwr" path="res://scenes/func/add_prof.tscn" id="3_aqrub"]
+[ext_resource type="PackedScene" uid="uid://pwkoxfdjfkyn" path="res://scenes/menu/mouse_menu.tscn" id="4_g58s2"]
+[ext_resource type="PackedScene" uid="uid://b5dgxndjgcqqh" path="res://scenes/menu/createmenu.tscn" id="5_asp4q"]
+[ext_resource type="PackedScene" uid="uid://dmshylqkyjqb2" path="res://scenes/menu/newaddmenu.tscn" id="6_nitp4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_spb0v"]
+bg_color = Color(0, 0, 0, 0.866667)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ll2r2"]
+bg_color = Color(0.0156863, 0.0156863, 0.0156863, 0.858824)
+
+[node name="main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("1_xubh8")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -68.385
+offset_top = -35.64
+offset_right = -68.385
+offset_bottom = -35.64
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="accounts_container" type="GridContainer" parent="CenterContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 160
+theme_override_constants/v_separation = 160
+columns = 7
+
+[node name="account_prof" parent="CenterContainer/accounts_container" instance=ExtResource("2_dhjuy")]
+visible = false
+layout_mode = 2
+
+[node name="add_prof" parent="CenterContainer/accounts_container" instance=ExtResource("3_aqrub")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+mouse_force_pass_scroll_events = false
+mouse_default_cursor_shape = 5
+
+[node name="debugtest" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 984.0
+offset_top = 3.0
+offset_right = 1074.0
+offset_bottom = 34.0
+text = "debug test"
+
+[node name="mouse_menu" parent="." instance=ExtResource("4_g58s2")]
+visible = false
+layout_mode = 1
+
+[node name="createmenupanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.471
+anchor_right = 0.5
+anchor_bottom = 0.471
+offset_left = -607.0
+offset_top = -311.208
+offset_right = 563.0
+offset_bottom = 353.792
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_spb0v")
+
+[node name="createmenu" parent="createmenupanel" instance=ExtResource("5_asp4q")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.527369
+anchor_top = 0.500752
+anchor_right = 0.527369
+anchor_bottom = 0.500752
+offset_left = -157.022
+offset_top = -214.0
+offset_right = -157.022
+offset_bottom = -214.0
+scale = Vector2(0.62, 0.62)
+metadata/_edit_use_anchors_ = true
+
+[node name="debuglabel" type="Label" parent="."]
+layout_mode = 1
+offset_right = 90.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 25
+
+[node name="Panel" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 655.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ll2r2")
+
+[node name="newaddmenu" parent="Panel" instance=ExtResource("6_nitp4")]
+layout_mode = 1
+offset_left = 431.125
+offset_top = 115.51
+offset_right = -234.875
+offset_bottom = 107.51
+scale = Vector2(0.64, 0.64)
+
+[node name="closebutton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1115.0
+offset_top = 3.0
+offset_right = 1149.0
+offset_bottom = 34.0
+text = "x"
+
+[node name="minimizebutton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1078.0
+offset_top = 3.0
+offset_right = 1112.0
+offset_bottom = 34.0
+text = "-"
+
+[editable path="CenterContainer/accounts_container/account_prof"]
+[editable path="createmenupanel/createmenu"]
+[editable path="Panel/newaddmenu"]

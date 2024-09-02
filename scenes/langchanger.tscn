@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://j6x14tvfamvo"]
+
+[ext_resource type="Script" path="res://src/langchanger.gd" id="1_67xnk"]
+
+[node name="langchanger" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_67xnk")
+
+[node name="OptionButton" type="OptionButton" parent="."]
+layout_mode = 0
+offset_left = 470.0
+offset_top = 226.0
+offset_right = 593.0
+offset_bottom = 246.0
+alignment = 1

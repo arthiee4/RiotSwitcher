@@ -1,0 +1,67 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5dgxndjgcqqh"]
+
+[ext_resource type="Texture2D" uid="uid://3lynnbeqfii3" path="res://assets/default_icon.jpg" id="1_p3ixy"]
+
+[node name="createmenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+scale = Vector2(0.945, 0.945)
+size_flags_horizontal = 4
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 0
+offset_right = 67.0
+offset_bottom = 66.0
+
+[node name="TextureRect" type="TextureRect" parent="GridContainer"]
+layout_mode = 2
+texture = ExtResource("1_p3ixy")
+expand_mode = 4
+
+[node name="LineEdit" type="LineEdit" parent="GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+placeholder_text = "Name"
+alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 2
+
+[node name="create_button" type="Button" parent="GridContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 70
+text = " save "
+
+[node name="cancel_button" type="Button" parent="GridContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 65
+text = " cancel "
+
+[node name="picturechange" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 8.0
+offset_right = 436.0
+offset_bottom = 436.0
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="FileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+size = Vector2i(453, 575)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+use_native_dialog = true
+
+[node name="browser_image" type="Button" parent="."]
+layout_mode = 0
+offset_left = 130.159
+offset_top = 8.46561
+offset_right = 253.159
+offset_bottom = 39.4656
+scale = Vector2(1.645, 1.645)
+text = "browser image"
