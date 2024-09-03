@@ -9,6 +9,9 @@ You can manage profiles, each with a different Riot account, a unique name, and 
 ![](git_images/mouse0.png)
 ![](git_images/loadgif.gif)
 ![](git_images/mousegif.gif)
+![](git_images/staysign.png)
+![](git_images/riot.png)
+![](git_images/riotclientfolder.png)
 
 
 
