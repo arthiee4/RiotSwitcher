@@ -43,7 +43,7 @@ extends Control
 @onready var current_profile_name = $Panel3/profile_name
 @onready var current_profile_exit_button = $Panel3/exit_button
 
-var previous_image_path = ""
+var previous__imagem_path = ""
 var account_prof_scene = preload("res://scenes/func/account_prof.tscn")
 var mouse_menu_scene = preload("res://scenes/menu/mouse_menu.tscn")
 var account_prof_list = []
@@ -432,7 +432,7 @@ func _on_newaddmenu_create_button_pressed():
 	_account_folder_created(new_account_prof)
 
 	var dest_folder = "res://profiles/FOLDER_%s/" % new_account_prof.name
-	var image_path = "%sdefault_icon.png" % dest_folder
+	var _imagem_path = "%sdefault_icon.png" % dest_folder
 
 	_save_account_prof_to_json(new_account_prof.name, selected_icon_index)
 
@@ -454,15 +454,16 @@ func _on_newaddmenu_create_button_pressed():
 		await _await_button_press(loadconfirm)
 		loadbar.value = 90
 		_riot_kill()
-		await get_tree().create_timer(1.0).timeout
+		await get_tree().create_timer(2.0).timeout
+		loadbar.value = 98
+		_riot_configs_move(new_account_prof)
+		await get_tree().create_timer(5.5).timeout
 		loadbar.value = 100
-		await get_tree().create_timer(0.5).timeout
-		
+		await get_tree().create_timer(0.6).timeout
 		loadbar.visible = false
 
 	print("Novo perfil adicionado: ", new_account_prof.name)
 
-	_riot_configs_move(new_account_prof)
 	_icon_set_on_create(new_account_prof)
 	
 	_move_add_prof_to_end()
@@ -618,6 +619,8 @@ func _riot_kill():
 
 func _on_account_prof_pressed(account_prof):
 	
+	_riot_configs_delete()
+	
 	reload_bar.visible = true
 	reload_bar.value = 0
 	var icon_index = _get_icon_index_from_json(account_prof.name)
@@ -626,10 +629,10 @@ func _on_account_prof_pressed(account_prof):
 	reload_bar.value = 50  
 	_set_texture_for_current_profile(icon_index)
 	reload_bar.value = 75 
+	await get_tree().create_timer(4.0).timeout
+	reload_bar.value = 90 
 	_riot_configs_move_selected(account_prof)
-	await get_tree().create_timer(1.0).timeout
-	_riot_configs_delete()
-	await get_tree().create_timer(1.5).timeout
+	await get_tree().create_timer(4.5).timeout
 	_open_riot_shortcut()
 	reload_bar.value = 100  
 	await get_tree().create_timer(0.8).timeout
@@ -752,7 +755,7 @@ func _account_folder_rename(old_name: String, new_name: String):
 			for profile in config_data["profiles"]:
 				if profile["name"] == old_name:
 					profile["files_location"] = "res://%s/%s" % [root_folder, new_folder_name]
-					profile["image_path"] = "res://%s/%s/default_icon.png" % [root_folder, new_folder_name]
+					profile["_imagem_path"] = "res://%s/%s/default_icon.png" % [root_folder, new_folder_name]
 					profile["name"] = new_name
 					break
 			_save_config_file(config_data)
@@ -828,13 +831,13 @@ func _show_createmenu(account_prof):
 	if not create_button.is_connected("pressed", callable):
 		create_button.pressed.connect(callable)
 
-func _get_image_path_from_json(profile_name):
+func _get__imagem_path_from_json(profile_name):
 	var config_data = _load_config_file()
 
 	if config_data != null and "profiles" in config_data:
 		for profile in config_data["profiles"]:
 			if profile.has("name") and profile["name"] == profile_name:
-				return profile["image_path"]
+				return profile["_imagem_path"]
 	return ""
 
 func _get_profile_name_from_json(profile_name):
@@ -894,7 +897,7 @@ func _set_texture_for_account_prof(account_prof, icon_index: int):
 	else:
 		print("Ícone selecionado é inválido.")
 
-func _save_account_texture(profile_name: String, image_path: String):
+func _save_account_texture(profile_name: String, _imagem_path: String):
 	var config_data = _load_config_file()
 
 	if config_data == null:
@@ -905,7 +908,7 @@ func _save_account_texture(profile_name: String, image_path: String):
 
 	for profile in config_data["profiles"]:
 		if profile["name"] == profile_name:
-			profile["image_path"] = image_path
+			profile["_imagem_path"] = _imagem_path
 			break
 
 	_save_config_file(config_data)
