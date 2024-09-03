@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dtolwjg03hirt"]
 
-[ext_resource type="Texture2D" uid="uid://lhv2kmfy3rp1" path="res://assets/dbricon.jpg" id="1_l3ar6"]
+[ext_resource type="Texture2D" uid="uid://c1uy64ouef2g4" path="res://kitten_default.jpg" id="1_b2m0t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kk20g"]
 corner_radius_top_left = 100
@@ -37,7 +37,7 @@ anchors_preset = -1
 anchor_left = -0.0915
 anchor_right = 1.06562
 anchor_bottom = 1.0
-texture = ExtResource("1_l3ar6")
+texture = ExtResource("1_b2m0t")
 expand_mode = 3
 stretch_mode = 6
 

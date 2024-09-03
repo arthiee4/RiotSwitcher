@@ -29,6 +29,7 @@ extends Control
 @onready var icon8 = $"Panel/iconsgrid/8"
 @onready var icon9 = $"Panel/iconsgrid/9"
 @onready var loadbar = $loadbar
+@onready var loadbarlabel = $loadbar/Label
 @onready var loadconfirm = $loadbar/loadconfirm
 @onready var video_player  = $CenterContainer/accounts_container/add_prof/Panel/VideoStreamPlayer
 @onready var browser_button = $createmenupanel/createmenu/browser_image
@@ -36,6 +37,11 @@ extends Control
 @onready var add_prof_panel = $CenterContainer/accounts_container/add_prof/Panel
 @onready var language_selector = $langchanger/OptionButton
 @onready var reload_bar = $reloadbar
+
+@onready var current_profile = $Panel3
+@onready var current_profile_texture = $Panel3/selected_profile/TextureRect
+@onready var current_profile_name = $Panel3/profile_name
+@onready var current_profile_exit_button = $Panel3/exit_button
 
 var previous_image_path = ""
 var account_prof_scene = preload("res://scenes/func/account_prof.tscn")
@@ -49,13 +55,14 @@ var drag_offset = Vector2()
 var current_account_prof = null
 var selected_icon_texture: Texture = null
 var selected_icon_index = -1
-var selected_language: String = "--locale=en_US"  # Variável para armazenar o idioma selecionado
+var selected_language: String = "--locale=en_US"
 
 func _ready():
 	_pause_after_delay()
 	
 	reload_bar.visible = false
 	loadconfirm.visible = false
+	loadbarlabel.visible = false
 	loadbar.visible = false
 	createmenu.visible = false
 	newaddmenu.visible = false
@@ -69,6 +76,10 @@ func _ready():
 	browser_button.connect("pressed", Callable(self, "_on_browser_button_pressed"))
 	file_dialog.connect("file_selected", Callable(self, "_on_file_selected"))
 	gitbutton.pressed.connect(_on_gitbutton_pressed)
+	
+	
+	current_profile_exit_button.pressed.connect(Callable(self, "_on_current_profile_exit_pressed"))
+	current_profile.visible = false
 	
 	icon0.connect("pressed", Callable(self, "_on_icon_pressed").bind(0))
 	icon1.connect("pressed", Callable(self, "_on_icon_pressed").bind(1))
@@ -90,6 +101,70 @@ func _ready():
 	_load_existing_profiles()
 	_move_add_prof_to_end()
 	_create_shortcut()
+
+func _on_current_profile_exit_pressed():
+
+	reload_bar.visible = true
+	reload_bar.value = 0
+	await get_tree().create_timer(0.5).timeout
+	reload_bar.value = 25
+	await get_tree().create_timer(0.5).timeout
+	_riot_kill()
+	await get_tree().create_timer(1.5).timeout
+	reload_bar.value = 75
+	await get_tree().create_timer(1.0).timeout
+	current_profile.visible = false
+	reload_bar.value = 100
+	await get_tree().create_timer(0.5).timeout
+	reload_bar.visible = false
+	_riot_configs_delete()
+
+func _show_current_profile(account_prof):
+	if account_prof == null:
+		print("Perfil inválido.")
+		return
+
+	var icon_index = account_prof.get_meta("selected_icon_index", -1)
+	if icon_index != -1:
+		_set_texture_for_current_profile(icon_index)
+	else:
+		print("Índice do ícone não encontrado para o perfil:", account_prof.name)
+		
+	current_profile_name.text = account_prof.name
+	current_profile.visible = true
+
+func _set_texture_for_current_profile(icon_index: int):
+	var selected_icon = get_icon_by_index(icon_index)
+	
+	if selected_icon != null:
+		var icon_name = selected_icon.name
+		var icon_path = "res://assets/icons/%s.png" % icon_name
+		
+		var icon_texture = load(icon_path)
+		if icon_texture != null:
+			current_profile_texture.texture = icon_texture
+		else:
+			print("Falha ao carregar a textura do ícone:", icon_name)
+	else:
+		print("Ícone com índice %d não encontrado." % icon_index)
+
+
+
+func _save_current_profile_icon(profile_name: String, icon_index: int):
+	var config_data = _load_config_file()
+
+	if config_data == null:
+		config_data = {}
+	
+	if "profiles" not in config_data or config_data["profiles"] == null:
+		config_data["profiles"] = []
+
+	for profile in config_data["profiles"]:
+		if profile["name"] == profile_name:
+			profile["icon_index"] = icon_index
+			break
+
+	_save_config_file(config_data)
 	
 func _on_gitbutton_pressed():
 	OS.shell_open("https://github.com/arthiee4")	
@@ -119,16 +194,14 @@ func _on_language_selected(index):
 	print("Linguagem selecionada: ", selected_language)
 	reload_bar.visible = true
 	reload_bar.value = 0
-	reload_bar.value = 25  # Atualiza a barra para 25% após a criação do atalho
+	reload_bar.value = 25
 
-	# Etapa 2: Carregar o arquivo de configuração
 	var config_data = _load_config_file()
 	if config_data == {}:
 		print("Erro ao carregar config.json")
 		return
-	reload_bar.value = 50  # Atualiza a barra para 50% após o carregamento do arquivo de configuração
+	reload_bar.value = 50
 
-	# Etapa 3: Atualizar a configuração
 	if "launcher_settings" in config_data:
 		config_data["launcher_settings"]["launcher_lang"] = selected_language
 	else:
@@ -136,11 +209,11 @@ func _on_language_selected(index):
 		return
 	_save_config_file(config_data)
 	await get_tree().create_timer(0.5).timeout
-	reload_bar.value = 75  # Atualiza a barra para 75% após salvar as novas configurações
+	reload_bar.value = 75
 	_create_shortcut()
 	# Etapa 4: Finalização
 	await get_tree().create_timer(0.5).timeout
-	reload_bar.value = 100  # Finaliza o carregamento
+	reload_bar.value = 100 
 	await get_tree().create_timer(0.5).timeout
 	reload_bar.visible = false
 	
@@ -179,7 +252,7 @@ func _selected_lang(index):
 		15:
 			return "--locale=zh_CN"
 		_:
-			return "--locale=en_US"  # Valor padrão se o índice não corresponder a nenhuma das opções
+			return "--locale=en_US" 
 
 func _get_index_from_locale(locale: String) -> int:
 	if locale == "--locale=en_US":
@@ -259,7 +332,7 @@ func copy_file(src: String, dest: String) -> void:
 	print("Arquivo copiado com sucesso de", src, "para", dest)
 
 func _icon_set_on_create(new_account_prof):
-	var selected_icon = get_icon_by_index()
+	var selected_icon = get_icon_by_index(selected_icon_index)
 	
 	if selected_icon != null:
 		var icon_name = selected_icon.name
@@ -271,13 +344,32 @@ func _icon_set_on_create(new_account_prof):
 			if texture_rect != null:
 				texture_rect.texture = icon_texture
 				print("Ícone %s configurado para o perfil %s" % [icon_name, new_account_prof.name])
+				
 				new_account_prof.set_meta("selected_icon_index", selected_icon_index)
+				
+				_save_account_icon_index(new_account_prof.name, selected_icon_index)
 			else:
 				print("TextureRect não encontrado no account_prof:", new_account_prof.name)
 		else:
 			print("Falha ao carregar a textura para o ícone:", icon_name)
 	else:
 		print("Ícone selecionado é inválido.")
+
+func _save_account_icon_index(profile_name: String, icon_index: int):
+	var config_data = _load_config_file()
+
+	if config_data == null:
+		config_data = {}
+	
+	if "profiles" not in config_data or config_data["profiles"] == null:
+		config_data["profiles"] = []
+
+	for profile in config_data["profiles"]:
+		if profile["name"] == profile_name:
+			profile["icon_index"] = icon_index
+			break
+
+	_save_config_file(config_data)
 
 func get_icon_by_index(index: int = -1) -> Node:
 	var icons = [
@@ -321,12 +413,15 @@ func _on_newaddmenu_create_button_pressed():
 		if account_prof.name == new_profile_name:
 			print("Já existe um perfil com esse nome!")            
 			return
+		elif account_prof.name == "":
+			print("vazio n pode")
+			return
 
 	var new_account_prof = account_prof_scene.instantiate()
 	new_account_prof.name = new_profile_name
 
 	accounts_container.add_child(new_account_prof)
-	_move_add_prof_to_end()
+	new_account_prof.connect("pressed", Callable(self, "_on_account_prof_pressed").bind(new_account_prof))
 
 	account_prof_list.append(new_account_prof)
 
@@ -335,7 +430,7 @@ func _on_newaddmenu_create_button_pressed():
 	var dest_folder = "res://profiles/FOLDER_%s/" % new_account_prof.name
 	var image_path = "%sdefault_icon.png" % dest_folder
 
-	_save_account_prof_to_json(new_account_prof.name, image_path)
+	_save_account_prof_to_json(new_account_prof.name, selected_icon_index)
 
 	_load_account_prof_from_json(new_account_prof)
 
@@ -344,29 +439,29 @@ func _on_newaddmenu_create_button_pressed():
 	loadbar.visible = true
 	if loadbar.visible:
 
-		await get_tree().create_timer(3.5).timeout
-		loadbar.value = 20
-
-		await get_tree().create_timer(2.5).timeout
-		loadbar.value = 50
-
-		_open_riot_shortcut()
-
+		loadbar.value = 0
 		await get_tree().create_timer(0.5).timeout
-		loadbar.value = 100
+		loadbar.value = 10
+		_open_riot_shortcut()
+		await get_tree().create_timer(2.5).timeout
+		loadbar.value = 80
 		loadconfirm.visible = true
-
+		loadbarlabel.visible = true
 		await _await_button_press(loadconfirm)
+		loadbar.value = 90
 		_riot_kill()
-		
 		await get_tree().create_timer(1.0).timeout
+		loadbar.value = 100
+		await get_tree().create_timer(0.5).timeout
+		
 		loadbar.visible = false
 
 	print("Novo perfil adicionado: ", new_account_prof.name)
 
 	_riot_configs_move(new_account_prof)
 	_icon_set_on_create(new_account_prof)
-
+	
+	_move_add_prof_to_end()
 	loadbar.value = 0
 
 func _on_loadconfirm_pressed():
@@ -381,7 +476,6 @@ func _open_riot_shortcut():
 func _create_shortcut():
 	var shortcut_path = "profiles\\riotshortcut.lnk"
 
-	# Verificar se o atalho já existe e deletá-lo
 	if FileAccess.file_exists(shortcut_path):
 		var delete_result = OS.execute("cmd.exe", ["/c", "del", shortcut_path], [], false)
 		if delete_result != 0:
@@ -389,7 +483,6 @@ func _create_shortcut():
 		else:
 			print("Atalho existente deletado com sucesso:", shortcut_path)
 
-	# Carregar as configurações do config.json
 	var config_data = _load_config_file()
 
 	var launcher_lang = config_data["launcher_settings"]["launcher_lang"]
@@ -402,7 +495,6 @@ func _create_shortcut():
 	
 	var arguments = "--launch-product=league_of_legends --launch-patchline=live %s" % launcher_lang 
 	
-	# Criar o novo atalho usando PowerShell
 	var commands = 'powershell -command " '
 	commands += '$WshShell = New-Object -ComObject WScript.Shell; '
 	commands += '$Shortcut = $WshShell.CreateShortcut(\'%s\'); ' % shortcut_path
@@ -415,7 +507,6 @@ func _create_shortcut():
 		print("Erro ao criar o atalho:", shortcut_path)
 	else:
 		print("Atalho criado com sucesso:", shortcut_path)
-
 
 func _gui_input(event):
 	if event is InputEventMouseButton:
@@ -460,6 +551,7 @@ func _setup_mouse_menu(account_prof):
 
 	account_prof.connect("mouse_entered", Callable(self, "_on_account_prof_mouse_entered").bind(account_prof))
 	account_prof.connect("mouse_exited", Callable(self, "_on_account_prof_mouse_exited").bind(account_prof))
+
 
 func _on_account_prof_mouse_entered(account_prof):
 	if active_mouse_menu and active_mouse_menu.visible:
@@ -521,13 +613,34 @@ func _riot_kill():
 	OS.execute("cmd", ["/c", "taskkill", "/IM", "LeagueClient.exe", "/F"])
 
 func _on_account_prof_pressed(account_prof):
-	print("Perfil selecionado: ", account_prof.name)
-	_riot_configs_delete()
 	
-	await get_tree().create_timer(2.5).timeout
-	
+	reload_bar.visible = true
+	reload_bar.value = 0
+	var icon_index = _get_icon_index_from_json(account_prof.name)
+	reload_bar.value = 25 
+	_show_current_profile(account_prof)
+	reload_bar.value = 50  
+	_set_texture_for_current_profile(icon_index)
+	reload_bar.value = 75 
 	_riot_configs_move_selected(account_prof)
+	await get_tree().create_timer(1.0).timeout
+	_riot_configs_delete()
+	await get_tree().create_timer(1.5).timeout
+	_open_riot_shortcut()
+	reload_bar.value = 100  
+	await get_tree().create_timer(0.8).timeout
+	reload_bar.visible = false
 
+func _get_icon_index_from_json(profile_name: String) -> int:
+	var config_data = _load_config_file()
+
+	if config_data != null and "profiles" in config_data:
+		for profile in config_data["profiles"]:
+			if profile.has("name") and profile["name"] == profile_name:
+				if profile.has("icon_index"):
+					return profile["icon_index"]
+	return 0
+	
 func _riot_configs_delete():
 	var env_output = []
 	OS.execute("cmd", ["/c", "echo %LOCALAPPDATA%"], env_output)
@@ -544,23 +657,19 @@ func _riot_configs_delete():
 func _riot_configs_move(new_account_prof):
 	var profile_name = new_account_prof.name
 
-	# Caminho de origem na pasta %LOCALAPPDATA%
 	var env_output = []
 	OS.execute("cmd", ["/c", "echo %LOCALAPPDATA%"], env_output)
 	var root_folder = env_output[0].strip_edges()
 	var source_path = "%s\\Riot Games" % root_folder
 
-	# Caminho de destino na pasta profiles do programa
 	var destination_path = "profiles\\FOLDER_%s\\Riot Games" % profile_name
 
 	print("Copiando de:", source_path)
 	print("Para:", destination_path)
 
-	# Comando para copiar a pasta
 	var commands = '@echo off && xcopy "%s" "%s" /E /I /Y && exit' % [source_path, destination_path]
 	print("Comando a ser executado:", commands)
 
-	# Captura a saída e o código de retorno do comando
 	var output = []
 	var result = OS.execute("cmd.exe", ["/c", commands], output, true)
 
@@ -570,7 +679,6 @@ func _riot_configs_move(new_account_prof):
 
 	if result == 0:
 		print("Pasta copiada com sucesso:", profile_name)
-		# Após a cópia, tenta deletar a pasta de origem
 		var delete_command = 'rmdir /S /Q "%s"' % source_path
 		OS.execute("cmd.exe", ["/c", delete_command], output, true)
 		print("Pasta de origem deletada após a cópia.")
@@ -579,21 +687,18 @@ func _riot_configs_move(new_account_prof):
 		print("Erro ao executar o comando, verifique se há permissões suficientes ou se a pasta está sendo usada.")
 
 func _riot_configs_move_selected(new_profile_name):
-	# Certifique-se de que new_profile_name seja uma string e não um objeto
-	var profile_name = str(new_profile_name)  # Converte explicitamente para string
 
-	# Caminho de origem na pasta profiles do programa
-	var source_path = "profiles\\FOLDER_%s\\Riot Games" % profile_name
+	var profile_name = str(new_profile_name)
 
-	# Verificar se a pasta de origem existe
+	var source_path = "profiles\\FOLDER_%s\\Riot Games" % new_profile_name.name
+
 	var source_dir = DirAccess.open(source_path)
 	if source_dir == null:
 		print("Erro: A pasta de origem não existe:", source_path)
 		return
 	else:
-		source_dir.list_dir_end()  # Fechar o diretório
+		source_dir.list_dir_end()
 
-	# Caminho de destino na pasta %LOCALAPPDATA%
 	var env_output = []
 	OS.execute("cmd", ["/c", "echo %LOCALAPPDATA%"], env_output)
 	var root_folder = env_output[0].strip_edges()
@@ -602,7 +707,6 @@ func _riot_configs_move_selected(new_profile_name):
 	print("Copiando de:", source_path)
 	print("Para:", destination_path)
 
-	# Primeiro, tenta deletar a pasta existente no %LOCALAPPDATA%
 	var delete_command = 'rmdir /S /Q "%s"' % destination_path
 	var delete_output = []
 	var delete_result = OS.execute("cmd.exe", ["/c", delete_command], delete_output, true)
@@ -611,11 +715,9 @@ func _riot_configs_move_selected(new_profile_name):
 	for line in delete_output:
 		print("Saída do comando de exclusão:", line)
 
-	# Se a exclusão falhar, verificar se a pasta existe antes de copiar
 	if delete_result != 0:
 		print("Falha ao deletar a pasta existente ou a pasta já não existia:", destination_path)
 
-	# Em seguida, copia a nova pasta do perfil selecionado para o %LOCALAPPDATA%
 	var copy_command = '@echo off && xcopy "%s" "%s" /E /I /Y && exit' % [source_path, destination_path]
 	var copy_output = []
 	var copy_result = OS.execute("cmd.exe", ["/c", copy_command], copy_output, true)
@@ -718,16 +820,9 @@ func _show_createmenu(account_prof):
 	if profile_name != null:
 		profile_name_lineedit.text = profile_name
 
-	var image_path = _get_image_path_from_json(account_prof.name)
-	if image_path != "":
-		var new_texture = load(image_path)
-		if new_texture != null:
-			createmenu_picture.texture_normal = new_texture
-
 	var callable = Callable(self, "_on_create_button_pressed").bind(account_prof)
-	
 	if not create_button.is_connected("pressed", callable):
-		create_button.connect("pressed", callable)
+		create_button.pressed.connect(callable)
 
 func _get_image_path_from_json(profile_name):
 	var config_data = _load_config_file()
@@ -778,19 +873,40 @@ func _rename_account_profs():
 		if account_prof.name != expected_name:
 			account_prof.name = expected_name
 
-func _set_texture_for_account_prof(account_prof, image_path):
-	var texture_rect = account_prof.get_node("Panel/TextureRect")
-	if texture_rect:
-		var new_texture = load(image_path)
-		if new_texture != null:
-			texture_rect.texture = new_texture
-			
+func _set_texture_for_account_prof(account_prof, icon_index: int):
+	var selected_icon = get_icon_by_index(icon_index)
+	if selected_icon != null:
+		var icon_name = selected_icon.name
+		var icon_texture = load("res://assets/icons/%s.png" % icon_name)
+		if icon_texture != null:
+			var texture_rect = account_prof.get_node("Panel/TextureRect")
+			if texture_rect != null:
+				texture_rect.texture = icon_texture
+				print("Ícone %s configurado para o perfil %s" % [icon_name, account_prof.name])
+			else:
+				print("TextureRect não encontrado no account_prof:", account_prof.name)
 		else:
-			print("Falha ao carregar a nova textura de:", image_path)
+			print("Falha ao carregar a textura para o ícone:", icon_name)
 	else:
-		print("TextureRect não encontrado no account_prof:", account_prof.name)
+		print("Ícone selecionado é inválido.")
 
-func _save_account_prof_to_json(profile_name, image_path):
+func _save_account_texture(profile_name: String, image_path: String):
+	var config_data = _load_config_file()
+
+	if config_data == null:
+		config_data = {}
+	
+	if "profiles" not in config_data or config_data["profiles"] == null:
+		config_data["profiles"] = []
+
+	for profile in config_data["profiles"]:
+		if profile["name"] == profile_name:
+			profile["image_path"] = image_path
+			break
+
+	_save_config_file(config_data)
+
+func _save_account_prof_to_json(profile_name: String, icon_index: int):
 	var config_data = _load_config_file()
 	
 	if config_data == null:
@@ -798,15 +914,22 @@ func _save_account_prof_to_json(profile_name, image_path):
 	if "profiles" not in config_data or config_data["profiles"] == null:
 		config_data["profiles"] = []
 
-	var new_profile = {
-		"name": profile_name,
-		"image_path": image_path,
-		"files_location": "res://profiles/FOLDER_" + profile_name
-	}
+	var profile_exists = false
+	for profile in config_data["profiles"]:
+		if profile["name"] == profile_name:
+			profile["icon_index"] = icon_index
+			profile_exists = true
+			break
 
-	config_data["profiles"].append(new_profile)
+	if not profile_exists:
+		var new_profile = {
+			"name": profile_name,
+			"icon_index": icon_index,
+			"files_location": "res://profiles/FOLDER_" + profile_name
+		}
+		config_data["profiles"].append(new_profile)
+
 	_save_config_file(config_data)
-	
 
 func _load_account_prof_from_json(account_prof):
 	var config_data = _load_config_file()
@@ -816,7 +939,11 @@ func _load_account_prof_from_json(account_prof):
 		if profiles is Array:
 			for profile in profiles:
 				if profile != null and profile.has("name") and profile["name"] == account_prof.name:
-					_set_texture_for_account_prof(account_prof, profile["image_path"])
+					if profile.has("icon_index"):
+						account_prof.set_meta("selected_icon_index", profile["icon_index"])
+						_set_texture_for_account_prof(account_prof, profile["icon_index"])
+					else:
+						print("Índice do ícone não encontrado para o perfil:", profile["name"])
 					account_prof.name = profile["name"]
 					break
 	else:
@@ -830,16 +957,18 @@ func _load_existing_profiles():
 		if profiles is Array:
 			for profile in profiles:
 				var new_account_prof = account_prof_scene.instantiate()
-
 				new_account_prof.name = profile["name"]
-				accounts_container.add_child(new_account_prof)
-				_load_account_prof_from_json(new_account_prof)
-				account_prof_list.append(new_account_prof)
 
-				_setup_mouse_menu(new_account_prof)
-			
+				accounts_container.add_child(new_account_prof)
+
 				new_account_prof.connect("pressed", Callable(self, "_on_account_prof_pressed").bind(new_account_prof))
 
+				if profile.has("icon_index"):
+					_set_texture_for_account_prof(new_account_prof, profile["icon_index"])
+					
+				account_prof_list.append(new_account_prof)
+				_setup_mouse_menu(new_account_prof)
+				
 	_move_add_prof_to_end()
 
 func _move_add_prof_to_end():

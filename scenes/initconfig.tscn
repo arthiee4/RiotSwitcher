@@ -26,28 +26,19 @@ stream = ExtResource("2_ghqql")
 autoplay = true
 loop = true
 
-[node name="browserbutton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -61.0
-offset_top = -7.0
-offset_right = 11.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1.5, 1.5)
-text = "browser"
-
 [node name="errorlabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 579.0
-offset_top = 652.0
-offset_right = 695.0
-offset_bottom = 675.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -29.38
+offset_top = -31.115
+offset_right = 86.62
+offset_bottom = -8.11499
+grow_horizontal = 2
+grow_vertical = 0
 text = "wrong location"
 
 [node name="FileDialog" type="FileDialog" parent="."]
@@ -60,6 +51,45 @@ file_mode = 2
 access = 2
 show_hidden_files = true
 use_native_dialog = true
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -99.345
+offset_top = -50.375
+offset_right = 130.655
+offset_bottom = -27.375
+grow_horizontal = 2
+grow_vertical = 2
+text = "Set Riot Client folder location."
+
+[node name="browserbutton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -15.5
+offset_right = 36.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.5, 1.5)
+text = "browser"
+
+[node name="VideoStreamPlayer2" type="VideoStreamPlayer" parent="."]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+stream = ExtResource("5_47how")
+autoplay = true
 
 [node name="closebutton" type="Button" parent="."]
 z_index = 99
@@ -78,11 +108,3 @@ offset_top = 4.0
 offset_right = 1238.0
 offset_bottom = 35.0
 text = "-"
-
-[node name="VideoStreamPlayer2" type="VideoStreamPlayer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-mouse_filter = 2
-stream = ExtResource("5_47how")
-autoplay = true
