@@ -39,7 +39,7 @@ func _process(_delta):
 	pass
 
 func _ready():
-	DisplayServer.window_set_title("xxx")
+	DisplayServer.window_set_title("Switcher")
 	errorlabel_text.visible = false
 	
 	if not FileAccess.file_exists(config_file_path):

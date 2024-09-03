@@ -58,6 +58,10 @@ var selected_icon_index = -1
 var selected_language: String = "--locale=en_US"
 
 func _ready():
+	
+	DisplayServer.window_set_title("Switcher")
+
+
 	_pause_after_delay()
 	
 	reload_bar.visible = false

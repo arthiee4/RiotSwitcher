@@ -10,7 +10,6 @@ config_version=5
 
 [application]
 
-config/name="LeagueSwitcher"
 config/tags=PackedStringArray("programs")
 run/main_scene="res://scenes/initconfig.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
