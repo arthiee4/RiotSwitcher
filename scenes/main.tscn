@@ -343,10 +343,10 @@ autowrap_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="Panel"]
 layout_mode = 0
-offset_left = 911.0
-offset_top = 69.0
-offset_right = 1168.0
-offset_bottom = 121.0
+offset_left = 913.0
+offset_top = 67.0
+offset_right = 1170.0
+offset_bottom = 119.0
 texture = ExtResource("18_86kyy")
 
 [node name="loadbar" type="ProgressBar" parent="."]
