@@ -18,7 +18,8 @@ You can manage profiles, each with a different Riot account, a unique name, and 
 You can launch your game more efficiently, always running it from the root, which also helps avoid various client bugs by ensuring a clean start every time
 
 ---
-**A fast and simple tutorial**
+# A fast guide
+
 At the start, look for the Riot Client folder, go inside, and confirm to ensure everything works perfectly.
 
 ![](git_images/folderselect.gif)
