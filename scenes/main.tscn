@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://k5mao0fsud7k"]
+[gd_scene load_steps=54 format=3 uid="uid://k5mao0fsud7k"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_xubh8"]
 [ext_resource type="StyleBox" uid="uid://c7nl41ke575ai" path="res://scenes/panelborder.tres" id="2_4mrum"]
@@ -29,6 +29,14 @@
 [ext_resource type="Theme" uid="uid://d1xp7rcy0syi5" path="res://scenes/buttoncolor.tres" id="23_bkgn7"]
 [ext_resource type="Texture2D" uid="uid://bllu6uhytgy3e" path="res://assets/settings.png" id="25_rafvo"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jbl16"]
+bg_color = Color(0, 0, 0, 0.745098)
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 100
+corner_radius_top_right = 20
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_35r6b"]
 bg_color = Color(0.775063, 0.775063, 0.775063, 1)
 
@@ -46,8 +54,13 @@ corner_radius_bottom_left = 15
 [sub_resource type="Theme" id="Theme_nro2c"]
 ProgressBar/styles/background = SubResource("StyleBoxFlat_8xkgg")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_utbmv"]
-bg_color = Color(0, 0, 0, 0.654902)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vuxwk"]
+bg_color = Color(0, 0, 0, 0.745098)
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 100
+corner_radius_top_right = 20
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_00630"]
 corner_radius_top_left = 100
@@ -631,13 +644,7 @@ offset_bottom = 386.88
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-
-[node name="Panel" type="Panel" parent="createmenupanel"]
-self_modulate = Color(0, 0, 0, 1)
-layout_mode = 0
-offset_right = 1316.0
-offset_bottom = 754.0
-mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_jbl16")
 
 [node name="createmenu" parent="createmenupanel" instance=ExtResource("5_asp4q")]
 layout_mode = 1
@@ -764,10 +771,11 @@ texture_normal = ExtResource("17_tu8xg")
 [node name="debuglabel" type="Label" parent="."]
 layout_mode = 1
 offset_right = 90.0
-offset_bottom = 23.0
+offset_bottom = 35.0
 theme_override_font_sizes/font_size = 25
 
 [node name="Panel" type="Panel" parent="."]
+visible = false
 layout_mode = 0
 offset_top = 295.0
 offset_bottom = 728.0
@@ -967,10 +975,10 @@ text = "Already Logged In"
 [node name="Panel3" type="Panel" parent="."]
 visible = false
 layout_mode = 0
-offset_right = 1297.0
+offset_right = 1285.0
 offset_bottom = 723.0
 mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_utbmv")
+theme_override_styles/panel = SubResource("StyleBoxFlat_vuxwk")
 
 [node name="selected_profile" type="Panel" parent="Panel3"]
 clip_children = 1
@@ -1061,7 +1069,7 @@ flat = true
 layout_mode = 0
 offset_left = 714.0
 offset_top = 2.0
-offset_right = 1103.0
+offset_right = 1090.0
 offset_bottom = 29.0
 rounded = true
 
