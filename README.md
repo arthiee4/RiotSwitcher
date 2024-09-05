@@ -4,7 +4,7 @@
 
 ---
 
-**A new look!**
+**A new look on the alpha 0.2**
 
 ![](git_images/newlook.png)
 ---
