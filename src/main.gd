@@ -79,7 +79,8 @@ var selected_icon_index = -1
 var selected_language: String = "--locale=en_US"
 
 func _ready():
-	
+
+
 	DisplayServer.window_set_title("Switcher")
 
 	_pause_after_delay()
@@ -142,7 +143,6 @@ func _ready():
 	settings_label.visible = false
 	
 	
-	
 func _on_whitemode_toggled(button_pressed):
 	if button_pressed:
 		anim_player.play("white_mode")
@@ -169,7 +169,6 @@ func on_settings_button_pressed():
 
 
 func _on_current_profile_exit_pressed():
-	
 	
 	reload_bar.visible = true
 	reload_bar.value = 0
@@ -226,11 +225,9 @@ func _save_current_profile_icon(profile_name: String, icon_index: int):
 	for profile in config_data["profiles"]:
 		if profile["name"] == profile_name:
 			profile["icon_index"] = icon_index
-			profile["_imagem_path"] = createmenu_picture.texture.resource_path  # Salva o caminho da textura
 			break
 
 	_save_config_file(config_data)
-
 	
 func _on_gitbutton_pressed():
 	OS.shell_open("https://github.com/arthiee4")	
@@ -368,22 +365,17 @@ func _on_icon_pressed(index: int):
 	selected_icon_index = index
 	print("Ícone selecionado:", index)
 	
-	# Verifica o ícone selecionado com base no índice
-	var selected_icon = get_icon_by_index(index)
+	var selected_icon = get_icon_by_index()
 	if selected_icon != null:
 		var icon_name = selected_icon.name
 		selected_icon_texture = load("res://assets/icons/%s.png" % icon_name)
 		
 		if selected_icon_texture != null:
-			# Atualiza o TextureRect do createmenu com o ícone selecionado
-			createmenu_picture.texture = selected_icon_texture
-			
-			print("Ícone atualizado no createmenu.")
+			newaddmenu_imagem.texture = selected_icon_texture
 		else:
 			print("Falha ao carregar a textura para o ícone:", icon_name)
 	else:
 		print("Ícone selecionado é inválido.")
-
 	
 func copy_file(src: String, dest: String) -> void:
 	var file = FileAccess.open(src, FileAccess.READ)
@@ -402,7 +394,7 @@ func copy_file(src: String, dest: String) -> void:
 	dest_file.close()
 	print("Arquivo copiado com sucesso de", src, "para", dest)
 
-func _icon_set_on_create(account_prof):
+func _icon_set_on_create(new_account_prof):
 	var selected_icon = get_icon_by_index(selected_icon_index)
 	
 	if selected_icon != null:
@@ -411,18 +403,20 @@ func _icon_set_on_create(account_prof):
 		
 		var icon_texture = load(icon_path)
 		if icon_texture != null:
-			# Atualiza o TextureRect que representa o ícone atual do perfil
-			newaddmenu_imagem.texture = icon_texture  # Altere aqui para o TextureRect correto
-			
-			print("Ícone %s configurado permanentemente." % icon_name)
-			
-			# Opcionalmente, salve o ícone selecionado em algum armazenamento ou arquivo de configuração
-			_save_current_profile_icon("profile_name", selected_icon_index)
+			var texture_rect = new_account_prof.get_node("Panel/TextureRect")
+			if texture_rect != null:
+				texture_rect.texture = icon_texture
+				print("Ícone %s configurado para o perfil %s" % [icon_name, new_account_prof.name])
+				
+				new_account_prof.set_meta("selected_icon_index", selected_icon_index)
+				
+				_save_account_icon_index(new_account_prof.name, selected_icon_index)
+			else:
+				print("TextureRect não encontrado no account_prof:", new_account_prof.name)
 		else:
-			print("Falha ao carregar a textura do ícone:", icon_name)
+			print("Falha ao carregar a textura para o ícone:", icon_name)
 	else:
 		print("Ícone selecionado é inválido.")
-
 
 func _save_account_icon_index(profile_name: String, icon_index: int):
 	var config_data = _load_config_file()
@@ -446,21 +440,13 @@ func get_icon_by_index(index: int = -1) -> Node:
 		icon5, icon6, icon7, icon8, icon9
 	]
 	
-	var icons_edit = [
-		icon0_edit, icon1_edit, icon2_edit, icon3_edit, icon4_edit, 
-		icon5_edit, icon6_edit, icon7_edit, icon8_edit, icon9_edit
-	]
-	
 	if index == -1:
 		index = selected_icon_index
 	
 	if index >= 0 and index < icons.size():
 		return icons[index]
-	elif index >= 0 and index < icons_edit.size():
-		return icons_edit[index]
 	else:
 		return null
-
 
 func _on_browser_button_pressed():
 	file_dialog.popup()
@@ -524,7 +510,7 @@ func _on_newaddmenu_create_button_pressed():
 		await get_tree().create_timer(0.5).timeout
 		loadbar.value = 10
 		_open_riot_shortcut()
-		await get_tree().create_timer(2.5).timeout
+		await get_tree().create_timer(2.0).timeout
 		loadbar.value = 80
 		loadconfirm.visible = true
 		loadbarlabel.visible = true
@@ -532,11 +518,11 @@ func _on_newaddmenu_create_button_pressed():
 		loadbar.value = 90
 		_riot_kill()
 		await get_tree().create_timer(2.0).timeout
-		loadbar.value = 98
+		loadbar.value = 95
 		_riot_configs_move(new_account_prof)
-		await get_tree().create_timer(5.5).timeout
+		await get_tree().create_timer(4.5).timeout
 		loadbar.value = 100
-		await get_tree().create_timer(0.6).timeout
+		await get_tree().create_timer(0.5).timeout
 		loadbar.visible = false
 
 	print("Novo perfil adicionado: ", new_account_prof.name)
@@ -893,11 +879,9 @@ func _on_edit_button_pressed(account_prof):
 
 	var texture_rect = account_prof.get_node("Panel/TextureRect")
 	if texture_rect != null and texture_rect.texture != null:
-		# Atualize corretamente o TextureRect usando a propriedade 'texture'
-		createmenu_picture.texture = texture_rect.texture
+		createmenu_picture.texture_normal = texture_rect.texture
 	else:
 		print("TextureRect ou textura não encontrada no account_prof:", account_prof.name)
-
 
 func _show_createmenu(account_prof):
 	createmenu.visible = true
@@ -949,13 +933,8 @@ func _hide_all_mouse_menus():
 		var mouse_menu = account_prof.get_node("mouse_menu")
 		if mouse_menu:
 			mouse_menu.visible = false
-	
-	# Verifica se active_mouse_menu não é null antes de acessar get_parent()
-	if active_mouse_menu != null:
-		_reset_account_prof_scale(active_mouse_menu.get_parent())
-	
+	_reset_account_prof_scale(active_mouse_menu.get_parent())
 	active_mouse_menu = null
-
 
 func _rename_account_profs():
 	for i in range(account_prof_list.size()):
@@ -1065,12 +1044,6 @@ func _load_existing_profiles():
 func _move_add_prof_to_end():
 	accounts_container.move_child(add_prof, accounts_container.get_child_count() - 1)
 
-func _get_icon_name_from_texture(texture: Texture) -> String:
-	# A função pode retornar o nome ou caminho da textura
-	# Exemplo simplificado assumindo um caminho de arquivo padrão
-	var path = texture.resource_path
-	return path.get_file().get_basename()  # Retorna o nome do arquivo sem extensão
-
 func _on_create_button_pressed(account_prof):
 	var new_profile_name = profile_name_lineedit.text.strip_edges()
 	if new_profile_name == "":
@@ -1078,22 +1051,13 @@ func _on_create_button_pressed(account_prof):
 		return
 
 	var old_profile_name = account_prof.name
+	
 	_account_folder_rename(old_profile_name, new_profile_name)
-
+	
 	account_prof.name = new_profile_name
 	_rename_account_profs()
 
-	# Salvar o ícone selecionado no TextureRect do createmenu
-	if createmenu_picture.texture != null:
-		# Obtenha o nome do ícone ou caminho de arquivo usado para esse TextureRect
-		var selected_icon_name = _get_icon_name_from_texture(createmenu_picture.texture)
-		if selected_icon_name != "":
-			# Atualize o TextureRect permanentemente no perfil
-			_save_current_profile_icon(new_profile_name, selected_icon_index)  # Atualiza o ícone no JSON
-			account_prof.get_node("Panel/TextureRect").texture = createmenu_picture.texture
-			print("Ícone atualizado permanentemente para o perfil:", new_profile_name)
-	else:
-		print("Nenhum ícone foi selecionado para salvar permanentemente.")
+	print("Nome do perfil atualizado de '%s' para '%s'." % [old_profile_name, new_profile_name])
 
 	createmenu.visible = false
 	get_tree().reload_current_scene()

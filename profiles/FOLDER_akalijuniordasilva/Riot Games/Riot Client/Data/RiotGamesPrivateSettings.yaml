@@ -1,0 +1,13 @@
+riot-login:
+    persist: null
+rso-authenticator:
+    tdid:
+        domain: "riotgames.com"
+        expiryTime: 1757061754
+        hostOnly: false
+        httpOnly: true
+        name: "tdid"
+        path: "/"
+        persistent: true
+        secureOnly: true
+        value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgyMzVkYzUzLTk0N2YtNDY5OS1iODZmLTZhOWU5ZGRlYjJiYyIsIm5vbmNlIjoiMU52TlJadXozaHc9IiwiaWF0IjoxNzI1NTI1Nzc0fQ.8M4hV0qvTXTfGbnSsqt6MvMJeT7i0ukjcrdXSKv-Qtc"

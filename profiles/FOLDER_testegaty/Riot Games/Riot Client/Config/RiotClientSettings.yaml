@@ -1,0 +1,81 @@
+install:
+    globals:
+        locale: "pt_BR"
+        region: "NA"
+    launcher_server.enabled: false
+    product-release-ids:
+        league_of_legends.live: "0B0F74B88BB8CA25"
+    riot-client-app-command:
+        upgraded: true
+    riotgamesapi:
+        telemetry:
+            analytics_platform_allowed_events:
+                AppleAccountSLI: "riotgamesapi__AppleAccountSLI__v*"
+                FacebookAccountSLI: "riotgamesapi__FacebookAccountSLI__v*"
+                GameCenterAccountSLI: "riotgamesapi__GameCenterAccountSLI__v*"
+                GoogleAccountSLI: "riotgamesapi__GoogleAccountSLI__v*"
+                LeagueRegionElection: "riotgamesapi__LeagueRegionElection__v*"
+                NintendoAccountSLI: "riotgamesapi__NintendoAccountSLI__v*"
+                PlatformUIMobileFRE: "riotgamesapi__PlatformUIMobileFRE__v*"
+                PlatformUIOperationalEvent: "riotclient__PlatformUIOperationalEvent__v*"
+                PlatformUIRenderStats: "*__PlatformUIRenderStats__v*"
+                PlatformUIStatusEvent: "riotgamesapi__PlatformUIStatusEvent__v*"
+                PlayerSessionLifecycleSLI: "riotgamesapi__PlayerSessionLifecycleSLI__v*"
+                PlayerSessionLifecycleStatus: "riotgamesapi__PlayerSessionLifecycleStatus__v*"
+                PlaystationAccountSLI: "riotgamesapi__PlaystationAccountSLI__v*"
+                PrivateSettingsSLI: "riotgamesapi__PrivateSettingsSLI__v*"
+                RSOAuthSLI: "riotgamesapi__RSOAuthSLI__v*"
+                RSOAuthenticatorSLI: "riotgamesapi__RSOAuthenticatorSLI__v*"
+                RSOMobileUIEvent: "riotgamesapi__RSOMobileUIEvent__v*"
+                RSOMobileUIRiotIDPrompt: "riotgamesapi__RSOMobileUIRiotIDPrompt__v*"
+                RSOMobileUISignUp: "riotgamesapi__RSOMobileUISignUp__v*"
+                SdkTotalShutdownData: "riotgamesapi__SdkTotalShutdownData__v*"
+                SessionStart: "riotgamesapi__SessionStart__v*"
+                XboxAccountSLI: "riotgamesapi__XboxAccountSLI__v*"
+            heartbeat_interval: 300
+            heartbeat_products: true
+            heartbeat_voice_chat_metrics: true
+            newrelic_events_v2_enabled: false
+            newrelic_metrics_v1_enabled: false
+            newrelic_schemaless_events_v2_enabled: false
+            opentelemetry_allowed_events:
+                AppleAccountSLI: "riotgamesapi__AppleAccountSLI__v*"
+                FacebookAccountSLI: "riotgamesapi__FacebookAccountSLI__v*"
+                GameCenterAccountSLI: "riotgamesapi__GameCenterAccountSLI__v*"
+                GoogleAccountSLI: "riotgamesapi__GoogleAccountSLI__v*"
+                LeagueRegionElection: "riotgamesapi__LeagueRegionElection__v*"
+                NintendoAccountSLI: "riotgamesapi__NintendoAccountSLI__v*"
+                PlatformUIMobileFRE: "riotgamesapi__PlatformUIMobileFRE__v*"
+                PlatformUIRenderStats: "*__PlatformUIRenderStats__v*"
+                PlatformUIStatusEvent: "riotgamesapi__PlatformUIStatusEvent__v*"
+                PlayerSessionLifecycleSLI: "riotgamesapi__PlayerSessionLifecycleSLI__v*"
+                PlayerSessionLifecycleStatus: "riotgamesapi__PlayerSessionLifecycleStatus__v*"
+                PlaystationAccountSLI: "riotgamesapi__PlaystationAccountSLI__v*"
+                PrivateSettingsSLI: "riotgamesapi__PrivateSettingsSLI__v*"
+                RSOAuthSLI: "riotgamesapi__RSOAuthSLI__v*"
+                RSOAuthenticatorSLI: "riotgamesapi__RSOAuthenticatorSLI__v*"
+                RSOMobileUIEvent: "riotgamesapi__RSOMobileUIEvent__v*"
+                RSOMobileUIRiotIDPrompt: "riotgamesapi__RSOMobileUIRiotIDPrompt__v*"
+                RSOMobileUISignUp: "riotgamesapi__RSOMobileUISignUp__v*"
+                SdkTotalShutdownData: "riotgamesapi__SdkTotalShutdownData__v*"
+                SessionStart: "riotgamesapi__SessionStart__v*"
+                XboxAccountSLI: "riotgamesapi__XboxAccountSLI__v*"
+            opentelemetry_events_enabled: true
+            opentelemetry_protocol: "protobuf"
+            opentelemetry_uri_events: "https://telemetry.sgp.pvp.net/otel/v1/logs"
+            singular_v1_enabled: false
+    rso-auth:
+        install-identifier: "ff60fa0349a5f442a61cc829d960ec76"
+    startup-config:
+        launch_on_computer_set_by_default: true
+    telemetry:
+        ap:
+            disabled_events:
+                riotclient__PlatformUIStatusEvent__v1: true
+                riotclient__PluginStats__v7: true
+        heartbeat_interval: 300
+        heartbeat_products: true
+        heartbeat_voice_chat_metrics: true
+        installation_id: "CF4YSQ=="
+        open_telemetry_sender.enabled: true
+        singular_v1_enabled: false

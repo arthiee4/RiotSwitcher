@@ -1,0 +1,48 @@
+000000.000| ALWAYS| Logging started at 2024-09-05T05:43:51.184
+000000.000| ALWAYS| Application Version: 93.0.1.2007
+000000.040|   OKAY| Sentry Enabled
+000000.040|   OKAY| Set default locale to en_US. Current locale is pt_BR.
+000000.053|   OKAY| Will drop all AP events with ID: riotclient__PlatformUIStatusEvent__v1
+000000.053|   OKAY| Will drop all AP events with ID: riotclient__PluginStats__v7
+000000.053|   OKAY| Initializing Open Telemetry
+000000.053|   OKAY| Initialize Open Telemetry Logger
+000000.053|   OKAY| Open Telemetry Logger provider set successfully.
+000000.053|   OKAY| Sending telemetry to schema startFoundation with: {"actionType":"startFoundation","riotclientMetadata":{"appName":"Riot Client","machineId":"nN6fzJtpaUmQc6fW5Dlj9g==","os":"windows","osVersion":"10 Professional, x64","patchline":"KeystoneFoundationLiveWin","sessionId":"910f09b7-ede5-9f48-8391-1898ac083c5e","version":"93.0.1.2007"}}
+000000.054| ALWAYS| XBGPServer: Windows 10+ -- Process Is Elevated Skipping XBGP Server
+000000.055|   OKAY| Sending telemetry to schema startRCFull with: {"actionType":"startRCFull","riotclientMetadata":{"appName":"Riot Client","machineId":"nN6fzJtpaUmQc6fW5Dlj9g==","os":"windows","osVersion":"10 Professional, x64","patchline":"KeystoneFoundationLiveWin","sessionId":"910f09b7-ede5-9f48-8391-1898ac083c5e","version":"93.0.1.2007"}}
+000000.055| ALWAYS| Command Line Arguments (Riot Client App):
+    --launch-product=league_of_legends
+    --launch-patchline=live
+    --locale=pt_BR
+    --app-root=C:/Riot Games/Riot Client
+    --data-root=C:/ProgramData/Riot Games/Metadata
+    --update-root=C:/ProgramData/Riot Games/Metadata/Riot Client/Update
+    --log-root=C:/Users/tutu/AppData/Local/Riot Games/Riot Client/Logs
+    --user-data-root=C:/Users/tutu/AppData/Local/Riot Games/Riot Client
+    --session-id=910f09b7-ede5-9f48-8391-1898ac083c5e
+000000.055| ALWAYS| App: Running Riot Client version 93.0.1.2007
+000000.055| ALWAYS| App: ================================================
+000000.055| ALWAYS| App:                                                 
+000000.055| ALWAYS| App:                                                 
+000000.055| ALWAYS| App:             We are now in AppFull               
+000000.055| ALWAYS| App:                                                 
+000000.055| ALWAYS| App:                                                 
+000000.055| ALWAYS| App: ================================================
+000000.056| ALWAYS| Command Line Arguments (SDKModule):
+    --launch-product=league_of_legends
+    --launch-patchline=live
+    --locale=pt_BR
+    --app-root=C:/Riot Games/Riot Client
+    --data-root=C:/ProgramData/Riot Games/Metadata
+    --update-root=C:/ProgramData/Riot Games/Metadata/Riot Client/Update
+    --log-root=C:/Users/tutu/AppData/Local/Riot Games/Riot Client/Logs
+    --user-data-root=C:/Users/tutu/AppData/Local/Riot Games/Riot Client
+    --session-id=910f09b7-ede5-9f48-8391-1898ac083c5e
+    --persistence-path=C:/Users/tutu/AppData/Local/Riot Games/Riot Client
+000001.198|   OKAY| ProcessSingleton: Did not initially acquire process singleton
+000001.219|   OKAY| ProcessSingleton: Message to other Riot Client succeeded
+000001.220|   OKAY| ProcessSingleton: Did not acquire process singleton
+000001.220|   OKAY| App: Client already running, exiting.
+000001.237|   OKAY| Sending telemetry to schema stopRCFull with: {"actionType":"stopRCFull","riotclientMetadata":{"appName":"Riot Client","machineId":"nN6fzJtpaUmQc6fW5Dlj9g==","os":"windows","osVersion":"10 Professional, x64","patchline":"KeystoneFoundationLiveWin","sessionId":"910f09b7-ede5-9f48-8391-1898ac083c5e","version":"93.0.1.2007"}}
+000001.580|   OKAY| Sending telemetry to schema endFoundation with: {"actionType":"endFoundation","riotclientMetadata":{"appName":"Riot Client","machineId":"nN6fzJtpaUmQc6fW5Dlj9g==","os":"windows","osVersion":"10 Professional, x64","patchline":"KeystoneFoundationLiveWin","sessionId":"910f09b7-ede5-9f48-8391-1898ac083c5e","version":"93.0.1.2007"}}
+000001.921|   OKAY| Shutting Down Open Telemetry

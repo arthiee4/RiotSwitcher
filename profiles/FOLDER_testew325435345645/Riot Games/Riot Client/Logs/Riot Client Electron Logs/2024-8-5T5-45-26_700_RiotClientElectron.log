@@ -1,0 +1,33 @@
+[2024-09-05 05:45:26.788] [info]                        Starting RiotClientUx electron with args {
+  appPort: 56292,
+  remotingAuthToken: 'RhbiOmaOc6bBVFZISkV2xQ',
+  logDir: 'C:/Users/tutu/AppData/Local/Riot Games/Riot Client/Logs',
+  userDataRoot: 'C:/Users/tutu/AppData/Local/Riot Games/Riot Client',
+  crashpadEnvironment: 'KeystoneFoundationLiveWin',
+  appPid: 4048,
+  machineId: 'nN6fzJtpaUmQc6fW5Dlj9g=='
+}
+[2024-09-05 05:45:26.792] [info]                        Logging to C:\Users\tutu\AppData\Local\Riot Games\Riot Client\Logs\Riot Client Electron Logs\2024-8-5T5-45-26_700_RiotClientElectron.log
+[2024-09-05 05:45:26.793] [info]                        NODE_ENV production
+[2024-09-05 05:45:26.794] [info]                        isDevelopment false
+[2024-09-05 05:45:26.806] [info]  (InstallSettings)     Fetching RiotClientSettings.yaml from: C:\Users\tutu\AppData\Local\Riot Games\Riot Client\Config\RiotClientSettings.yaml
+[2024-09-05 05:45:26.884] [info]                        Creating socket..
+[2024-09-05 05:45:26.931] [info]  (RCSWatchdog)         Interval set to check if process 4048 is running every 1000ms
+[2024-09-05 05:45:26.932] [info]                        app.isPackaged true
+[2024-09-05 05:45:26.962] [info]                        Loading page from http://127.0.0.1:56336/index.html
+[2024-09-05 05:45:27.076] [info]  (TelemetryCollector)  Started time sample for phase:ux_electron_loaded_to_interactive
+[2024-09-05 05:45:27.080] [info]                        Starting CookieJarService
+[2024-09-05 05:45:27.088] [info]  (TelemetryCollector)  Ending time sample for phase:ux_launch_to_electron_loaded
+[2024-09-05 05:45:27.101] [info]  (SentryService)       Resources initialized and set in Sentry
+[2024-09-05 05:45:28.471] [info]                        Allowing via setCertificateVerifyProc: rclient
+[2024-09-05 05:45:28.756] [info]                        Allowing via setCertificateVerifyProc: a248.e.akamai.net
+[2024-09-05 05:45:29.114] [info]                        Allowing via setCertificateVerifyProc: *.riotcdn.com
+[2024-09-05 05:45:31.475] [info]                        Allowing via setCertificateVerifyProc: hcaptcha.com
+[2024-09-05 05:45:31.779] [info]                        Allowing via setCertificateVerifyProc: hcaptcha.com
+[2024-09-05 05:45:43.618] [info]  (SocketManager)       Socket closed
+[2024-09-05 05:45:43.623] [info]  (SocketManager)       Socket closed
+[2024-09-05 05:45:43.633] [info]  (SocketManager)       Socket closed
+[2024-09-05 05:45:44.029] [info]  (RCSWatchdog)         Process 4048 is no longer running
+[2024-09-05 05:45:44.030] [info]  (RCSWatchdog)         Resetting watchdog
+[2024-09-05 05:45:44.031] [info]                        Parent process has exited. Quitting UX process.
+[2024-09-05 05:45:44.307] [info]                        Allowing via setCertificateVerifyProc: ingest.sentry.io

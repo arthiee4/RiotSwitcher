@@ -1,0 +1,853 @@
+000000.000| ALWAYS| Logging started at 2024-09-05T05:44:49.644
+000000.000| ALWAYS| Application Version: 93.0.1.2007
+000000.034|   OKAY| Sentry Enabled
+000000.035|   OKAY| Set default locale to en_US. Current locale is pt_BR.
+000000.036|  ERROR| datastore: Failed to load user settings file: "C:/Users/tutu/AppData/Local/Riot Games/Riot Client/Config/RiotClientSettings.yaml".  Attempting to continue.
+000000.046|   OKAY| Sending telemetry to schema startFoundation with: {"actionType":"startFoundation","riotclientMetadata":{"appName":"Riot Client","machineId":"nN6fzJtpaUmQc6fW5Dlj9g==","os":"windows","osVersion":"10 Professional, x64","patchline":"KeystoneFoundationLiveWin","sessionId":"36aa6aac-0a17-b347-b0dd-ddaf7e33abc4","version":"93.0.1.2007"}}
+000000.046| ALWAYS| XBGPServer: Windows 10+ -- Process Is Elevated Skipping XBGP Server
+000000.046|   OKAY| Sending telemetry to schema startRCFull with: {"actionType":"startRCFull","riotclientMetadata":{"appName":"Riot Client","machineId":"nN6fzJtpaUmQc6fW5Dlj9g==","os":"windows","osVersion":"10 Professional, x64","patchline":"KeystoneFoundationLiveWin","sessionId":"36aa6aac-0a17-b347-b0dd-ddaf7e33abc4","version":"93.0.1.2007"}}
+000000.047| ALWAYS| Command Line Arguments (Riot Client App):
+    --launch-product=league_of_legends
+    --launch-patchline=live
+    --locale=pt_BR
+    --app-root=C:/Riot Games/Riot Client
+    --data-root=C:/ProgramData/Riot Games/Metadata
+    --update-root=C:/ProgramData/Riot Games/Metadata/Riot Client/Update
+    --log-root=C:/Users/tutu/AppData/Local/Riot Games/Riot Client/Logs
+    --user-data-root=C:/Users/tutu/AppData/Local/Riot Games/Riot Client
+    --session-id=36aa6aac-0a17-b347-b0dd-ddaf7e33abc4
+000000.047| ALWAYS| App: Running Riot Client version 93.0.1.2007
+000000.047| ALWAYS| App: ================================================
+000000.047| ALWAYS| App:                                                 
+000000.047| ALWAYS| App:                                                 
+000000.047| ALWAYS| App:             We are now in AppFull               
+000000.047| ALWAYS| App:                                                 
+000000.047| ALWAYS| App:                                                 
+000000.047| ALWAYS| App: ================================================
+000000.047| ALWAYS| Command Line Arguments (SDKModule):
+    --launch-product=league_of_legends
+    --launch-patchline=live
+    --locale=pt_BR
+    --app-root=C:/Riot Games/Riot Client
+    --data-root=C:/ProgramData/Riot Games/Metadata
+    --update-root=C:/ProgramData/Riot Games/Metadata/Riot Client/Update
+    --log-root=C:/Users/tutu/AppData/Local/Riot Games/Riot Client/Logs
+    --user-data-root=C:/Users/tutu/AppData/Local/Riot Games/Riot Client
+    --session-id=36aa6aac-0a17-b347-b0dd-ddaf7e33abc4
+    --persistence-path=C:/Users/tutu/AppData/Local/Riot Games/Riot Client
+000001.167|   OKAY| ProcessSingleton: Acquired process singleton
+000001.172|   OKAY| SDK: Setting SDK configuration setting globals.launch-product from command-line argument --launch-product
+000001.172|   OKAY| SDK: Setting SDK configuration setting globals.launch-patchline from command-line argument --launch-patchline
+000001.172|   OKAY| SDK: Setting SDK configuration setting globals.locale from command-line argument --locale
+000001.172|   OKAY| SDK: Setting SDK configuration setting app.root from command-line argument --app-root
+000001.172|   OKAY| SDK: Setting SDK configuration setting globals.data-root from command-line argument --data-root
+000001.172|   OKAY| SDK: Setting SDK configuration setting globals.update-root from command-line argument --update-root
+000001.172|   OKAY| SDK: Setting SDK configuration setting globals.log.root from command-line argument --log-root
+000001.172|   OKAY| SDK: Setting SDK configuration setting globals.user-data-root from command-line argument --user-data-root
+000001.172|   OKAY| SDK: Setting SDK configuration setting globals.session-id from command-line argument --session-id
+000001.172|   OKAY| SDK: Setting SDK configuration setting riotgamesapi.persistence-path from command-line argument --persistence-path
+000001.180|   OKAY| SDK: system settings: {
+    "allow_insecure_content": true,
+    "allow_run_in_background": true,
+    "app": {
+        "app_name": "Riot Client",
+        "local_settings_file": "RiotClientSettings.yaml",
+        "log_dir": "Riot Client Logs",
+        "multitenant": true,
+        "project": "Keystone",
+        "respawn": {
+            "command": "RiotClientServices.exe",
+            "display_name": "Riot Client Services"
+        },
+        "root": "C:/Riot Games/Riot Client",
+        "splash": "riot",
+        "version": "93.0.1.2007"
+    },
+    "build": {
+        "patchline": "KeystoneFoundationLiveWin",
+        "patchline-visible-name": ""
+    },
+    "default_electron_product": {
+        "arguments": [
+            "--app-port={remoting-app-port}",
+            "--remoting-auth-token={remoting-auth-token}",
+            "--app-pid={foundation-pid}"
+        ],
+        "executable": "Riot Client.exe",
+        "id": "KeystoneClient",
+        "relative_path": "RiotClientElectron"
+    },
+    "default_product": {
+        "arguments": [
+            "--app-port={remoting-app-port}",
+            "--remoting-auth-token={remoting-auth-token}",
+            "--app-pid={foundation-pid}"
+        ],
+        "executable": "RiotClientUx.exe",
+        "id": "KeystoneClient",
+        "relative_path": "UX"
+    },
+    "default_region": "NA",
+    "enable_bug_reporter": true,
+    "enable_crashpad": true,
+    "enable_direct_launch": true,
+    "enable_eula": true,
+    "enable_patching": true,
+    "enable_player_feedback_tool": true,
+    "enable_rail_integration_v1": false,
+    "enable_rail_integration_v2": false,
+    "enable_rcrpcs_integration": false,
+    "enable_remoting_trace": false,
+    "enable_riot_login": true,
+    "enable_self_update": true,
+    "enable_system_tray": true,
+    "enable_telemetry": true,
+    "enable_tssapi_integration": false,
+    "environment": {
+        "tags": [
+            "live"
+        ]
+    },
+    "expected_partner_launcher_arg": "",
+    "globals": {
+        "data-root": "C:/ProgramData/Riot Games/Metadata",
+        "launch-patchline": "live",
+        "launch-product": "league_of_legends",
+        "locale": "pt_BR",
+        "log": {
+            "root": "C:/Users/tutu/AppData/Local/Riot Games/Riot Client/Logs"
+        },
+        "session-id": "36aa6aac-0a17-b347-b0dd-ddaf7e33abc4",
+        "update-root": "C:/ProgramData/Riot Games/Metadata/Riot Client/Update",
+        "user-data-root": "C:/Users/tutu/AppData/Local/Riot Games/Riot Client"
+    },
+    "insecure_tls_versions": true,
+    "launch_ux": false,
+    "league_required_country": {
+        "default": [
+            "BR",
+            "EUNE",
+            "EUW",
+            "JP",
+            "LA1",
+            "LA2",
+            "ME1",
+            "NA",
+            "OC1",
+            "PH2",
+            "RU",
+            "SG2",
+            "TH2",
+            "TR"
+        ],
+        "hkg": [
+            "TW2"
+        ],
+        "kor": [
+            "KR"
+        ],
+        "mac": [
+            "TW2"
+        ],
+        "twn": [
+            "TW2"
+        ],
+        "vnm": [
+            "VN2"
+        ]
+    },
+    "product_id": "riot_client",
+    "publisher": "riot",
+    "region_data": {
+        "BR": {
+            "available_locales": [
+                "ar_AE",
+                "cs_CZ",
+                "de_DE",
+                "el_GR",
+                "en_PH",
+                "en_SG",
+                "en_US",
+                "es_MX",
+                "es_ES",
+                "fr_FR",
+                "hu_HU",
+                "id_ID",
+                "it_IT",
+                "ja_JP",
+                "ko_KR",
+                "ms_MY",
+                "pl_PL",
+                "pt_BR",
+                "ro_RO",
+                "ru_RU",
+                "th_TH",
+                "tr_TR",
+                "vi_VN",
+                "zh_CN",
+                "zh_MY",
+                "zh_TW"
+            ],
+            "default_locale": "pt_BR",
+            "reg
+000001.187|   OKAY| SDK: Running SDK version 24.7.0.3969
+000001.187|   OKAY| SDK: Host application is configured with Name: 'Riot Client', Patchline: 'KeystoneFoundationLiveWin', Version: '93.0.1.2007'
+000001.190|   OKAY| SDK: rg::config: Changes from source 'Foundation': 
+  globals.instance-id was added
+  globals.w3ctrace_enabled_seed was added
+  globals.process-id was added
+  globals.machineId was added
+  host was added
+000001.195|   OKAY| SDK: rg::config: Changes from source 'InstallSettings': 
+  globals.region was added
+  globals.region-locale was added
+  telemetry was added
+000001.196|   OKAY| SDK: App: AppMobile running 'Riot Client' with SDK version 24.7.0.3969
+000001.196|   OKAY| SDK: telemetry: Initial TelemetryModule configuration:
+    RFC190 scope: 'globalriot.pdx2.rnet-live.riotclient.foundation'
+    Collector URI: 'https://data.riotgames.com'
+    Will send to OpenTelemetry: Nothing
+000001.196|   OKAY| SDK: telemetry: Initial OpenTelemetry configuration:
+    Logs URI: ''
+    Events URI: ''
+    Service Name: 'RiotGamesApi'
+000001.196|   OKAY| SDK: Telemetry identifiers:
+    appName: Riot Client
+    patchline: KeystoneFoundationLiveWin
+    machineId: nN6fzJtpaUmQc6fW5Dlj9g==
+    sessionId: 36aa6aac-0a17-b347-b0dd-ddaf7e33abc4
+    instanceId: 8f55a49a-aebd-f04f-b180-8d445fb97917
+    processId: d8e77020-9b5d-264c-aba3-c531c5c8a391
+000001.197|   OKAY| SDK: plugin-manager: App file system path is: C:\Riot Games\Riot Client\
+000001.197|   OKAY| SDK: plugin-manager: Plugins file system path used : Plugins.
+000001.202|   OKAY| SDK: system-info: OS is 'Windows 10 Professional, x64'
+000001.202|   OKAY| SDK: system-info: CPU is 3128 MHz with 4 cores; 16384 MB of memory
+000001.203|   OKAY| SDK: telemetry: Analytics Platform configured for https://data.riotgames.com
+000001.204|   OKAY| SDK: client-config: Configured with app name 'Riot Client', patchline 'KeystoneFoundationLiveWin', version '93.0.1.2007'
+000001.205|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace '' has key 842d03b8-c07d-b64e-8170-99c5d976fbee
+000001.205|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace '' has key e9baa793-57da-6e40-bf84-e2dd8aede81f
+000001.205|   OKAY| SDK: client-config: Expiring public configs in namespace ''
+000001.205|   OKAY| SDK: client-config: Expiring player configs in namespace ''
+000001.205|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace '' has key 00411ad6-79eb-064f-a445-980916afa60f
+000001.218|   OKAY| SDK: client-config: Expiring public configs in namespace ''
+000001.218|   OKAY| SDK: client-config: Expiring player configs in namespace ''
+000001.218|   OKAY| SDK: client-config: Received notification for changes to all public and all player namespaces. Dispatching 2 async update requests.
+000001.218|   OKAY| SDK: client-config: Request is about to take flight
+000001.218|   OKAY| SDK: client-config: HTTP retry options for client-conifg not found in Client Config.
+000001.222|   OKAY| SDK: private-settings: Plugin is in local-user mode. Settings will be automatically loaded for the current platform user.
+000001.222|   OKAY| SDK: private-settings: Loading private settings: YAML file load failed from 'C:/Users/tutu/AppData/Local/Riot Games/Riot Client/Data/RiotGamesPrivateSettings.yaml': Error opening file: Error code 3 for path 'C:/Users/tutu/AppData/Local/Riot Games/Riot Client/Data/RiotGamesPrivateSettings.yaml': O sistema não pode encontrar o caminho especificado.Error opening file: Error code 3 for path 'C:/Users/tutu/AppData/Local/Riot Games/Riot Client/Data/RiotGamesPrivateSettings.yaml': O sistema não pode encontrar o caminho especificado.
+000001.231|   OKAY| SDK: rg::config: Changes from source 'PrivateSettings': private was added
+000001.235|   OKAY| SDK: product-session: Created product session for riot_client on patchline  with version 0
+000001.235|   OKAY| SDK: product-session: Created Product Session for host_app
+000001.242|   OKAY| SDK: rnet-sanitizer: Initialization complete.
+000001.245|   OKAY| SDK: rso-auth: No static RSO config.
+000001.245|   OKAY| SDK: rso-auth: in plugin library function RenderConfig: Configuration not ready: URL missing
+000001.254|   OKAY| SDK: rg::config: Changes from source 'InstallSettings': rso-auth was added
+000001.270|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.client.feature_flags' has key 034462a1-b137-d24a-8b36-ef6fbfed37e2
+000001.270|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.client.feature_flags' has key 3693a994-a1c4-5d49-b12f-3331e562b616
+000001.270|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.client.configured_feature_flags' has key 7dda2db9-f222-7946-adb9-5d42d92eb81e
+000001.270|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.client.configured_feature_flags' has key d2551bf3-3bed-ff47-8d43-3f44f448ffc1
+000001.270|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.cohorts' has key ffb2778b-200d-4649-aa23-4b02597e545e
+000001.270|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.cohorts' has key 73a3d5f2-e924-6643-858b-3206ba5a97a0
+000001.280|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.282|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.282|   OKAY| SDK: rso-auth: in plugin library function HandleIdTokenGet: RSO auth failed: Unable to find configurations
+000001.284|   WARN| SDK: player-preferences: Plugin is disabled by config flag 'enabled': in plugin library function ReadyCheck: Not Implemented: API is not available for this application
+000001.288|   OKAY| SDK: client-config: Received request from 'Riot Client' for legacy config status
+000001.289|   OKAY| SDK: riot-login: Not restoring login because client config not yet received.
+000001.292|   OKAY| SDK: riot-messaging-service: Initialize Direct Connection
+000001.292|   OKAY| SDK: riot-messaging-service: Regional URL not found
+000001.292|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.294|   WARN| SDK: vng: No vng configuration found in config.
+000001.294|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.296|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.298|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.299|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.301|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.301|   OKAY| SDK: rso-auth: in plugin library function HandleIdTokenGet: RSO auth failed: Unable to find configurations
+000001.302|   OKAY| SDK: commerce: Set locale: pt_BR.
+000001.305|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.307|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.312|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.314|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.restriction.product_ids_by_scope' has key 06973c25-95d3-0f41-81aa-9d69f7d7e240
+000001.314|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.restriction.product_ids_by_scope' has key 7aba9ab3-9c6e-644e-b050-e956e045d136
+000001.316|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.316|   OKAY| SDK: loyalty-v2: Player config has been deleted.
+000001.316|   OKAY| SDK: loyalty-v2: Loyalty Standalone : Fetching loyalty stadnalone config
+000001.319|   OKAY| SDK: mailbox: Received affinity status update: not ready
+000001.322|   OKAY| SDK: rso-auth: in plugin library function HandleAuthorizationGet: RSO auth failed: Unable to find configurations
+000001.325|   OKAY| SDK: rso-auth: in plugin library function HandleOpenIdConfigurationGet: OpenId configuration not yet available
+000001.328|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.328|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'playerBehaviorToken.enabled' -- waiting for boot to complete before calculating value
+000001.331|   OKAY| SDK: mailbox: Mailbox API usage enabled
+000001.332|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.332|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'playerReporting.enabled' -- waiting for boot to complete before calculating value
+000001.332|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'playerReportingPasIntegration.enabled' -- waiting for boot to complete before calculating value
+000001.333|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'playerReportingReporterFeedback.enabled' -- waiting for boot to complete before calculating value
+000001.333|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'playerReportingMailboxIntegration.enabled' -- waiting for boot to complete before calculating value
+000001.336|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'scd.enabled' -- waiting for boot to complete before calculating value
+000001.338|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'app_command.enabled' -- waiting for boot to complete before calculating value
+000001.341|   OKAY| SDK: client-config: Updated product sessions (1 total)
+000001.344|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'gaWarning.enabled' -- waiting for boot to complete before calculating value
+000001.344|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'gaWarningMailboxIntegration.enabled' -- waiting for boot to complete before calculating value
+000001.347|   OKAY| SDK: product-metadata: region-locale updated to (NA, pt_BR), updating metadata
+000001.347|   OKAY| SDK: product-metadata: UpdateProductMetadata: no login country, skipping update
+000001.349|   WARN| SDK: riot-status: No configuration value for keystone.riotstatus.mode, defaulting to 'live' mode.
+000001.349|   OKAY| SDK: riot-status: Updated mode to '/'
+000001.349|   WARN| SDK: riot-status: No configuration value for keystone.riotstatus.riotclient_url, defaulting to public Carrier Pigeon URL.
+000001.349|   OKAY| SDK: riot-status: Updated Riot Client URL to 'https://riot-client.secure.dyn.riotcdn.net/channels/public'
+000001.357|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'productIntegrationAppRepairs.enabled' -- waiting for boot to complete before calculating value
+000001.357|   OKAY| SDK: product-integration: AppUpdate: Ready
+000001.357|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'productIntegrationAppUpdates.enabled' -- waiting for boot to complete before calculating value
+000001.366|   OKAY| SDK: chat: chat: Initialize() at unix time: 1725525891010
+000001.367|   OKAY| SDK: chat: chat: starting execution context thread!
+000001.367|   OKAY| SDK: rso-auth: in plugin library function HandleAuthorizationGet: RSO auth failed: Unable to find configurations
+000001.368|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.368|   OKAY| SDK: rso-auth: in plugin library function HandleIdTokenGet: RSO auth failed: Unable to find configurations
+000001.368|   WARN| SDK: player-preferences: Plugin is disabled by config flag 'enabled': in plugin library function ReadyCheck: Not Implemented: API is not available for this application
+000001.368|   OKAY| SDK: chat: chat: Updated restrictions settings: chat_enabled:1, play_restriction_setting:0
+000001.368|   OKAY| SDK: chat: chat: Processing region
+000001.368|   OKAY| SDK: chat: chat: region: NA
+000001.368|   OKAY| SDK: chat: chat: Chat platform set to riot.
+000001.368|   OKAY| SDK: chat: chat: initialization complete.
+000001.378|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'penaltyNotifications.enabled' -- waiting for boot to complete before calculating value
+000001.381|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.381|   OKAY| SDK: rso-auth: in plugin library function HandleIdTokenGet: RSO auth failed: Unable to find configurations
+000001.381|   OKAY| SDK: payments: PaymentsPlugin initialized.
+000001.390|   OKAY| SDK: gamecenter-account: This API is not available for this platform.
+000001.391|  ERROR| SDK: rso-authenticator: Failed to fetch RSO Authenticator config - RSO is not ready!
+000001.405|   OKAY| SDK: voice-chat: Configuring voice chat and initializing the plugin
+000001.405|   OKAY| SDK: voice-chat: Settings Manager initializing
+000001.405|   OKAY| SDK: voice-chat: Managers initialized
+000001.405|   OKAY| SDK: rso-auth: in plugin library function HandleAuthorizationGet: RSO auth failed: Unable to find configurations
+000001.405|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.406|   OKAY| SDK: rso-auth: in plugin library function HandleIdTokenGet: RSO auth failed: Unable to find configurations
+000001.406|   OKAY| SDK: rso-auth: Logout reason not available.
+000001.406|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'voice_chat.use_vts2' -- waiting for boot to complete before calculating value
+000001.406|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'voice_chat.use_vts3' -- waiting for boot to complete before calculating value
+000001.406|   OKAY| SDK: voice-chat: Voice chat permission updated to Allowed. Reason: 
+000001.406|   OKAY| SDK: permissions: Specified permission `crossplatform-interactions` not found
+000001.406|   OKAY| SDK: voice-chat: Platform user has been updated to riot
+000001.406|   OKAY| SDK: voice-chat: Binding a session host_app to product riot_client patchline 
+000001.444|   OKAY| SDK: permissions: Specified permission `crossplatform-interactions` not found
+000001.445|  ERROR| SDK: chatbox: Chatbox failed to initialize social plugin: 
+000001.464|   OKAY| SDK: rso-auth: in plugin library function HandleAuthorizationGet: RSO auth failed: Unable to find configurations
+000001.464|   OKAY| SDK: rso-auth: in plugin library function HandleAuthenticationSessionGet: RSO is not yet initialized
+000001.464|   OKAY| SDK: info-radiator: No previous Shutdown Data file located. Not emitting Shutdown Data.
+000001.469|   OKAY| SDK: platform-ui: PlatformUIPlugin::Initialize
+000001.471|   OKAY| SDK: platform-ui: Setting locale to pt_BR
+000001.474|   OKAY| SDK: plugin-manager: All plugins initialized.
+000001.475|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.475|   WARN| SDK: rso-authenticator: RSO Authentication configuration removed.
+000001.475|   OKAY| SDK: App: Foundation is now running.
+000001.477|   OKAY| SDK: rso-auth: in plugin library function HandleIdTokenGet: RSO auth failed: Unable to find configurations
+000001.477|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'patcher.patch' has key 4f694d3a-6362-3c4b-b2ae-b181bf3ee7de
+000001.477|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'patcher.patch' has key 41f13f53-33d8-2b4a-ad95-2dad5c8486c0
+000001.477|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.477|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.products' has key 1aab711d-6006-d74f-a54c-a02f90e9a346
+000001.477|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.products' has key 5ab7c3ec-717d-eb4c-a24d-e684f96f2044
+000001.477|   OKAY| SDK: product-metadata: UpdateProductMetadata: no login country, skipping update
+000001.477|   OKAY| SDK: product-metadata: UpdateProductMetadata: no login country, skipping update
+000001.477|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.477|   OKAY| SDK: rso-auth: in plugin library function HandleIdTokenGet: RSO auth failed: Unable to find configurations
+000001.477|   OKAY| SDK: rso-auth: No hint currently exists
+000001.477|   OKAY| SDK: eula: New product context: 'league_of_legends.live'
+000001.609|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.610|   OKAY| SDK: eula: WaitingForAllServiceData: waiting for client-config data
+000001.610|   OKAY| SDK: rso-auth: in plugin library function HandleAuthorizationGet: RSO auth failed: Unable to find configurations
+000001.610|   OKAY| SDK: rso-auth: in plugin library function HandleIdTokenGet: RSO auth failed: Unable to find configurations
+000001.610|   OKAY| SDK: eula: EULA configuration is still pending
+000001.610|   WARN| SDK: player-preferences: Plugin is disabled by config flag 'enabled': in plugin library function ReadyCheck: Not Implemented: API is not available for this application
+000001.610|   OKAY| SDK: eula: HandlePlayerPreferencesReady: service is now not ready
+000001.610|   OKAY| SDK: eula: WaitingForAllServiceData: waiting for client-config data
+000001.611|   OKAY| SDK: eula: WaitingForAllServiceData: waiting for client-config data
+000001.631|   OKAY| SDK: client-config: Updated public config for Riot Client with 619 entries
+000001.631|   OKAY| SDK: client-config: Notified config change for namespace 'keystone.client.configured_feature_flags' for Riot Client
+000001.631|   OKAY| SDK: client-config: Notified config change for namespace 'keystone.client.feature_flags' for Riot Client
+000001.634|   OKAY| SDK: client-feature-flags: Feature flag 'gaWarning.enabled' toggled, now 'false'
+000001.634|   OKAY| SDK: client-feature-flags: Feature flag 'playerBehaviorToken.enabled' toggled, now 'false'
+000001.634|   OKAY| SDK: client-feature-flags: Feature flag 'app_command.enabled' toggled, now 'true'
+000001.634|   OKAY| SDK: client-feature-flags: Feature flag 'playerReporting.enabled' toggled, now 'false'
+000001.634|   OKAY| SDK: client-feature-flags: Feature flag 'playerReportingReporterFeedback.enabled' toggled, now 'true'
+000001.634|   OKAY| SDK: client-feature-flags: Feature flag 'playerReportingPasIntegration.enabled' toggled, now 'true'
+000001.634|   OKAY| SDK: client-feature-flags: Feature flag 'playerReportingMailboxIntegration.enabled' toggled, now 'true'
+000001.634|   OKAY| SDK: client-feature-flags: Feature flag 'scd.enabled' toggled, now 'true'
+000001.634|   OKAY| SDK: client-feature-flags: Feature flag 'gaWarningMailboxIntegration.enabled' toggled, now 'true'
+000001.634|   OKAY| SDK: client-feature-flags: Feature flag 'productIntegrationAppUpdates.enabled' toggled, now 'true'
+000001.634|   OKAY| SDK: client-feature-flags: Feature flag 'productIntegrationAppRepairs.enabled' toggled, now 'true'
+000001.634|   OKAY| SDK: client-feature-flags: Feature flag 'penaltyNotifications.enabled' toggled, now 'true'
+000001.634|   OKAY| SDK: client-feature-flags: Feature flag 'voice_chat.use_vts2' toggled, now 'true'
+000001.634|   OKAY| SDK: client-feature-flags: Feature flag 'voice_chat.use_vts3' toggled, now 'true'
+000001.634|   OKAY| SDK: product-metadata: UpdateProductMetadata: no login country, skipping update
+000001.634|   WARN| SDK: scd: SCD not enabled.
+000001.634|   OKAY| SDK: product-metadata: UpdateProductMetadata: no login country, skipping update
+000001.653|   OKAY| SDK: product-metadata: public client-config notified update, updating metadata
+000001.653|   OKAY| SDK: product-metadata: UpdateProductMetadata: no login country, skipping update
+000001.662|   OKAY| SDK: client-config: Notified config change for namespace 'keystone.products' for Riot Client
+000001.664|   OKAY| SDK: Setting up Foundation API
+000001.678|   OKAY| plugin-manager: App file system path is: C:\Riot Games\Riot Client\
+000001.678|   OKAY| plugin-manager: Plugins file system path used : Plugins.
+000001.746|   OKAY| SDK: rg::config: Changes from source 'ClientConfigPublic': 
+  riotgamesapi.telemetry was added
+  riotgamesapi.resultTelemetry was added
+  telemetry.singular_v1_enabled was added
+  telemetry.ap was added
+  telemetry.heartbeat_products was added
+  telemetry.heartbeat_voice_chat_metrics was added
+  telemetry.heartbeat_interval was added
+  sanitizer was added
+  gamesession was added
+  rso-authenticator was added
+  entitlements was added
+  rso-mobile-ui was added
+  riotstatus was added
+  user_input_control was added
+  scd was added
+  disambiguation was added
+  player-preferences was added
+  age_restriction was added
+  publishing_content was added
+  rso_auth was added
+  player-affinity was added
+  client was added
+  auth was added
+  self_update was added
+  voice_chat was added
+  player-account was added
+  payments was added
+  background_patching was added
+  player-session-lifecycle was added
+  player-reporting was added
+  vng was added
+  anti-addiction was added
+  loyalty was added
+  riot_login was added
+  player-lifecycle was added
+  client_config was added
+  qr_code_login was added
+  accounts_security was added
+  rewards was added
+  rms was added
+  anticheat was added
+  lol was added
+  riot was added
+  system_warning was added
+  kr-account was added
+  lifecycle was added
+  background was added
+  mobile_push was added
+  platform-ui was added
+  mailbox was added
+  patcher was added (config_key: 842d03b8-c07d-b64e-8170-99c5d976fbee)
+000001.746|   OKAY| SDK: player-affinity: Using Player Affinity Service at https://riot-geo.pas.si.riotgames.com
+000001.746|   OKAY| SDK: accounts-security: Plugin is now enabled via config
+000001.747|   OKAY| SDK: accounts-security: Updating URL mapping (num: 1)
+000001.747|   OKAY| SDK: riot-messaging-service: Config value received: allow_bad_cert = {"enabled":false}
+000001.747|   OKAY| SDK: riot-messaging-service: Config value received: handshake_timeout_ms = 5000
+000001.747|   OKAY| SDK: riot-messaging-service: Config value received: heartbeat_interval_seconds = 55
+000001.747|   OKAY| SDK: riot-messaging-service: Config value received: host = wss://unconfigured.edge.rms.si.riotgames.com
+000001.747|   OKAY| SDK: riot-messaging-service: Config value received: max_reconnect_delay_ms = 300000
+000001.747|   OKAY| SDK: riot-messaging-service: Config value received: min_reconnect_delay_ms = 100
+000001.747|   OKAY| SDK: riot-messaging-service: Config value received: port = 443
+000001.747|   OKAY| SDK: riot-messaging-service: Config value received: protocol_preference = ipv4
+000001.747|   OKAY| SDK: riot-messaging-service: Config value received: socket_timeout_ms = 30000
+000001.747|   OKAY| SDK: riot-messaging-service: Config value received: use_direct_connection = true
+000001.747|   OKAY| SDK: riot-messaging-service: Protocol Preference: 1
+000001.747|   OKAY| SDK: payments: Using RiotPay PMC
+000001.747|   OKAY| SDK: rnet-sanitizer: Configure: region=NA, locale=pt_BR, adhocIncludes.size=1, adhocExcludes.size=1, adhocAllowlist.size=0, allowlistEnabled=true
+000001.748|   OKAY| SDK: loyalty-v2: PcbStatusEndpoint: https://pcbs.loyalty.riotgames.com/pcbcheck/v1/pcb-status
+000001.748|   OKAY| SDK: loyalty-v2: Fetching PC Bang status is only working with ko_KR locale.
+000001.748|   OKAY| SDK: eula: EULA configuration has an update
+000001.749|   OKAY| SDK: loyalty-v2: Player config has been deleted.
+000001.750|   OKAY| SDK: rso-auth: in plugin library function HandleAccessTokenGet: RSO auth failed: Unable to find configurations
+000001.750|   WARN| SDK: player-preferences: in plugin library function ReadyCheck: Unauthorized: Player must be signed in.
+000001.750|   OKAY| SDK: telemetry: OpenTelemetry configuration updated:
+    Logs URI: unchanged
+    Events URI: changed to 'https://telemetry.sgp.pvp.net/otel/v1/logs'
+    Service Name: unchanged
+    Send Format: unchanged
+    Protobuf Encoder Buffer Delay: unchanged
+    Protobuf Encoder Buffer Size: unchanged
+    Protobuf Encoder Max Events per Batch: unchanged
+    Protobuf Encoder Workspace Size: unchanged
+000001.751|   OKAY| SDK: telemetry: OnConfigUpdated called. Will send to OpenTelemetry: Events
+000001.776|   WARN| SDK: scd: SCD not enabled.
+000001.776|   OKAY| SDK: rso-auth: Set client-configured URL to 'https://auth.riotgames.com'
+000001.776|   OKAY| SDK: rso-auth: Setting RSO config with [url: https://auth.riotgames.com, clientId: riot-client, scopes: openid offline_access lol ban profile email phone account]
+000001.776|   OKAY| SDK: rso-auth: Fetching rso configuation from https://auth.riotgames.com/.well-known/openid-configuration
+000001.824|   OKAY| SDK: entitlements: Entitlements URL updated to 'https://entitlements.auth.riotgames.com/api/token/v1'
+000001.824|   OKAY| SDK: disambiguation: Using Disambiguation Service at https://update-account.riotgames.com
+000001.824|   OKAY| SDK: kr-account: Using KR Account Service at https://api.account.leagueoflegends.co.kr
+000001.824|   OKAY| SDK: player-account: walletLocation missing in the configuration
+000001.824|   OKAY| SDK: player-account: Using Player Account Service at https://api.account.riotgames.com
+000001.824|   OKAY| SDK: player-account: Player Account Service Promotion Block Time set to 14
+000001.824|   OKAY| SDK: riot-status: Updated Riot Client URL to 'https://riot-client.dyn.riotcdn.net/channels/public'
+000001.824|   OKAY| SDK: loyalty-v2: Loyalty Standalone : Fetching loyalty stadnalone config
+000001.824|   OKAY| SDK: mailbox: Found mailbox service endpoints for cluster names sea, asia, eu, us
+000001.824|   OKAY| SDK: vng: Using VNG Service at https://login.pp.m.zing.vn
+000001.824|   OKAY| SDK: vng: Using PAS Service at https://api.account.riotgames.com
+000001.824|   OKAY| SDK: vng: Using Action Base Url (desktop web flow) at https://kbtt.vnggames.com/rso-mobile-ui/0.4.1/vng-registration.{language}.html
+000001.824|   OKAY| SDK: vng: VNG Token caching enabled with minimum lifespan 1800s
+000001.824|   OKAY| SDK: vng: VNG Service timeout set to 10s
+000001.824|   OKAY| SDK: vng: VNG Service max number of get profile service request attempts set to 3
+000001.824|   OKAY| SDK: riot-status: Updated mode to '/'
+000001.824|   OKAY| SDK: rso-authenticator: Using Service at https://authenticate.riotgames.com
+000001.824|   OKAY| SDK: riot-login: RiotLoginPlugin::OnConfigReady
+000001.824|   OKAY| SDK: rso-auth: Received client config kount_merchant_id = 108000
+000001.824|   OKAY| SDK: riot-login: Persisting 0 RSO auth cookies:  and 0 RSO auth scopes: 
+000001.890|   OKAY| SDK: rg::config: Changes from source 'PrivateSettings': private.user.localuser.riot-login was added
+000001.890|   OKAY| telemetry: Analytics Platform configured for https://data.riotgames.com
+000001.890|   OKAY| telemetry: Initializing Open Telemetry
+000001.891|   OKAY| SDK: private-settings: Updated private settings for user localuser with key riot-login.persist)
+000001.891|   OKAY| telemetry: Initialize Open Telemetry Logger
+000001.891|   OKAY| SDK: riot-login: Did not restore persistent session state: Failed to find persisted login state: Key 'private.user.localuser.riot-login.persist' not found.
+000001.891|   OKAY| SDK: eula: UpdateAgreement: URI 'https://riot-client.dyn.riotcdn.net/channels/public/tos/6152060bfec6fa736c1d9da0106f30a06e953ebd' version '2023-10-30T12:00:30Z' for agreementID 'rgl_default' locale 'pt_BR'
+000001.891|   OKAY| telemetry: Open Telemetry Logger provider set successfully.
+000001.891|   OKAY| system-info: OS is 'Windows 10 Professional, x64'
+000001.891|   OKAY| system-info: CPU is 3129 MHz with 4 cores; 16384 MB of memory
+000001.892|   OKAY| SDK: riot-login: SendLoginTelemetryWithStaySignedIn: isloginSucessful: 0, errorDescription: Failed to find persisted login state, loginType: noLongLivedSession
+000001.892|   OKAY| SDK: rso-auth: in plugin library function HandleAuthenticationSessionGet: RSO is not yet initialized
+000001.893|   OKAY| native-ux: Set default locale to en_US. Current locale is pt_BR.
+000001.894| ALWAYS| plugin-manager: Mounted all WAD files in 0.002 milliseconds.
+000001.904|   OKAY| SDK: rso-auth: No client authorization
+000001.904|   OKAY| SDK: Unable to peek existing resource for subscription to '/rso-auth/v1/authorization', code=0, err='No client authorization'
+000001.904|   OKAY| SDK: Unable to peek existing resource for subscription to '/riot-client-auth/v1/home-base-country', code=404, err='Not found'
+000001.904|   OKAY| SDK: Unable to peek existing resource for subscription to '/riot-client-auth/v1/login-country', code=404, err='Not found'
+000001.907|   OKAY| SDK: eula: UpdatePrivacyPolicy: URI 'https://riot-client.dyn.riotcdn.net/channels/public/tos/5c78c02a490e5883e9cbf1ecaf7868d65a864ef3' version '2024-06-10T12:00:30Z' for agreementID 'rgl_default' locale 'pt_br'
+000001.910|   OKAY| SDK: eula: WaitingForAllServiceData: waiting for homebase country
+000001.910|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.publishing_content' has key 9d33fc18-7c48-1341-9bab-e60105b466c8
+000001.910|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.publishing_content' has key 04f1fff4-977c-2643-aa99-d5e38c3c0f92
+000001.910|   OKAY| SDK: rso-auth: in plugin library function AuthorizationGetRequest: No authorization currently exists for client: client riot-client
+000001.910|   OKAY| SDK: Unable to peek existing resource for subscription to '/rso-auth/v1/authorization/access-token', code=404, err='in plugin library function AuthorizationGetRequest: No authorization currently exists for client: client riot-client'
+000001.910|   OKAY| SDK: client-config: Retrieved cached config for 9d33fc18-7c48-1341-9bab-e60105b466c8
+000001.910|   OKAY| publishing-content: Publishing Content Service URL: https://content.publishing.riotgames.com
+000001.911|   OKAY| telemetry: Initialize Open Telemetry Logger
+000001.911|   OKAY| telemetry: Open Telemetry Logger provider set successfully.
+000001.915|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'xbgp_support.enabled' -- value 'true'
+000001.915|   OKAY| SDK: rso-auth: No client authorization
+000001.916|   OKAY| SDK: Unable to peek existing resource for subscription to '/rso-auth/v1/authorization', code=0, err='No client authorization'
+000001.916|   OKAY| SDK: rso-auth: in plugin library function HandleAuthenticationSessionGet: RSO is not yet initialized
+000001.916|   OKAY| SDK: Unable to peek existing resource for subscription to '/rso-auth/v1/session', code=404, err='in plugin library function HandleAuthenticationSessionGet: RSO is not yet initialized'
+000001.916|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.riot_login.default_trust_level' has key b9fda18d-7652-c94e-ac1b-eeef7581c75a
+000001.916|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.riot_login.default_trust_level' has key 3ddca80d-f4ee-644f-9e1d-815550831d13
+000001.916|   OKAY| SDK: client-config: Retrieved cached config for b9fda18d-7652-c94e-ac1b-eeef7581c75a
+000001.922|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.client.feature_flags.restriction' has key ec6539fb-9bd3-9c4b-b082-674000a43329
+000001.922|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.client.feature_flags.restriction' has key 9aec1b13-ff54-ac4b-8069-ae49e64575ef
+000001.922|   OKAY| SDK: Unable to peek existing resource for subscription to '/client-config/v2/namespace/keystone.client.feature_flags.restriction/player', code=202, err='Accepted: Player not authenticated. Subscribe to endpoint to be notified when config is available'
+000001.922|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.auth' has key 474c8007-edca-b040-8cbb-3b466567ceab
+000001.922|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.auth' has key 7804fd6a-c5db-2c4e-bccd-0c633ea377f4
+000001.922|   OKAY| SDK: client-config: Retrieved cached config for 474c8007-edca-b040-8cbb-3b466567ceab
+000001.922|   OKAY| SDK: client-config: Retrieved cached config for 06973c25-95d3-0f41-81aa-9d69f7d7e240
+000001.928|   OKAY| SDK: Unable to peek existing resource for subscription to '/riot-client-auth/v1/home-base-country', code=404, err='Not found'
+000001.931|   OKAY| SDK: riot-status: Requesting service status information for riot-client (patchline: 'keystonefoundationlive') succeeded
+000001.931|   OKAY| SDK: platform-ui: added riot status 0 updates
+000001.934|   OKAY| SDK: Unable to peek existing resource for subscription to '/patch/v1/installs/keystone/status/seed', code=404, err='Could not find install 'keystone'.'
+000001.934|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.self_update' has key f5c553e6-5f3b-2544-a810-c8ad80cedb39
+000001.934|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.self_update' has key ccaf80d6-ae6b-d240-b907-8153533c51a1
+000001.934|   OKAY| SDK: client-config: Retrieved cached config for f5c553e6-5f3b-2544-a810-c8ad80cedb39
+000001.934|   OKAY| SDK: client-config: Retrieved cached config for f5c553e6-5f3b-2544-a810-c8ad80cedb39
+000001.934|   OKAY| SDK: Unable to peek existing resource for subscription to '/client-config/v2/config/keystone.self_update.patchline_override', code=202, err='Accepted: Subscribe to endpoint to be notified when config is available'
+000001.935| ALWAYS| rnet-self-update: Reading ok file at C:/ProgramData/Riot Games/Metadata/Riot Client/Riot Client.ok
+000001.935| ALWAYS| rnet-self-update: Current and expected release are both 17D81CA9B6F59294, skipping update
+000001.943|   OKAY| SDK: rso-auth: No client authorization
+000001.943|   OKAY| SDK: Unable to peek existing resource for subscription to '/rso-auth/v1/authorization', code=0, err='No client authorization'
+000001.943|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.system_warning.memory_threshold' has key a8499818-7851-4240-a30d-823dc9b117c7
+000001.943|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.system_warning.memory_threshold' has key 899f2464-cc6e-ec4a-baca-a2fb8a208710
+000001.943|   OKAY| SDK: client-config: Retrieved cached config for a8499818-7851-4240-a30d-823dc9b117c7
+000001.943|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.system_warning' has key 93153636-7305-4c4e-ba94-30583970d016
+000001.943|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.system_warning' has key 151a82f7-0916-b447-bf7b-8f22d8d32e5f
+000001.944|   OKAY| SDK: client-config: Retrieved cached config for 93153636-7305-4c4e-ba94-30583970d016
+000001.944|   OKAY| SDK: client-config: Retrieved cached config for 93153636-7305-4c4e-ba94-30583970d016
+000001.944|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'system_info_polling.enabled' -- value 'false'
+000001.949| ALWAYS| vanguard: Discovered vanguard version 1.14.9.15 at startup
+000001.949|   OKAY| vanguard: No need to restart the machine.
+000001.950|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.client.feature_flags.vanguard_multigame' has key 019ae466-c7fe-9541-bcee-47424260ed35
+000001.950|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.client.feature_flags.vanguard_multigame' has key 31eb4619-9fea-cb4f-958d-d81d60d1cae0
+000001.950|   OKAY| SDK: client-config: Retrieved cached config for 019ae466-c7fe-9541-bcee-47424260ed35
+000001.950|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'anticheat' has key 01908b27-f54b-b549-afb4-d77d1f23b852
+000001.950|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'anticheat' has key 2d612536-a07b-b24c-a7d9-445cd7f76694
+000001.950|   OKAY| SDK: client-config: Retrieved cached config for 01908b27-f54b-b549-afb4-d77d1f23b852
+000001.951|   OKAY| SDK: rso-auth: No client authorization
+000001.951|   OKAY| SDK: Unable to peek existing resource for subscription to '/rso-auth/v1/authorization', code=0, err='No client authorization'
+000001.969|   OKAY| rnet-product-registry: region-locale updated via riot-client-lifecycle-state (#1) to (NA, pt_BR), updating patchline states
+000001.970|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.client.product_registry' has key a99c15bc-d960-8945-be79-300e1cc8acd4
+000001.970|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.client.product_registry' has key 1fc9e116-41f9-9244-bd57-5e1ae462a261
+000001.970|   OKAY| SDK: client-config: Retrieved cached config for a99c15bc-d960-8945-be79-300e1cc8acd4
+000001.970|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'product_registry.third_party_dependencies.enabled' -- value 'true'
+000001.971|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'fix_bad_install_locations.enabled' -- value 'true'
+000001.971|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'product_visibility_override_by_country.disabled' -- value 'false'
+000001.971|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'lifecycle.backgroundRunning.enabled' -- value 'true'
+000001.972|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'product_settings.keep_updated.enabled' -- value 'true'
+000001.972|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'launch_on_computer_start.enabled' -- value 'true'
+000001.973|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.client.external_publisher' has key c1528600-2e77-3743-9ea2-e6732dc7482b
+000001.973|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.client.external_publisher' has key 474cd272-ef3b-e04c-9cfd-5fe8415e1b14
+000001.973|   OKAY| SDK: client-config: Retrieved cached config for c1528600-2e77-3743-9ea2-e6732dc7482b
+000001.982|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.telemetry' has key ad761836-36ae-0f45-a3e0-a6aa499dcc08
+000001.982|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.telemetry' has key be4e4c57-bcec-ae4a-bd3e-522db9455a4d
+000001.982|   OKAY| SDK: client-config: Retrieved cached config for ad761836-36ae-0f45-a3e0-a6aa499dcc08
+000001.983|   OKAY| SDK: Unable to peek existing resource for subscription to '/client-config/v2/namespace/keystone.cohorts/player', code=202, err='Accepted: Player not authenticated. Subscribe to endpoint to be notified when config is available'
+000001.983|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'launcher_server.enabled' -- value 'false'
+000001.984|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'open_telemetry_sender.enabled' -- value 'true'
+000002.047|   OKAY| SDK: rso-auth: Received RSO openid-configuration: {"acr_values_supported":["0","urn:riot:bronze","urn:riot:gold","urn:riot:parents"],"authorization_encryption_alg_values_supported":["RSA-OAEP-256","ECDH-ES","ECDH-ES+A128KW","ECDH-ES+A192KW","ECDH-ES+A256KW","dir"],"authorization_encryption_enc_values_supported":["A128CBC-HS256","A192CBC-HS384","A256CBC-HS512","A128GCM","A192GCM","A256GCM"],"authorization_endpoint":"https://auth.riotgames.com/authorize","authorization_response_iss_parameter_supported":true,"authorization_signing_alg_values_supported":["RS256","RS384","RS512","ES256","ES384","ES512"],"backchannel_logout_session_supported":true,"backchannel_logout_supported":true,"check_session_iframe":"https://auth.riotgames.com/check-session-iframe","claim_types_supported":["normal"],"claims_parameter_supported":true,"claims_supported":["sub","iss","auth_time","acr","name"],"code_challenge_methods_supported":["plain","S256"],"display_values_supported":["page","touch"],"dpop_signing_alg_values_supported":["ES256K","PS384","ES384","RS384","ES256","RS256","ES512","PS256","PS512","RS512"],"end_session_endpoint":"https://auth.riotgames.com/logout","frontchannel_logout_session_supported":true,"frontchannel_logout_supported":true,"grant_types_supported":["implicit","authorization_code","refresh_token","password","client_credentials"],"id_token_encryption_alg_values_supported":["RSA-OAEP","RSA-OAEP-256","dir","ECDH-ES","ECDH-ES+A128KW","ECDH-ES+A192KW","ECDH-ES+A256KW"],"id_token_encryption_enc_values_supported":["A128CBC-HS256","A256GCM"],"id_token_signing_alg_values_supported":["RS256","RS384","RS512","ES256","ES384","ES512"],"issuer":"https://auth.riotgames.com","jwks_uri":"https://auth.riotgames.com/jwks.json","prompt_values_supported":["login","select_account","consent","none","create"],"pushed_authorization_request_endpoint":"https://auth.riotgames.com/par","request_object_encryption_alg_values_supported":["RSA1_5","RSA-OAEP","RSA-OAEP-256","RSA-OAEP-384","RSA-OAEP-512","ECDH-ES","ECDH-ES+A128KW","ECDH-ES+A192KW","ECDH-ES+A256KW","dir"],"request_object_encryption_enc_values_supported":["A128GCM","A192GCM","A256GCM","A128CBC-HS256","A192CBC-HS384","A256CBC-HS512","XC20P"],"request_object_signing_alg_values_supported":["RS256","RS384","RS512","ES256","ES384","ES512"],"request_parameter_supported":true,"request_uri_parameter_supported":true,"request_uri_quota":10,"response_modes_supported":["query","fragment"],"response_types_supported":["code","token","id_token","id_token token","code id_token","code id_token token"],"revocation_endpoint":"https://auth.riotgames.com/token/revoke","riot_amr_values_supported":["cookie","password","captcha","mfa","game_center","google_auth","facebook","apple","xbox"],"riot_lol_regions_disabled":[],"riot_lol_regions_supported":["BR1","EUN1","EUW1","JP1","KR","LA1","LA2","NA1","OC1","PBE1","RU","TR1","TW2","PH2","SG2","VN2","TH2","ME1"],"riot_lol_userinfo_regions_enabled":["PBE1","OC1","JP1","KR","BR1","LA1","LA2","NA1","EUN1","EUW1","RU","TR1","TW2","PH2","SG2","VN2","TH2","ME1"],"riot_partner_auth_config":{"facebook":{"permissions":["public_profile","email"]},"google_auth":{"clientId":"187685766663-ct6bdnthcq6jlllecpg1guhthoc7i8vv.apps.googleusercontent.com"}},"riot_recaptcha_public_key":"6LcGEv8SAAAAAPUTwLPaiMfnJNfedmGj4oww8ITT","riot_theme_values_supported":["lol","lor","valorant"],"scopes_supported":["openid","profile","email","lol","summoner"],"subject_types_supported":["public","pairwise"],"tls_client_certificate_bound_access_tokens":true,"token_endpoint":"https://auth.riotgames.com/token","token_endpoint_auth_methods_supported":["client_secret_basic","client_secret_post","client_secret_jwt","private_key_jwt","none"],"token_endpoint_auth_signing_alg_values_supported":["RS256","RS384","RS512","HS256","HS384","HS512","ES256","ES384","ES512"],"ui_locales_supported":["en","cs","de","el","es","es-419","fr","hu","it","ms","pl","pt-BR","ro","ru","tr","ja","ko","id","th","vi","zh-Hans","zh-Hant","ar"],"userinfo_encryption_alg_values_supported":["RSA-OAEP","RSA-OAEP-256","dir","ECDH-ES","ECDH-ES+A128KW"
+000002.050|   OKAY| SDK: rso-auth: RSO ready state changed to true
+000002.050|   OKAY| SDK: rso-authenticator: Using default RSO client-id: riot-client
+000002.050|   OKAY| SDK: rso-authenticator: Fetching available auth methods from: https://authenticate.riotgames.com/api/v1/configuration/client/riot-client?platform=windows&sdk_version=24.7.0.3969
+000002.050|   OKAY| SDK: riot-client-auth: Configuring client ID from config (riot-client)
+000002.050|   OKAY| SDK: platform-social: Using default RSO client-id: riot-client
+000002.119|   OKAY| SDK: rso-auth: in plugin library function HandleUserInfoRequest: RSO Userinfo not yet available.: in plugin library function AuthorizationGetRequest: No authorization currently exists for client: client riot-client
+000002.119|   OKAY| SDK: launch-restriction: Subscribed to user-info for 'riot-client'
+000002.119|   OKAY| SDK: player-account: Using default RSO client-id: riot-client
+000002.185|   OKAY| SDK: rso-auth: in plugin library function HandleUserInfoRequest: RSO Userinfo not yet available.: in plugin library function AuthorizationGetRequest: No authorization currently exists for client: client riot-client
+000002.185|   OKAY| SDK: rso-auth: in plugin library function AuthorizationGetRequest: No authorization currently exists for client: client riot-client
+000002.250|   OKAY| SDK: rso-auth: in plugin library function HandleUserInfoRequest: RSO Userinfo not yet available.: in plugin library function AuthorizationGetRequest: No authorization currently exists for client: client riot-client
+000002.316|   OKAY| SDK: rso-auth: in plugin library function HandleUserInfoRequest: RSO Userinfo not yet available.: in plugin library function AuthorizationGetRequest: No authorization currently exists for client: client riot-client
+000002.316|   OKAY| SDK: riot-client-auth: FetchLoginCountry with clientId 'riot-client'
+000002.316|   WARN| SDK: rso-auth: RSO implicit grant manager ignoring the trust levels provided.
+000002.437|   OKAY| SDK: rg::config: Changes from source 'InstallSettings': launcher_server was added
+000002.439|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'patch_proxy.enabled' -- value 'true'
+000002.496|   OKAY| SDK: rg::config: Changes from source 'InstallSettings': telemetry.open_telemetry_sender.enabled has changed type from Nil to Boolean(true)
+000002.508|   OKAY| patch-proxy: OnEnablePatchingFeatureFlagEvent: mEnablePatching: 1
+000002.508|   OKAY| patch-proxy: OnEnablePatchingFeatureFlagEvent: Patching enabled, Starting scheduler
+000002.508|   OKAY| patch-proxy: OnEnablePatchingFeatureFlagEvent: Patching enabled, setting up subscriptions
+000002.514|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'xbgp_com_server.disabled' -- value 'false'
+000002.664|   OKAY| SDK: rso-auth: Device trust cookie set with id 'e4e6fc85-775d-4e7e-8cfd-11883c999a24'
+000002.664|   OKAY| SDK: riot-client-auth: Login country is 'bra'.
+000002.664|   OKAY| SDK: Unable to peek existing resource for subscription to '/riot-client-auth/v1/home-base-country', code=404, err='Not found'
+000002.665|   OKAY| SDK: player-affinity: Local cache miss: product 'bacon' not cached for Player Affinity Service: Key 'player-affinity.product.bacon' not found or not a map.
+000002.665|   WARN| SDK: product-metadata: Failed to fetch cached player-affinity; patchline bacon.live may be misconfigured: Error response for GET /player-affinity/product/v2/cached-affinity/bacon: product not found in affinity cache
+000002.665|   OKAY| SDK: product-metadata: Instead of skipping all configurations for bacon.live, we are assuming the valid_shard of 'live': 'americas' to allow the player to patch *something* before login.
+000002.666|   OKAY| SDK: player-affinity: Local cache miss: product 'valorant' not cached for Player Affinity Service: Key 'player-affinity.product.valorant' not found or not a map.
+000002.666|   WARN| SDK: product-metadata: Failed to fetch cached player-affinity; patchline valorant.live may be misconfigured: Error response for GET /player-affinity/product/v2/cached-affinity/valorant: product not found in affinity cache
+000002.667|   OKAY| SDK: product-metadata: Found valid_shards data while parsing configuration for valorant.live, but have not received player affinity. Skipping configuration.
+000002.667|   OKAY| SDK: product-metadata: Found valid_shards data while parsing configuration for valorant.live, but have not received player affinity. Skipping configuration.
+000002.667|   OKAY| SDK: product-metadata: Found valid_shards data while parsing configuration for valorant.live, but have not received player affinity. Skipping configuration.
+000002.667|   OKAY| SDK: product-metadata: Found valid_shards data while parsing configuration for valorant.live, but have not received player affinity. Skipping configuration.
+000002.667|   OKAY| SDK: product-metadata: Found valid_shards data while parsing configuration for valorant.live, but have not received player affinity. Skipping configuration.
+000002.667|   OKAY| SDK: product-metadata: Instead of skipping all configurations for valorant.live, we are assuming the valid_shard of 'live': 'ap' to allow the player to patch *something* before login.
+000002.667|   OKAY| SDK: product-metadata: UpdateProductMetadata: parsed 7 public products with 10 patchlines
+000002.667|   OKAY| SDK: product-metadata: UpdateProductMetadata: notifying update with 7 products, 10 patchlines, and 0 cookies
+000002.735|   OKAY| SDK: product-localization: Fetched translations for https://riot-client.secure.dyn.riotcdn.net/channels/public/rccontent/arcane/loc pt_BR
+000002.774|   OKAY| telemetry: Initialize Open Telemetry Logger
+000002.775|   OKAY| telemetry: Open Telemetry Logger provider set successfully.
+000002.853|   OKAY| SDK: product-localization: Fetched translations for https://lol.secure.dyn.riotcdn.net/channels/public/rccontent/loc pt_BR
+000002.853|   OKAY| SDK: product-localization: Fetched translations for https://lol.secure.dyn.riotcdn.net/channels/public/rccontent/tft/loc pt_BR
+000002.884|   OKAY| SDK: product-localization: Fetched translations for https://bacon.secure.dyn.riotcdn.net/channels/public/rccontent/loc pt_BR
+000002.884|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'terminateRogueProcess.enabled' -- value 'true'
+000002.885|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'vng_account_required.enabled' -- value 'true'
+000002.885|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'terminate_riot_client_on_product_launch.enabled' -- value 'false'
+000002.885|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'vanguardLaunch.disabled' -- value 'false'
+000002.893|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'product_update_scanner.enabled' -- value 'true'
+000002.893|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.background_patching' has key 729344ea-23e4-b84f-8c2b-abe3d4cd2204
+000002.893|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.background_patching' has key 896d1816-591f-4f41-84f0-e3917bae724c
+000002.893|   OKAY| SDK: client-config: Retrieved cached config for 729344ea-23e4-b84f-8c2b-abe3d4cd2204
+000002.900|   OKAY| SDK: Unable to peek existing resource for subscription to '/app-command/v1/focus-request', code=404, err='No active focus request'
+000002.907|   OKAY| riot-client-lifecycle: RiotIdRequired::OnRiotIdRequiredFeatureFlag: feature flag enabled
+000002.907|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'missingHBCModal.disabled' -- value 'false'
+000002.908|   OKAY| riot-client-lifecycle: RiotIdRequired::OnAccountAliasUpdated: no data received yet
+000002.908|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'riot_id_required_modal.enabled' -- value 'true'
+000002.908|   OKAY| riot-client-lifecycle: [PatchingResourceProvider::OnSubscribe] Subscribing to Patch Proxy patch states for league_of_legends.live
+000002.909|   OKAY| SDK: Unable to peek existing resource for subscription to '/age-restriction/v1/age-restriction/products/league_of_legends', code=409, err='Can't get age restriction for product 'league_of_legends', still waiting for RSO Access Token'
+000002.910| ALWAYS| riot-client-lifecycle: Setting product context to league_of_legends.live, willAutoLaunch=true
+000002.910|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'restart_required.disabled' -- value 'false'
+000002.913|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'system_tray.enabled' -- value 'true'
+000002.916|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'lifecycle.leagueRegionElection.enabled' -- value 'true'
+000002.918| ALWAYS| riot-client-lifecycle: Context #1: Middleware transition (SelfUpdate) -> (LifecycleSync)
+000002.918| ALWAYS| riot-client-lifecycle: Context #1: Middleware transition (LifecycleSync) -> (LeagueRegion)
+000002.918|   OKAY| SDK: rso-auth: in plugin library function AuthorizationGetRequest: Authorization not yet available.: client riot-client
+000002.918|   OKAY| SDK: Unable to peek existing resource for subscription to '/rso-auth/v1/authorization/access-token', code=404, err='in plugin library function AuthorizationGetRequest: Authorization not yet available.: client riot-client'
+000002.920|   OKAY| SDK: Unable to peek existing resource for subscription to '/riot-client-auth/v1/userinfo', code=404, err='Not found'
+000002.920|   OKAY| SDK: Unable to peek existing resource for subscription to '/player-account/aliases/v1/required', code=404, err='Unable to determine the alias requirement yet'
+000002.923|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'restart_after_direct_launch.enabled' -- value 'false'
+000002.924|   OKAY| telemetry: Sending telemetry to schema riotclient__ClientAction__v18 with: {"actionType":"directLaunch","product":{"patchline":"live","productId":"league_of_legends"}}
+000002.925|   OKAY| riot-client-lifecycle: RiotIdRequired::OnRiotIdRequiredFeatureFlag: feature flag enabled
+000002.925|   OKAY| riot-client-lifecycle: OnRegionEligibilityUpdated: received League region eligibility data
+000002.925| ALWAYS| riot-client-lifecycle: Context #1: Middleware (LeagueRegion) requested restart with reason (Not logged in)
+000002.925| ALWAYS| riot-client-lifecycle: Context #1: Middleware transition (LeagueRegion) -> (Login)
+000002.925|   OKAY| riot-client-lifecycle: Attempting to launch default product with reason (Player needs to login)
+000002.930|   OKAY| SDK: rso-auth: No RSO authorization
+000002.930|   WARN| product-launcher: Failed to get rso-auth: Error response for GET /rso-auth/v1/authorization: No RSO authorization
+000002.931|   OKAY| SDK: product-localization: Fetched translations for https://valorant.secure.dyn.riotcdn.net/channels/public/rccontent/loc pt_BR
+000002.967|   OKAY| SDK: product-localization: Fetched translations for https://wildrift.secure.dyn.riotcdn.net/channels/public/rccontent/loc pt_BR
+000002.968|   OKAY| SDK: product-localization: Fetched translations for https://ritoplus.secure.dyn.riotcdn.net/channels/public/rccontent/loc pt_BR
+000002.998|   OKAY| SDK: voice-chat: Binding a session huzxMfuooytQbot9qzaz1A to product KeystoneClient patchline 
+000002.998|   OKAY| SDK: product-session: Created product session for KeystoneClient on patchline  with version 
+000002.998|   OKAY| SDK: client-config: Updated product sessions (2 total)
+000002.999|   OKAY| telemetry: Sending telemetry to schema riotclient__ClientAction__v18 with: {"actionType":"productSessionStart","product":{"installId":"KeystoneClient.","patchline":"","productId":"KeystoneClient","version":""},"productSessionStartData":{"sessionHash":682704094}}
+000003.001|   OKAY| telemetry: Skipping TimeSampleEvent due to missing install settings
+000003.001|   OKAY| riot-client-lifecycle: Restart after direct launch flag set to 0
+000003.001|   OKAY| riot-client-lifecycle: Background running feature flag set to 1
+000003.024|   OKAY| system-tray: Set default locale to en_US. Current locale is pt_BR.
+000003.026|   OKAY| SDK: rso-auth: No RSO authorization
+000003.026|   OKAY| SDK: Unable to peek existing resource for subscription to '/rso-auth/v1/authorization', code=0, err='No RSO authorization'
+000003.028|   OKAY| SDK: client-config: Retrieved cached config for 4f694d3a-6362-3c4b-b2ae-b181bf3ee7de
+000003.028|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.rso-authenticator' has key 947497e2-3291-1c4a-b758-c5c6613841f4
+000003.028|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.rso-authenticator' has key 9005bf38-8ff3-8a41-ad98-1ac3bdd79df9
+000003.028|   OKAY| SDK: client-config: Retrieved cached config for 947497e2-3291-1c4a-b758-c5c6613841f4
+000003.035| ALWAYS| plugin-manager: All plugins initialized.
+000003.037|   OKAY| rnet-product-registry: BackgroundPatchingState: transition from 'Unknown' to 'Enabled' due to event 'MetadataUpdated'
+000003.037|   OKAY| rnet-product-registry: BackgroundPatchingState: in state 'Enabled' event 'MetadataUpdated' triggering an update
+000003.038|   OKAY| rnet-product-registry: BackgroundPatchingState: in state 'Enabled' event 'MetadataUpdated' triggering an update
+000003.038|   OKAY| rnet-product-registry: BackgroundPatchingState: in state 'Enabled' event 'MetadataUpdated' triggering an update
+000003.038|   OKAY| rnet-product-registry: BackgroundPatchingState: in state 'Enabled' event 'MetadataUpdated' triggering an update
+000003.039|   OKAY| rnet-product-registry: BackgroundPatchingState: in state 'Enabled' event 'MetadataUpdated' triggering an update
+000003.039|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'app_command_upgrade.enabled' -- value 'true'
+000003.039|   OKAY| rnet-product-registry: BackgroundPatchingState: in state 'Enabled' event 'MetadataUpdated' triggering an update
+000003.042|   OKAY| RemotingServer: listening on port 56203
+000003.102|   OKAY| SDK: rg::config: Changes from source 'InstallSettings': riot-client-app-command was added
+000003.102| ALWAYS| App: Foundation is now running.
+000003.104| ALWAYS| rnet-product-registry: HandlePatchlineMetadataUpdated: received new patchline 'arcane.pcpromolive'
+000003.104|   OKAY| riot-client-app-command: Successfully upgraded URI handler!
+000003.104|   OKAY| external-message-handler: OnPatchlineChange: Received invalid patchingResource.install.id
+000003.105|   OKAY| rnet-product-registry: BackgroundPatchingState: in state 'Enabled' event 'MetadataUpdated' triggering an update
+000003.105| ALWAYS| rnet-product-registry: HandlePatchlineMetadataUpdated: received new patchline 'bacon.live'
+000003.106|   OKAY| telemetry: Sending telemetry to schema riotclient__ClientAction__v18 with: {"actionType":"initializeComplete","product":{"productId":"league_of_legends"}}
+000003.106|   OKAY| App: Resuming Event Bus Processing
+000003.106| ALWAYS| App: Start of MainLoop.
+000003.107|   OKAY| SDK: patch: PutPreviewRequest: Preview request received for install 'bacon.live'.
+000003.115| ALWAYS| rnet-product-registry: TransitionToCombinedPatchState: install 'bacon.live' switching states 'Unknown' -> 'NotInstalled' because 'installPathEmpty'
+000003.117|   OKAY| external-message-handler: OnPatchlineChange: Received invalid patchingResource.install.id
+000003.117|   OKAY| rnet-product-registry: BackgroundPatchingState: in state 'Enabled' event 'MetadataUpdated' triggering an update
+000003.117| ALWAYS| rnet-product-registry: HandlePatchlineMetadataUpdated: received new patchline 'ritoplus.live'
+000003.118|   OKAY| external-message-handler: OnPatchlineChange: Received invalid patchingResource.install.id
+000003.118|   OKAY| rnet-product-registry: BackgroundPatchingState: in state 'Enabled' event 'MetadataUpdated' triggering an update
+000003.118| ALWAYS| rnet-product-registry: HandlePatchlineMetadataUpdated: received new patchline 'league_of_legends.live'
+000003.120| ALWAYS| rnet-product-registry: UpdatePatchingResource: putting install 'league_of_legends.live' (create)
+000003.122| ALWAYS| rnet-product-registry: Initializing dependency states for 'league_of_legends.live'
+000003.122| ALWAYS| rnet-product-registry: Dependency states already exist: updating them
+000003.122|   OKAY| SDK: patch: Loading manifest C:/ProgramData/Riot Games/Metadata/bacon.live/bacon.live.preview.manifest for release ID 30B66D1651D6767E
+000003.123| ALWAYS| rnet-product-registry: UpdatePatchingResource: putting install 'league_of_legends.live.game_patch' (create)
+000003.124|   OKAY| riot-client-lifecycle: [PatchingResourceProvider::OnPatchingResource] Received update for league_of_legends.live; combinedPatchState: 1
+000003.125| ALWAYS| rnet-product-registry: Initializing dependency states for 'league_of_legends.live.game_patch'
+000003.125| ALWAYS| rnet-product-registry: Dependency states already exist: updating them
+000003.126|   OKAY| patch-proxy: OnPatchStatus: Received installId without at least 2 tokens: league_of_legends.live.game_patch
+000003.127|   OKAY| external-message-handler: OnPatchlineChange: Received invalid patchingResource.install.id
+000003.131|   OKAY| SDK: patch: Creating update plan
+000003.134|   OKAY| rnet-product-registry: BackgroundPatchingState: in state 'Enabled' event 'MetadataUpdated' triggering an update
+000003.134| ALWAYS| rnet-product-registry: HandlePatchlineMetadataUpdated: received new patchline 'league_of_legends.pbe'
+000003.135|   OKAY| external-message-handler: OnPatchlineChange: Received invalid patchingResource.install.id
+000003.135|   OKAY| rnet-product-registry: BackgroundPatchingState: in state 'Enabled' event 'MetadataUpdated' triggering an update
+000003.135| ALWAYS| rnet-product-registry: HandlePatchlineMetadataUpdated: received new patchline 'league_of_legends_game.pcpromolive'
+000003.136|   OKAY| external-message-handler: OnPatchlineChange: Received invalid patchingResource.install.id
+000003.136|   OKAY| rnet-product-registry: BackgroundPatchingState: in state 'Enabled' event 'MetadataUpdated' triggering an update
+000003.136| ALWAYS| rnet-product-registry: HandlePatchlineMetadataUpdated: received new patchline 'league_of_legends_game.live'
+000003.136|   OKAY| rnet-product-registry: BackgroundPatchingState: in state 'Enabled' event 'MetadataUpdated' triggering an update
+000003.136| ALWAYS| rnet-product-registry: HandlePatchlineMetadataUpdated: received new patchline 'league_of_legends_game.pbe'
+000003.136|   OKAY| rnet-product-registry: BackgroundPatchingState: in state 'Enabled' event 'MetadataUpdated' triggering an update
+000003.136| ALWAYS| rnet-product-registry: HandlePatchlineMetadataUpdated: received new patchline 'valorant.live'
+000003.138|   OKAY| SDK: patch: PutPreviewRequest: Preview request received for install 'valorant.live'.
+000003.138| ALWAYS| rnet-product-registry: TransitionToCombinedPatchState: install 'valorant.live' switching states 'Unknown' -> 'NotInstalled' because 'installPathEmpty'
+000003.142|   OKAY| external-message-handler: OnPatchlineChange: Received invalid patchingResource.install.id
+000003.142|   OKAY| SDK: patch: Check completed in 0.0 secs
+000003.142|   OKAY| rnet-product-registry: BackgroundPatchingState: in state 'Enabled' event 'MetadataUpdated' triggering an update
+000003.142| ALWAYS| rnet-product-registry: HandlePatchlineMetadataUpdated: received new patchline 'wildrift.live'
+000003.143|   OKAY| rnet-product-registry: BackgroundPatchingState: in state 'Enabled' event 'MetadataUpdated' triggering an update
+000003.143|   OKAY| external-message-handler: OnPatchlineChange: Received invalid patchingResource.install.id
+000003.144|   OKAY| rnet-product-registry: saving originalClientProductType: arcane / pcpromolive = SpecialEvent
+000003.144|   OKAY| rnet-product-registry: saving originalClientProductType: bacon / live = RiotGame
+000003.145|   OKAY| rnet-product-registry: saving originalClientProductType: league_of_legends / live = RiotGame
+000003.145|   OKAY| rnet-product-registry: saving originalClientProductType: league_of_legends / pbe = RiotGame
+000003.145|   OKAY| rnet-product-registry: saving originalClientProductType: league_of_legends_game / pcpromolive = RiotGame
+000003.145|   OKAY| rnet-product-registry: saving originalClientProductType: ritoplus / live = Hidden
+000003.145|   OKAY| rnet-product-registry: saving originalClientProductType: valorant / live = RiotGame
+000003.145|   OKAY| rnet-product-registry: saving originalClientProductType: wildrift / live = RiotGame
+000003.151|   OKAY| telemetry: Skipping TimeSampleEvent due to missing install settings
+000003.151|   OKAY| telemetry: Skipping TimeSampleEvent due to missing install settings
+000003.151|   OKAY| telemetry: Skipping TimeSampleEvent due to missing install settings
+000003.153|   OKAY| SDK: rso-auth: No RSO authorization
+000003.153|   OKAY| SDK: Unable to peek existing resource for subscription to '/rso-auth/v1/authorization', code=0, err='No RSO authorization'
+000003.154|   OKAY| rnet-product-registry: SaveSessionTimestamp: missing productId or patchlineId
+000003.156|   OKAY| SDK: patch: Loading release manifest C:/ProgramData/Riot Games/Metadata/league_of_legends.live/league_of_legends.live.manifest
+000003.162|   OKAY| rnet-product-registry: HandlePatchStatusChange: install 'league_of_legends.live' starting at state 'PendingVerify'
+000003.162|   OKAY| rnet-product-registry: HandlePatchStatusChange: install 'league_of_legends.live.game_patch' starting at state 'PendingVerify'
+000003.164|   OKAY| SDK: patch: DeleteInstall: Successfully finished deleting install 'bacon.live'.
+000003.239| ALWAYS| system-tray: Getting system tray icon for bacon.live from https://bacon.secure.dyn.riotcdn.net/channels/public/rccontent/theme/system-tray-icon.png
+000003.239| ALWAYS| system-tray: Getting system tray icon for valorant.live from https://valorant.secure.dyn.riotcdn.net/channels/public/rccontent/theme/03/../system-tray-icon.png
+000003.270|   OKAY| SDK: patch: Loading patch database C:/ProgramData/Riot Games/Metadata/league_of_legends.live/league_of_legends.live.db
+000003.342|   OKAY| SDK: patch: Verification completed after 0.1 secs with 160 existing files (47 directories) and excluded 709 paths after 0.0 CPU-secs
+000003.342|   OKAY| SDK: patch: Creating update plan
+000003.575|   OKAY| SDK: patch: Check completed in 0.3 secs
+000003.578|   OKAY| SDK: patch: Verification completed successfully for install at C:/Riot Games/League of Legends
+000003.578|   OKAY| rnet-product-registry: HandlePatchStatusChange: install 'league_of_legends.live' starting at state 'UpToDate'
+000003.578| ALWAYS| rnet-product-registry: TransitionToCombinedPatchState: install 'league_of_legends.live' switching states 'Unknown' -> 'UpToDate' because 'statusPatchPlugin'
+000003.584|   OKAY| rnet-product-registry: HandlePatchStatusChange: install 'league_of_legends.live.game_patch' starting at state 'OutOfDate'
+000003.585| ALWAYS| rnet-product-registry: TransitionToCombinedPatchState: install 'league_of_legends.live.game_patch' switching states 'Unknown' -> 'OutOfDate' because 'statusPatchPlugin'
+000003.588|   OKAY| riot-client-lifecycle: [PatchingResourceProvider::OnPatchingResource] Received update for league_of_legends.live; combinedPatchState: 4
+000003.588|   OKAY| riot-client-lifecycle: Patching resource does not require a matching shard.
+000003.591|   OKAY| patch-proxy: OnPatchStatus: Received installId without at least 2 tokens: league_of_legends.live.game_patch
+000003.620|   OKAY| SDK: patch: Loading manifest C:/ProgramData/Riot Games/Metadata/valorant.live/valorant.live.preview.manifest for release ID 5F2F2530F60A61CC
+000003.737|   OKAY| SDK: rg::config: Changes from source 'InstallSettings': product-release-ids was added
+000003.805|   OKAY| telemetry: Skipping TimeSampleEvent due to missing install settings
+000004.260|   WARN| system-tray: Failed retrieving theme manifest from https://lol.secure.dyn.riotcdn.net/channels/public/rccontent/theme/14.17/NA/manifest.json, switching to default theme manifest
+000004.324| ALWAYS| system-tray: Getting system tray icon for league_of_legends.live from https://lol.secure.dyn.riotcdn.net/channels/public/rccontent/theme/system-tray-icon.png
+000004.417|   OKAY| SDK: patch: Creating update plan
+000005.287|  ERROR| RemotingServer: Failed to read from socket 127.0.0.1:56257, recv() returned: -1, errno: 10053 Failed to get error text
+000005.287|  ERROR| RemotingServer: Closing socket due to previous error.
+000005.288|  ERROR| RemotingServer: Failed to read from socket 127.0.0.1:56258, recv() returned: -1, errno: 10053 Failed to get error text
+000005.288|  ERROR| RemotingServer: Closing socket due to previous error.
+000005.297|  ERROR| RemotingServer: Failed to read from socket 127.0.0.1:56259, recv() returned: -1, errno: 10053 Failed to get error text
+000005.297|  ERROR| RemotingServer: Closing socket due to previous error.
+000005.316|  ERROR| RemotingServer: Failed to read from socket 127.0.0.1:56260, recv() returned: -1, errno: 10053 Failed to get error text
+000005.316|  ERROR| RemotingServer: Closing socket due to previous error.
+000005.317|   OKAY| SDK: rso-auth: No RSO authorization
+000005.317|  ERROR| RemotingServer: Failed to read from socket 127.0.0.1:56261, recv() returned: -1, errno: 10053 Failed to get error text
+000005.317|  ERROR| RemotingServer: Closing socket due to previous error.
+000005.317|  ERROR| Remoting: HTTP Response 400 to GET '/rso-auth/v1/authorization'
+000005.598|   OKAY| telemetry: Skipping TimeSampleEvent due to missing install settings
+000005.600|   OKAY| SDK: rso-auth: No RSO authorization
+000005.600|  ERROR| Remoting: HTTP Response 400 to GET '/rso-auth/v1/authorization'
+000005.618|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'patcher' has key 267bba01-bf3b-e44e-8435-432d23fc3be7
+000005.618|   OKAY| SDK: client-config: Retrieved cached config for 267bba01-bf3b-e44e-8435-432d23fc3be7
+000005.641|   OKAY| SDK: patch: Check completed in 1.2 secs
+000005.647|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'flaggedNameModal.disabled' -- value 'false'
+000005.650|   OKAY| SDK: patch: DeleteInstall: Successfully finished deleting install 'valorant.live'.
+000005.668|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'dismissible_name_change_modal.enabled' -- value 'false'
+000005.669|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'chrome_devtools.enabled' -- value 'false'
+000005.673|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'social_visibility.enabled' -- value 'true'
+000005.675|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'new_product_details.enabled' -- value 'true'
+000005.675|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'nav_panel.enabled' -- value 'false'
+000005.687|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'tab_bar.enabled' -- value 'false'
+000005.687|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'fist_animation.enabled' -- value 'false'
+000005.688|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'home_page_route.enabled' -- value 'false'
+000005.688|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'qrcode_auth.enabled' -- value 'false'
+000005.696|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'peek_layout.enabled' -- value 'false'
+000005.702|   OKAY| SDK: rso-auth: in plugin library function AuthorizationGetRequest: Authorization not yet available.: client riot-client
+000005.703|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.player-affinity' has key 81e0a38a-aac0-7149-a6bf-616ca5409e94
+000005.704|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.player-affinity' has key a9493b29-34cc-5146-b47a-2337e3fc6296
+000005.704|   OKAY| SDK: client-config: Retrieved cached config for 81e0a38a-aac0-7149-a6bf-616ca5409e94
+000005.704|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'player-lifecycle' has key 4c4cea0a-bbcc-3641-9e1f-3f22f06ef843
+000005.704|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'player-lifecycle' has key 4a6da913-87f9-ec42-a26a-b373c41618f4
+000005.704|   OKAY| SDK: client-config: Retrieved cached config for 4c4cea0a-bbcc-3641-9e1f-3f22f06ef843
+000005.704|   OKAY| SDK: rso-auth: in plugin library function AuthorizationGetRequest: Authorization not yet available.: client riot-client
+000005.987|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'riotStatusTicker.enabled' -- value 'true'
+000006.001|   OKAY| SDK: rso-auth: No RSO authorization
+000006.002|  ERROR| Remoting: HTTP Response 400 to GET '/rso-auth/v1/authorization'
+000006.018|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.riotstatus' has key 65b4cbdf-ad79-fa4f-b0aa-316d370e1f13
+000006.018|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.riotstatus' has key c0b201b0-ac2d-3b47-8bc0-d3b7c7ed4cca
+000006.018|   OKAY| SDK: client-config: Retrieved cached config for 65b4cbdf-ad79-fa4f-b0aa-316d370e1f13
+000006.023|  ERROR| Remoting: HTTP Response 409 to GET '/age-restriction/v1/age-restriction/products/league_of_legends'
+000006.024|   OKAY| SDK: client-config: public configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.client.theme' has key c33b19a9-c37d-e541-b9fc-4225450518c2
+000006.024|   OKAY| SDK: client-config: player configuration for 'Riot Client.KeystoneFoundationLiveWin' in namespace 'keystone.client.theme' has key 31343f41-5d06-c24b-a1e0-14ba0e2f8f4c
+000006.025|   OKAY| SDK: client-config: Retrieved cached config for c33b19a9-c37d-e541-b9fc-4225450518c2
+000006.027|   OKAY| SDK: client-config: Retrieved cached config for c1528600-2e77-3743-9ea2-e6732dc7482b
+000006.030|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'mfa_notification.enabled' -- value 'true'
+000006.031|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'social_visibility_loading.enabled' -- value 'false'
+000006.111|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'social_visibility_error.enabled' -- value 'false'
+000006.111|   OKAY| SDK: rg::config: Changes from source 'InstallSettings': startup-config was added
+000006.112|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'social_visibility_retry.enabled' -- value 'false'
+000006.112|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'social_visibility_friends.enabled' -- value 'false'
+000006.113|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'use_rso_authenticator.enabled' -- value 'true'
+000006.114|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'pcbang_vanguard_restart_bypass.disabled' -- value 'false'
+000006.114|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'qrcode_modal.enabled' -- value 'true'
+000006.146|   OKAY| SDK: riot-status: Requesting service status information for riot-client (patchline: 'keystonefoundationlive') succeeded
+000006.147|   OKAY| SDK: platform-ui: added riot status 0 updates
+000006.197|   OKAY| SDK: riot-status: Requesting service status information for league_of_legends deployment na1 (patchline: 'live') succeeded
+000006.267|   OKAY| SDK: rso-auth: Not configured
+000006.267|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'socialSignOn.enabled' -- value 'true'
+000006.277|   OKAY| SDK: client-config: Retrieved cached config for 842d03b8-c07d-b64e-8170-99c5d976fbee
+000006.277|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'login.disabled' -- value 'false'
+000006.291|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'pending_consent_modal.enabled' -- value 'true'
+000006.292|   OKAY| SDK: client-feature-flags: Subscribed to feature flag 'pending_forget_modal.enabled' -- value 'true'
+000006.429|   WARN| SDK: rso-auth: RSO implicit grant manager ignoring the trust levels provided.
+000006.441|   OKAY| telemetry: Skipping TimeSampleEvent due to missing install settings
+000008.002|   OKAY| SDK: rg::config: Changes from source 'PrivateSettings': private.user.localuser.rso-authenticator was added
+000008.002|   OKAY| SDK: private-settings: Updated private settings for user localuser with key rso-authenticator.tdid)

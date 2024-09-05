@@ -1,6 +1,7 @@
-[gd_scene load_steps=52 format=3 uid="uid://k5mao0fsud7k"]
+[gd_scene load_steps=53 format=3 uid="uid://k5mao0fsud7k"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_xubh8"]
+[ext_resource type="StyleBox" uid="uid://c7nl41ke575ai" path="res://scenes/panelborder.tres" id="2_4mrum"]
 [ext_resource type="PackedScene" uid="uid://dtolwjg03hirt" path="res://scenes/func/account_prof.tscn" id="2_dhjuy"]
 [ext_resource type="PackedScene" uid="uid://delcdyafptuwr" path="res://scenes/func/add_prof.tscn" id="3_aqrub"]
 [ext_resource type="PackedScene" uid="uid://pwkoxfdjfkyn" path="res://scenes/menu/mouse_menu.tscn" id="4_g58s2"]
@@ -45,13 +46,6 @@ corner_radius_bottom_left = 15
 [sub_resource type="Theme" id="Theme_nro2c"]
 ProgressBar/styles/background = SubResource("StyleBoxFlat_8xkgg")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7dyxq"]
-bg_color = Color(0.0430392, 0.0430392, 0.0430391, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_58khj"]
-bg_color = Color(1, 1, 1, 1)
-corner_radius_bottom_left = 10
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_utbmv"]
 bg_color = Color(0, 0, 0, 0.654902)
 
@@ -61,15 +55,24 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xgcob"]
-bg_color = Color(0.446777, 0.446777, 0.446777, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_58khj"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 165
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 1024
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_12hnp"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0jiy4"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qum8c"]
+
 [sub_resource type="Theme" id="Theme_5crog"]
 Button/colors/font_color = Color(0, 0, 0, 1)
-Button/styles/focus = SubResource("StyleBoxFlat_xgcob")
+Button/styles/focus = SubResource("StyleBoxEmpty_12hnp")
 Button/styles/normal = SubResource("StyleBoxEmpty_0jiy4")
+Button/styles/pressed = SubResource("StyleBoxEmpty_qum8c")
 
 [sub_resource type="Theme" id="Theme_o0d65"]
 CheckBox/colors/font_color = Color(0, 0, 0, 1)
@@ -128,7 +131,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("VideoStreamPlayer:self_modulate")
+tracks/4/path = NodePath("Panel4/VideoStreamPlayer:self_modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -250,7 +253,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("VideoStreamPlayer:self_modulate")
+tracks/2/path = NodePath("Panel4/VideoStreamPlayer:self_modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -451,7 +454,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("VideoStreamPlayer:self_modulate")
+tracks/2/path = NodePath("Panel4/VideoStreamPlayer:self_modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -550,7 +553,15 @@ grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("1_xubh8")
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+[node name="Panel4" type="Panel" parent="."]
+clip_children = 1
+layout_mode = 0
+offset_right = 1276.0
+offset_bottom = 720.0
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("2_4mrum")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Panel4"]
 self_modulate = Color(0.0768358, 0.0768358, 0.0768358, 1)
 layout_mode = 0
 offset_right = 1280.0
@@ -702,6 +713,7 @@ layout_mode = 2
 texture_normal = ExtResource("17_tu8xg")
 
 [node name="iconsgrid" type="GridContainer" parent="createmenupanel"]
+visible = false
 layout_mode = 0
 offset_left = 46.0
 offset_top = 39.0
@@ -756,20 +768,20 @@ offset_bottom = 23.0
 theme_override_font_sizes/font_size = 25
 
 [node name="Panel" type="Panel" parent="."]
-visible = false
 layout_mode = 0
 offset_top = 295.0
 offset_bottom = 728.0
 mouse_filter = 1
 
 [node name="Panel4" type="Panel" parent="Panel"]
-modulate = Color(0, 0, 0, 1)
+modulate = Color(0, 0, 0, 0.654902)
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 0
 offset_top = -295.0
-offset_right = 1316.0
-offset_bottom = 459.0
+offset_right = 1284.0
+offset_bottom = 430.0
 mouse_filter = 1
+theme_override_styles/panel = ExtResource("2_4mrum")
 
 [node name="newaddmenu" parent="Panel" instance=ExtResource("6_nitp4")]
 layout_mode = 1
@@ -927,12 +939,12 @@ theme = SubResource("Theme_nro2c")
 modulate = Color(0, 0, 0, 0.713726)
 z_index = -4
 layout_mode = 0
-offset_left = -407.0
-offset_top = -340.0
-offset_right = 938.0
-offset_bottom = 424.0
+offset_left = -372.0
+offset_top = -315.0
+offset_right = 908.0
+offset_bottom = 413.0
 mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_7dyxq")
+theme_override_styles/panel = ExtResource("2_4mrum")
 
 [node name="Label" type="Label" parent="loadbar"]
 layout_mode = 0
@@ -951,14 +963,6 @@ offset_top = 43.0
 offset_right = 328.0
 offset_bottom = 74.0
 text = "Already Logged In"
-
-[node name="Panel2" type="Panel" parent="."]
-layout_mode = 0
-offset_left = 1208.0
-offset_right = 1281.0
-offset_bottom = 34.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_58khj")
 
 [node name="Panel3" type="Panel" parent="."]
 visible = false
@@ -1022,6 +1026,15 @@ stream = ExtResource("22_j3fyg")
 autoplay = true
 loop = true
 
+[node name="Panel2" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 1202.74
+offset_top = 1.38
+offset_right = 1275.74
+offset_bottom = 35.38
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_58khj")
+
 [node name="closebutton" type="Button" parent="."]
 z_index = 99
 layout_mode = 0
@@ -1046,10 +1059,10 @@ flat = true
 
 [node name="reloadbar" type="ProgressBar" parent="."]
 layout_mode = 0
-offset_left = 645.0
-offset_top = 1.0
-offset_right = 1127.0
-offset_bottom = 28.0
+offset_left = 714.0
+offset_top = 2.0
+offset_right = 1103.0
+offset_bottom = 29.0
 rounded = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -1060,10 +1073,10 @@ autoplay = "black_mode"
 
 [node name="Label2" type="Label" parent="."]
 layout_mode = 0
-offset_left = 1218.0
-offset_top = 697.0
-offset_right = 1298.0
-offset_bottom = 720.0
+offset_left = 629.0
+offset_top = 6.0
+offset_right = 709.0
+offset_bottom = 29.0
 scale = Vector2(0.71, 0.71)
 text = "alpha 0.2"
 
@@ -1075,20 +1088,18 @@ anchor_left = 0.901793
 anchor_top = 0.00138889
 anchor_right = 0.925737
 anchor_bottom = 0.0440556
-offset_left = -20.0
-offset_top = -2.0
-offset_right = 461.28
-offset_bottom = 479.28
+offset_left = -29.295
+offset_right = 452.057
+offset_bottom = 481.28
 scale = Vector2(0.06, 0.06)
 texture_normal = ExtResource("20_wycfi")
 
 [node name="settings_button" type="TextureButton" parent="."]
 top_level = true
 layout_mode = 0
-offset_left = 1169.0
-offset_top = -2.0
-offset_right = 1681.0
-offset_bottom = 510.0
+offset_left = 1159.7
+offset_right = 1671.7
+offset_bottom = 512.0
 scale = Vector2(0.065, 0.065)
 texture_normal = ExtResource("25_rafvo")
 stretch_mode = 3
