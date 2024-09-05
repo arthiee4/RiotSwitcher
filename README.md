@@ -29,7 +29,7 @@ ps: remember the most important step -> when logging in for the first time, ALWA
 
 ![](git_images/stay.gif)
 
-After these steps and once your account is logged in, go back to the switcher and press the 'Already Logged in' button, and that's it! Your profile will be saved, and you should follow the same process for all the others <3
+After these steps and once your account is logged in, go back to the switcher and press the 'Already Logged in' button, and that's it! Your profile will be saved, and you should follow the same process for all the others profiles. So, you'll be able to log into any of them with just one click! <3
 
 ![](git_images/button.png)
 
