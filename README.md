@@ -25,7 +25,7 @@ At the start, look for the Riot Client folder, go inside, and confirm to ensure 
 ![](git_images/folderselect.gif)
 
 After creating the profile, please wait for the client to initialize.
-ps: remember the most important step: when logging in for the first time, ALWAYS click "Stay Signed In." Don’t forget!
+ps: remember the most important step -> when logging in for the first time, ALWAYS click "Stay Signed In." Don’t forget!, after that, just log in and wait for the game to start.
 
 ![](git_images/stay.gif)
 
