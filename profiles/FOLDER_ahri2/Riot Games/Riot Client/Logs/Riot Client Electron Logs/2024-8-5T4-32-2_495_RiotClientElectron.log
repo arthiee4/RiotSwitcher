@@ -1,0 +1,29 @@
+[2024-09-05 04:32:02.594] [info]                        Starting RiotClientUx electron with args {
+  appPort: 51477,
+  remotingAuthToken: 'Z0sUiFg4dtASS0Ut-4Pmgw',
+  logDir: 'C:/Users/tutu/AppData/Local/Riot Games/Riot Client/Logs',
+  userDataRoot: 'C:/Users/tutu/AppData/Local/Riot Games/Riot Client',
+  crashpadEnvironment: 'KeystoneFoundationLiveWin',
+  appPid: 5068,
+  machineId: 'nN6fzJtpaUmQc6fW5Dlj9g=='
+}
+[2024-09-05 04:32:02.598] [info]                        Logging to C:\Users\tutu\AppData\Local\Riot Games\Riot Client\Logs\Riot Client Electron Logs\2024-8-5T4-32-2_495_RiotClientElectron.log
+[2024-09-05 04:32:02.599] [info]                        NODE_ENV production
+[2024-09-05 04:32:02.600] [info]                        isDevelopment false
+[2024-09-05 04:32:02.617] [info]  (InstallSettings)     Fetching RiotClientSettings.yaml from: C:\Users\tutu\AppData\Local\Riot Games\Riot Client\Config\RiotClientSettings.yaml
+[2024-09-05 04:32:02.753] [info]                        Creating socket..
+[2024-09-05 04:32:02.801] [info]  (RCSWatchdog)         Interval set to check if process 5068 is running every 1000ms
+[2024-09-05 04:32:02.804] [info]                        app.isPackaged true
+[2024-09-05 04:32:02.867] [info]                        Loading page from http://127.0.0.1:51520/index.html
+[2024-09-05 04:32:02.936] [error] (SentryService)       Failed to get product context: connect ECONNREFUSED 127.0.0.1:51477
+[2024-09-05 04:32:02.940] [error] (TelemetryCollector)  Failed to POST/rc-info-radiator/v1/time-sample/ux_launch_to_electron_loaded/end connect ECONNREFUSED 127.0.0.1:51477
+[2024-09-05 04:32:02.942] [error] (TelemetryCollector)  Failed to POST/rc-info-radiator/v1/time-sample/ux_electron_loaded_to_interactive/start connect ECONNREFUSED 127.0.0.1:51477
+[2024-09-05 04:32:02.956] [info]  (SocketManager)       Socket closed
+[2024-09-05 04:32:02.961] [warn]  (SentryService)       Failed to get region locale: connect ECONNREFUSED 127.0.0.1:51477
+[2024-09-05 04:32:02.962] [info]  (SentryService)       Resources initialized and set in Sentry
+[2024-09-05 04:32:02.965] [info]  (SocketManager)       Socket closed
+[2024-09-05 04:32:03.816] [info]  (RCSWatchdog)         Process 5068 is no longer running
+[2024-09-05 04:32:03.816] [info]  (RCSWatchdog)         Resetting watchdog
+[2024-09-05 04:32:03.817] [info]                        Parent process has exited. Quitting UX process.
+[2024-09-05 04:32:03.973] [info]  (SocketManager)       Socket closed
+[2024-09-05 04:32:04.116] [info]                        Allowing via setCertificateVerifyProc: ingest.sentry.io

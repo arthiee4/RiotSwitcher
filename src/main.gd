@@ -18,6 +18,7 @@ extends Control
 @onready var newaddmenu_create_button = $Panel/newaddmenu/GridContainer/GridContainer/create_button
 @onready var browser_create_icon_button = $Panel/Label/createfiledialogbutton
 @onready var createfiledialog = $Panel/Label/creatediag
+
 @onready var icon0 = $"Panel/iconsgrid/0"
 @onready var icon1 = $"Panel/iconsgrid/1"
 @onready var icon2 = $"Panel/iconsgrid/2"
@@ -28,6 +29,18 @@ extends Control
 @onready var icon7 = $"Panel/iconsgrid/7"
 @onready var icon8 = $"Panel/iconsgrid/8"
 @onready var icon9 = $"Panel/iconsgrid/9"
+
+@onready var icon0_edit = $"createmenupanel/iconsgrid/0"
+@onready var icon1_edit = $"createmenupanel/iconsgrid/1"
+@onready var icon2_edit = $"createmenupanel/iconsgrid/2"
+@onready var icon3_edit = $"createmenupanel/iconsgrid/3"
+@onready var icon4_edit = $"createmenupanel/iconsgrid/4"
+@onready var icon5_edit = $"createmenupanel/iconsgrid/5"
+@onready var icon6_edit = $"createmenupanel/iconsgrid/6"
+@onready var icon7_edit = $"createmenupanel/iconsgrid/7"
+@onready var icon8_edit = $"createmenupanel/iconsgrid/8"
+@onready var icon9_edit = $"createmenupanel/iconsgrid/9"
+
 @onready var loadbar = $loadbar
 @onready var loadbarlabel = $loadbar/Label
 @onready var loadconfirm = $loadbar/loadconfirm
@@ -35,13 +48,21 @@ extends Control
 @onready var browser_button = $createmenupanel/createmenu/browser_image
 @onready var file_dialog = $createmenupanel/createmenu/FileDialog
 @onready var add_prof_panel = $CenterContainer/accounts_container/add_prof/Panel
-@onready var language_selector = $langchanger/OptionButton
+@onready var language_selector = $settings_label/Panel2/GridContainer/langchanger/OptionButton
 @onready var reload_bar = $reloadbar
 
 @onready var current_profile = $Panel3
 @onready var current_profile_texture = $Panel3/selected_profile/TextureRect
 @onready var current_profile_name = $Panel3/profile_name
 @onready var current_profile_exit_button = $Panel3/exit_button
+
+@onready var anim_player = $AnimationPlayer
+
+@onready var settings_label = $settings_label
+@onready var settings_button = $settings_button
+
+@onready var whitemode = $settings_label/Panel2/GridContainer/CheckButton
+
 
 var previous__imagem_path = ""
 var account_prof_scene = preload("res://scenes/func/account_prof.tscn")
@@ -61,7 +82,6 @@ func _ready():
 	
 	DisplayServer.window_set_title("Switcher")
 
-
 	_pause_after_delay()
 	
 	reload_bar.visible = false
@@ -80,6 +100,7 @@ func _ready():
 	browser_button.connect("pressed", Callable(self, "_on_browser_button_pressed"))
 	file_dialog.connect("file_selected", Callable(self, "_on_file_selected"))
 	gitbutton.pressed.connect(_on_gitbutton_pressed)
+	settings_button.pressed.connect(on_settings_button_pressed)
 	
 	
 	current_profile_exit_button.pressed.connect(Callable(self, "_on_current_profile_exit_pressed"))
@@ -96,18 +117,60 @@ func _ready():
 	icon8.connect("pressed", Callable(self, "_on_icon_pressed").bind(8))
 	icon9.connect("pressed", Callable(self, "_on_icon_pressed").bind(9))
 	
+	icon0_edit.connect("pressed", Callable(self, "_on_icon_pressed").bind(0))
+	icon1_edit.connect("pressed", Callable(self, "_on_icon_pressed").bind(1))
+	icon2_edit.connect("pressed", Callable(self, "_on_icon_pressed").bind(2))
+	icon3_edit.connect("pressed", Callable(self, "_on_icon_pressed").bind(3))
+	icon4_edit.connect("pressed", Callable(self, "_on_icon_pressed").bind(4))
+	icon5_edit.connect("pressed", Callable(self, "_on_icon_pressed").bind(5))
+	icon6_edit.connect("pressed", Callable(self, "_on_icon_pressed").bind(6))
+	icon7_edit.connect("pressed", Callable(self, "_on_icon_pressed").bind(7))
+	icon8_edit.connect("pressed", Callable(self, "_on_icon_pressed").bind(8))
+	icon9_edit.connect("pressed", Callable(self, "_on_icon_pressed").bind(9))
+	
+	
 	add_prof_panel.connect("mouse_entered", Callable(self, "_on_add_prof_panel_mouse_entered"))
 	add_prof_panel.connect("mouse_exited", Callable(self, "_on_add_prof_panel_mouse_exited"))
-
+	whitemode.connect("toggled", Callable(self, "_on_whitemode_toggled"))
 	_add_language_options()
 	language_selector.connect("item_selected", Callable(self, "_on_language_selected"))
 
 	_load_existing_profiles()
 	_move_add_prof_to_end()
 	_create_shortcut()
+	
+	settings_label.visible = false
+	
+	
+	
+func _on_whitemode_toggled(button_pressed):
+	if button_pressed:
+		anim_player.play("white_mode")
+		print("ativado")
+	else:
+		anim_player.play("black_mode")
+		print("desligado")
+
+
+var is_settings_open = true
+func on_settings_button_pressed():
+	
+	if is_settings_open:
+		settings_label.visible = true
+		anim_player.play("settings_label_in")
+		print("opening settings")
+	else:
+		anim_player.play("settings_label_out")
+		await get_tree().create_timer(0.3).timeout
+		settings_label.visible = false
+		print("close settings")
+		
+	is_settings_open = !is_settings_open
+
 
 func _on_current_profile_exit_pressed():
-
+	
+	
 	reload_bar.visible = true
 	reload_bar.value = 0
 	await get_tree().create_timer(0.5).timeout
@@ -116,7 +179,6 @@ func _on_current_profile_exit_pressed():
 	_riot_kill()
 	await get_tree().create_timer(1.5).timeout
 	reload_bar.value = 75
-	await get_tree().create_timer(1.0).timeout
 	current_profile.visible = false
 	reload_bar.value = 100
 	await get_tree().create_timer(0.5).timeout
@@ -152,8 +214,6 @@ func _set_texture_for_current_profile(icon_index: int):
 	else:
 		print("Ícone com índice %d não encontrado." % icon_index)
 
-
-
 func _save_current_profile_icon(profile_name: String, icon_index: int):
 	var config_data = _load_config_file()
 
@@ -166,9 +226,11 @@ func _save_current_profile_icon(profile_name: String, icon_index: int):
 	for profile in config_data["profiles"]:
 		if profile["name"] == profile_name:
 			profile["icon_index"] = icon_index
+			profile["_imagem_path"] = createmenu_picture.texture.resource_path  # Salva o caminho da textura
 			break
 
 	_save_config_file(config_data)
+
 	
 func _on_gitbutton_pressed():
 	OS.shell_open("https://github.com/arthiee4")	
@@ -306,17 +368,22 @@ func _on_icon_pressed(index: int):
 	selected_icon_index = index
 	print("Ícone selecionado:", index)
 	
-	var selected_icon = get_icon_by_index()
+	# Verifica o ícone selecionado com base no índice
+	var selected_icon = get_icon_by_index(index)
 	if selected_icon != null:
 		var icon_name = selected_icon.name
 		selected_icon_texture = load("res://assets/icons/%s.png" % icon_name)
 		
 		if selected_icon_texture != null:
-			newaddmenu_imagem.texture = selected_icon_texture
+			# Atualiza o TextureRect do createmenu com o ícone selecionado
+			createmenu_picture.texture = selected_icon_texture
+			
+			print("Ícone atualizado no createmenu.")
 		else:
 			print("Falha ao carregar a textura para o ícone:", icon_name)
 	else:
 		print("Ícone selecionado é inválido.")
+
 	
 func copy_file(src: String, dest: String) -> void:
 	var file = FileAccess.open(src, FileAccess.READ)
@@ -335,7 +402,7 @@ func copy_file(src: String, dest: String) -> void:
 	dest_file.close()
 	print("Arquivo copiado com sucesso de", src, "para", dest)
 
-func _icon_set_on_create(new_account_prof):
+func _icon_set_on_create(account_prof):
 	var selected_icon = get_icon_by_index(selected_icon_index)
 	
 	if selected_icon != null:
@@ -344,20 +411,18 @@ func _icon_set_on_create(new_account_prof):
 		
 		var icon_texture = load(icon_path)
 		if icon_texture != null:
-			var texture_rect = new_account_prof.get_node("Panel/TextureRect")
-			if texture_rect != null:
-				texture_rect.texture = icon_texture
-				print("Ícone %s configurado para o perfil %s" % [icon_name, new_account_prof.name])
-				
-				new_account_prof.set_meta("selected_icon_index", selected_icon_index)
-				
-				_save_account_icon_index(new_account_prof.name, selected_icon_index)
-			else:
-				print("TextureRect não encontrado no account_prof:", new_account_prof.name)
+			# Atualiza o TextureRect que representa o ícone atual do perfil
+			newaddmenu_imagem.texture = icon_texture  # Altere aqui para o TextureRect correto
+			
+			print("Ícone %s configurado permanentemente." % icon_name)
+			
+			# Opcionalmente, salve o ícone selecionado em algum armazenamento ou arquivo de configuração
+			_save_current_profile_icon("profile_name", selected_icon_index)
 		else:
-			print("Falha ao carregar a textura para o ícone:", icon_name)
+			print("Falha ao carregar a textura do ícone:", icon_name)
 	else:
 		print("Ícone selecionado é inválido.")
+
 
 func _save_account_icon_index(profile_name: String, icon_index: int):
 	var config_data = _load_config_file()
@@ -381,13 +446,21 @@ func get_icon_by_index(index: int = -1) -> Node:
 		icon5, icon6, icon7, icon8, icon9
 	]
 	
+	var icons_edit = [
+		icon0_edit, icon1_edit, icon2_edit, icon3_edit, icon4_edit, 
+		icon5_edit, icon6_edit, icon7_edit, icon8_edit, icon9_edit
+	]
+	
 	if index == -1:
 		index = selected_icon_index
 	
 	if index >= 0 and index < icons.size():
 		return icons[index]
+	elif index >= 0 and index < icons_edit.size():
+		return icons_edit[index]
 	else:
 		return null
+
 
 func _on_browser_button_pressed():
 	file_dialog.popup()
@@ -400,12 +473,16 @@ func _pause_after_delay():
 	video_player.paused = true
 
 func on_newddmenu_cancel_button_pressed():
+	anim_player.play("create_panel_anim_out")
+	await get_tree().create_timer(0.3).timeout
 	newaddmenu.visible = false
-
+	
+	
 func _on_addprof_pressed():
 	if account_prof_list.size() >= max_accounts:
 		return
 	newaddmenu.visible = true
+	anim_player.play("create_panel_anim_in")
 	newaddmenu_lineedit.text = ""	
 
 func _on_newaddmenu_create_button_pressed():
@@ -439,7 +516,7 @@ func _on_newaddmenu_create_button_pressed():
 	_load_account_prof_from_json(new_account_prof)
 
 	_setup_mouse_menu(new_account_prof)
-
+	_move_add_prof_to_end()
 	loadbar.visible = true
 	if loadbar.visible:
 
@@ -465,8 +542,6 @@ func _on_newaddmenu_create_button_pressed():
 	print("Novo perfil adicionado: ", new_account_prof.name)
 
 	_icon_set_on_create(new_account_prof)
-	
-	_move_add_prof_to_end()
 	loadbar.value = 0
 
 func _on_loadconfirm_pressed():
@@ -518,6 +593,8 @@ func _gui_input(event):
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if active_mouse_menu and not active_mouse_menu.get_global_rect().has_point(get_global_mouse_position()):
 				_hide_all_mouse_menus()
+				
+
 
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			dragging = event.pressed
@@ -816,9 +893,11 @@ func _on_edit_button_pressed(account_prof):
 
 	var texture_rect = account_prof.get_node("Panel/TextureRect")
 	if texture_rect != null and texture_rect.texture != null:
-		createmenu_picture.texture_normal = texture_rect.texture
+		# Atualize corretamente o TextureRect usando a propriedade 'texture'
+		createmenu_picture.texture = texture_rect.texture
 	else:
 		print("TextureRect ou textura não encontrada no account_prof:", account_prof.name)
+
 
 func _show_createmenu(account_prof):
 	createmenu.visible = true
@@ -870,8 +949,13 @@ func _hide_all_mouse_menus():
 		var mouse_menu = account_prof.get_node("mouse_menu")
 		if mouse_menu:
 			mouse_menu.visible = false
-	_reset_account_prof_scale(active_mouse_menu.get_parent())
+	
+	# Verifica se active_mouse_menu não é null antes de acessar get_parent()
+	if active_mouse_menu != null:
+		_reset_account_prof_scale(active_mouse_menu.get_parent())
+	
 	active_mouse_menu = null
+
 
 func _rename_account_profs():
 	for i in range(account_prof_list.size()):
@@ -981,6 +1065,12 @@ func _load_existing_profiles():
 func _move_add_prof_to_end():
 	accounts_container.move_child(add_prof, accounts_container.get_child_count() - 1)
 
+func _get_icon_name_from_texture(texture: Texture) -> String:
+	# A função pode retornar o nome ou caminho da textura
+	# Exemplo simplificado assumindo um caminho de arquivo padrão
+	var path = texture.resource_path
+	return path.get_file().get_basename()  # Retorna o nome do arquivo sem extensão
+
 func _on_create_button_pressed(account_prof):
 	var new_profile_name = profile_name_lineedit.text.strip_edges()
 	if new_profile_name == "":
@@ -988,13 +1078,22 @@ func _on_create_button_pressed(account_prof):
 		return
 
 	var old_profile_name = account_prof.name
-	
 	_account_folder_rename(old_profile_name, new_profile_name)
-	
+
 	account_prof.name = new_profile_name
 	_rename_account_profs()
 
-	print("Nome do perfil atualizado de '%s' para '%s'." % [old_profile_name, new_profile_name])
+	# Salvar o ícone selecionado no TextureRect do createmenu
+	if createmenu_picture.texture != null:
+		# Obtenha o nome do ícone ou caminho de arquivo usado para esse TextureRect
+		var selected_icon_name = _get_icon_name_from_texture(createmenu_picture.texture)
+		if selected_icon_name != "":
+			# Atualize o TextureRect permanentemente no perfil
+			_save_current_profile_icon(new_profile_name, selected_icon_index)  # Atualiza o ícone no JSON
+			account_prof.get_node("Panel/TextureRect").texture = createmenu_picture.texture
+			print("Ícone atualizado permanentemente para o perfil:", new_profile_name)
+	else:
+		print("Nenhum ícone foi selecionado para salvar permanentemente.")
 
 	createmenu.visible = false
 	get_tree().reload_current_scene()

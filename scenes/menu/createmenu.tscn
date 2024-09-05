@@ -40,13 +40,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 65
 text = " cancel "
 
-[node name="picturechange" type="TextureButton" parent="."]
+[node name="picturechange" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = -1.0
 offset_top = 1.0
 offset_right = 442.0
 offset_bottom = 442.0
-ignore_texture_size = true
+expand_mode = 1
 stretch_mode = 5
 
 [node name="FileDialog" type="FileDialog" parent="."]

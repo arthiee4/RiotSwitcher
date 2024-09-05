@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://k5mao0fsud7k"]
+[gd_scene load_steps=52 format=3 uid="uid://k5mao0fsud7k"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_xubh8"]
 [ext_resource type="PackedScene" uid="uid://dtolwjg03hirt" path="res://scenes/func/account_prof.tscn" id="2_dhjuy"]
@@ -24,8 +24,33 @@
 [ext_resource type="Texture2D" uid="uid://c63c7gst17rl5" path="res://assets/githubwhite.png" id="20_wycfi"]
 [ext_resource type="Material" path="res://buttonshader.tres" id="22_aqlp1"]
 [ext_resource type="VideoStream" path="res://loadbararrumado.ogv" id="22_j3fyg"]
+[ext_resource type="Theme" uid="uid://do78puch88t86" path="res://scenes/buttoncolor2.tres" id="23_76hsk"]
+[ext_resource type="Theme" uid="uid://d1xp7rcy0syi5" path="res://scenes/buttoncolor.tres" id="23_bkgn7"]
+[ext_resource type="Texture2D" uid="uid://bllu6uhytgy3e" path="res://assets/settings.png" id="25_rafvo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_35r6b"]
+bg_color = Color(0.775063, 0.775063, 0.775063, 1)
+
+[sub_resource type="Theme" id="Theme_yqcxm"]
+Label/colors/font_color = Color(0, 0, 0, 1)
+Panel/styles/panel = SubResource("StyleBoxFlat_35r6b")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8xkgg"]
+bg_color = Color(0.381703, 0.381703, 0.381703, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="Theme" id="Theme_nro2c"]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_8xkgg")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7dyxq"]
+bg_color = Color(0.0430392, 0.0430392, 0.0430391, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_58khj"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_utbmv"]
 bg_color = Color(0, 0, 0, 0.654902)
@@ -35,6 +60,484 @@ corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xgcob"]
+bg_color = Color(0.446777, 0.446777, 0.446777, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0jiy4"]
+
+[sub_resource type="Theme" id="Theme_5crog"]
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/styles/focus = SubResource("StyleBoxFlat_xgcob")
+Button/styles/normal = SubResource("StyleBoxEmpty_0jiy4")
+
+[sub_resource type="Theme" id="Theme_o0d65"]
+CheckBox/colors/font_color = Color(0, 0, 0, 1)
+CheckButton/colors/font_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_wuf8a"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("settings_label:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("settings_label:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(597, -62)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("settings_label/Panel2:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0.979)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("settings_label/Panel2:theme")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("Theme_o0d65")]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("VideoStreamPlayer:self_modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.0768358, 0.0768358, 0.0768358, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("settings_button:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("gitbutton:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("CenterContainer/accounts_container/add_prof:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("settings_button:self_modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Panel/Panel:theme")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("Theme_yqcxm")]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Panel:theme")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+
+[sub_resource type="Theme" id="Theme_oejlp"]
+CheckButton/colors/font_color = Color(0, 0, 0, 1)
+CheckButton/colors/font_focus_color = Color(0, 0, 0, 1)
+CheckButton/colors/font_hover_color = Color(0, 0, 0, 1)
+CheckButton/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+CheckButton/colors/font_pressed_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_svwnp"]
+CheckButton/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+
+[sub_resource type="Animation" id="Animation_ugm88"]
+resource_name = "black_mode"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("settings_label/Panel2:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.979), Color(0, 0, 0, 0.979)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("settings_label/Panel2:theme")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [SubResource("Theme_oejlp"), SubResource("Theme_svwnp")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VideoStreamPlayer:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.568627, 0.458824, 0.839216, 1), Color(0.136619, 0.119818, 0.136618, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("settings_button:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("gitbutton:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Panel/Panel:theme")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [SubResource("Theme_yqcxm"), ExtResource("23_76hsk")]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Panel:theme")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.133333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("23_bkgn7"), ExtResource("23_76hsk")]
+}
+
+[sub_resource type="Animation" id="Animation_pw2oa"]
+resource_name = "create_panel_anim"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(2, 2),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_w43xg"]
+resource_name = "create_panel_anim_out"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_abaus"]
+resource_name = "settings_label_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("settings_label:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 0.5),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("settings_label:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.566667),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(597, -260.68), Vector2(597, -62)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("settings_button:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.310617, 0.310617, 0.310617, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_yhdjr"]
+resource_name = "settings_label_out"
+length = 0.3667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("settings_label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(2, 2),
+"update": 0,
+"values": [Vector2(597, -62), Vector2(597, -411.1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("settings_label:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("settings_button:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.310617, 0.310617, 0.310617, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Theme" id="Theme_hfev4"]
+
+[sub_resource type="Animation" id="Animation_iqhry"]
+resource_name = "white_mode"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("settings_label/Panel2:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0.979), Color(0.817521, 0.817521, 0.817521, 0.979)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("settings_label/Panel2:theme")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 0.965936),
+"update": 1,
+"values": [SubResource("Theme_o0d65"), SubResource("Theme_oejlp")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VideoStreamPlayer:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.0784314, 0.0784314, 0.0784314, 1), Color(0.567133, 0.457131, 0.839847, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("settings_button:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("gitbutton:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CenterContainer/accounts_container/add_prof:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Panel/Panel:theme")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.0666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [SubResource("Theme_hfev4"), SubResource("Theme_yqcxm")]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Panel:theme")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.0666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("23_76hsk"), ExtResource("23_bkgn7")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tb47t"]
+_data = {
+"RESET": SubResource("Animation_wuf8a"),
+"black_mode": SubResource("Animation_ugm88"),
+"create_panel_anim_in": SubResource("Animation_pw2oa"),
+"create_panel_anim_out": SubResource("Animation_w43xg"),
+"settings_label_in": SubResource("Animation_abaus"),
+"settings_label_out": SubResource("Animation_yhdjr"),
+"white_mode": SubResource("Animation_iqhry")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m6vtp"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
 
 [node name="main" type="Control"]
 layout_mode = 3
@@ -48,8 +551,7 @@ size_flags_horizontal = 4
 script = ExtResource("1_xubh8")
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
-modulate = Color(0.243137, 0.243137, 0.243137, 1)
-self_modulate = Color(1, 0.188235, 1, 1)
+self_modulate = Color(0.0768358, 0.0768358, 0.0768358, 1)
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
@@ -117,6 +619,14 @@ offset_right = 639.5
 offset_bottom = 386.88
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
+
+[node name="Panel" type="Panel" parent="createmenupanel"]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_right = 1316.0
+offset_bottom = 754.0
+mouse_filter = 1
 
 [node name="createmenu" parent="createmenupanel" instance=ExtResource("5_asp4q")]
 layout_mode = 1
@@ -131,6 +641,9 @@ offset_right = -157.022
 offset_bottom = -214.0
 scale = Vector2(0.62, 0.62)
 metadata/_edit_use_anchors_ = true
+
+[node name="picturechange" parent="createmenupanel/createmenu" index="1"]
+offset_top = -1.0
 
 [node name="browser_image" parent="createmenupanel/createmenu" index="3"]
 visible = false
@@ -188,6 +701,54 @@ texture_normal = ExtResource("16_26y0l")
 layout_mode = 2
 texture_normal = ExtResource("17_tu8xg")
 
+[node name="iconsgrid" type="GridContainer" parent="createmenupanel"]
+layout_mode = 0
+offset_left = 46.0
+offset_top = 39.0
+offset_right = 403.0
+offset_bottom = 701.0
+columns = 2
+
+[node name="0" type="TextureButton" parent="createmenupanel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("8_1rdj0")
+
+[node name="1" type="TextureButton" parent="createmenupanel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("9_5apnn")
+
+[node name="2" type="TextureButton" parent="createmenupanel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("10_ofhc2")
+
+[node name="3" type="TextureButton" parent="createmenupanel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("11_6nno1")
+
+[node name="4" type="TextureButton" parent="createmenupanel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("12_wpefk")
+
+[node name="5" type="TextureButton" parent="createmenupanel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("13_nnh04")
+
+[node name="6" type="TextureButton" parent="createmenupanel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("14_8jem0")
+
+[node name="7" type="TextureButton" parent="createmenupanel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("15_wavs1")
+
+[node name="8" type="TextureButton" parent="createmenupanel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("16_26y0l")
+
+[node name="9" type="TextureButton" parent="createmenupanel/iconsgrid"]
+layout_mode = 2
+texture_normal = ExtResource("17_tu8xg")
+
 [node name="debuglabel" type="Label" parent="."]
 layout_mode = 1
 offset_right = 90.0
@@ -195,21 +756,20 @@ offset_bottom = 23.0
 theme_override_font_sizes/font_size = 25
 
 [node name="Panel" type="Panel" parent="."]
+visible = false
 layout_mode = 0
 offset_top = 295.0
 offset_bottom = 728.0
 mouse_filter = 1
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Panel"]
-modulate = Color(0.092397, 0.0923971, 0.092397, 1)
+[node name="Panel4" type="Panel" parent="Panel"]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
 layout_mode = 0
-offset_top = -293.705
-offset_right = 1280.0
-offset_bottom = 426.295
-mouse_filter = 2
-stream = ExtResource("8_mrn6k")
-autoplay = true
-loop = true
+offset_top = -295.0
+offset_right = 1316.0
+offset_bottom = 459.0
+mouse_filter = 1
 
 [node name="newaddmenu" parent="Panel" instance=ExtResource("6_nitp4")]
 layout_mode = 1
@@ -298,6 +858,7 @@ offset_bottom = 28.0
 text = "browser"
 
 [node name="guidebutton" type="TextureButton" parent="Panel"]
+visible = false
 modulate = Color(100, 100, 100, 1)
 layout_mode = 0
 offset_left = 859.0
@@ -315,6 +876,7 @@ offset_top = -123.0
 offset_right = 1235.0
 offset_bottom = 240.0
 mouse_filter = 1
+theme = SubResource("Theme_yqcxm")
 
 [node name="Label" type="Label" parent="Panel/Panel"]
 layout_mode = 0
@@ -343,10 +905,10 @@ autowrap_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="Panel"]
 layout_mode = 0
-offset_left = 913.0
-offset_top = 67.0
-offset_right = 1170.0
-offset_bottom = 119.0
+offset_left = 916.0
+offset_top = 68.0
+offset_right = 1173.0
+offset_bottom = 120.0
 texture = ExtResource("18_86kyy")
 
 [node name="loadbar" type="ProgressBar" parent="."]
@@ -358,36 +920,19 @@ offset_left = 373.0
 offset_top = 311.0
 offset_right = 890.0
 offset_bottom = 338.0
-mouse_filter = 2
+mouse_filter = 1
+theme = SubResource("Theme_nro2c")
 
 [node name="Panel" type="Panel" parent="loadbar"]
-modulate = Color(0, 0, 0, 0.764706)
-top_level = true
+modulate = Color(0, 0, 0, 0.713726)
+z_index = -4
 layout_mode = 0
-offset_right = 1280.0
-offset_bottom = 720.0
-mouse_filter = 2
+offset_left = -407.0
+offset_top = -340.0
+offset_right = 938.0
+offset_bottom = 424.0
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_7dyxq")
-
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="loadbar"]
-modulate = Color(0.243137, 0.243137, 0.243137, 1)
-top_level = true
-layout_mode = 0
-offset_right = 1280.0
-offset_bottom = 720.0
-mouse_filter = 2
-stream = ExtResource("8_mrn6k")
-autoplay = true
-loop = true
-
-[node name="loadconfirm" type="Button" parent="loadbar"]
-z_index = 4
-layout_mode = 0
-offset_left = 182.0
-offset_top = 43.0
-offset_right = 328.0
-offset_bottom = 74.0
-text = "Already Logged In"
 
 [node name="Label" type="Label" parent="loadbar"]
 layout_mode = 0
@@ -398,34 +943,22 @@ offset_bottom = 109.0
 scale = Vector2(0.6, 0.6)
 text = "Press only if you've already logged in and checked 'Stay Signed In."
 
+[node name="loadconfirm" type="Button" parent="loadbar"]
+z_index = 4
+layout_mode = 0
+offset_left = 182.0
+offset_top = 43.0
+offset_right = 328.0
+offset_bottom = 74.0
+text = "Already Logged In"
+
 [node name="Panel2" type="Panel" parent="."]
 layout_mode = 0
 offset_left = 1208.0
 offset_right = 1281.0
 offset_bottom = 34.0
 mouse_filter = 2
-
-[node name="langchanger" parent="." instance=ExtResource("19_vwi38")]
-layout_mode = 1
-offset_left = 411.82
-offset_top = 593.0
-offset_right = -94.9399
-offset_bottom = 15.39
-mouse_filter = 1
-
-[node name="OptionButton" parent="langchanger" index="0"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 359.11
-offset_top = 32.805
-offset_right = 482.11
-offset_bottom = 52.805
-grow_horizontal = 2
-grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_58khj")
 
 [node name="Panel3" type="Panel" parent="."]
 visible = false
@@ -496,7 +1029,7 @@ offset_left = 1244.0
 offset_top = 3.0
 offset_right = 1278.0
 offset_bottom = 34.0
-theme = ExtResource("19_wpna0")
+theme = SubResource("Theme_5crog")
 text = "x"
 flat = true
 
@@ -511,25 +1044,102 @@ theme = ExtResource("19_wpna0")
 text = "-"
 flat = true
 
-[node name="gitbutton" type="TextureButton" parent="."]
+[node name="reloadbar" type="ProgressBar" parent="."]
 layout_mode = 0
-offset_left = 1157.0
+offset_left = 645.0
 offset_top = 1.0
-offset_right = 1669.0
-offset_bottom = 513.0
+offset_right = 1127.0
+offset_bottom = 28.0
+rounded = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_tb47t")
+}
+autoplay = "black_mode"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1218.0
+offset_top = 697.0
+offset_right = 1298.0
+offset_bottom = 720.0
+scale = Vector2(0.71, 0.71)
+text = "alpha 0.2"
+
+[node name="gitbutton" type="TextureButton" parent="."]
+top_level = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.901793
+anchor_top = 0.00138889
+anchor_right = 0.925737
+anchor_bottom = 0.0440556
+offset_left = -20.0
+offset_top = -2.0
+offset_right = 461.28
+offset_bottom = 479.28
 scale = Vector2(0.06, 0.06)
 texture_normal = ExtResource("20_wycfi")
 
-[node name="reloadbar" type="ProgressBar" parent="."]
+[node name="settings_button" type="TextureButton" parent="."]
+top_level = true
 layout_mode = 0
-offset_left = 655.0
-offset_top = 4.0
-offset_right = 1137.0
-offset_bottom = 31.0
-rounded = true
+offset_left = 1169.0
+offset_top = -2.0
+offset_right = 1681.0
+offset_bottom = 510.0
+scale = Vector2(0.065, 0.065)
+texture_normal = ExtResource("25_rafvo")
+stretch_mode = 3
+
+[node name="settings_label" type="Control" parent="."]
+self_modulate = Color(0.494511, 0.494511, 0.494511, 1)
+top_level = true
+anchors_preset = 0
+offset_left = 597.0
+offset_top = -62.0
+offset_right = 818.0
+offset_bottom = -22.0
+mouse_filter = 1
+
+[node name="Panel2" type="Panel" parent="settings_label"]
+self_modulate = Color(0, 0, 0, 0.979)
+layout_mode = 0
+offset_left = 363.0
+offset_top = 109.0
+offset_right = 663.0
+offset_bottom = 409.0
+mouse_filter = 1
+theme = SubResource("Theme_o0d65")
+theme_override_styles/panel = SubResource("StyleBoxFlat_m6vtp")
+
+[node name="GridContainer" type="GridContainer" parent="settings_label/Panel2"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 111.0
+offset_right = 340.0
+offset_bottom = 181.0
+
+[node name="CheckButton" type="CheckButton" parent="settings_label/Panel2/GridContainer"]
+layout_mode = 2
+text = "black/white mode"
+
+[node name="langchanger" parent="settings_label/Panel2/GridContainer" instance=ExtResource("19_vwi38")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 1
+
+[node name="OptionButton" parent="settings_label/Panel2/GridContainer/langchanger" index="0"]
+layout_mode = 1
+offset_left = -68.0
+offset_top = 8.0
+offset_right = 67.0
+offset_bottom = 28.0
 
 [editable path="CenterContainer/accounts_container/account_prof"]
 [editable path="CenterContainer/accounts_container/add_prof"]
 [editable path="createmenupanel/createmenu"]
 [editable path="Panel/newaddmenu"]
-[editable path="langchanger"]
+[editable path="settings_label/Panel2/GridContainer/langchanger"]

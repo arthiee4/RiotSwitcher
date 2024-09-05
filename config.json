@@ -1,0 +1,21 @@
+{
+	"launcher_boot": 1,
+	"launcher_settings": {
+		"launcher_lang": "--locale=pt_BR",
+		"riotlocation": "C:\\Riot Games\\Riot Client"
+	},
+	"profiles": [
+		{
+			"_imagem_path": "res://assets/icons/9.png",
+			"files_location": "res://profiles/FOLDER_testesexo2",
+			"icon_index": 9,
+			"name": "testesexo2"
+		},
+		{
+			"_imagem_path": "res://assets/icons/1.png",
+			"files_location": "res://profiles/FOLDER_ahri2",
+			"icon_index": 1,
+			"name": "ahri2"
+		}
+	]
+}
