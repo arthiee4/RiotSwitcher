@@ -33,9 +33,9 @@ ps: remember the most important step -> when logging in for the first time, ALWA
 
 After these steps and once your account is logged in, go back to the switcher and press the 'Already Logged in' button, and that's it! Your profile will be saved, and you should follow the same process for all the others profiles. So, you'll be able to log into any of them with just one click! <3
 
-![](git_images/button.png)
-
-
+<p align="center">
+  <img src="git_images/button.png" alt="Button Image">
+</p>
 
 **Please note:** LeagueSwitcher is currently in **alpha**. While we're excited to share it with you, it's still in the early stages of development. Expect regular updates and improvements as we work towards a stable release.
 
