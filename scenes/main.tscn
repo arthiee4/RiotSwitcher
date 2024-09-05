@@ -75,17 +75,17 @@ corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 1024
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_12hnp"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6vamq"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0jiy4"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_stdwp"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qum8c"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xlir2"]
 
 [sub_resource type="Theme" id="Theme_5crog"]
 Button/colors/font_color = Color(0, 0, 0, 1)
-Button/styles/focus = SubResource("StyleBoxEmpty_12hnp")
-Button/styles/normal = SubResource("StyleBoxEmpty_0jiy4")
-Button/styles/pressed = SubResource("StyleBoxEmpty_qum8c")
+Button/styles/focus = SubResource("StyleBoxEmpty_6vamq")
+Button/styles/normal = SubResource("StyleBoxEmpty_stdwp")
+Button/styles/pressed = SubResource("StyleBoxEmpty_xlir2")
 
 [sub_resource type="Theme" id="Theme_o0d65"]
 CheckBox/colors/font_color = Color(0, 0, 0, 1)

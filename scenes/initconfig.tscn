@@ -1,9 +1,30 @@
-[gd_scene load_steps=5 format=3 uid="uid://c74hmo3rlmec4"]
+[gd_scene load_steps=12 format=3 uid="uid://c74hmo3rlmec4"]
 
 [ext_resource type="Script" path="res://src/initconfig.gd" id="1_b8ybk"]
 [ext_resource type="Theme" uid="uid://dwe7rxqgkychl" path="res://scenes/initconfig.tres" id="1_t376f"]
 [ext_resource type="VideoStream" path="res://scenes/bg_loop.ogv" id="2_ghqql"]
+[ext_resource type="StyleBox" uid="uid://c7nl41ke575ai" path="res://scenes/panelborder.tres" id="3_irhcg"]
 [ext_resource type="VideoStream" path="res://Comp-sdfsdfsd1.ogv" id="5_47how"]
+[ext_resource type="Theme" uid="uid://6h6gev1ny2wl" path="res://scenes/BUTTONS.tres" id="5_ce3am"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xx2ki"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 165
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 1024
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_12hnp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0jiy4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qum8c"]
+
+[sub_resource type="Theme" id="Theme_iqnla"]
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/styles/focus = SubResource("StyleBoxEmpty_12hnp")
+Button/styles/normal = SubResource("StyleBoxEmpty_0jiy4")
+Button/styles/pressed = SubResource("StyleBoxEmpty_qum8c")
 
 [node name="initconfig" type="Control"]
 layout_mode = 3
@@ -15,13 +36,19 @@ grow_vertical = 2
 theme = ExtResource("1_t376f")
 script = ExtResource("1_b8ybk")
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
-modulate = Color(0.244776, 0.244776, 0.244776, 1)
+[node name="Panel4" type="Panel" parent="."]
+clip_children = 1
+offset_right = 1276.0
+offset_bottom = 720.0
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_irhcg")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Panel4"]
+self_modulate = Color(0.0784314, 0.0784314, 0.0784314, 1)
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 mouse_filter = 2
-mouse_force_pass_scroll_events = false
 stream = ExtResource("2_ghqql")
 autoplay = true
 loop = true
@@ -85,28 +112,45 @@ grow_vertical = 2
 scale = Vector2(1.5, 1.5)
 text = "browser"
 
-[node name="VideoStreamPlayer2" type="VideoStreamPlayer" parent="."]
+[node name="Panel2" type="Panel" parent="."]
+offset_left = 1202.74
+offset_top = 1.38
+offset_right = 1275.74
+offset_bottom = 35.38
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xx2ki")
+
+[node name="closebutton" type="Button" parent="."]
+z_index = 99
+offset_left = 1244.0
+offset_top = 3.0
+offset_right = 1278.0
+offset_bottom = 34.0
+theme = SubResource("Theme_iqnla")
+text = "x"
+flat = true
+
+[node name="minimizebutton" type="Button" parent="."]
+z_index = 99
+offset_left = 1208.0
+offset_top = 3.0
+offset_right = 1242.0
+offset_bottom = 34.0
+theme = ExtResource("5_ce3am")
+text = "-"
+flat = true
+
+[node name="Panel5" type="Panel" parent="."]
+clip_children = 1
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_irhcg")
+
+[node name="VideoStreamPlayer2" type="VideoStreamPlayer" parent="Panel5"]
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 mouse_filter = 2
 stream = ExtResource("5_47how")
 autoplay = true
-
-[node name="closebutton" type="Button" parent="."]
-z_index = 99
-layout_mode = 0
-offset_left = 1241.0
-offset_top = 4.0
-offset_right = 1275.0
-offset_bottom = 35.0
-text = "x"
-
-[node name="minimizebutton" type="Button" parent="."]
-z_index = 99
-layout_mode = 0
-offset_left = 1204.0
-offset_top = 4.0
-offset_right = 1238.0
-offset_bottom = 35.0
-text = "-"
