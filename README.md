@@ -4,7 +4,7 @@
 
 ---
 
-**LeagueSwitcher** new look!
+**A new look!**
 
 ![](git_images/newlook.png)
 ---
