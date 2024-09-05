@@ -1,4 +1,4 @@
-[Fast Guide](#a-fast-guide)
+- [Fast Guide](#a-fast-guide)
 
 # RiotSwitcher
 
