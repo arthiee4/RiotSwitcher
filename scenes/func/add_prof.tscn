@@ -13,6 +13,7 @@ corner_radius_bottom_left = 100
 [node name="TextureButton" type="TextureButton"]
 offset_right = 113.0
 offset_bottom = 113.0
+mouse_default_cursor_shape = 2
 
 [node name="Panel" type="Panel" parent="."]
 clip_children = 1
@@ -48,5 +49,6 @@ offset_right = 1242.25
 offset_bottom = 708.035
 scale = Vector2(0.09, 0.09)
 mouse_filter = 2
+mouse_default_cursor_shape = 2
 stream = ExtResource("2_646kl")
 autoplay = true

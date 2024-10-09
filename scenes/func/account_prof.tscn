@@ -37,6 +37,7 @@ anchors_preset = -1
 anchor_left = -0.0915
 anchor_right = 1.06562
 anchor_bottom = 1.0
+mouse_default_cursor_shape = 2
 texture = ExtResource("1_b2m0t")
 expand_mode = 3
 stretch_mode = 6
@@ -51,8 +52,10 @@ theme_override_constants/v_separation = 0
 
 [node name="editprofilebutton" type="Button" parent="mouse_menu"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "edit"
 
 [node name="deletebutton" type="Button" parent="mouse_menu"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "delete"

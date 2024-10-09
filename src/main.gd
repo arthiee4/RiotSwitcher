@@ -80,7 +80,8 @@ var selected_language: String = "--locale=en_US"
 
 func _ready():
 
-
+	_create_shortcut()
+	_theme_load_on_launch()
 	DisplayServer.window_set_title("Switcher")
 
 	_pause_after_delay()
@@ -138,20 +139,52 @@ func _ready():
 
 	_load_existing_profiles()
 	_move_add_prof_to_end()
-	_create_shortcut()
 	
 	settings_label.visible = false
 	
+
+func _theme_load_on_launch():
+	var config_data = _load_config_file()
 	
+	if "launcher_settings" in config_data:
+		if config_data["launcher_settings"]["launcher_theme"] == "black_mode":
+			anim_player.play("black_mode")
+			print("black")
+	if "launcher_settings" in config_data:
+		if config_data["launcher_settings"]["launcher_theme"] == "white_mode":
+			anim_player.play("white_mode")
+			print("white")
+			
 func _on_whitemode_toggled(button_pressed):
+	
+	var selected_theme = ""
+	
 	if button_pressed:
-		anim_player.play("white_mode")
-		print("ativado")
+		selected_theme = "white_mode"
+		if selected_theme == "white_mode":
+			anim_player.play("white_mode")
+			print("ativado")
 	else:
-		anim_player.play("black_mode")
-		print("desligado")
+		selected_theme = "black_mode"
+		if selected_theme == "black_mode":
+			anim_player.play("black_mode")
+			print("desligado")
 
 
+	var config_data = _load_config_file()
+	if config_data == {}:
+		print("Erro ao carregar config.json")
+		return
+
+	if "launcher_settings" in config_data:
+		config_data["launcher_settings"]["launcher_theme"] = selected_theme
+	else:
+		print("Erro: launcher_settings não encontrado no config.json")
+		return
+		
+	
+	_save_config_file(config_data)
+	
 var is_settings_open = true
 func on_settings_button_pressed():
 	
@@ -273,7 +306,7 @@ func _on_language_selected(index):
 	_save_config_file(config_data)
 	await get_tree().create_timer(0.5).timeout
 	reload_bar.value = 75
-	_create_shortcut()
+
 	# Etapa 4: Finalização
 	await get_tree().create_timer(0.5).timeout
 	reload_bar.value = 100 
@@ -507,6 +540,7 @@ func _on_newaddmenu_create_button_pressed():
 	if loadbar.visible:
 
 		loadbar.value = 0
+		_create_shortcut()
 		await get_tree().create_timer(0.5).timeout
 		loadbar.value = 10
 		_open_riot_shortcut()
@@ -569,6 +603,7 @@ func _create_shortcut():
 	commands += '$Shortcut.Save()"'
 	
 	var _result = OS.execute("cmd.exe", ["/c", commands], [], false)
+	
 	if _result != 0:
 		print("Erro ao criar o atalho:", shortcut_path)
 	else:

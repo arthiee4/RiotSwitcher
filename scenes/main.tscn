@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://k5mao0fsud7k"]
+[gd_scene load_steps=50 format=3 uid="uid://k5mao0fsud7k"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_xubh8"]
 [ext_resource type="StyleBox" uid="uid://c7nl41ke575ai" path="res://scenes/panelborder.tres" id="2_4mrum"]
@@ -26,7 +26,6 @@
 [ext_resource type="Material" path="res://buttonshader.tres" id="22_aqlp1"]
 [ext_resource type="VideoStream" path="res://loadbararrumado.ogv" id="22_j3fyg"]
 [ext_resource type="Theme" uid="uid://do78puch88t86" path="res://scenes/buttoncolor2.tres" id="23_76hsk"]
-[ext_resource type="Theme" uid="uid://d1xp7rcy0syi5" path="res://scenes/buttoncolor.tres" id="23_bkgn7"]
 [ext_resource type="Texture2D" uid="uid://bllu6uhytgy3e" path="res://assets/settings.png" id="25_rafvo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jbl16"]
@@ -36,13 +35,6 @@ corner_radius_top_left = 100
 corner_radius_top_right = 20
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_35r6b"]
-bg_color = Color(0.775063, 0.775063, 0.775063, 1)
-
-[sub_resource type="Theme" id="Theme_yqcxm"]
-Label/colors/font_color = Color(0, 0, 0, 1)
-Panel/styles/panel = SubResource("StyleBoxFlat_35r6b")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8xkgg"]
 bg_color = Color(0.381703, 0.381703, 0.381703, 1)
@@ -201,30 +193,6 @@ tracks/8/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("Panel/Panel:theme")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [SubResource("Theme_yqcxm")]
-}
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("Panel:theme")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [null]
-}
 
 [sub_resource type="Theme" id="Theme_oejlp"]
 CheckButton/colors/font_color = Color(0, 0, 0, 1)
@@ -298,30 +266,6 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Panel/Panel:theme")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [SubResource("Theme_yqcxm"), ExtResource("23_76hsk")]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("Panel:theme")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0, 0.133333),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [ExtResource("23_bkgn7"), ExtResource("23_76hsk")]
 }
 
 [sub_resource type="Animation" id="Animation_pw2oa"]
@@ -435,8 +379,6 @@ tracks/2/keys = {
 "values": [Color(0.310617, 0.310617, 0.310617, 1), Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Theme" id="Theme_hfev4"]
-
 [sub_resource type="Animation" id="Animation_iqhry"]
 resource_name = "white_mode"
 length = 0.3
@@ -512,30 +454,6 @@ tracks/5/keys = {
 "update": 0,
 "values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
 }
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("Panel/Panel:theme")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0, 0.0666667),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [SubResource("Theme_hfev4"), SubResource("Theme_yqcxm")]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("Panel:theme")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0, 0.0666667),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [ExtResource("23_76hsk"), ExtResource("23_bkgn7")]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tb47t"]
 _data = {
@@ -597,37 +515,41 @@ vertical_alignment = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.445004
-anchor_top = 0.391852
-anchor_right = 0.445004
-anchor_bottom = 0.391852
-offset_left = 0.00500488
-offset_right = 0.00500488
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 130.0
+offset_top = 171.0
+offset_right = -155.0
+offset_bottom = -240.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
 
 [node name="accounts_container" type="GridContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(0, 133.61)
 layout_mode = 2
-mouse_filter = 0
 theme_override_constants/h_separation = 160
 theme_override_constants/v_separation = 160
 columns = 7
 
 [node name="account_prof" parent="CenterContainer/accounts_container" instance=ExtResource("2_dhjuy")]
 visible = false
+custom_minimum_size = Vector2(128.37, 0)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 
 [node name="add_prof" parent="CenterContainer/accounts_container" instance=ExtResource("3_aqrub")]
+custom_minimum_size = Vector2(123.69, 0)
 layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 6
+size_flags_vertical = 3
 mouse_force_pass_scroll_events = false
 
 [node name="mouse_menu" parent="." instance=ExtResource("4_g58s2")]
 visible = false
 layout_mode = 1
+offset_right = -1222.0
+offset_bottom = -654.0
 
 [node name="createmenupanel" type="Panel" parent="."]
 visible = false
@@ -659,6 +581,12 @@ offset_right = -157.022
 offset_bottom = -214.0
 scale = Vector2(0.62, 0.62)
 metadata/_edit_use_anchors_ = true
+
+[node name="create_button" parent="createmenupanel/createmenu/GridContainer/GridContainer" index="0"]
+mouse_default_cursor_shape = 2
+
+[node name="cancel_button" parent="createmenupanel/createmenu/GridContainer/GridContainer" index="1"]
+mouse_default_cursor_shape = 2
 
 [node name="picturechange" parent="createmenupanel/createmenu" index="1"]
 offset_top = -1.0
@@ -780,6 +708,7 @@ layout_mode = 0
 offset_top = 295.0
 offset_bottom = 728.0
 mouse_filter = 1
+theme = ExtResource("23_76hsk")
 
 [node name="Panel4" type="Panel" parent="Panel"]
 modulate = Color(0, 0, 0, 0.654902)
@@ -793,22 +722,12 @@ theme_override_styles/panel = ExtResource("2_4mrum")
 
 [node name="newaddmenu" parent="Panel" instance=ExtResource("6_nitp4")]
 layout_mode = 1
-offset_left = 70.0
-offset_top = 139.0
-offset_right = -596.0
-offset_bottom = 131.0
+offset_left = 404.0
+offset_top = -136.0
+offset_right = 404.0
+offset_bottom = -144.0
 scale = Vector2(0.64, 0.64)
 mouse_filter = 1
-
-[node name="GridContainer" parent="Panel/newaddmenu" index="0"]
-offset_left = 1057.81
-offset_top = -464.063
-offset_right = 1676.82
-offset_bottom = 189.938
-
-[node name="LineEdit" parent="Panel/newaddmenu/GridContainer" index="1"]
-placeholder_text = "Profile name"
-max_length = 18
 
 [node name="iconsgrid" type="GridContainer" parent="Panel"]
 layout_mode = 0
@@ -896,7 +815,7 @@ offset_top = -123.0
 offset_right = 1235.0
 offset_bottom = 240.0
 mouse_filter = 1
-theme = SubResource("Theme_yqcxm")
+theme = ExtResource("23_76hsk")
 
 [node name="Label" type="Label" parent="Panel/Panel"]
 layout_mode = 0
@@ -1018,6 +937,7 @@ offset_left = 605.395
 offset_top = 478.825
 offset_right = 723.395
 offset_bottom = 516.825
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 21
 text = "exit"
 
@@ -1050,6 +970,7 @@ offset_left = 1244.0
 offset_top = 3.0
 offset_right = 1278.0
 offset_bottom = 34.0
+mouse_default_cursor_shape = 2
 theme = SubResource("Theme_5crog")
 text = "x"
 flat = true
@@ -1061,6 +982,7 @@ offset_left = 1208.0
 offset_top = 3.0
 offset_right = 1242.0
 offset_bottom = 34.0
+mouse_default_cursor_shape = 2
 theme = ExtResource("19_wpna0")
 text = "-"
 flat = true
@@ -1081,12 +1003,12 @@ autoplay = "black_mode"
 
 [node name="Label2" type="Label" parent="."]
 layout_mode = 0
-offset_left = 629.0
-offset_top = 6.0
-offset_right = 709.0
-offset_bottom = 29.0
+offset_left = 584.0
+offset_top = 8.0
+offset_right = 668.0
+offset_bottom = 31.0
 scale = Vector2(0.71, 0.71)
-text = "alpha 0.2"
+text = "alpha 0.3.2"
 
 [node name="gitbutton" type="TextureButton" parent="."]
 top_level = true
@@ -1100,6 +1022,7 @@ offset_left = -29.295
 offset_right = 452.057
 offset_bottom = 481.28
 scale = Vector2(0.06, 0.06)
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("20_wycfi")
 
 [node name="settings_button" type="TextureButton" parent="."]
@@ -1109,10 +1032,12 @@ offset_left = 1159.7
 offset_right = 1671.7
 offset_bottom = 512.0
 scale = Vector2(0.065, 0.065)
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("25_rafvo")
 stretch_mode = 3
 
 [node name="settings_label" type="Control" parent="."]
+visible = false
 self_modulate = Color(0.494511, 0.494511, 0.494511, 1)
 top_level = true
 anchors_preset = 0
@@ -1160,5 +1085,4 @@ offset_bottom = 28.0
 [editable path="CenterContainer/accounts_container/account_prof"]
 [editable path="CenterContainer/accounts_container/add_prof"]
 [editable path="createmenupanel/createmenu"]
-[editable path="Panel/newaddmenu"]
 [editable path="settings_label/Panel2/GridContainer/langchanger"]

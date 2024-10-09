@@ -36,10 +36,12 @@ columns = 2
 
 [node name="create_button" type="Button" parent="GridContainer/GridContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 65
 text = " create "
 
 [node name="cancel_button" type="Button" parent="GridContainer/GridContainer"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 65
 text = " cancel "

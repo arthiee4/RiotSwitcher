@@ -15,6 +15,7 @@ var config = {
 	"launcher_settings": {
 		"launcher_lang": "",
 		"riotlocation": "",
+		"launcher_theme": "",
 	},
 	"launcher_boot": 0
 }

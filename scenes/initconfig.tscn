@@ -38,6 +38,7 @@ script = ExtResource("1_b8ybk")
 
 [node name="Panel4" type="Panel" parent="."]
 clip_children = 1
+layout_mode = 0
 offset_right = 1276.0
 offset_bottom = 720.0
 mouse_filter = 2
@@ -113,6 +114,7 @@ scale = Vector2(1.5, 1.5)
 text = "browser"
 
 [node name="Panel2" type="Panel" parent="."]
+layout_mode = 0
 offset_left = 1202.74
 offset_top = 1.38
 offset_right = 1275.74
@@ -122,6 +124,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_xx2ki")
 
 [node name="closebutton" type="Button" parent="."]
 z_index = 99
+layout_mode = 0
 offset_left = 1244.0
 offset_top = 3.0
 offset_right = 1278.0
@@ -132,6 +135,7 @@ flat = true
 
 [node name="minimizebutton" type="Button" parent="."]
 z_index = 99
+layout_mode = 0
 offset_left = 1208.0
 offset_top = 3.0
 offset_right = 1242.0
@@ -142,6 +146,7 @@ flat = true
 
 [node name="Panel5" type="Panel" parent="."]
 clip_children = 1
+layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 mouse_filter = 2
