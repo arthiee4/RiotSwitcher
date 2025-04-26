@@ -1252,7 +1252,6 @@ corner_radius_top_right = 9
 corner_radius_bottom_right = 9
 
 [node name="add_menu" type="Control"]
-visible = false
 z_index = 99
 layout_mode = 3
 anchors_preset = 0
@@ -1268,6 +1267,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_xlxo8")
 
 [node name="tittle" type="Label" parent="."]
@@ -1641,6 +1641,7 @@ offset_left = -38.0
 offset_top = -58.0
 offset_right = 334.0
 offset_bottom = 113.0
+mouse_filter = 2
 
 [node name="LineEdit" type="LineEdit" parent="profile_name"]
 layout_mode = 0
@@ -1689,6 +1690,7 @@ text = "browser"
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 1
 
 [node name="create_button" type="Button" parent="creation"]
 layout_mode = 0
@@ -1852,5 +1854,29 @@ offset_bottom = -41.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Preview"
+
+[node name="error" type="Control" parent="."]
+modulate = Color(1, 0, 0, 1)
+anchors_preset = 0
+offset_left = 304.0
+offset_top = 146.0
+offset_right = 494.0
+offset_bottom = 189.0
+pivot_offset = Vector2(103, 44)
+
+[node name="Label" type="Label" parent="error"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -27.0
+offset_top = -11.5
+offset_right = 27.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "error 1"
 
 [connection signal="pressed" from="creation/create_button" to="creation/create_button" method="_on_pressed"]

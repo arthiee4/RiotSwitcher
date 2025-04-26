@@ -1,25 +1,4 @@
 {
 	"accounts": [],
-	"profiles": [
-		{
-			"custom_background_image": "res://Data/UserBackground/Gik-mIBXQAAKMVw.jpg",
-			"profile_name": "catu"
-		},
-		{
-			"custom_background_image": "res://assets/backgrounds/profiles_bg/12.png",
-			"profile_name": "irelia1234"
-		},
-		{
-			"custom_background_image": "res://assets/backgrounds/profiles_bg/6.png",
-			"profile_name": "yeep"
-		},
-		{
-			"custom_background_image": "res://assets/backgrounds/profiles_bg/3.png",
-			"profile_name": "rs"
-		},
-		{
-			"custom_background_image": "res://assets/backgrounds/profiles_bg/1.png",
-			"profile_name": "teste1234"
-		}
-	]
+	"profiles": []
 }
