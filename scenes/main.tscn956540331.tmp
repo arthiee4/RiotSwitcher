@@ -1285,9 +1285,6 @@ corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_orfc4"]
-bg_color = Color(0, 0, 0, 1)
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rcfex"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0fhtu"]
@@ -2667,6 +2664,9 @@ Button/styles/hover = SubResource("StyleBoxFlat_r0wm5")
 Button/styles/normal = SubResource("StyleBoxFlat_2vri3")
 Button/styles/pressed = SubResource("StyleBoxFlat_romkt")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_orfc4"]
+bg_color = Color(0, 0, 0, 1)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dyql3"]
 shader = ExtResource("7_myoxr")
 shader_parameter/rect_size = Vector2(0.1, 0.1)
@@ -3000,7 +3000,6 @@ texture = ExtResource("7_6rq5x")
 expand_mode = 1
 
 [node name="infomenu_side" type="Control" parent="."]
-visible = false
 anchors_preset = 0
 offset_left = 265.86
 offset_right = 305.86
@@ -3061,77 +3060,6 @@ offset_bottom = 703.0
 mouse_default_cursor_shape = 2
 text = "delete"
 
-[node name="settings_menu" type="Control" parent="."]
-visible = false
-z_index = 99
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="Panel" type="Panel" parent="settings_menu"]
-layout_mode = 1
-offset_left = 80.0
-offset_top = 39.0
-offset_right = 1282.0
-offset_bottom = 720.0
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_orfc4")
-
-[node name="Label" type="Label" parent="settings_menu"]
-layout_mode = 0
-offset_left = 133.0
-offset_top = 45.0
-offset_right = 335.0
-offset_bottom = 105.0
-theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 51
-text = "Settings"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="settings_menu"]
-layout_mode = 0
-offset_left = 124.0
-offset_top = 109.0
-offset_right = 458.0
-offset_bottom = 700.0
-
-[node name="add_menu" parent="." instance=ExtResource("12_7avnf")]
-visible = false
-mouse_filter = 1
-
-[node name="Panel" parent="add_menu" index="0"]
-offset_left = -8.0
-offset_top = 22.0
-offset_right = 97.0
-offset_bottom = 16.0
-
-[node name="creation" parent="add_menu" index="5"]
-offset_left = 24.0
-offset_top = 504.0
-offset_right = 568.0
-offset_bottom = 690.0
-
-[node name="create_button" parent="add_menu/creation" index="0"]
-offset_left = 34.0
-offset_top = 54.0
-offset_right = 91.0
-offset_bottom = 85.0
-
-[node name="Label" parent="add_menu/creation" index="1"]
-offset_left = 33.0
-offset_top = 24.0
-offset_right = 170.0
-offset_bottom = 47.0
-
-[node name="Label2" parent="add_menu/creation" index="2"]
-offset_left = 34.0
-offset_top = 92.0
-offset_right = 185.0
-offset_bottom = 125.0
-
 [node name="upper_side" type="Control" parent="."]
 anchors_preset = 0
 offset_left = 80.0
@@ -3176,22 +3104,6 @@ theme_override_font_sizes/font_size = 28
 text = "Switcher"
 metadata/_edit_use_anchors_ = true
 
-[node name="title_label3" type="Label" parent="upper_side"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.219965
-anchor_top = 0.673913
-anchor_right = 0.257067
-anchor_bottom = 0.836957
-offset_right = -3.05176e-05
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 12
-text = "beta"
-metadata/_edit_use_anchors_ = true
-
 [node name="version_label" type="Label" parent="upper_side"]
 layout_mode = 1
 anchors_preset = -1
@@ -3206,7 +3118,7 @@ offset_bottom = 76.2889
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("1_e2qsc")
-text = "version 0.2"
+text = "version 1.0"
 metadata/_edit_use_anchors_ = true
 
 [node name="window_buttons" type="Control" parent="upper_side"]
@@ -3268,7 +3180,49 @@ mouse_default_cursor_shape = 2
 theme = SubResource("Theme_vkaqj")
 flat = true
 
+[node name="settings_menu" type="Control" parent="."]
+visible = false
+z_index = 99
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Panel" type="Panel" parent="settings_menu"]
+layout_mode = 1
+offset_left = 80.0
+offset_top = 39.0
+offset_right = 1282.0
+offset_bottom = 720.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_orfc4")
+
+[node name="Label" type="Label" parent="settings_menu"]
+layout_mode = 0
+offset_left = 133.0
+offset_top = 45.0
+offset_right = 335.0
+offset_bottom = 105.0
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 51
+text = "Settings"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="settings_menu"]
+layout_mode = 0
+offset_left = 124.0
+offset_top = 109.0
+offset_right = 458.0
+offset_bottom = 700.0
+
+[node name="add_menu" parent="." instance=ExtResource("12_7avnf")]
+visible = true
+
+[node name="Panel" parent="add_menu" index="0"]
+offset_left = -8.0
+offset_top = 22.0
+offset_right = 97.0
+offset_bottom = 16.0
+
 [node name="glow" type="ColorRect" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_dyql3")
 layout_mode = 1
 anchors_preset = 15
@@ -3284,6 +3238,7 @@ mouse_filter = 2
 color = Color(0.201527, 0.201527, 0.201527, 1)
 
 [node name="glow2" type="ColorRect" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_dyql3")
 layout_mode = 1
 anchors_preset = 15
