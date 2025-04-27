@@ -1,4 +1,15 @@
 {
 	"accounts": [],
-	"profiles": []
+	"profiles": [
+		{
+			"custom_background_image": "res://assets/backgrounds/profiles_bg/1.png",
+			"first_time_opened": false,
+			"profile_name": "testevg"
+		},
+		{
+			"custom_background_image": "res://assets/backgrounds/profiles_bg/2.png",
+			"first_time_opened": false,
+			"profile_name": "testeasdas"
+		}
+	]
 }
