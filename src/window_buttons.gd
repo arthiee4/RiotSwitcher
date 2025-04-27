@@ -4,14 +4,14 @@ extends Control
 @onready var minimize_button = $"-"
 
 func _ready() -> void:
-	# Conectar os botões aos métodos de ação
+	# Connect the buttons to the action methods
 	close_button.pressed.connect(_on_close_button_pressed)
 	minimize_button.pressed.connect(_on_minimize_button_pressed)
 
-# Função para fechar a janela
+# Function to close the window
 func _on_close_button_pressed() -> void:
-	get_tree().quit()  # Fecha o jogo
+	get_tree().quit()  # Closes the game
 
-# Função para minimizar a janela
+# Function to minimize the window
 func _on_minimize_button_pressed() -> void:
 	get_tree().root.mode = Window.MODE_MINIMIZED

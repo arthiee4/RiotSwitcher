@@ -3,14 +3,14 @@ extends Node
 func _ready() -> void:
 	var si: StatusIndicator = StatusIndicator.new()
 	si.icon = load("res://apple-touch-icon.png")
-	si.tooltip = "RiotSwitcher"
+	si.tooltip = tr("RiotSwitcher")
 	si.pressed.connect(_on_menu_id_pressed)
 	add_child(si)
 
 	var menu: PopupMenu = PopupMenu.new()
 	add_child(menu)
 
-	menu.add_item("Exit", 0)
+	menu.add_item(tr("Exit"), 0)
 	si.menu = menu.get_path()
 	menu.id_pressed.connect(_on_menu_id_selected)
 
