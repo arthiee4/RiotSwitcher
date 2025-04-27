@@ -155,7 +155,7 @@ func _load_json_data(path: String) -> Variant:
 
 
 # Utility to save data to a JSON file.
-# Returns true on success, false on failure.
+# Returns true on success, false on failure
 func _save_json_data(path: String, data: Variant) -> bool:
 	var json_string = JSON.stringify(data, "\t") # Use tab for indentation
 	# Ensure directory exists (though "res://" usually does)
