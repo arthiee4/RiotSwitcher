@@ -26,6 +26,6 @@ func _on_menu_id_pressed(button, _position):
 ## FPS limiter
 func _notification(what):
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
-		Engine.max_fps = 5  # Reduz para 10 FPS quando perde o foco
+		Engine.max_fps = 5
 	elif what == NOTIFICATION_APPLICATION_FOCUS_IN:
-		Engine.max_fps = 60  # Volta para 60 FPS quando volta o foco
+		Engine.max_fps = 60
