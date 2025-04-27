@@ -42,7 +42,7 @@ Downloading from untrusted sources may compromise your computer's security.
 ## How It Works
 
 1. **Save Current Account:** Captures local credentials from the Riot Client.
-2. **Switch Account:** Copies the selected profile to the client’s folder.
+2. **Switch Account:** Copies the selected profile to the client's folder.
 3. **Automatic Login:** Riot Client opens directly in the chosen account.
 4. **Updates:** Future support for profile updates, per-account language settings, and additional integrations.
 
@@ -60,10 +60,10 @@ If you don't check "Stay signed in," Riot Switcher won't be able to handle autom
 1. Create your account profile.
 
 <p align="center">
-  <img src="assets/example2-vANA.webp" alt="Stay Signed In Guide">
+  <img src="assets/example2-vANA.webp" alt="Create Profile Example">
 </p>
 
-2. Click **Play**.
+2. Go to Home, and press play button on the account.
 3. On the Riot login screen, **check "Stay signed in"** and log in.
 
 ![Stay Signed In Guide](assets/stay_signed_in.gif)
@@ -154,7 +154,12 @@ Se você não marcar "Manter conexão", o Riot Switcher não conseguirá lidar c
 
 ### Passos Rápidos:
 1. Crie seu perfil de conta.
-2. Clique em **Play**.
+
+<p align="center">
+  <img src="assets/example2-vANA.webp" alt="Exemplo Criar Perfil">
+</p>
+
+2. Vá para a tela inicial e pressione o botão play na conta.
 3. Na tela de login da Riot, **marque "Manter conexão"** e faça login.
 
 ![Guia Manter Conexão](assets/stay_signed_in.gif)
@@ -191,7 +196,7 @@ Para compilar o Riot Switcher:
 - **Não requer sistemas de build externos** - tudo é gerenciado dentro do editor.
 - **Multiplataforma** - fácil deploy para Windows, Linux, Mac, Web e mais.
 - **Builds leves** - executáveis pequenos e eficientes.
-- **Comunidade ativa** - melhorias contínuas e novos recursos.
+- **Comunidade ativa** — melhorias contínuas e novos recursos.
 
 ## Licença e Aviso Legal
 
@@ -241,7 +246,12 @@ Si no marcas "Mantener sesión iniciada", Riot Switcher no podrá manejar el ini
 
 ### Pasos Rápidos:
 1. Crea tu perfil de cuenta.
-2. Haz clic en **Play**.
+
+<p align="center">
+  <img src="assets/example2-vANA.webp" alt="Ejemplo Crear Perfil">
+</p>
+
+2. Ve a Inicio y presiona el botón play en la cuenta.
 3. En la pantalla de inicio de sesión de Riot, **marca "Mantener sesión iniciada"** e inicia sesión.
 
 ![Guía Mantener Sesión](assets/stay_signed_in.gif)
@@ -276,9 +286,9 @@ Para compilar Riot Switcher:
 ## Acerca de Godot Engine
 
 - **No requiere sistemas de compilación externos** - todo se gestiona dentro del editor.
-- **Multiplataforma** - fácil despliegue en Windows, Linux, Mac, Web y más.
-- **Builds ligeros** - ejecutables pequeños y eficientes.
-- **Comunidad activa** - mejoras continuas y nuevas funciones.
+- **Multiplataforma** — fácil despliegue en Windows, Linux, Mac, Web y más.
+- **Builds ligeros** — ejecutables pequeños y eficientes.
+- **Comunidad activa** — mejoras continuas y nuevas funciones.
 
 ## Licencia y Aviso Legal
 
@@ -328,7 +338,12 @@ Hecho con ❤️ usando Godot Engine.
 
 ### Быстрые шаги:
 1. Создайте профиль аккаунта.
-2. Нажмите **Play**.
+
+<p align="center">
+  <img src="assets/example2-vANA.webp" alt="Пример Создания Профиля">
+</p>
+
+2. Перейдите на главную страницу и нажмите кнопку play на аккаунте.
 3. На экране входа Riot **отметьте "Оставаться в системе"** и войдите.
 
 ![Инструкция](assets/stay_signed_in.gif)
@@ -415,7 +430,12 @@ Hecho con ❤️ usando Godot Engine.
 
 ### 快速步骤：
 1. 创建账号配置文件。
-2. 点击 **Play**。
+
+<p align="center">
+  <img src="assets/example2-vANA.webp" alt="创建个人资料示例">
+</p>
+
+2. 转到主页，然后按帐户上的播放按钮。
 3. 在 Riot 登录界面，**勾选"保持登录状态"** 并登录。
 
 ![保持登录指南](assets/stay_signed_in.gif)
@@ -502,7 +522,12 @@ Riot 클라이언트가 열리면:
 
 ### 빠른 단계:
 1. 계정 프로필을 생성하세요.
-2. **Play**를 클릭하세요.
+
+<p align="center">
+  <img src="assets/example2-vANA.webp" alt="프로필 생성 예시">
+</p>
+
+2. 홈으로 이동하여 계정의 플레이 버튼을 누릅니다.
 3. Riot 로그인 화면에서 **"로그인 상태 유지"를 선택**하고 로그인하세요.
 
 ![로그인 상태 유지 가이드](assets/stay_signed_in.gif)
