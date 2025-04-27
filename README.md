@@ -10,6 +10,10 @@ Downloading from untrusted sources may compromise your computer's security.
 
 ---
 
+![Stay Signed In Guide](assets/example-vANA.webp)
+![Stay Signed In Guide](assets/example2-vANA.webp)
+
+
 ## README Languages
 - [English](#english)
 - [Português](#português)
