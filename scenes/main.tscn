@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=4 uid="uid://cidlt5wikssn7"]
+[gd_scene load_steps=60 format=4 uid="uid://cidlt5wikssn7"]
 
 [ext_resource type="Script" uid="uid://fq3op1fimbus" path="res://src/main.gd" id="1_0qlmk"]
 [ext_resource type="FontFile" uid="uid://10wh284qofrr" path="res://assets/fonts/Raleway-Light.ttf" id="1_e2qsc"]
@@ -7,10 +7,11 @@
 [ext_resource type="Script" uid="uid://bmhqxoxdti76p" path="res://src/window_buttons.gd" id="4_sm8vm"]
 [ext_resource type="Texture2D" uid="uid://dv4na5pf6gbe4" path="res://assets/user_icons/add.png" id="6_36k36"]
 [ext_resource type="Texture2D" uid="uid://dl3wabj47o3ry" path="res://assets/user_icons/settings.png" id="6_vqjbp"]
-[ext_resource type="Texture2D" uid="uid://b83uu3vrrprtj" path="res://assets/icon_nobg.png" id="7_6rq5x"]
+[ext_resource type="Texture2D" uid="uid://db4fxy30iwv5h" path="res://no_bg.png" id="7_a8y0u"]
 [ext_resource type="Texture2D" uid="uid://bt7kgp26yrpyl" path="res://assets/user_icons/home.png" id="7_jmtl2"]
 [ext_resource type="Shader" uid="uid://cswe7248fk0td" path="res://shaders/glow.gdshader" id="7_myoxr"]
 [ext_resource type="Script" uid="uid://dxcm2e2j4ubiw" path="res://src/upper_side.gd" id="8_njgeq"]
+[ext_resource type="Script" uid="uid://blac5x4qv3t14" path="res://src/vanguard.gd" id="10_jkv2x"]
 [ext_resource type="Texture2D" uid="uid://krjk2xjl64om" path="res://assets/user_icons/github.png" id="11_qja53"]
 [ext_resource type="PackedScene" uid="uid://w3jljyf63rcp" path="res://scenes/add_menu.tscn" id="12_7avnf"]
 [ext_resource type="Script" uid="uid://b7k3ohhrolpu8" path="res://src/systemtray.gd" id="14_a8y0u"]
@@ -1287,6 +1288,16 @@ corner_radius_bottom_left = 30
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_orfc4"]
 bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a8y0u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a8y0u"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.337255)
+border_blend = true
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rcfex"]
 
@@ -2991,13 +3002,14 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -33.0
-offset_top = 12.0
-offset_right = 26.0
-offset_bottom = 71.0
+offset_left = -28.0
+offset_top = 17.0
+offset_right = 21.0
+offset_bottom = 66.0
 grow_horizontal = 2
-texture = ExtResource("7_6rq5x")
+texture = ExtResource("7_a8y0u")
 expand_mode = 1
+stretch_mode = 6
 
 [node name="infomenu_side" type="Control" parent="."]
 visible = false
@@ -3062,7 +3074,6 @@ mouse_default_cursor_shape = 2
 text = "delete"
 
 [node name="settings_menu" type="Control" parent="."]
-visible = false
 z_index = 99
 layout_mode = 1
 anchors_preset = 15
@@ -3075,10 +3086,10 @@ mouse_filter = 2
 [node name="Panel" type="Panel" parent="settings_menu"]
 layout_mode = 1
 offset_left = 80.0
-offset_top = 39.0
+offset_top = 32.0
 offset_right = 1282.0
 offset_bottom = 720.0
-mouse_filter = 1
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_orfc4")
 
 [node name="Label" type="Label" parent="settings_menu"]
@@ -3094,9 +3105,129 @@ text = "Settings"
 [node name="VBoxContainer" type="VBoxContainer" parent="settings_menu"]
 layout_mode = 0
 offset_left = 124.0
-offset_top = 109.0
+offset_top = 144.0
 offset_right = 458.0
 offset_bottom = 700.0
+theme_override_constants/separation = 100
+
+[node name="r3nzi" type="Control" parent="settings_menu/VBoxContainer"]
+visible = false
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Panel" type="Panel" parent="settings_menu/VBoxContainer/r3nzi"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 67.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_a8y0u")
+
+[node name="Label" type="Label" parent="settings_menu/VBoxContainer/r3nzi/Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 24
+text = "R3NZSKIN"
+
+[node name="CheckButton" type="CheckButton" parent="settings_menu/VBoxContainer/r3nzi/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 51.0
+offset_right = 46.0
+offset_bottom = 75.0
+
+[node name="Label2" type="Label" parent="settings_menu/VBoxContainer/r3nzi/Panel"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 27.0
+offset_right = 392.0
+offset_bottom = 50.0
+theme_override_fonts/font = ExtResource("1_e2qsc")
+theme_override_font_sizes/font_size = 14
+text = "take care bro, dont use this option may cause ban]"
+
+[node name="vanguard" type="Control" parent="settings_menu/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+script = ExtResource("10_jkv2x")
+
+[node name="Panel" type="Panel" parent="settings_menu/VBoxContainer/vanguard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+offset_right = 43.0
+offset_bottom = 88.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
+
+[node name="Label" type="Label" parent="settings_menu/VBoxContainer/vanguard/Panel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 124.0
+offset_bottom = 41.0
+theme_override_colors/font_color = Color(0.81502, 3.58574e-06, 7.70092e-07, 1)
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 24
+text = "Vanguard"
+
+[node name="restart" type="Button" parent="settings_menu/VBoxContainer/vanguard/Panel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 49.0
+offset_right = 80.0
+offset_bottom = 82.0
+text = "Start"
+
+[node name="close" type="Button" parent="settings_menu/VBoxContainer/vanguard/Panel"]
+offset_left = 92.0
+offset_top = 50.0
+offset_right = 164.0
+offset_bottom = 82.0
+text = "Stop"
+
+[node name="deleteall" type="Control" parent="settings_menu/VBoxContainer"]
+visible = false
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Panel" type="Panel" parent="settings_menu/VBoxContainer/deleteall"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+offset_right = 42.0
+offset_bottom = 88.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
+
+[node name="Label" type="Label" parent="settings_menu/VBoxContainer/deleteall/Panel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 14.0
+offset_right = 215.0
+offset_bottom = 43.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 24
+text = "Delete all profiles"
+
+[node name="Button" type="Button" parent="settings_menu/VBoxContainer/deleteall/Panel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 53.0
+offset_right = 86.0
+offset_bottom = 84.0
+text = "Delete"
 
 [node name="add_menu" parent="." instance=ExtResource("12_7avnf")]
 visible = false
