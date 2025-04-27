@@ -13,10 +13,6 @@ Downloading from untrusted sources may compromise your computer's security.
 <p align="center">
   <img src="assets/example-vANA.webp" alt="Stay Signed In Guide">
 </p>
-<p align="center">
-  <img src="assets/example2-vANA.webp" alt="Stay Signed In Guide">
-</p>
-
 
 ## README Languages
 - [English](#english)
@@ -62,6 +58,11 @@ If you don't check "Stay signed in," Riot Switcher won't be able to handle autom
 
 ### Quick Steps:
 1. Create your account profile.
+
+<p align="center">
+  <img src="assets/example2-vANA.webp" alt="Stay Signed In Guide">
+</p>
+
 2. Click **Play**.
 3. On the Riot login screen, **check "Stay signed in"** and log in.
 
