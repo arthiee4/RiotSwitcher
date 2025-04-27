@@ -1,57 +1,65 @@
 # Riot Switcher
 
-**Important Notice:**
+**⚠️ IMPORTANT SECURITY NOTICE:**
 
-**Using Riot Switcher to manage and switch accounts is completely safe and does not pose any risk of bans or penalties.**  
-It simply handles account profiles locally without modifying, interacting with, or injecting anything into the game itself. However, **the use of this tool is at your own risk, and the developer is not responsible for any consequences that may occur.**
+**Always download Riot Switcher ONLY from the official source.**  
+**Do NOT trust unknown links or unofficial websites.**  
+Downloading from untrusted sources may compromise your computer's security.
+
+🔗 Official Download: [RiotSwitcher Releases](https://github.com/arthiee4/RiotSwitcher/releases/)
+
+---
+
+## README Languages
+- [English](#english)
+- [Português](#português)
+- [Español](#español)
+- [Russian](#russian)
+- [Chinese](#chinese)
+- [Korean](#korean)
 
 ---
 
-**Riot Switcher** is a custom launcher created for League of Legends players who manage multiple accounts in a simple, fast, and organized way.
+# English
 
-> Note: **Currently, Riot Switcher is only available for League of Legends. Valorant support is planned for the future.**
+## Riot Switcher
 
----
+**Riot Switcher** is a custom launcher created for League of Legends players to manage multiple accounts in a simple, fast, and organized way.
+
+> **Note:** Riot Switcher is currently only available for League of Legends. Valorant support is planned for future updates.
 
 ## Main Features
 
 - Manage multiple accounts separately.
 - Log in to any account with just **one click**.
-- Instantly switch the game's language (voice and text). (Feature planned for future updates)
+- Instantly switch the game's language (voice and text). *(Feature planned for future updates)*
 - Basic Vanguard core control support.
-
----
 
 ## How It Works
 
-1. **Save Current Account**: Captures the local credentials from the Riot Client.
-2. **Switch Account**: Copies the selected profile to the client’s folder.
-3. **Automatic Login**: The Riot Client opens directly in the chosen account.
-4. **Updates**: Future support for profile updates, per-account language settings, and additional integrations.
+1. **Save Current Account:** Captures local credentials from the Riot Client.
+2. **Switch Account:** Copies the selected profile to the client’s folder.
+3. **Automatic Login:** Riot Client opens directly in the chosen account.
+4. **Updates:** Future support for profile updates, per-account language settings, and additional integrations.
 
----
+## 🧐 How to Use Riot Switcher Properly
 
-## 🧠 How to Use RiotSwitcher Properly
-
-After creating your account profile inside RiotSwitcher, click on the **Play** button for the selected profile.
+After creating your account profile inside Riot Switcher, click on the **Play** button for the selected profile.
 
 When the Riot Client opens:
 - Log in normally.
-- **IMPORTANT:** Make sure to check the **Stay signed in** checkbox before logging in.
+- **IMPORTANT:** Make sure to check the **"Stay signed in"** checkbox before logging in.
 
-If you don't check "Stay signed in", RiotSwitcher won't be able to handle the automatic login properly in the future.
+If you don't check "Stay signed in," Riot Switcher won't be able to handle automatic login properly in the future.
 
-Here's a quick visual guide:
-
+### Quick Steps:
 1. Create your account profile.
 2. Click **Play**.
-3. On the Riot login screen, **check "Stay signed in"**, then login.
+3. On the Riot login screen, **check "Stay signed in"** and log in.
 
 ![Stay Signed In Guide](assets/stay_signed_in.gif)
 
-Done! Your account is now ready for one-click switching.
-
----
+Done! Your account is ready for one-click switching.
 
 ## Requirements
 
@@ -59,45 +67,31 @@ Done! Your account is now ready for one-click switching.
 - Installed Riot Games Client
 - Administrator permissions (recommended for file copying and process management)
 
----
-
 ## Project Status
 
-> Actively in development — currently focusing on bug fixes and new features. Future plans include Valorant integration, per-account language settings, and enhanced client management.
-
----
+> Actively under development — currently focusing on bug fixes and new features. Future plans include Valorant integration, per-account language settings, and enhanced client management.
 
 ## How to Build the Project
 
-The project is developed using the **Godot Engine**, an open-source game engine increasingly powerful for app development.
+The project is developed using **Godot Engine**, a powerful open-source game engine.
 
 To build Riot Switcher:
 
-1. **Download Godot Engine**: [Godot Official Website](https://godotengine.org/)
-2. **Open the Project**: Launch Godot, click "Import Project" and select the Riot Switcher project folder.
-3. **Make Adjustments (Optional)**: Modify settings or scenes if needed.
-4. **Export the Build**:
+1. **Download Godot Engine:** [Official Website](https://godotengine.org/)
+2. **Open the Project:** Launch Godot, click "Import Project" and select the Riot Switcher project folder.
+3. **Make Adjustments (Optional):** Modify settings or scenes if needed.
+4. **Export the Build:**
    - Open **Project > Export**.
    - Add a **Windows Desktop** preset (or others if needed).
    - Click **Export Project** to generate the executable.
-   - Copy and paste the **Data** folder into the same directory as the exe.
-
-> The build process is lightweight, requiring no additional compilation steps or complex configuration.
-
----
+   - Copy and paste the **Data** folder into the same directory as the .exe.
 
 ## About Godot Engine
 
-Godot is traditionally known for game development but is rapidly expanding into app development. Its simplicity, scene system, and GDScript scripting allow fast prototyping and lightweight app deployment.
-
 - **No need for external build systems** — everything is managed inside the editor.
-- **Cross-platform** — deploy easily to Windows, Linux, Mac, Web, and more.
-- **Lightweight builds** — the engine produces small and efficient executables.
+- **Cross-platform** — easily deploy to Windows, Linux, Mac, Web, and more.
+- **Lightweight builds** — small and efficient executables.
 - **Active community** — continuous improvements and new features.
-
-This flexibility makes Godot a great choice for projects like Riot Switcher.
-
----
 
 ## License and Disclaimer
 
@@ -109,7 +103,28 @@ All product and company names are trademarks™ or registered® trademarks of th
 
 **Use of Riot Switcher is at your own risk. The developer does not take responsibility for any consequences, including penalties or bans, resulting from its use.**
 
----
-
 Made with ❤️ using Godot Engine.
 
+---
+
+# Português
+
+(...)
+
+# Español
+
+(...)
+
+# Russian
+
+(...)
+
+# Chinese
+
+(...)
+
+# Korean
+
+(...)
+
+---
