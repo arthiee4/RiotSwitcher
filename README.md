@@ -43,11 +43,11 @@ If you don't check "Stay signed in", RiotSwitcher won't be able to handle the au
 
 Here's a quick visual guide:
 
-![Stay Signed In Guide](assets/stay_signed_in.gif)
-
 1. Create and select your account profile in RiotSwitcher.
 2. Click **Play**.
 3. On the Riot login screen, **check "Stay signed in"**, then login.
+
+![Stay Signed In Guide](assets/stay_signed_in.gif)
 
 Done! Your account is now ready for one-click switching.
 
