@@ -64,7 +64,7 @@ If you don't check "Stay signed in," Riot Switcher won't be able to handle autom
 </p>
 
 2. Go to Home, and press play button on the account.
-3. On the Riot login screen, **check "Stay signed in"** and log in.
+3. **IMPORTANT:** On the Riot login screen, **check "Stay signed in"** and log in. This step is crucial for automatic login to work!
 
 ![Stay Signed In Guide](assets/stay_signed_in.gif)
 
@@ -114,6 +114,8 @@ All product and company names are trademarks™ or registered® trademarks of th
 
 Made with ❤️ using Godot Engine.
 
+<p align="right"><a href="#riot-switcher">Back to Top</a></p>
+
 ---
 
 Aqui está a continuação do README com todas as línguas solicitadas:
@@ -160,7 +162,7 @@ Se você não marcar "Manter conexão", o Riot Switcher não conseguirá lidar c
 </p>
 
 2. Vá para a tela inicial e pressione o botão play na conta.
-3. Na tela de login da Riot, **marque "Manter conexão"** e faça login.
+3. **IMPORTANTE:** Na tela de login da Riot, **marque "Manter conexão"** e faça login. Este passo é crucial para o login automático funcionar!
 
 ![Guia Manter Conexão](assets/stay_signed_in.gif)
 
@@ -210,6 +212,8 @@ Todos os nomes de produtos e empresas são marcas™ ou marcas registradas® de 
 
 Feito com ❤️ usando Godot Engine.
 
+<p align="right"><a href="#riot-switcher">Voltar ao Topo</a></p>
+
 ---
 
 # Español
@@ -252,7 +256,7 @@ Si no marcas "Mantener sesión iniciada", Riot Switcher no podrá manejar el ini
 </p>
 
 2. Ve a Inicio y presiona el botón play en la cuenta.
-3. En la pantalla de inicio de sesión de Riot, **marca "Mantener sesión iniciada"** e inicia sesión.
+3. **IMPORTANTE:** En la pantalla de inicio de sesión de Riot, **marca "Mantener sesión iniciada"** e inicia sesión. ¡Este paso es crucial para que funcione el inicio de sesión automático!
 
 ![Guía Mantener Sesión](assets/stay_signed_in.gif)
 
@@ -302,6 +306,8 @@ Todos los nombres de productos y empresas son marcas™ o marcas registradas® d
 
 Hecho con ❤️ usando Godot Engine.
 
+<p align="right"><a href="#riot-switcher">Volver Arriba</a></p>
+
 ---
 
 # Russian
@@ -344,7 +350,7 @@ Hecho con ❤️ usando Godot Engine.
 </p>
 
 2. Перейдите на главную страницу и нажмите кнопку play на аккаунте.
-3. На экране входа Riot **отметьте "Оставаться в системе"** и войдите.
+3. **ВАЖНО:** На экране входа Riot **отметьте "Оставаться в системе"** и войдите. Этот шаг крайне важен для работы автоматического входа!
 
 ![Инструкция](assets/stay_signed_in.gif)
 
@@ -394,6 +400,8 @@ Hecho con ❤️ usando Godot Engine.
 
 Сделано с ❤️ на Godot Engine.
 
+<p align="right"><a href="#riot-switcher">Вернуться к началу</a></p>
+
 ---
 
 # Chinese
@@ -436,7 +444,7 @@ Hecho con ❤️ usando Godot Engine.
 </p>
 
 2. 转到主页，然后按帐户上的播放按钮。
-3. 在 Riot 登录界面，**勾选"保持登录状态"** 并登录。
+3. **重要：** 在 Riot 登录界面，**勾选"保持登录状态"** 并登录。 这一步对于自动登录功能至关重要！
 
 ![保持登录指南](assets/stay_signed_in.gif)
 
@@ -486,6 +494,8 @@ Hecho con ❤️ usando Godot Engine.
 
 使用 Godot Engine 制作，充满 ❤️。
 
+<p align="right"><a href="#riot-switcher">返回顶部</a></p>
+
 ---
 
 # Korean
@@ -528,7 +538,7 @@ Riot 클라이언트가 열리면:
 </p>
 
 2. 홈으로 이동하여 계정의 플레이 버튼을 누릅니다.
-3. Riot 로그인 화면에서 **"로그인 상태 유지"를 선택**하고 로그인하세요.
+3. **중요:** Riot 로그인 화면에서 **"로그인 상태 유지"를 선택**하고 로그인하세요. 이 단계는 자동 로그인이 작동하는 데 매우 중요합니다!
 
 ![로그인 상태 유지 가이드](assets/stay_signed_in.gif)
 
@@ -577,5 +587,7 @@ Riot Switcher를 빌드하려면:
 **Riot Switcher 사용은 사용자의 책임 하에 있습니다. 개발자는 사용으로 인한 결과(제재 또는 계정 정지 포함)에 대해 책임을 지지 않습니다.**
 
 Godot Engine으로 ❤️을 담아 제작했습니다.
+
+<p align="right"><a href="#riot-switcher">맨 위로 돌아가기</a></p>
 
 --- 
