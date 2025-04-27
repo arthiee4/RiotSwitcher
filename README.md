@@ -2,9 +2,8 @@
 
 **Important Notice:**
 
-**Using Riot Switcher solely to manage and switch accounts does not pose a risk of bans or penalties.** It simply handles account profiles locally without modifying or interacting with the game itself.
-
-However, **activating and using the R3nzSkin integration through Riot Switcher settings** may violate Riot Games' Terms of Service and could result in account penalties or bans. **The integration with R3nzSkin is optional and can be enabled or disabled within the Riot Switcher settings menu.** Users are fully responsible for any risks associated with the use of this tool.
+**Using Riot Switcher to manage and switch accounts is completely safe and does not pose any risk of bans or penalties.**  
+It simply handles account profiles locally without modifying, interacting with, or injecting anything into the game itself.
 
 ---
 
@@ -19,7 +18,6 @@ However, **activating and using the R3nzSkin integration through Riot Switcher s
 - Manage multiple accounts separately.
 - Log in to any account with just **one click**.
 - Instantly switch the game's language (voice and text).
-- Optional integration with R3nzSkin through settings.
 
 ---
 
@@ -43,6 +41,37 @@ However, **activating and using the R3nzSkin integration through Riot Switcher s
 ## 📈 Project Status
 
 > Actively in development — currently focusing on bug fixes. Future plans include potential Valorant integration and possible use of the League of Legends API for enhanced features.
+
+---
+
+## 🛠️ How to Build the Project
+
+The project is developed using the **Godot Engine**, an open-source game engine that is becoming increasingly powerful and flexible for app development as well.
+
+To build Riot Switcher:
+
+1. **Download Godot Engine**: [Godot Official Website](https://godotengine.org/)
+2. **Open the Project**: Launch Godot, click "Import Project" and select the Riot Switcher project folder.
+3. **Make Adjustments (Optional)**: Modify settings or scenes if needed.
+4. **Export the Build**:
+   - Open **Project > Export**.
+   - Add a **Windows Desktop** preset (or another if needed).
+   - Click **Export Project** to generate the executable.
+
+> The build process is lightweight, requiring no additional compilation steps or complex configuration compared to traditional frameworks.
+
+---
+
+## 🚀 About Godot Engine
+
+Godot is traditionally known for game development but has been expanding rapidly into the app development space. Its simplicity, intuitive scene system, and integrated scripting (GDScript) allow fast prototyping and deployment of lightweight apps.
+
+- **No need for external build systems** — everything is managed inside the editor.
+- **Cross-platform** — deploy easily to Windows, Linux, Mac, Web, and more.
+- **Lightweight builds** — the engine produces small and efficient executables.
+- **Active community** — continuous improvements and new features.
+
+This flexibility makes Godot a great choice for tools like Riot Switcher, especially as the ecosystem around non-game app development continues to grow.
 
 ---
 
