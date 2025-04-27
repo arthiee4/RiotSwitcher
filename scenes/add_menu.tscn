@@ -1,23 +1,24 @@
-[gd_scene load_steps=33 format=4 uid="uid://w3jljyf63rcp"]
+[gd_scene load_steps=40 format=4 uid="uid://w3jljyf63rcp"]
 
 [ext_resource type="FontFile" uid="uid://bwbai0nq228wc" path="res://assets/fonts/Raleway-Bold.ttf" id="1_0x52k"]
-[ext_resource type="Texture2D" uid="uid://c4pwq2yh3fnru" path="res://assets/backgrounds/profiles_bg/1.png" id="2_y46ix"]
-[ext_resource type="Texture2D" uid="uid://crdbb3s7mm0kj" path="res://assets/backgrounds/profiles_bg/2.png" id="3_eafsp"]
-[ext_resource type="Texture2D" uid="uid://i8lxgrbct385" path="res://assets/backgrounds/profiles_bg/3.png" id="4_cyp5b"]
-[ext_resource type="Texture2D" uid="uid://dbjbs1ajatyq2" path="res://assets/backgrounds/profiles_bg/4.png" id="5_d836s"]
-[ext_resource type="Texture2D" uid="uid://1bg5n6w0u2as" path="res://assets/backgrounds/profiles_bg/5.png" id="6_b261t"]
-[ext_resource type="Texture2D" uid="uid://dpeev6qyn5b7n" path="res://assets/backgrounds/profiles_bg/6.png" id="7_sdc5v"]
-[ext_resource type="Texture2D" uid="uid://clitkligglpl" path="res://assets/backgrounds/profiles_bg/7.png" id="8_yli4t"]
-[ext_resource type="Texture2D" uid="uid://dmgiyb6rg768a" path="res://assets/backgrounds/profiles_bg/8.png" id="9_23s4i"]
-[ext_resource type="Texture2D" uid="uid://cq41msil1ewyh" path="res://assets/backgrounds/profiles_bg/9.jpg" id="10_bx8ed"]
-[ext_resource type="Texture2D" uid="uid://cvvbp0hkamgba" path="res://assets/backgrounds/profiles_bg/10.jpg" id="11_q7aos"]
-[ext_resource type="Texture2D" uid="uid://bdha7jnqy8e6v" path="res://assets/backgrounds/profiles_bg/11.jpeg" id="12_eso62"]
-[ext_resource type="Texture2D" uid="uid://duqq0nobsepi0" path="res://assets/backgrounds/profiles_bg/12.jpg" id="13_dp2r5"]
+[ext_resource type="Texture2D" uid="uid://bo1gri1yqhbei" path="res://assets/backgrounds/profiles_bg/1.webp" id="2_rt4pg"]
+[ext_resource type="Texture2D" uid="uid://dkl2pbqwdwtmm" path="res://assets/backgrounds/profiles_bg/2.webp" id="3_pjph5"]
+[ext_resource type="Texture2D" uid="uid://bqc4tabh8xblf" path="res://assets/backgrounds/profiles_bg/3.webp" id="4_has6k"]
+[ext_resource type="Texture2D" uid="uid://d0wb52vsklv2d" path="res://assets/backgrounds/profiles_bg/4.webp" id="5_lpgi8"]
+[ext_resource type="Texture2D" uid="uid://bc78ix07y4vjt" path="res://assets/backgrounds/profiles_bg/5.webp" id="6_wtcj2"]
+[ext_resource type="Texture2D" uid="uid://ct8y1vl1cpklt" path="res://assets/backgrounds/profiles_bg/6.webp" id="7_t0t4o"]
+[ext_resource type="Texture2D" uid="uid://b7jigqv85h4sg" path="res://assets/backgrounds/profiles_bg/7.webp" id="8_8n4kr"]
+[ext_resource type="Texture2D" uid="uid://e673koahirpw" path="res://assets/backgrounds/profiles_bg/8.webp" id="9_eytmv"]
+[ext_resource type="Texture2D" uid="uid://csu3jbphwlsi5" path="res://assets/backgrounds/profiles_bg/9.webp" id="10_cehxf"]
+[ext_resource type="Texture2D" uid="uid://b2lqlnlrtu8yd" path="res://assets/backgrounds/profiles_bg/10.webp" id="11_15wkn"]
+[ext_resource type="Texture2D" uid="uid://b6nts14e1ww8e" path="res://assets/backgrounds/profiles_bg/11.webp" id="12_rt4pg"]
+[ext_resource type="Texture2D" uid="uid://dxdh5o7h1o5kl" path="res://assets/backgrounds/profiles_bg/12.webp" id="13_rt4pg"]
 [ext_resource type="FontFile" uid="uid://10wh284qofrr" path="res://assets/fonts/Raleway-Light.ttf" id="14_i00sx"]
 [ext_resource type="Script" uid="uid://bu83haqbdh7sp" path="res://src/create_button.gd" id="15_7ik5n"]
 [ext_resource type="Shader" uid="uid://cswe7248fk0td" path="res://shaders/glow.gdshader" id="15_pnu40"]
-[ext_resource type="Texture2D" uid="uid://cpidg8rtyf6oe" path="res://assets/backgrounds/img1test.png" id="16_sdpd0"]
 [ext_resource type="Texture2D" uid="uid://ifj5hs32k5ga" path="res://assets/user_icons/play.png" id="17_01n50"]
+[ext_resource type="Texture2D" uid="uid://dhdywa4myu08r" path="res://assets/backgrounds/default_bg.webp" id="17_rt4pg"]
+[ext_resource type="Texture2D" uid="uid://clm6rit5id2rj" path="res://assets/warning1.png" id="19_pjph5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xlxo8"]
 bg_color = Color(0, 0, 0, 1)
@@ -1251,6 +1252,103 @@ bg_color = Color(0, 0, 0, 0.623529)
 corner_radius_top_right = 9
 corner_radius_bottom_right = 9
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pjph5"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.388235)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_has6k"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="Animation" id="Animation_pjph5"]
+resource_name = "warning_on"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.15932, 0.15932),
+"update": 0,
+"values": [Vector2(676.155, -154), Vector2(676.155, 91.725)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_has6k"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(676.155, 91.725)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lpgi8"]
+_data = {
+&"RESET": SubResource("Animation_has6k"),
+&"warning_on": SubResource("Animation_pjph5")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lpgi8"]
+bg_color = Color(0.103744, 0.103744, 0.103743, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0.8, 0.8, 0.109804)
+border_blend = true
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
 [node name="add_menu" type="Control"]
 z_index = 99
 layout_mode = 3
@@ -1319,7 +1417,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_y46ix")
+texture = ExtResource("2_rt4pg")
 expand_mode = 5
 
 [node name="Button" type="Button" parent="bg_select/backgrounds/bgexample1"]
@@ -1346,7 +1444,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_eafsp")
+texture = ExtResource("3_pjph5")
 expand_mode = 5
 
 [node name="Button" type="Button" parent="bg_select/backgrounds/bgexample2"]
@@ -1373,7 +1471,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_cyp5b")
+texture = ExtResource("4_has6k")
 expand_mode = 5
 
 [node name="Button" type="Button" parent="bg_select/backgrounds/bgexample3"]
@@ -1400,7 +1498,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("5_d836s")
+texture = ExtResource("5_lpgi8")
 expand_mode = 5
 
 [node name="Button" type="Button" parent="bg_select/backgrounds/bgexample4"]
@@ -1427,7 +1525,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("6_b261t")
+texture = ExtResource("6_wtcj2")
 expand_mode = 5
 
 [node name="Button" type="Button" parent="bg_select/backgrounds/bgexample5"]
@@ -1454,7 +1552,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("7_sdc5v")
+texture = ExtResource("7_t0t4o")
 expand_mode = 5
 
 [node name="Button" type="Button" parent="bg_select/backgrounds/bgexample6"]
@@ -1481,7 +1579,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("8_yli4t")
+texture = ExtResource("8_8n4kr")
 expand_mode = 5
 
 [node name="Button" type="Button" parent="bg_select/backgrounds/bgexample7"]
@@ -1510,7 +1608,7 @@ offset_top = -16.7088
 offset_bottom = 16.7088
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("9_23s4i")
+texture = ExtResource("9_eytmv")
 expand_mode = 5
 
 [node name="Button" type="Button" parent="bg_select/backgrounds/bgexample8"]
@@ -1539,7 +1637,7 @@ offset_top = -16.7088
 offset_bottom = 16.7088
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("10_bx8ed")
+texture = ExtResource("10_cehxf")
 expand_mode = 5
 
 [node name="Button" type="Button" parent="bg_select/backgrounds/bgexample9"]
@@ -1569,7 +1667,7 @@ offset_top = -16.7088
 offset_bottom = 16.7088
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("11_q7aos")
+texture = ExtResource("11_15wkn")
 expand_mode = 5
 
 [node name="Button" type="Button" parent="bg_select/backgrounds/bgexample10"]
@@ -1598,7 +1696,7 @@ offset_top = -16.7088
 offset_bottom = 16.7088
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("12_eso62")
+texture = ExtResource("12_rt4pg")
 expand_mode = 5
 
 [node name="Button" type="Button" parent="bg_select/backgrounds/bgexample11"]
@@ -1625,7 +1723,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("13_dp2r5")
+texture = ExtResource("13_rt4pg")
 expand_mode = 5
 
 [node name="Button" type="Button" parent="bg_select/backgrounds/bgexample12"]
@@ -1780,7 +1878,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("16_sdpd0")
+texture = ExtResource("17_rt4pg")
 expand_mode = 5
 
 [node name="Button2" type="Button" parent="preview/bgexample3"]
@@ -1878,5 +1976,74 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "error 1"
+
+[node name="warning" type="Control" parent="."]
+z_index = 99
+anchors_preset = 0
+offset_left = 676.0
+offset_top = 112.0
+offset_right = 961.0
+offset_bottom = 255.0
+
+[node name="Panel2" type="Panel" parent="warning"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -33.0
+offset_top = -139.0
+offset_right = 3.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pjph5")
+
+[node name="Label" type="Label" parent="warning"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = -21.0
+offset_right = 283.0
+offset_bottom = 29.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.772549)
+theme_override_fonts/font = ExtResource("14_i00sx")
+text = "Remember to do this when u open your account for the first time."
+autowrap_mode = 3
+
+[node name="Panel" type="Panel" parent="warning"]
+clip_children = 2
+clip_contents = true
+layout_mode = 0
+offset_left = 8.0
+offset_top = 34.0
+offset_right = 248.0
+offset_bottom = 123.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_has6k")
+
+[node name="TextureRect" type="TextureRect" parent="warning/Panel"]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("19_pjph5")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="warning"]
+libraries = {
+&"": SubResource("AnimationLibrary_lpgi8")
+}
+
+[node name="closewarning" type="Button" parent="warning"]
+layout_mode = 0
+offset_left = 38.0
+offset_top = -68.0
+offset_right = 224.0
+offset_bottom = -37.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_lpgi8")
+text = "close thattt warning >:("
 
 [connection signal="pressed" from="creation/create_button" to="creation/create_button" method="_on_pressed"]

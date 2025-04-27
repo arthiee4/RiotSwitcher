@@ -1,0 +1,178 @@
+# LANGUAGE translation for riotswitcher2 for the following files:
+# res://scenes/boot.tscn
+# res://scenes/main.tscn
+# res://scenes/add_menu.tscn
+#
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: riotswitcher2\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8-bit\n"
+"Language: zh_CN\n"
+
+#: scenes/boot.tscn
+#: scenes/add_menu.tscn
+msgid "browser"
+msgstr "浏览"
+
+#: scenes/boot.tscn
+msgid "Select your Riot Client folder"
+msgstr "选择您的 Riot Client 文件夹"
+
+#: scenes/boot.tscn
+msgid "usually on C/Riot Games/Riot Client"
+msgstr "通常在 C:/Riot Games/Riot Client"
+
+#: scenes/boot.tscn
+msgid "Open a Directory"
+msgstr "打开目录"
+
+#: scenes/boot.tscn
+msgid "Select Current Folder"
+msgstr "选择当前文件夹"
+
+#: scenes/boot.tscn
+msgid "u dont selected the right folder, please verify if is \"Riot Client \""
+msgstr "您选择了错误的文件夹，请检查是否是 \"Riot Client \""
+
+#: scenes/boot.tscn
+#: scenes/main.tscn
+msgid "x"
+msgstr "x"
+
+#: scenes/boot.tscn
+#: scenes/main.tscn
+msgid "-"
+msgstr "-"
+
+#: scenes/main.tscn
+msgid "accountname"
+msgstr "账户名称"
+
+#: scenes/main.tscn
+msgid "delete"
+msgstr "删除"
+
+#: scenes/main.tscn
+msgid "Settings"
+msgstr "设置"
+
+#: scenes/main.tscn
+msgid "R3NZSKIN"
+msgstr "R3NZSKIN" # Mantido como nome próprio
+
+#: scenes/main.tscn
+msgid "take care bro, dont use this option may cause ban]"
+msgstr "小心，使用此选项可能导致封禁"
+
+#: scenes/main.tscn
+msgid "Vanguard"
+msgstr "Vanguard" # Mantido como nome próprio
+
+#: scenes/main.tscn
+msgid "Start"
+msgstr "开始"
+
+#: scenes/main.tscn
+msgid "Stop"
+msgstr "停止"
+
+#: scenes/main.tscn
+msgid "Delete all profiles"
+msgstr "删除所有配置文件"
+
+#: scenes/main.tscn
+msgid "Delete"
+msgstr "删除"
+
+#: scenes/main.tscn
+msgid "Language"
+msgstr "语言"
+
+#: scenes/main.tscn
+msgid "Riot"
+msgstr "Riot" # Mantido como nome próprio
+
+#: scenes/main.tscn
+msgid "Switcher"
+msgstr "切换器" # Traduzido o conceito
+
+#: scenes/main.tscn
+msgid "beta  Ana."
+msgstr "测试版 Ana." # Traduzido "beta"
+
+#: scenes/main.tscn
+msgid "0.2"
+msgstr "0.2"
+
+#: scenes/main.tscn
+msgid "v 0.2"
+msgstr "v 0.2"
+
+#: scenes/add_menu.tscn
+msgid "Add an account"
+msgstr "添加账户"
+
+#: scenes/add_menu.tscn
+msgid "Choose your bg"
+msgstr "选择您的背景"
+
+#: scenes/add_menu.tscn
+msgid "name"
+msgstr "名称"
+
+#: scenes/add_menu.tscn
+msgid "Proifle name"
+msgstr "配置文件名称" # Corrigido typo "Proifle" -> "Profile"
+
+#: scenes/add_menu.tscn
+msgid "Upload custom image "
+msgstr "上传自定义图像"
+
+#: scenes/add_menu.tscn
+msgid "create"
+msgstr "创建"
+
+#: scenes/add_menu.tscn
+msgid "Open a File"
+msgstr "打开文件"
+
+#: scenes/add_menu.tscn
+msgid "Open"
+msgstr "打开"
+
+#: scenes/add_menu.tscn
+msgid "Finish creation"
+msgstr "完成创建"
+
+#: scenes/add_menu.tscn
+msgid ""
+"Follow the steps and blabla\n"
+"u know what thats mean"
+msgstr ""
+"按照步骤操作 blabla\n"
+"你懂的"
+
+#: scenes/add_menu.tscn
+msgid "Account1"
+msgstr "账户1"
+
+#: scenes/add_menu.tscn
+msgid "Preview"
+msgstr "预览"
+
+#: scenes/add_menu.tscn
+msgid "error 1"
+msgstr "错误 1"
+
+#: scenes/add_menu.tscn
+msgid "Remember to do this when u open your account for the first time."
+msgstr "首次打开账户时请记得执行此操作。"
+
+#: scenes/add_menu.tscn
+msgid "close thattt warning >:("
+msgstr "关闭那个警告 >:(" 

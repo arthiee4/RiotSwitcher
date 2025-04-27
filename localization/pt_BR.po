@@ -1,0 +1,178 @@
+# LANGUAGE translation for riotswitcher2 for the following files:
+# res://scenes/boot.tscn
+# res://scenes/main.tscn
+# res://scenes/add_menu.tscn
+#
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: riotswitcher2\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8-bit\n"
+"Language: pt_BR\n"
+
+#: scenes/boot.tscn
+#: scenes/add_menu.tscn
+msgid "browser"
+msgstr "Procurar"
+
+#: scenes/boot.tscn
+msgid "Select your Riot Client folder"
+msgstr "Selecione a pasta do Riot Client"
+
+#: scenes/boot.tscn
+msgid "usually on C/Riot Games/Riot Client"
+msgstr "geralmente em C:/Riot Games/Riot Client"
+
+#: scenes/boot.tscn
+msgid "Open a Directory"
+msgstr "Abrir Diretório"
+
+#: scenes/boot.tscn
+msgid "Select Current Folder"
+msgstr "Selecionar Pasta Atual"
+
+#: scenes/boot.tscn
+msgid "u dont selected the right folder, please verify if is \"Riot Client \""
+msgstr "Pasta incorreta, verifique se é \"Riot Client\""
+
+#: scenes/boot.tscn
+#: scenes/main.tscn
+msgid "x"
+msgstr "x"
+
+#: scenes/boot.tscn
+#: scenes/main.tscn
+msgid "-"
+msgstr "-"
+
+#: scenes/main.tscn
+msgid "accountname"
+msgstr "Nome da conta"
+
+#: scenes/main.tscn
+msgid "delete"
+msgstr "excluir"
+
+#: scenes/main.tscn
+msgid "Settings"
+msgstr "Config."
+
+#: scenes/main.tscn
+msgid "R3NZSKIN"
+msgstr "R3NZSKIN"
+
+#: scenes/main.tscn
+msgid "take care bro, dont use this option may cause ban]"
+msgstr "Cuidado, usar isso pode causar banimento"
+
+#: scenes/main.tscn
+msgid "Vanguard"
+msgstr "Vanguard"
+
+#: scenes/main.tscn
+msgid "Start"
+msgstr "Iniciar"
+
+#: scenes/main.tscn
+msgid "Stop"
+msgstr "Parar"
+
+#: scenes/main.tscn
+msgid "Delete all profiles"
+msgstr "Excluir todos perfis"
+
+#: scenes/main.tscn
+msgid "Delete"
+msgstr "Excluir"
+
+#: scenes/main.tscn
+msgid "Language"
+msgstr "Idioma"
+
+#: scenes/main.tscn
+msgid "Riot"
+msgstr "Riot"
+
+#: scenes/main.tscn
+msgid "Switcher"
+msgstr "Switcher"
+
+#: scenes/main.tscn
+msgid "beta  Ana."
+msgstr "beta Ana."
+
+#: scenes/main.tscn
+msgid "0.2"
+msgstr "0.2"
+
+#: scenes/main.tscn
+msgid "v 0.2"
+msgstr "v 0.2"
+
+#: scenes/add_menu.tscn
+msgid "Add an account"
+msgstr "Adicionar conta"
+
+#: scenes/add_menu.tscn
+msgid "Choose your bg"
+msgstr "Escolha seu fundo"
+
+#: scenes/add_menu.tscn
+msgid "name"
+msgstr "nome"
+
+#: scenes/add_menu.tscn
+msgid "Proifle name"
+msgstr "Nome do Perfil" # Corrigido typo "Proifle" -> "Profile" implicitamente
+
+#: scenes/add_menu.tscn
+msgid "Upload custom image "
+msgstr "Enviar imagem custom."
+
+#: scenes/add_menu.tscn
+msgid "create"
+msgstr "criar"
+
+#: scenes/add_menu.tscn
+msgid "Open a File"
+msgstr "Abrir Arquivo"
+
+#: scenes/add_menu.tscn
+msgid "Open"
+msgstr "Abrir"
+
+#: scenes/add_menu.tscn
+msgid "Finish creation"
+msgstr "Finalizar criação"
+
+#: scenes/add_menu.tscn
+msgid ""
+"Follow the steps and blabla\n"
+"u know what thats mean"
+msgstr ""
+"Siga os passos e blabla\n"
+"você sabe o que fazer"
+
+#: scenes/add_menu.tscn
+msgid "Account1"
+msgstr "Conta1"
+
+#: scenes/add_menu.tscn
+msgid "Preview"
+msgstr "Prévia"
+
+#: scenes/add_menu.tscn
+msgid "error 1"
+msgstr "erro 1"
+
+#: scenes/add_menu.tscn
+msgid "Remember to do this when u open your account for the first time."
+msgstr "Lembre-se de fazer isso ao abrir a conta pela primeira vez."
+
+#: scenes/add_menu.tscn
+msgid "close thattt warning >:("
+msgstr "fechar esse aviso >:(" 

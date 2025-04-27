@@ -3,8 +3,8 @@
 [ext_resource type="Shader" uid="uid://cswe7248fk0td" path="res://shaders/glow.gdshader" id="1_3aoht"]
 [ext_resource type="Script" uid="uid://b7502oi8kl10a" path="res://src/profile_button.gd" id="1_bfvnd"]
 [ext_resource type="Texture2D" uid="uid://ifj5hs32k5ga" path="res://assets/user_icons/play.png" id="1_dc1tc"]
-[ext_resource type="Texture2D" uid="uid://cpidg8rtyf6oe" path="res://assets/backgrounds/img1test.png" id="2_8ta2h"]
 [ext_resource type="FontFile" uid="uid://bwbai0nq228wc" path="res://assets/fonts/Raleway-Bold.ttf" id="2_h8srp"]
+[ext_resource type="Texture2D" uid="uid://dhdywa4myu08r" path="res://assets/backgrounds/default_bg.webp" id="4_at24t"]
 
 [sub_resource type="Image" id="Image_1r0kl"]
 data = {
@@ -2528,7 +2528,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("2_8ta2h")
+texture = ExtResource("4_at24t")
 expand_mode = 5
 stretch_mode = 6
 
@@ -2569,8 +2569,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_jddgn")
 
 [node name="delete" type="Control" parent="bg1/mouse_right_menu/Panel"]
 anchors_preset = 0
+offset_top = 41.0
 offset_right = 126.0
-offset_bottom = 40.0
+offset_bottom = 81.0
 mouse_default_cursor_shape = 2
 
 [node name="Panel" type="Panel" parent="bg1/mouse_right_menu/Panel/delete"]
@@ -2609,9 +2610,9 @@ mouse_default_cursor_shape = 2
 [node name="edit" type="Control" parent="bg1/mouse_right_menu/Panel"]
 layout_mode = 3
 anchors_preset = 0
-offset_top = 40.0
+offset_top = 1.0
 offset_right = 126.0
-offset_bottom = 80.0
+offset_bottom = 41.0
 
 [node name="Panel" type="Panel" parent="bg1/mouse_right_menu/Panel/edit"]
 layout_mode = 1

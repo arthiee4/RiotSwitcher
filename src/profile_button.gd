@@ -3,13 +3,13 @@ extends Control
 signal client_toggled(profile_button, is_starting)
 signal delete_requested(profile_button)
 
-## mouse menu
+## My mouse menu stuff
 @onready var mouse_menu = $bg1/mouse_right_menu
 @onready var delete_profile_button = $bg1/mouse_right_menu/Panel/delete/TextureButton
 
 @onready var glow_effect = $bg1/bg2/glow
 
-##profile_button
+## My profile button stuff
 @onready var profile_button = $bg1/bg2/Button
 @onready var profile_button_icon_state = $bg1/bg2/Button/TextureRect
 
@@ -25,41 +25,41 @@ var _is_interactable = true
 
 var first_time_open = false
 
-# Variável para a thread de fechamento
+# My thread variable for killing processes
 var _kill_thread: Thread = null
 
 func _ready():
 	delete_profile_button.pressed.connect(_on_delete_button_pressed)
 	bg1_button.gui_input.connect(_on_bg1_gui_input)
 
-	# Ensure menu is hidden initially
+	# I need to make sure the menu is hidden initially
 	mouse_menu.visible = false
 
-	# Process input events at the node level
-	set_process_input(true) # <-- Enable _input() processing
+	# Process input events at the node level (I need this for _input)
+	set_process_input(true)
 
-#hover style
+# My hover style logic
 func _on_bg_1_mouse_entered() -> void:
 	if not _is_interactable: return
 	var tween = create_tween()
-	tween.tween_property(glow_effect, "modulate", Color(1, 1, 1, 0.4), 0.020).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO) # Duração da animação em segundos
+	tween.tween_property(glow_effect, "modulate", Color(1, 1, 1, 0.4), 0.020).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO) # Animation duration
 func _on_bg_1_mouse_exited() -> void:
 	if not _is_interactable: return
-	# Don't hide the menu immediately on mouse exit,
-	# let the user interact with the menu first.
-	# We'll hide it on other actions later if needed.
+	# I shouldn't hide the menu immediately on mouse exit,
+	# gotta let the user interact with it first.
+	# I'll hide it on other actions later if needed.
 	var tween = create_tween()
-	tween.tween_property(glow_effect, "modulate", Color(1, 1, 1, 0.0), 0.020).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO) # Duração da animação em segundos
+	tween.tween_property(glow_effect, "modulate", Color(1, 1, 1, 0.0), 0.020).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO) # Animation duration
 
-# <-- Add the input handler for the background area -->
+# My input handler for the background area
 func _on_bg1_gui_input(event: InputEvent):
-	# Check if it's a mouse button event, specifically the right button, and it's being pressed down
+	# Check if it's a mouse button event, right button, and pressed down
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.is_pressed():
 		# Prevent interaction if the button is disabled
-		if not _is_interactable: 
+		if not _is_interactable:
 			get_viewport().set_input_as_handled() # Still handle it so it doesn't propagate
 			return
-			
+
 		print("Right-click detected on profile: ", name)
 		# Make the menu visible
 		mouse_menu.visible = true
@@ -84,103 +84,107 @@ func _input(event: InputEvent):
 		if not mouse_menu.get_global_rect().has_point(event.position):
 			print("Click detected outside menu, hiding.")
 			mouse_menu.visible = false
-			# Optional: Consume the event if you don't want clicks outside
+			# Optional: Consume the event if I don't want clicks outside
 			# the menu to interact with anything else when the menu was open.
 			# get_viewport().set_input_as_handled()
 
-##button functions here
+## My button functions here
 func _on_profile_button_pressed() -> void:
 	if first_time_open:
 		print("Este perfil já foi aberto antes.")
 	else:
 		print("Esta é a primeira vez que este perfil está sendo aberto.")
-		
+
 	if not _is_interactable and not client_is_running:
-		return 
-		
+		return
+
 	client_is_running = !client_is_running
-	
-	## client running sequence here
+
+	## My client running sequence here
 	if client_is_running:
 		profile_button_icon_state.texture = stop_icon
 		print("starting client... ", name)
-		
+
 		if not first_time_open:
 			first_time_open = true
-		
-		# A lógica de inicialização agora é principalmente gerenciada pelo sinal em main.gd
-		
-	## client stopping sequence here
+
+		# The startup logic is now mainly handled by the signal in main.gd
+		# I emit the signal immediately when starting
+		client_toggled.emit(self, true)
+
+	## My client stopping sequence here
 	else:
 		profile_button_icon_state.texture = play_icon
-		print("stopping client (initiating background task)...")
-		
+		print("stopping client (initiating background task and waiting 2 seconds)...")
+
 		if _kill_thread != null and _kill_thread.is_alive():
 			print("Previous kill task still running, waiting...")
-			_kill_thread.wait_to_finish() 
-		
+			# I should wait for the previous thread to finish BEFORE the new delay/thread
+			await _kill_thread.wait_to_finish() # Made the wait asynchronous
+
 		_kill_thread = Thread.new()
-		_kill_thread.start(_kill_processes_threaded) 
+		_kill_thread.start(_kill_processes_threaded)
 
-	# Emit the signal after state change and potential process kill attempt
-	client_toggled.emit(self, client_is_running)
+		# I wait 2.5 seconds BEFORE emitting the signal to re-enable other buttons
+		await get_tree().create_timer(2.5).timeout # await still works here
+		print("2.5-second wait finished. Emitting client_toggled.")
 
-# <-- Add the handler for the delete button -->
+		# Emit the signal AFTER the wait
+		client_toggled.emit(self, false)
+
+# My handler for the delete button
 func _on_delete_button_pressed():
 	# Hide the menu after clicking delete
 	mouse_menu.visible = false
-	
-	# Prevent deletion if the client is currently running for this profile
+
+	# I should prevent deletion if the client is currently running for this profile
 	if client_is_running:
 		printerr("Cannot delete profile while client is running.")
-		# Optionally: Add user feedback here (e.g., show a notification)
+		# Optionally: I could add user feedback here (e.g., show a notification)
 		return
-		
+
 	print("Delete requested for profile: ", name)
 	delete_requested.emit(self)
 
-# Função executada pela Thread para matar os processos
+# This function is executed by the Thread to kill processes
 func _kill_processes_threaded():
 	print("Background kill task started.")
 	var processes_to_kill = [
-		"RiotClientServices.exe", 
-		"RiotClientUx.exe", 
+		"RiotClientServices.exe",
+		"RiotClientUx.exe",
 		"RiotClientUxRender.exe",
-		"LeagueClient.exe", 
-		"LeagueClientUx.exe", 
-		"LeagueClientUxRender.exe", 
-		"LeagueofLegends.exe" 
-	] 
-	
+		"LeagueClient.exe",
+		"LeagueClientUx.exe",
+		"LeagueClientUxRender.exe",
+		"LeagueofLegends.exe"
+	]
+
 	for process_name in processes_to_kill:
-		var arguments_array = ["/IM", process_name, "/F", "/T"] 
+		var arguments_array = ["/IM", process_name, "/F", "/T"]
 		print("[Thread] Attempting to terminate process: taskkill with args: ", arguments_array)
-		
-		# Usa OS.create_process para chamar taskkill diretamente
-		var pid = OS.create_process("taskkill", arguments_array) 
-		
+
+		# Use OS.create_process to call taskkill directly
+		var pid = OS.create_process("taskkill", arguments_array)
+
 		if pid < 0:
 			printerr("[Thread] Failed to *start* taskkill command for %s." % process_name)
 		else:
 			print("[Thread] Taskkill command initiated for %s (PID: %d)." % [process_name, pid])
-			# Adiciona uma pequena espera para não sobrecarregar o sistema com chamadas taskkill
-			OS.delay_msec(100) # Espera 100ms entre cada chamada
+			OS.delay_msec(100) # A small delay
 
 	print("Background kill task finished.")
-	# A thread termina aqui
+	# No need to emit signal from here anymore
 
-
-# Função para garantir que a thread seja finalizada ao sair da cena/jogo
+# Function to make sure the thread is finished when exiting the scene/game
 func _exit_tree():
 	if _kill_thread != null and _kill_thread.is_alive():
 		print("Waiting for kill thread to finish on exit...")
 		_kill_thread.wait_to_finish()
 
-
-# Function to visually enable/disable the button with animation
+# My function to visually enable/disable the button with animation
 func set_interactable(is_interactable: bool):
 	_is_interactable = is_interactable
-	
+
 	var target_modulate: Color
 	if is_interactable:
 		target_modulate = Color(1, 1, 1, 1) # Normal appearance
@@ -188,7 +192,7 @@ func set_interactable(is_interactable: bool):
 	else:
 		target_modulate = Color(1, 1, 1, 0.5) # Dimmed appearance
 		profile_button.disabled = true # Disable button node immediately
-		
+
 	# Animate the modulate property
 	var tween = create_tween()
 	tween.set_parallel(true) # Allow modulate and glow tweens to run together if needed
@@ -196,9 +200,9 @@ func set_interactable(is_interactable: bool):
 
 	# If disabling, also fade out the glow effect immediately if hovered
 	if not is_interactable and $bg1.get_global_rect().has_point(get_global_mouse_position()):
-		tween.tween_property(glow_effect, "modulate", Color(1, 1, 1, 0.0), 0.010).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO) # Duração da animação em segundos
+		tween.tween_property(glow_effect, "modulate", Color(1, 1, 1, 0.0), 0.010).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO) # Animation duration
 
-# Function to explicitly hide the context menu (still useful if called externally)
+# My function to explicitly hide the context menu (still useful if called externally)
 func hide_context_menu():
 	if mouse_menu.visible:
 		mouse_menu.visible = false
