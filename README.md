@@ -25,7 +25,6 @@ Downloading from untrusted sources may compromise your computer's security.
 ---
 
 # English
-<p align="right"><a href="#riot-switcher">Back to Top</a></p>
 
 ## Riot Switcher
 
@@ -115,10 +114,11 @@ All product and company names are trademarks™ or registered® trademarks of th
 
 Made with ❤️ using Godot Engine.
 
+[Back to Top](#riot-switcher)
+
 ---
 
 # Português
-<p align="right"><a href="#riot-switcher">Voltar ao Topo</a></p>
 
 ## Riot Switcher
 
@@ -208,10 +208,11 @@ Todos os nomes de produtos e empresas são marcas™ ou marcas registradas® de 
 
 Feito com ❤️ usando Godot Engine.
 
+[Voltar ao Topo](#riot-switcher)
+
 ---
 
 # Español
-<p align="right"><a href="#riot-switcher">Volver Arriba</a></p>
 
 ## Riot Switcher
 
@@ -301,10 +302,11 @@ Todos los nombres de productos y empresas son marcas™ o marcas registradas® d
 
 Hecho con ❤️ usando Godot Engine.
 
+[Volver Arriba](#riot-switcher)
+
 ---
 
 # Russian
-<p align="right"><a href="#riot-switcher">Вернуться к началу</a></p>
 
 ## Riot Switcher
 
@@ -394,10 +396,11 @@ Hecho con ❤️ usando Godot Engine.
 
 Сделано с ❤️ на Godot Engine.
 
+[Вернуться к началу](#riot-switcher)
+
 ---
 
 # Chinese
-<p align="right"><a href="#riot-switcher">返回顶部</a></p>
 
 ## Riot Switcher
 
@@ -487,10 +490,11 @@ Hecho con ❤️ usando Godot Engine.
 
 使用 Godot Engine 制作，充满 ❤️。
 
+[返回顶部](#riot-switcher)
+
 ---
 
 # Korean
-<p align="right"><a href="#riot-switcher">맨 위로 돌아가기</a></p>
 
 ## Riot Switcher
 
@@ -579,5 +583,7 @@ Riot Switcher를 빌드하려면:
 **Riot Switcher 사용은 사용자의 책임 하에 있습니다. 개발자는 사용으로 인한 결과(제재 또는 계정 정지 포함)에 대해 책임을 지지 않습니다.**
 
 Godot Engine으로 ❤️을 담아 제작했습니다.
+
+[맨 위로 돌아가기](#riot-switcher)
 
 --- 
