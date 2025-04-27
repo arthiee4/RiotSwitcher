@@ -31,6 +31,28 @@ It simply handles account profiles locally without modifying, interacting with, 
 
 ---
 
+## 🧠 How to Use RiotSwitcher Properly
+
+After creating your account profile inside RiotSwitcher, click on the **Play** button for the selected profile.
+
+When the Riot Client opens:
+- Log in normally.
+- **IMPORTANT:** Make sure to check the **Stay signed in** checkbox before logging in.
+
+If you don't check "Stay signed in", RiotSwitcher won't be able to handle the automatic login properly in the future.
+
+Here's a quick visual guide:
+
+![Stay Signed In Guide](assets/stay_signed_in.gif)
+
+1. Create and select your account profile in RiotSwitcher.
+2. Click **Play**.
+3. On the Riot login screen, **check "Stay signed in"**, then login.
+
+Done! Your account is now ready for one-click switching.
+
+---
+
 ## Requirements
 
 - Windows 10/11
