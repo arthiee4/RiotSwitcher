@@ -22,10 +22,3 @@ func _on_menu_id_selected(id: int) -> void:
 func _on_menu_id_pressed(button, _position):
 	if button == MOUSE_BUTTON_LEFT:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-
-## FPS limiter for when the window is not focused and when it is focused
-func _notification(what):
-	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
-		Engine.max_fps = 5
-	elif what == NOTIFICATION_APPLICATION_FOCUS_IN:
-		Engine.max_fps = 60
