@@ -1,3 +1,10 @@
 {
-	"profiles": []
+	"profiles": [
+		{
+			"custom_background_image": "res://assets/backgrounds/profiles_bg/6.webp",
+			"directory_name": "fckPVC",
+			"first_time_opened": false,
+			"profile_name": "fckPVC"
+		}
+	]
 }

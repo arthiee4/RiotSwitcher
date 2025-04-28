@@ -1,8 +1,10 @@
-[gd_scene load_steps=68 format=4 uid="uid://cidlt5wikssn7"]
+[gd_scene load_steps=71 format=4 uid="uid://cidlt5wikssn7"]
 
 [ext_resource type="Script" uid="uid://fq3op1fimbus" path="res://src/main.gd" id="1_0qlmk"]
 [ext_resource type="FontFile" uid="uid://10wh284qofrr" path="res://assets/fonts/Raleway-Light.ttf" id="1_e2qsc"]
+[ext_resource type="Script" uid="uid://dsiapwce0qph6" path="res://src/profile_grid_controller.gd" id="2_gqmmt"]
 [ext_resource type="FontFile" uid="uid://bwbai0nq228wc" path="res://assets/fonts/Raleway-Bold.ttf" id="2_tuiqe"]
+[ext_resource type="Script" uid="uid://bc7qhx1yer8kc" path="res://src/left_menu_handler.gd" id="3_0ld40"]
 [ext_resource type="PackedScene" uid="uid://b8nrrv40q70su" path="res://scenes/components/profile_button.tscn" id="3_8nwms"]
 [ext_resource type="Script" uid="uid://bmhqxoxdti76p" path="res://src/window_buttons.gd" id="4_sm8vm"]
 [ext_resource type="Texture2D" uid="uid://dv4na5pf6gbe4" path="res://assets/user_icons/add.png" id="6_36k36"]
@@ -15,6 +17,7 @@
 [ext_resource type="Script" uid="uid://t8yek8vtavjl" path="res://src/lang.gd" id="11_muem4"]
 [ext_resource type="Texture2D" uid="uid://krjk2xjl64om" path="res://assets/user_icons/github.png" id="11_qja53"]
 [ext_resource type="PackedScene" uid="uid://w3jljyf63rcp" path="res://scenes/add_menu.tscn" id="12_7avnf"]
+[ext_resource type="Script" uid="uid://dax40m6v2hys2" path="res://src/add_profile_controller.gd" id="13_dp3eg"]
 [ext_resource type="Script" uid="uid://b7k3ohhrolpu8" path="res://src/systemtray.gd" id="14_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://c2xgjxmibyhyb" path="res://scenes/boot.tscn" id="16_jbj1t"]
 
@@ -3860,6 +3863,7 @@ grow_vertical = 2
 theme_override_constants/h_separation = 205
 theme_override_constants/v_separation = 75
 columns = 4
+script = ExtResource("2_gqmmt")
 
 [node name="profile_button" parent="contet_side/GridContainer" instance=ExtResource("3_8nwms")]
 visible = false
@@ -3874,6 +3878,7 @@ offset_top = -360.0
 offset_right = 86.0
 offset_bottom = 360.0
 grow_vertical = 2
+script = ExtResource("3_0ld40")
 
 [node name="bg" type="ColorRect" parent="leftmenu_side"]
 layout_mode = 1
@@ -4401,6 +4406,7 @@ offset_bottom = 81.0
 [node name="add_menu" parent="." instance=ExtResource("12_7avnf")]
 visible = false
 mouse_filter = 1
+script = ExtResource("13_dp3eg")
 
 [node name="Panel" parent="add_menu" index="0"]
 offset_left = -8.0
@@ -4498,7 +4504,7 @@ grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 0.988235, 0.662745)
 theme_override_fonts/font = ExtResource("2_tuiqe")
 theme_override_font_sizes/font_size = 12
-text = "beta  Ana."
+text = "beta  Ana"
 metadata/_edit_use_anchors_ = true
 
 [node name="version_label" type="Label" parent="upper_side"]
