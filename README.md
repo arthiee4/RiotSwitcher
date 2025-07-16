@@ -14,8 +14,6 @@ Downloading from untrusted sources may compromise your computer's security.
   <img src="assets/example-vANA.webp" alt="Stay Signed In Guide">
 </p>
 
-# English
-
 ## Riot Switcher
 
 **Riot Switcher** is a custom launcher created for League of Legends players to manage multiple accounts in a simple, fast, and organized way.
