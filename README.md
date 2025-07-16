@@ -6,8 +6,6 @@
 **Do NOT trust unknown links or unofficial websites.**  
 Downloading from untrusted sources may compromise your computer's security.
 
-🔗 Official Download: [RiotSwitcher Releases](https://github.com/arthiee4/RiotSwitcher/releases/)
-
 ---
 
 <p align="center">
