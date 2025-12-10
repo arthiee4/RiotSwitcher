@@ -4,6 +4,46 @@ const PROFILES_PATH = "res://Data/profiles_data.json"
 const PROFILE_DIR_BASE = "user://profiles/"
 const CUSTOM_BG_DIR = "user://UserBackground/" # Needed for deleting associated background
 
+const FILES_TO_SWITCH = [
+	{
+		"id": "private_settings",
+		"filename": "RiotGamesPrivateSettings.yaml",
+		"base": "local_app_data",
+		"rel_path": "Riot Games/Riot Client/Data/RiotGamesPrivateSettings.yaml"
+	},
+	{
+		"id": "sessions_dir",
+		"filename": "Sessions",
+		"base": "local_app_data",
+		"rel_path": "Riot Games/Riot Client/Data/Sessions",
+		"is_dir": true
+	},
+	{
+		"id": "riot_client_settings",
+		"filename": "RiotClientSettings.yaml",
+		"base": "local_app_data",
+		"rel_path": "Riot Games/Riot Client/Config/RiotClientSettings.yaml"
+	},
+	{
+		"id": "lockfile",
+		"filename": "lockfile",
+		"base": "local_app_data",
+		"rel_path": "Riot Games/Riot Client/Config/lockfile"
+	},
+	{
+		"id": "client_config",
+		"filename": "client.config.yaml",
+		"base": "install_dir",
+		"rel_path": "Config/client.config.yaml"
+	},
+	{
+		"id": "client_settings",
+		"filename": "client.settings.yaml",
+		"base": "install_dir",
+		"rel_path": "Config/client.settings.yaml"
+	}
+]
+
 signal profiles_updated # Emitted after load, add, delete
 
 # Maybe keep a local copy of profile data to avoid repeated file reads
@@ -194,9 +234,16 @@ func delete_profile(profile_name_to_delete: String) -> bool:
 	# Return true because JSON was updated, even if file cleanup had issues
 	return true
 
-# Backs up the current Riot Client settings to the profile's directory.
-# Returns true on success, false on failure.
-func backup_profile_settings(profile_name: String) -> bool:
+# Kills Riot Client processes to ensure files can be swapped safely.
+func kill_riot_processes() -> void:
+	print("ProfileManager: Killing Riot Client processes...")
+	OS.execute("taskkill", ["/F", "/IM", "RiotClientServices.exe", "/T"])
+	OS.execute("taskkill", ["/F", "/IM", "LeagueClient.exe", "/T"])
+	OS.execute("taskkill", ["/F", "/IM", "Valorant.exe", "/T"])
+	OS.delay_msec(500)
+
+# Saves the current environment settings/credentials to the profile.
+func save_profile(profile_name: String, riot_install_dir: String) -> bool:
 	var profile_entry = null
 	for p in _profiles_data:
 		if p.get("profile_name") == profile_name:
@@ -204,106 +251,151 @@ func backup_profile_settings(profile_name: String) -> bool:
 			break
 			
 	if not profile_entry:
-		printerr("ProfileManager: Cannot backup settings, profile not found in cache: ", profile_name)
+		printerr("ProfileManager: Cannot save profile, not found: ", profile_name)
 		return false
 
 	var sanitized_profile_name = profile_entry.get("directory_name")
-	if not sanitized_profile_name or sanitized_profile_name.is_empty():
-		printerr("ProfileManager: Cannot backup settings, directory name missing or empty for profile: ", profile_name)
-		 # Fallback: try generating it again, but this indicates a data issue
-		sanitized_profile_name = profile_name.validate_filename().replace(" ", "_")
-		if sanitized_profile_name.is_empty(): return false
-
-	var local_app_data = OS.get_environment("LOCALAPPDATA")
-	if local_app_data.is_empty():
-		printerr("ProfileManager: Cannot backup settings: LOCALAPPDATA environment variable not found.")
-		return false
+	if not sanitized_profile_name: return false
 	
-	var profile_settings_dir = PROFILE_DIR_BASE.path_join(sanitized_profile_name)
-	# Ensure the profile's own directory exists before trying to save into it
-	var dir_err = DirAccess.make_dir_recursive_absolute(profile_settings_dir)
-	if dir_err != OK:
-		printerr("ProfileManager: Failed to ensure profile destination directory exists: '%s'. Error: %s" % [profile_settings_dir, dir_err])
-		return false
+	var profile_dir = PROFILE_DIR_BASE.path_join(sanitized_profile_name)
+	var local_app_data = OS.get_environment("LOCALAPPDATA")
+	
+	print("ProfileManager: Saving profile data for '%s'..." % profile_name)
+	
+	var all_success = true
+	
+	for file_def in FILES_TO_SWITCH:
+		var source_path = ""
+		if file_def["base"] == "local_app_data":
+			if local_app_data.is_empty(): continue
+			source_path = local_app_data.path_join(file_def["rel_path"])
+		elif file_def["base"] == "install_dir":
+			if riot_install_dir.is_empty(): continue
+			source_path = riot_install_dir.path_join(file_def["rel_path"])
+			
+		var dest_path = profile_dir.path_join(file_def["filename"])
+		var is_dir = file_def.get("is_dir", false)
 		
-	var profile_settings_path = profile_settings_dir.path_join("RiotGamesPrivateSettings.yaml")
-	var riot_client_settings_path = local_app_data.path_join("Riot Games/Riot Client/Data/RiotGamesPrivateSettings.yaml")
-
-	print("ProfileManager: Attempting to save current Riot Client settings for profile '%s' to '%s'..." % [profile_name, profile_settings_path])
-
-	if not FileAccess.file_exists(riot_client_settings_path):
-		printerr("ProfileManager: Source Riot Client settings file not found, cannot save settings: ", riot_client_settings_path)
-		return false # Cannot backup if source doesn't exist
-
-	# Perform the copy
-	var copy_err = DirAccess.copy_absolute(riot_client_settings_path, profile_settings_path)
-	if copy_err == OK:
-		print("ProfileManager: Successfully saved Riot Client settings to profile folder for '%s'." % profile_name)
-		return true
-	else:
-		printerr("ProfileManager: Failed to save Riot Client settings for '%s'. Error copying '%s' to '%s'. Code: %s" % [profile_name, riot_client_settings_path, profile_settings_path, copy_err])
-		return false
+		if is_dir:
+			if DirAccess.dir_exists_absolute(source_path):
+				# For directories, we remove the old backup first to ensure clean state
+				if DirAccess.dir_exists_absolute(dest_path):
+					_remove_dir_recursive(dest_path)
+					
+				var copy_err = _copy_dir_recursive(source_path, dest_path)
+				if copy_err != OK:
+					printerr("ProfileManager: Failed to backup directory '%s' to '%s'. Error: %s" % [file_def["filename"], dest_path, copy_err])
+					all_success = false
+				else:
+					print("ProfileManager: Backed up directory '%s'." % file_def["filename"])
+			else:
+				print("ProfileManager: Source directory '%s' not found (%s), skipping backup." % [file_def["filename"], source_path])
+				
+		else:
+			if FileAccess.file_exists(source_path):
+				var copy_err = DirAccess.copy_absolute(source_path, dest_path)
+				if copy_err != OK:
+					printerr("ProfileManager: Failed to backup '%s' to '%s'. Error: %s" % [file_def["filename"], dest_path, copy_err])
+					all_success = false
+				else:
+					print("ProfileManager: Backed up '%s'." % file_def["filename"])
+			else:
+				print("ProfileManager: Source file '%s' not found (%s), skipping backup." % [file_def["filename"], source_path])
+			
+	return all_success
 
 # Restores saved settings from the profile directory, or deletes current Riot settings if none saved.
 # Returns true if the operation (restore or delete) was successful, false otherwise.
-func restore_profile_settings(profile_name: String) -> bool:
+# Restores the profile settings, overwriting the environment.
+func restore_profile(profile_name: String, riot_install_dir: String) -> bool:
+	kill_riot_processes()
+
 	var profile_entry = null
 	for p in _profiles_data:
 		if p.get("profile_name") == profile_name:
 			profile_entry = p
 			break
 			
-	if not profile_entry:
-		printerr("ProfileManager: Cannot restore settings, profile not found in cache: ", profile_name)
-		return false
-
-	var sanitized_profile_name = profile_entry.get("directory_name")
-	if not sanitized_profile_name or sanitized_profile_name.is_empty():
-		printerr("ProfileManager: Cannot restore settings, directory name missing or empty for profile: ", profile_name)
-		sanitized_profile_name = profile_name.validate_filename().replace(" ", "_")
-		if sanitized_profile_name.is_empty(): return false
-
-	var local_app_data = OS.get_environment("LOCALAPPDATA")
-	if local_app_data.is_empty():
-		printerr("ProfileManager: Cannot restore settings: LOCALAPPDATA environment variable not found.")
-		return false
-		
-	var profile_settings_dir = PROFILE_DIR_BASE.path_join(sanitized_profile_name)
-	var profile_settings_path = profile_settings_dir.path_join("RiotGamesPrivateSettings.yaml")
-	var riot_client_data_path = local_app_data.path_join("Riot Games/Riot Client/Data")
-	var riot_client_settings_path = riot_client_data_path.path_join("RiotGamesPrivateSettings.yaml")
+	if not profile_entry: return false
 	
-	var settings_operation_success = false
-
-	# Check if the profile has a backed-up settings file
-	if FileAccess.file_exists(profile_settings_path):
-		print("ProfileManager: Restoring saved settings for profile '%s' from '%s'..." % [profile_name, profile_settings_path])
-		# Ensure the target Riot Client data directory exists
-		var dir_err = DirAccess.make_dir_recursive_absolute(riot_client_data_path)
-		if dir_err == OK:
-			var copy_err = DirAccess.copy_absolute(profile_settings_path, riot_client_settings_path)
-			if copy_err == OK:
-				settings_operation_success = true
-				print("ProfileManager: Settings restored successfully for '%s'." % profile_name)
-			else:
-				printerr("ProfileManager: Failed to restore settings for '%s'. Error copying to '%s'. Code: %s" % [profile_name, riot_client_settings_path, copy_err])
-		else:
-			printerr("ProfileManager: Failed to ensure Riot Client data directory exists: '%s'. Error: %s" % [riot_client_data_path, dir_err])
-	else:
-		# No saved settings found for this profile, delete the current one if it exists
-		print("ProfileManager: No saved settings found for '%s'. Deleting existing '%s' if present..." % [profile_name, riot_client_settings_path])
-		if FileAccess.file_exists(riot_client_settings_path):
-			var del_err = DirAccess.remove_absolute(riot_client_settings_path)
-			if del_err == OK:
-				settings_operation_success = true
-				print("ProfileManager: Existing Riot Client settings deleted successfully.")
-			else:
-				printerr("ProfileManager: Failed to delete existing Riot Client settings. Error: %s" % del_err)
-		else:
-			print("ProfileManager: No existing Riot Client settings file to delete.")
-			settings_operation_success = true # Considered success if nothing needed deleting
+	var sanitized_profile_name = profile_entry.get("directory_name")
+	var profile_dir = PROFILE_DIR_BASE.path_join(sanitized_profile_name)
+	var local_app_data = OS.get_environment("LOCALAPPDATA")
+	
+	print("ProfileManager: Restoring profile data for '%s'..." % profile_name)
+	
+	for file_def in FILES_TO_SWITCH:
+		var dest_base = ""
+		if file_def["base"] == "local_app_data":
+			dest_base = local_app_data
+		elif file_def["base"] == "install_dir":
+			dest_base = riot_install_dir
 			
-	return settings_operation_success
+		if dest_base.is_empty(): continue
+		
+		var dest_path = dest_base.path_join(file_def["rel_path"])
+		var source_path = profile_dir.path_join(file_def["filename"])
+		var is_dir = file_def.get("is_dir", false)
+		
+		# Ensure parent dir exists
+		DirAccess.make_dir_recursive_absolute(dest_path.get_base_dir())
+		
+		if is_dir:
+			if DirAccess.dir_exists_absolute(source_path):
+				# Remove existing destination directory to avoid mixing old/new sessions
+				if DirAccess.dir_exists_absolute(dest_path):
+					_remove_dir_recursive(dest_path)
+				
+				var copy_err = _copy_dir_recursive(source_path, dest_path)
+				if copy_err != OK:
+					printerr("ProfileManager: Failed to restore directory '%s' to '%s'. Error: %s" % [file_def["filename"], dest_path, copy_err])
+				else:
+					print("ProfileManager: Restored directory '%s'." % file_def["filename"])
+			else:
+				# Profile missing this dir, remove from env to be safe?
+				if DirAccess.dir_exists_absolute(dest_path):
+					print("ProfileManager: Profile misses '%s', removing existing one from client." % file_def["filename"])
+					_remove_dir_recursive(dest_path)
+		else:
+			if FileAccess.file_exists(source_path):
+				var copy_err = DirAccess.copy_absolute(source_path, dest_path)
+				if copy_err != OK:
+					printerr("ProfileManager: Failed to restore '%s' to '%s'. Error: %s" % [file_def["filename"], dest_path, copy_err])
+				else:
+					print("ProfileManager: Restored '%s'." % file_def["filename"])
+			else:
+				if FileAccess.file_exists(dest_path):
+					print("ProfileManager: Profile misses '%s', removing existing one from client." % file_def["filename"])
+					DirAccess.remove_absolute(dest_path)
+				
+	return true
+
+# Helper to recursively copy a directory
+func _copy_dir_recursive(source_path: String, dest_path: String) -> Error:
+	var dir = DirAccess.open(source_path)
+	if not dir:
+		return DirAccess.get_open_error()
+		
+	var err = DirAccess.make_dir_recursive_absolute(dest_path)
+	if err != OK: return err
+	
+	dir.list_dir_begin()
+	var file_name = dir.get_next()
+	while file_name != "":
+		if file_name != "." and file_name != "..":
+			var src_full = source_path.path_join(file_name)
+			var dest_full = dest_path.path_join(file_name)
+			
+			if dir.current_is_dir():
+				var sub_err = _copy_dir_recursive(src_full, dest_full)
+				if sub_err != OK: return sub_err
+			else:
+				var sub_err = DirAccess.copy_absolute(src_full, dest_full)
+				if sub_err != OK: return sub_err
+				
+		file_name = dir.get_next()
+		
+	return OK
 
 
 # --- Internal Helpers (Copied & adapted from main.gd) ---

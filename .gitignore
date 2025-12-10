@@ -1,3 +1,32 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+/ios/
+
+# Imported assets (Godot 4 uses .godot/imported, but legacy or misconfig might leave these)
+*.import
+
+# Binary Tools
+rcedit-x64.exe
+
+# Build Artifacts
+*.exe
+*.pck
+*.tmp
+
+# User Data & sensitive configs
+Data/profiles_data.json
+Data/configs.json
+user://
+UserBackground/
+profiles/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Export presets (contains absolute paths)
+export_presets.cfg

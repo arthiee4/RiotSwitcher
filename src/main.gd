@@ -3,8 +3,8 @@ extends Control
 ### --- Constants --- ###
 # Constants moved to specific controllers
 
-const ProfileManager = preload("res://src/profile_manager.gd")
-const ConfigManager = preload("res://src/config_manager.gd")
+const ProfileManager = preload("res://src/Managers/profile_manager.gd")
+const ConfigManager = preload("res://src/Managers/config_manager.gd")
 
 ### --- Node References --- ###
 @onready var left_menu_handler = $leftmenu_side
