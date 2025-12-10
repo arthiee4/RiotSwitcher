@@ -3,7 +3,7 @@ extends GridContainer
 # Constants
 const ADD_PROFILE_BUTTON_SCENE = preload("res://scenes/components/profile_button.tscn")
 const DEFAULT_BG_PATH = "res://assets/backgrounds/default_bg.webp"
-const ProfileManager = preload("res://src/profile_manager.gd") # Define ProfileManager type
+const ProfileManager = preload("res://src/Managers/profile_manager.gd") # Define ProfileManager type
 
 # Dependencies (Injected from Main)
 var profile_manager: ProfileManager
@@ -153,7 +153,7 @@ func _handle_profile_start(profile_button):
 	_disable_other_buttons(active_profile_button)
 
 	# Restore Saved Settings or Delete Existing using ProfileManager
-	var settings_operation_success = profile_manager.restore_profile_settings(profile_button.name)
+	var settings_operation_success = profile_manager.restore_profile(profile_button.name, riot_client_location)
 	_update_progress_bar(active_profile_button, 45, true)
 
 	# Verify Setup Before Launch
@@ -203,7 +203,7 @@ func _handle_profile_stop(profile_button):
 	_update_progress_bar(profile_button, 0, true)
 
 	# Save Current Riot Client Settings to Profile Folder using ProfileManager
-	if not profile_manager.backup_profile_settings(profile_button.name):
+	if not profile_manager.save_profile(profile_button.name, riot_client_location):
 		print("ProfileGridController: Warning: Failed to backup settings for profile: ", profile_button.name)
 
 	_update_progress_bar(profile_button, 50, true)

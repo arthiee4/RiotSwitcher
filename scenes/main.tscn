@@ -1,21 +1,21 @@
 [gd_scene load_steps=71 format=4 uid="uid://cidlt5wikssn7"]
 
 [ext_resource type="Script" uid="uid://fq3op1fimbus" path="res://src/main.gd" id="1_0qlmk"]
-[ext_resource type="FontFile" uid="uid://10wh284qofrr" path="res://assets/fonts/Raleway-Light.ttf" id="1_e2qsc"]
+[ext_resource type="FontFile" uid="uid://bd1fwlybgwmrg" path="res://assets/fonts/Raleway-Light.ttf" id="1_e2qsc"]
 [ext_resource type="Script" uid="uid://dsiapwce0qph6" path="res://src/profile_grid_controller.gd" id="2_gqmmt"]
-[ext_resource type="FontFile" uid="uid://bwbai0nq228wc" path="res://assets/fonts/Raleway-Bold.ttf" id="2_tuiqe"]
+[ext_resource type="FontFile" uid="uid://dvwgn7qwtgdjn" path="res://assets/fonts/Raleway-Bold.ttf" id="2_tuiqe"]
 [ext_resource type="Script" uid="uid://bc7qhx1yer8kc" path="res://src/left_menu_handler.gd" id="3_0ld40"]
 [ext_resource type="PackedScene" uid="uid://b8nrrv40q70su" path="res://scenes/components/profile_button.tscn" id="3_8nwms"]
 [ext_resource type="Script" uid="uid://bmhqxoxdti76p" path="res://src/window_buttons.gd" id="4_sm8vm"]
-[ext_resource type="Texture2D" uid="uid://dv4na5pf6gbe4" path="res://assets/user_icons/add.png" id="6_36k36"]
-[ext_resource type="Texture2D" uid="uid://dl3wabj47o3ry" path="res://assets/user_icons/settings.png" id="6_vqjbp"]
-[ext_resource type="Texture2D" uid="uid://db4fxy30iwv5h" path="res://no_bg.png" id="7_a8y0u"]
-[ext_resource type="Texture2D" uid="uid://bt7kgp26yrpyl" path="res://assets/user_icons/home.png" id="7_jmtl2"]
+[ext_resource type="Texture2D" uid="uid://c0r32q7f1mgcx" path="res://assets/user_icons/add.png" id="6_36k36"]
+[ext_resource type="Texture2D" uid="uid://bdowgt2e0e7y3" path="res://assets/user_icons/settings.png" id="6_vqjbp"]
+[ext_resource type="Texture2D" uid="uid://di6ciko1r3ds8" path="res://no_bg.png" id="7_a8y0u"]
+[ext_resource type="Texture2D" uid="uid://k0jj85fayi7r" path="res://assets/user_icons/home.png" id="7_jmtl2"]
 [ext_resource type="Shader" uid="uid://cswe7248fk0td" path="res://shaders/glow.gdshader" id="7_myoxr"]
 [ext_resource type="Script" uid="uid://dxcm2e2j4ubiw" path="res://src/upper_side.gd" id="8_njgeq"]
 [ext_resource type="Script" uid="uid://blac5x4qv3t14" path="res://src/vanguard.gd" id="10_jkv2x"]
 [ext_resource type="Script" uid="uid://t8yek8vtavjl" path="res://src/lang.gd" id="11_muem4"]
-[ext_resource type="Texture2D" uid="uid://krjk2xjl64om" path="res://assets/user_icons/github.png" id="11_qja53"]
+[ext_resource type="Texture2D" uid="uid://cynujryolqja4" path="res://assets/user_icons/github.png" id="11_qja53"]
 [ext_resource type="PackedScene" uid="uid://w3jljyf63rcp" path="res://scenes/add_menu.tscn" id="12_7avnf"]
 [ext_resource type="Script" uid="uid://dax40m6v2hys2" path="res://src/add_profile_controller.gd" id="13_dp3eg"]
 [ext_resource type="Script" uid="uid://b7k3ohhrolpu8" path="res://src/systemtray.gd" id="14_a8y0u"]
@@ -4599,14 +4599,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -22.0
-offset_top = -13.0
+offset_left = -30.0
+offset_top = -14.0
 offset_right = 7.0
-offset_bottom = 4.0
+offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 12
-text = "v 0.2"
+text = "v 0.2.4"
 
 [node name="boot" parent="." instance=ExtResource("16_jbj1t")]
 visible = false
