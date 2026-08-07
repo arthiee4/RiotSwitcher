@@ -2,7 +2,7 @@
 
 [ext_resource type="Shader" uid="uid://cswe7248fk0td" path="res://shaders/glow.gdshader" id="1_3aoht"]
 [ext_resource type="Script" uid="uid://b7502oi8kl10a" path="res://src/profile_button.gd" id="1_bfvnd"]
-[ext_resource type="Texture2D" uid="uid://ifj5hs32k5ga" path="res://assets/user_icons/play.png" id="1_dc1tc"]
+[ext_resource type="Texture2D" uid="uid://ifj5hs32k5ga" path="res://assets/icons/ui/icon_play.png" id="1_dc1tc"]
 [ext_resource type="FontFile" uid="uid://bwbai0nq228wc" path="res://assets/fonts/Raleway-Bold.ttf" id="2_h8srp"]
 [ext_resource type="Texture2D" uid="uid://dhdywa4myu08r" path="res://assets/backgrounds/default_bg.webp" id="4_at24t"]
 
@@ -2435,14 +2435,14 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_bfvnd")
 
-[node name="bg1" type="Button" parent="."]
+[node name="card" type="Button" parent="."]
 layout_mode = 1
 offset_right = 181.0
 offset_bottom = 50.0
 theme = SubResource("Theme_umlav")
 flat = true
 
-[node name="bg2" type="Panel" parent="bg1"]
+[node name="card_inner" type="Panel" parent="card"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.737968
@@ -2454,7 +2454,7 @@ mouse_default_cursor_shape = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_rmlkp")
 metadata/_edit_use_anchors_ = true
 
-[node name="Button" type="Button" parent="bg1/bg2"]
+[node name="Button" type="Button" parent="card/card_inner"]
 z_index = 1
 layout_mode = 1
 anchors_preset = 15
@@ -2466,7 +2466,7 @@ mouse_default_cursor_shape = 2
 theme = SubResource("Theme_ajleo")
 flat = true
 
-[node name="Panel" type="Panel" parent="bg1/bg2/Button"]
+[node name="Panel" type="Panel" parent="card/card_inner/Button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2477,7 +2477,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_cqkpw")
 
-[node name="TextureRect" type="TextureRect" parent="bg1/bg2/Button"]
+[node name="TextureRect" type="TextureRect" parent="card/card_inner/Button"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -2493,7 +2493,7 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("1_dc1tc")
 
-[node name="glow" type="ColorRect" parent="bg1/bg2"]
+[node name="glow" type="ColorRect" parent="card/card_inner"]
 modulate = Color(1, 1, 1, 0)
 material = SubResource("ShaderMaterial_a4rcj")
 layout_mode = 1
@@ -2510,7 +2510,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Panel" type="Panel" parent="bg1"]
+[node name="Panel" type="Panel" parent="card"]
 modulate = Color(0.678944, 0.678944, 0.678944, 1)
 clip_children = 2
 clip_contents = true
@@ -2519,7 +2519,7 @@ offset_right = 181.0
 offset_bottom = 50.0
 mouse_filter = 2
 
-[node name="profile_bg" type="TextureRect" parent="bg1/Panel"]
+[node name="profile_bg" type="TextureRect" parent="card/Panel"]
 clip_children = 2
 layout_mode = 1
 anchors_preset = 15
@@ -2532,9 +2532,10 @@ texture = ExtResource("4_at24t")
 expand_mode = 5
 stretch_mode = 6
 
-[node name="ProgressBar" type="ProgressBar" parent="bg1/Panel"]
+[node name="ProgressBar" type="ProgressBar" parent="card/Panel"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
+anchor_top = 0.85
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -2544,7 +2545,7 @@ theme_override_styles/background = SubResource("StyleBoxFlat_at24t")
 theme_override_styles/fill = SubResource("StyleBoxFlat_hqcdx")
 show_percentage = false
 
-[node name="mouse_right_menu" type="Control" parent="bg1"]
+[node name="context_menu" type="Control" parent="card"]
 z_index = 1
 layout_mode = 1
 anchor_left = 0.584846
@@ -2555,7 +2556,7 @@ offset_left = 0.142859
 offset_right = 0.142853
 metadata/_edit_use_anchors_ = true
 
-[node name="Panel" type="Panel" parent="bg1/mouse_right_menu"]
+[node name="Panel" type="Panel" parent="card/context_menu"]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -2567,14 +2568,14 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_jddgn")
 
-[node name="delete" type="Control" parent="bg1/mouse_right_menu/Panel"]
+[node name="delete" type="Control" parent="card/context_menu/Panel"]
 anchors_preset = 0
 offset_top = 41.0
 offset_right = 126.0
 offset_bottom = 81.0
 mouse_default_cursor_shape = 2
 
-[node name="Panel" type="Panel" parent="bg1/mouse_right_menu/Panel/delete"]
+[node name="Panel" type="Panel" parent="card/context_menu/Panel/delete"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2583,7 +2584,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wqqi4")
 
-[node name="Label" type="Label" parent="bg1/mouse_right_menu/Panel/delete"]
+[node name="Label" type="Label" parent="card/context_menu/Panel/delete"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -2598,7 +2599,7 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "DELETE"
 
-[node name="TextureButton" type="TextureButton" parent="bg1/mouse_right_menu/Panel/delete"]
+[node name="TextureButton" type="TextureButton" parent="card/context_menu/Panel/delete"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2607,14 +2608,14 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
 
-[node name="edit" type="Control" parent="bg1/mouse_right_menu/Panel"]
+[node name="edit" type="Control" parent="card/context_menu/Panel"]
 layout_mode = 3
 anchors_preset = 0
 offset_top = 1.0
 offset_right = 126.0
 offset_bottom = 41.0
 
-[node name="Panel" type="Panel" parent="bg1/mouse_right_menu/Panel/edit"]
+[node name="Panel" type="Panel" parent="card/context_menu/Panel/edit"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2623,7 +2624,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wqqi4")
 
-[node name="Label" type="Label" parent="bg1/mouse_right_menu/Panel/edit"]
+[node name="Label" type="Label" parent="card/context_menu/Panel/edit"]
 modulate = Color(1, 1, 1, 0.254902)
 layout_mode = 1
 anchors_preset = 8
@@ -2639,7 +2640,7 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "EDIT"
 
-[node name="TextureButton" type="TextureButton" parent="bg1/mouse_right_menu/Panel/edit"]
+[node name="TextureButton" type="TextureButton" parent="card/context_menu/Panel/edit"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2657,6 +2658,6 @@ theme_override_fonts/font = ExtResource("2_h8srp")
 theme_override_font_sizes/font_size = 21
 text = "Account1"
 
-[connection signal="mouse_entered" from="bg1" to="." method="_on_bg_1_mouse_entered"]
-[connection signal="mouse_exited" from="bg1" to="." method="_on_bg_1_mouse_exited"]
-[connection signal="pressed" from="bg1/bg2/Button" to="." method="_on_profile_button_pressed"]
+[connection signal="mouse_entered" from="card" to="." method="_on_card_mouse_entered"]
+[connection signal="mouse_exited" from="card" to="." method="_on_card_mouse_exited"]
+[connection signal="pressed" from="card/card_inner/Button" to="." method="_on_profile_button_pressed"]

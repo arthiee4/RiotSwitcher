@@ -4,11 +4,11 @@
 [ext_resource type="Script" uid="uid://cxblws6at7dcf" path="res://src/boot.gd" id="1_n61mk"]
 [ext_resource type="FontFile" uid="uid://bwbai0nq228wc" path="res://assets/fonts/Raleway-Bold.ttf" id="3_j20pb"]
 [ext_resource type="FontFile" uid="uid://10wh284qofrr" path="res://assets/fonts/Raleway-Light.ttf" id="4_fbohu"]
-[ext_resource type="Texture2D" uid="uid://bv6blnmtqhgvg" path="res://apple-touch-icon.png" id="5_fbohu"]
+[ext_resource type="Texture2D" uid="uid://bv6blnmtqhgvg" path="res://assets/icons/app_tray_icon.png" id="5_fbohu"]
 [ext_resource type="Script" uid="uid://dxcm2e2j4ubiw" path="res://src/upper_side.gd" id="6_0pljo"]
 [ext_resource type="Script" uid="uid://t8yek8vtavjl" path="res://src/lang.gd" id="6_u8wmu"]
 [ext_resource type="Script" uid="uid://bmhqxoxdti76p" path="res://src/window_buttons.gd" id="7_u8wmu"]
-[ext_resource type="Texture2D" uid="uid://krjk2xjl64om" path="res://assets/user_icons/github.png" id="8_r4jsg"]
+[ext_resource type="Texture2D" uid="uid://krjk2xjl64om" path="res://assets/icons/ui/icon_github.png" id="8_r4jsg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n61mk"]
 shader = ExtResource("1_6ypks")
