@@ -1,17 +1,17 @@
 extends Control
 
-var active_mouse_menu = null
-var dragging = false
-var drag_offset = Vector2()
+## Drag handle for the borderless window: dragging this bar moves the window.
 
-func _gui_input(event):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			dragging = event.pressed
-			if dragging:
-				drag_offset = event.position
+var _dragging := false
+var _drag_offset := Vector2.ZERO
 
-	if event is InputEventMouseMotion and dragging:
-		var window_position = Vector2(DisplayServer.window_get_position().x, DisplayServer.window_get_position().y)
-		var new_position = window_position + event.position - drag_offset
-		DisplayServer.window_set_position(new_position)
+
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		_dragging = event.pressed
+		if _dragging:
+			_drag_offset = event.position
+
+	if event is InputEventMouseMotion and _dragging:
+		var window_position := Vector2(DisplayServer.window_get_position())
+		DisplayServer.window_set_position(window_position + event.position - _drag_offset)

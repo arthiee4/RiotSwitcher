@@ -1,24 +1,35 @@
 extends Node
 
+## System tray icon. Left click restores the window; the menu offers Exit.
+## Main connects to the signals and owns the actual window/app lifecycle.
+
+signal exit_requested
+signal show_window_requested
+
+const TRAY_ICON: Texture2D = preload("res://assets/icons/app_tray_icon.png")
+
+const MENU_ID_EXIT := 0
+
+
 func _ready() -> void:
-	var si: StatusIndicator = StatusIndicator.new()
-	si.icon = load("res://apple-touch-icon.png")
-	si.tooltip = tr("RiotSwitcher")
-	si.pressed.connect(_on_menu_id_pressed)
-	add_child(si)
+	var indicator := StatusIndicator.new()
+	indicator.icon = TRAY_ICON
+	indicator.tooltip = "Riot Switcher"
+	indicator.pressed.connect(_on_indicator_pressed)
+	add_child(indicator)
 
-	var menu: PopupMenu = PopupMenu.new()
+	var menu := PopupMenu.new()
+	menu.add_item(tr("Exit"), MENU_ID_EXIT)
+	menu.id_pressed.connect(_on_menu_id_pressed)
 	add_child(menu)
+	indicator.menu = menu.get_path()
 
-	menu.add_item(tr("Exit"), 0)
-	si.menu = menu.get_path()
-	menu.id_pressed.connect(_on_menu_id_selected)
 
-func _on_menu_id_selected(id: int) -> void:
-	match id:
-		0:
-			get_tree().quit()
+func _on_menu_id_pressed(id: int) -> void:
+	if id == MENU_ID_EXIT:
+		exit_requested.emit()
 
-func _on_menu_id_pressed(button, _position):
+
+func _on_indicator_pressed(button: int, _position: Vector2i) -> void:
 	if button == MOUSE_BUTTON_LEFT:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		show_window_requested.emit()

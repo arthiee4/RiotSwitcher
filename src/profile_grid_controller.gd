@@ -1,265 +1,289 @@
 extends GridContainer
 
-# Constants
-const ADD_PROFILE_BUTTON_SCENE = preload("res://scenes/components/profile_button.tscn")
-const DEFAULT_BG_PATH = "res://assets/backgrounds/default_bg.webp"
-const ProfileManager = preload("res://src/Managers/profile_manager.gd") # Define ProfileManager type
+## Builds the profile cards and orchestrates starting/stopping profiles.
+##
+## Starting profile B while profile A was running saves A's session first,
+## then restores B's files and launches the client. All blocking work
+## (taskkill, file copies) runs on a worker thread; the UI is only touched
+## back on the main thread via call_deferred.
 
-# Dependencies (Injected from Main)
+const PROFILE_BUTTON_SCENE: PackedScene = preload("res://scenes/components/profile_button.tscn")
+const DEFAULT_BG_PATH := "res://assets/backgrounds/default_bg.webp"
+const CLIENT_EXE := "RiotClientServices.exe"
+const LAUNCH_ARGS: Array[String] = ["--launch-product=league_of_legends", "--launch-patchline=live"]
+
+# Dependencies, injected by Main.
 var profile_manager: ProfileManager
 var riot_client_location: String = ""
 
-# State
-var active_profile_button = null # Currently running profile button node, if any.
+var _active_button: Control = null
+var _running_profile_name: String = "" # Survives grid repopulation.
+var _worker: Thread = null
+var _progress_tween: Tween = null
 
-# Public function to set dependencies after instantiation
-func set_dependencies(pm: ProfileManager, client_loc: String):
+
+func set_dependencies(pm: ProfileManager, client_location: String) -> void:
 	profile_manager = pm
-	riot_client_location = client_loc
-	if profile_manager:
-		# Connect to profile manager updates AFTER dependency is set
-		if not profile_manager.profiles_updated.is_connected(_populate_profile_buttons):
-			profile_manager.profiles_updated.connect(_populate_profile_buttons)
-		# Initial population
-		_populate_profile_buttons()
-	else:
-		printerr("ProfileGridController: ProfileManager dependency is null!")
-
-# Public function to update riot_client_location if it changes
-func update_riot_client_location(client_loc: String):
-	riot_client_location = client_loc
-	print("ProfileGridController: Riot Client Location updated.")
-
-### --- Grid Population and Button Creation --- ###
-
-# Populates the profile grid based on data from ProfileManager.
-func _populate_profile_buttons():
+	riot_client_location = client_location
 	if not profile_manager:
-		printerr("ProfileGridController: Cannot populate, ProfileManager not set.")
+		printerr("ProfileGridController: ProfileManager dependency is null!")
 		return
-	print("ProfileGridController: Populating profile buttons...")
-	# Clear existing buttons first
+	if not profile_manager.profiles_updated.is_connected(_populate_profile_buttons):
+		profile_manager.profiles_updated.connect(_populate_profile_buttons)
+	_populate_profile_buttons()
+
+
+func update_riot_client_location(client_location: String) -> void:
+	riot_client_location = client_location
+
+
+## Name of the profile whose client is currently running, or "".
+func get_running_profile_name() -> String:
+	return _running_profile_name
+
+
+## Best-effort save of the running profile's session (used before quitting).
+func save_running_session() -> void:
+	if _running_profile_name.is_empty() or not profile_manager:
+		return
+	profile_manager.save_profile_session(_running_profile_name, riot_client_location)
+
+
+#region Grid population
+
+func _populate_profile_buttons() -> void:
+	if not profile_manager:
+		return
 	for child in get_children():
 		child.queue_free()
+	_active_button = null
 
-	# Get data from manager and create buttons
-	var profiles = profile_manager.get_profiles()
-	for profile_data in profiles:
-		if profile_data is Dictionary:
-			_create_profile_button(profile_data)
-	print("ProfileGridController: Finished populating profile buttons. Count: ", profiles.size())
+	for profile_data: Dictionary in profile_manager.get_profiles():
+		_create_profile_button(profile_data)
 
-# Instantiates and adds a profile button based on profile data.
-func _create_profile_button(profile_data: Dictionary):
-	var new_profile = ADD_PROFILE_BUTTON_SCENE.instantiate()
-	var profile_name_text = profile_data.get("profile_name", "Unknown Profile")
-	new_profile.name = profile_name_text
-	print("[ProfileGridController] Creating button. Profile Name Text: ", profile_name_text, " | Node Name SET TO: ", new_profile.name)
 
-	var profile_label = new_profile.find_child("profile_name", true, false)
-	if profile_label: profile_label.text = profile_name_text
+func _create_profile_button(profile_data: Dictionary) -> void:
+	var button: Control = PROFILE_BUTTON_SCENE.instantiate()
+	button.profile_data = profile_data
+	button.name = "profile_" + profile_data.get("directory_name", "unknown")
 
-	var texture_rect = new_profile.get_node_or_null("bg1/Panel/profile_bg")
-	if texture_rect:
-		var image_path = profile_data.get("custom_background_image", "")
-		var profile_texture = _load_texture_from_path(image_path)
-		if profile_texture:
-			texture_rect.texture = profile_texture
-		else:
-			texture_rect.texture = load(DEFAULT_BG_PATH) # Use default
+	var label := button.find_child("profile_name", true, false)
+	if label:
+		label.text = profile_data.get("profile_name", "Unknown Profile")
 
-	var initial_progress_bar = new_profile.get_node_or_null("bg1/Panel/ProgressBar")
-	if initial_progress_bar:
-		initial_progress_bar.visible = false
-		initial_progress_bar.value = 0
+	var background := button.get_node_or_null("card/Panel/profile_bg")
+	if background:
+		background.texture = _load_texture(profile_data.get("custom_background_image", ""))
 
-	# Connect signals from the new button instance TO THIS CONTROLLER
-	if new_profile.has_signal("client_toggled"):
-		new_profile.client_toggled.connect(_on_profile_client_toggled)
-	else: printerr("Profile button scene missing 'client_toggled' signal.")
-	if new_profile.has_signal("delete_requested"):
-		new_profile.delete_requested.connect(_on_profile_delete_requested)
-	else: printerr("Profile button scene missing 'delete_requested' signal.")
+	var progress_bar := button.get_node_or_null("card/Panel/ProgressBar")
+	if progress_bar:
+		progress_bar.visible = false
+		progress_bar.value = 0
 
-	add_child(new_profile)
+	button.client_toggled.connect(_on_profile_client_toggled)
+	button.delete_requested.connect(_on_profile_delete_requested)
 
-### --- Profile Button Signal Handlers --- ###
+	add_child(button)
 
-# Core logic called when a profile button's state changes (start/stop).
-func _on_profile_client_toggled(profile_button, is_starting: bool):
-	if not is_instance_valid(profile_button):
-		printerr("ProfileGridController: _on_profile_client_toggled called with invalid node.")
+	# If the grid was rebuilt while a client is running, restore its state.
+	if profile_data.get("profile_name") == _running_profile_name:
+		_active_button = button
+		button.confirm_started()
+		_disable_other_buttons(button)
+
+#endregion
+
+#region Signal handlers
+
+func _on_profile_client_toggled(button: Control, is_starting: bool) -> void:
+	if not is_instance_valid(button) or not profile_manager:
 		return
-
+	if _is_busy():
+		printerr("ProfileGridController: Another operation is in progress.")
+		button.reset_toggle_state()
+		return
 	if is_starting:
-		_handle_profile_start(profile_button)
+		_begin_start(button)
 	else:
-		_handle_profile_stop(profile_button)
+		_begin_stop(button)
 
-# Handles deleting a profile when requested by its button.
-func _on_profile_delete_requested(profile_node):
-	print("[ProfileGridController] Delete requested for NODE with NAME: ", profile_node.name) # Check the name upon receiving the signal
-	if not is_instance_valid(profile_node): 
-		printerr("ProfileGridController: Delete request received for an already invalid node.")
+
+func _on_profile_delete_requested(button: Control) -> void:
+	if not is_instance_valid(button) or not profile_manager:
 		return
-	
-	if not profile_manager:
-		printerr("ProfileGridController: Cannot delete profile, ProfileManager not set.")
-		return
-		
-	var profile_name_to_delete = profile_node.name
-	print("ProfileGridController: Handling delete request for profile name: ", profile_name_to_delete)
-
-	# Let ProfileManager handle data and file deletion
-	if not profile_manager.delete_profile(profile_name_to_delete):
-		printerr("ProfileGridController: Profile deletion failed for '%s'. See ProfileManager logs." % profile_name_to_delete)
-		pass # Continue to UI cleanup even if PM reported issues
-
-	# Update Active Profile State if the deleted one was active
-	if active_profile_button == profile_node:
-		print("ProfileGridController: Deleted profile was active. Resetting state.")
-		active_profile_button = null
+	var profile_name: String = button.profile_name
+	if not profile_manager.delete_profile(profile_name):
+		printerr("ProfileGridController: Failed to delete profile '%s'." % profile_name)
+	if _active_button == button:
+		_active_button = null
+		_running_profile_name = ""
 		_enable_all_buttons()
+	# ProfileManager emits profiles_updated, which rebuilds the grid.
 
-	# ProfileManager should emit profiles_updated, causing _populate_profile_buttons
-	print("ProfileGridController: Deletion processed for node '%s'." % profile_name_to_delete)
+#endregion
 
-### --- Profile Start/Stop Logic --- ###
+#region Start/stop sequences
 
-# Handles the sequence when a profile is started.
-func _handle_profile_start(profile_button):
-	if not is_instance_valid(profile_button): 
-		printerr("ProfileGridController: _handle_profile_start called with invalid node.")
-		return
-	
-	if not profile_manager:
-		printerr("ProfileGridController: Cannot start profile, ProfileManager not set.")
-		if profile_button.has_method("reset_toggle_state"): profile_button.reset_toggle_state()
-		return
-		
-	# Prevent starting if another profile is already running.
-	if active_profile_button != null and active_profile_button != profile_button:
-		printerr("ProfileGridController: Another profile is already active ('%s'). Cannot start '%s'" %
-			[active_profile_button.name, profile_button.name])
-		if profile_button.has_method("reset_toggle_state"):
-			profile_button.reset_toggle_state()
-		return
-	
-	print("ProfileGridController: Starting profile: ", profile_button.name)
-	active_profile_button = profile_button
-	_update_progress_bar(active_profile_button, 0, true)
-
-	# Disable other profile buttons.
-	_disable_other_buttons(active_profile_button)
-
-	# Restore Saved Settings or Delete Existing using ProfileManager
-	var settings_operation_success = profile_manager.restore_profile(profile_button.name, riot_client_location)
-	_update_progress_bar(active_profile_button, 45, true)
-
-	# Verify Setup Before Launch
-	if not settings_operation_success:
-		printerr("ProfileGridController: Launch cancelled: Profile settings restore/delete operation failed.")
-		_reset_profile_start_failure()
-		return
+func _begin_start(button: Control) -> void:
+	# Validate everything before touching files or killing processes.
 	if riot_client_location.is_empty():
-		printerr("ProfileGridController: Launch cancelled: Riot Client Location is not set.")
-		# TODO: Emit signal for Main to show a user-friendly error
-		_reset_profile_start_failure()
+		printerr("ProfileGridController: Riot Client location is not set.")
+		button.reset_toggle_state()
 		return
-	var executable_path = riot_client_location.path_join("RiotClientServices.exe")
+	var executable_path := riot_client_location.path_join(CLIENT_EXE)
 	if not FileAccess.file_exists(executable_path):
-		printerr("ProfileGridController: Launch cancelled: Riot Client executable not found at: ", executable_path)
-		# TODO: Emit signal for Main to show a user-friendly error
-		_reset_profile_start_failure()
+		printerr("ProfileGridController: Riot Client executable not found at: ", executable_path)
+		button.reset_toggle_state()
+		return
+	if not _running_profile_name.is_empty() and _running_profile_name != button.profile_name:
+		# Switching directly: the previous session is saved in the worker.
+		pass
+
+	var previous_profile := _running_profile_name
+	_active_button = button
+	_running_profile_name = button.profile_name
+	_disable_other_buttons(button)
+	_update_progress_bar(button, 15, true)
+
+	_worker = Thread.new()
+	_worker.start(_session_swap_worker.bind(previous_profile, button.profile_name, executable_path))
+
+
+## Worker thread: stop the client, save the previous session, restore the next one.
+func _session_swap_worker(previous_profile: String, next_profile: String, executable_path: String) -> void:
+	RiotProcesses.kill_all()
+	RiotProcesses.wait_until_all_dead()
+
+	var success := true
+	if not previous_profile.is_empty() and previous_profile != next_profile:
+		if not profile_manager.save_profile_session(previous_profile, riot_client_location):
+			printerr("ProfileGridController: Failed to save session of '%s'." % previous_profile)
+			success = false
+	if success and not profile_manager.restore_profile_session(next_profile, riot_client_location):
+		printerr("ProfileGridController: Failed to restore session of '%s'." % next_profile)
+		success = false
+
+	call_deferred("_on_swap_finished", next_profile, executable_path, success)
+
+
+func _on_swap_finished(profile_name: String, executable_path: String, success: bool) -> void:
+	_join_worker()
+	if not success or not is_instance_valid(_active_button) or _active_button.profile_name != profile_name:
+		_fail_start()
 		return
 
-	_update_progress_bar(active_profile_button, 75, true)
-
-	# Launch the Riot Client Process
-	print("ProfileGridController: Attempting to launch Riot Client...")
-	var arguments = ["--launch-product=league_of_legends", "--launch-patchline=live"]
-	var pid = OS.create_process(executable_path, arguments)
-
+	_update_progress_bar(_active_button, 75, true)
+	var pid := OS.create_process(executable_path, LAUNCH_ARGS)
 	if pid < 0:
-		printerr("ProfileGridController: Failed to create Riot Client process. Path: %s, Error Code: %s" % [executable_path, OS.get_process_id()])
-		# TODO: Emit signal for Main to show a user-friendly error
-		_reset_profile_start_failure()
-	else:
-		print("ProfileGridController: Riot Client process created successfully (PID: %d) for profile: %s" % [pid, profile_button.name])
-		_update_progress_bar(active_profile_button, 100, false)
-
-# Handles the sequence when a profile is stopped.
-func _handle_profile_stop(profile_button):
-	if not is_instance_valid(profile_button): 
-		printerr("ProfileGridController: _handle_profile_stop called with invalid node.")
+		printerr("ProfileGridController: Failed to launch Riot Client. Error: ", pid)
+		_fail_start()
 		return
-	
-	if not profile_manager:
-		printerr("ProfileGridController: Cannot stop profile, ProfileManager not set.")
-		_enable_all_buttons() # Enable buttons even if backup fails
-		return 
 
-	print("ProfileGridController: Stop signal received for profile: ", profile_button.name)
-	_update_progress_bar(profile_button, 0, true)
+	_active_button.confirm_started()
+	profile_manager.mark_profile_opened(profile_name)
+	_update_progress_bar(_active_button, 100, false)
+	print("ProfileGridController: Profile '%s' launched (PID %d)." % [profile_name, pid])
 
-	# Save Current Riot Client Settings to Profile Folder using ProfileManager
-	if not profile_manager.save_profile(profile_button.name, riot_client_location):
-		print("ProfileGridController: Warning: Failed to backup settings for profile: ", profile_button.name)
 
-	_update_progress_bar(profile_button, 50, true)
+func _begin_stop(button: Control) -> void:
+	_update_progress_bar(button, 15, true)
+	_worker = Thread.new()
+	_worker.start(_session_save_worker.bind(button.profile_name))
 
-	# Re-enable Buttons
-	if active_profile_button == profile_button:
-		active_profile_button = null 
+
+## Worker thread: stop the client, then save this profile's session.
+func _session_save_worker(profile_name: String) -> void:
+	RiotProcesses.kill_all()
+	RiotProcesses.wait_until_all_dead()
+	var success := profile_manager.save_profile_session(profile_name, riot_client_location)
+	call_deferred("_on_save_finished", success)
+
+
+func _on_save_finished(success: bool) -> void:
+	_join_worker()
+	if not success:
+		printerr("ProfileGridController: Session save finished with errors.")
+	if is_instance_valid(_active_button):
+		_active_button.confirm_stopped()
+		_update_progress_bar(_active_button, 100, false)
+	_active_button = null
+	_running_profile_name = ""
 	_enable_all_buttons()
 
-	_update_progress_bar(profile_button, 100, false)
+#endregion
 
-### --- Helper Functions --- ###
+#region Helpers
 
-# Loads a texture safely from res:// or user:// paths.
-func _load_texture_from_path(path: String) -> Texture2D:
-	if path.is_empty(): return null
+func _fail_start() -> void:
+	if is_instance_valid(_active_button):
+		_active_button.reset_toggle_state()
+		_update_progress_bar(_active_button, 0, false)
+	_active_button = null
+	_running_profile_name = ""
+	_enable_all_buttons()
+
+
+func _is_busy() -> bool:
+	return _worker != null and _worker.is_alive()
+
+
+func _join_worker() -> void:
+	if _worker:
+		if _worker.is_alive():
+			_worker.wait_to_finish()
+		_worker = null
+
+
+func _load_texture(path: String) -> Texture2D:
+	if path.is_empty():
+		return load(DEFAULT_BG_PATH)
 	if path.begins_with("res://"):
-		if ResourceLoader.exists(path): return load(path)
-		else: printerr("ProfileGridController: Resource texture path does not exist: ", path); return null
-	elif path.begins_with("user://"):
-		if FileAccess.file_exists(path):
-			var img = Image.load_from_file(path)
-			if img: return ImageTexture.create_from_image(img)
-			else: printerr("ProfileGridController: Failed to load image from user path: ", path); return null
-		else: printerr("ProfileGridController: User texture path does not exist: ", path); return null
+		return load(path) if ResourceLoader.exists(path) else load(DEFAULT_BG_PATH)
+	if path.begins_with("user://") and FileAccess.file_exists(path):
+		var image := Image.load_from_file(path)
+		if image:
+			return ImageTexture.create_from_image(image)
+	return load(DEFAULT_BG_PATH)
+
+
+func _update_progress_bar(button: Control, value: float, bar_visible: bool) -> void:
+	if not is_instance_valid(button):
+		return
+	var progress_bar := button.get_node_or_null("card/Panel/ProgressBar")
+	if not progress_bar is ProgressBar:
+		return
+
+	if _progress_tween and _progress_tween.is_valid():
+		_progress_tween.kill()
+
+	if bar_visible:
+		progress_bar.visible = true
+		progress_bar.modulate.a = 1.0
+		var duration := remap(absf(value - progress_bar.value), 0.0, 100.0, 0.0, 1.2)
+		_progress_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+		_progress_tween.tween_property(progress_bar, "value", value, duration)
 	else:
-		printerr("ProfileGridController: Invalid or unsupported texture path prefix: ", path)
-		return null
+		# Fill to target then fade out.
+		var duration := remap(absf(value - progress_bar.value), 0.0, 100.0, 0.0, 1.2)
+		_progress_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+		_progress_tween.tween_property(progress_bar, "value", value, duration)
+		_progress_tween.tween_property(progress_bar, "modulate:a", 0.0, 0.3).set_delay(0.15)
+		_progress_tween.tween_callback(func(): progress_bar.visible = false)
 
-# Updates the progress bar on a specific profile button node.
-func _update_progress_bar(profile_node, value: float, visible: bool):
-	if not is_instance_valid(profile_node): return
-	var progress_bar = profile_node.get_node_or_null("bg1/Panel/ProgressBar")
-	if progress_bar is ProgressBar:
-		progress_bar.value = value
-		progress_bar.visible = visible
 
-# Resets UI state after a profile start attempt fails.
-func _reset_profile_start_failure():
-	if active_profile_button:
-		_update_progress_bar(active_profile_button, 0, false)
-		if active_profile_button.has_method("reset_toggle_state"):
-			active_profile_button.reset_toggle_state()
-		active_profile_button = null
-	_enable_all_buttons()
-
-# Enables interaction for all profile buttons.
-func _enable_all_buttons():
+func _enable_all_buttons() -> void:
 	for child in get_children():
-		if child is Control and child.has_method("set_interactable"):
+		if child.has_method("set_interactable"):
 			child.set_interactable(true)
-	print("ProfileGridController: All profile buttons enabled.")
 
-# Disables interaction for all profile buttons except the active one.
-func _disable_other_buttons(active_button):
+
+func _disable_other_buttons(active_button: Control) -> void:
 	for child in get_children():
-		if child is Control and child.has_method("set_interactable"):
+		if child.has_method("set_interactable"):
 			child.set_interactable(child == active_button)
-	print("ProfileGridController: Other profile buttons disabled.") 
+
+
+func _exit_tree() -> void:
+	_join_worker()
+
+#endregion

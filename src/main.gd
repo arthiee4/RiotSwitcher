@@ -1,188 +1,135 @@
 extends Control
 
-### --- Constants --- ###
-# Constants moved to specific controllers
+## Root of the app. Wires the managers and controllers together and owns
+## app-level behavior (view switching, window focus FPS, close-to-tray).
 
-const ProfileManager = preload("res://src/Managers/profile_manager.gd")
-const ConfigManager = preload("res://src/Managers/config_manager.gd")
+@onready var left_menu_handler: Control = $leftmenu_side
+@onready var profile_grid: GridContainer = $content_side/GridContainer
+@onready var settings_menu: Control = $settings_menu
+@onready var add_menu: Control = $add_menu
+@onready var boot_screen: Control = $boot
+@onready var system_tray: Node = $systemtray
 
-### --- Node References --- ###
-@onready var left_menu_handler = $leftmenu_side
-@onready var profile_grid_controller = $contet_side/GridContainer # Assumes script attached
-@onready var settings_menu = $settings_menu
-@onready var add_menu = $add_menu
-@onready var boot_screen = $boot
-@onready var add_profile_controller = $add_menu # Assumes script attached
-
-### --- State Variables --- ###
 var riot_client_location: String = ""
 var profile_manager: ProfileManager
 var config_manager: ConfigManager
 
-### --- Initialization --- ###
-func _ready():
-	print("--- Godot User Data Directory ---: ", OS.get_user_data_dir())
-	# Verify boot node reference early
-	print("[Main:_ready] Checking $boot node reference...")
-	if get_node_or_null("boot") == null:
-		printerr("[Main:_ready] ERROR: Node at path 'boot' not found!")
-	else:
-		print("[Main:_ready] Node at path 'boot' seems valid.")
-	
+
+func _ready() -> void:
+	AppPaths.migrate_legacy_data()
+	# We handle NOTIFICATION_WM_CLOSE_REQUEST ourselves (minimize to tray).
+	get_tree().auto_accept_quit = false
+
+	config_manager = ConfigManager.new()
 	profile_manager = ProfileManager.new()
-	config_manager = ConfigManager.new() 
-	# add_child(config_manager) # Moved down
-	
-	# Connect signal BEFORE adding child to scene tree
-	print("[Main:_ready] Attempting to connect config_manager.configs_updated...")
-	var err = config_manager.configs_updated.connect(_on_configs_updated)
-	if err == OK:
-		print("[Main:_ready] Successfully connected configs_updated signal.")
-	else:
-		printerr("[Main:_ready] FAILED to connect configs_updated signal. Error code: ", err)
-		
-	# Now add child, which will trigger its _ready and emit the signal
+
+	# Inject BEFORE add_child so that when ConfigManager._ready() emits
+	# configs_updated the boot screen already has its reference.
+	boot_screen.set_config_manager(config_manager)
+
+	# Connect before add_child: ConfigManager loads and emits on _ready.
+	config_manager.configs_updated.connect(_on_configs_updated)
 	add_child(config_manager)
-	print("[Main:_ready] ConfigManager added as child.")
+	add_child(profile_manager)
 
-	if left_menu_handler:
-		left_menu_handler.home_selected.connect(_show_home_view)
-		left_menu_handler.settings_selected.connect(_show_settings_view)
-		left_menu_handler.add_profile_selected.connect(_show_add_profile_view)
-	else:
-		printerr("Left Menu Handler node not found or script not attached correctly.")
+	left_menu_handler.home_selected.connect(_show_home_view)
+	left_menu_handler.settings_selected.connect(_show_settings_view)
+	left_menu_handler.add_profile_selected.connect(_show_add_profile_view)
 
-	if add_profile_controller:
-		if add_profile_controller.has_method("set_profile_manager"):
-			add_profile_controller.set_profile_manager(profile_manager)
-		else:
-			printerr("AddProfileController is missing set_profile_manager method!")
-		if add_profile_controller.has_signal("profile_created_successfully"):
-			add_profile_controller.profile_created_successfully.connect(_on_profile_creation_success)
-		else:
-			printerr("AddProfileController is missing profile_created_successfully signal!")
-		if add_profile_controller.has_signal("warning_dismissed"):
-			add_profile_controller.warning_dismissed.connect(_on_add_menu_warning_dismissed)
-		else:
-			printerr("AddProfileController is missing warning_dismissed signal!")
-	else:
-		printerr("Add Profile Controller node not found or script not attached correctly.")
+	add_menu.set_profile_manager(profile_manager)
+	add_menu.profile_created_successfully.connect(_on_profile_creation_success)
+	add_menu.warning_dismissed.connect(_on_add_menu_warning_dismissed)
 
-	if profile_grid_controller:
-		if profile_grid_controller.has_method("set_dependencies"):
-			profile_grid_controller.set_dependencies(profile_manager, riot_client_location)
-		else:
-			printerr("ProfileGridController is missing set_dependencies method!")
-	else:
-		printerr("Profile Grid Controller node not found or script not attached correctly.")
+	system_tray.exit_requested.connect(_on_tray_exit_requested)
+	system_tray.show_window_requested.connect(_on_tray_show_window_requested)
 
-	connect_signals()
-	initialize_ui()
-	# ProfileManager loads its data; signal connects in ProfileGridController
+	profile_grid.set_dependencies(profile_manager, riot_client_location)
 	profile_manager.load_profiles_data()
 
-	_show_home_view() # Set initial view
+	_show_home_view()
 
-### --- Loading & Setup Functions --- ###
 
-func _on_configs_updated(new_config_data: Dictionary):
-	print("-----> [Main] _on_configs_updated FUNCTION ENTERED <-----") # Extra check
-	print("[Main:_on_configs_updated] Received config update.")
-	var old_location = riot_client_location
-	riot_client_location = new_config_data.get("RiotClientLocation", "")
-	# Use str() or let print handle type conversion for diagnostics
-	print("[Main:_on_configs_updated] Riot Client Location read as: ", str(riot_client_location))
-	print("[Main:_on_configs_updated] riot_client_location == null is: ", riot_client_location == null)
-	print("[Main:_on_configs_updated] riot_client_location is empty string is: ", riot_client_location == "")
-	var is_location_empty = (riot_client_location == null or riot_client_location == "") # Explicit check
-	print("[Main:_on_configs_updated] Determined is_location_empty: ", is_location_empty)
+func _notification(what: int) -> void:
+	match what:
+		NOTIFICATION_WM_CLOSE_REQUEST:
+			_hide_to_tray()
+		NOTIFICATION_APPLICATION_FOCUS_OUT:
+			Engine.max_fps = 5
+		NOTIFICATION_APPLICATION_FOCUS_IN:
+			Engine.max_fps = 60
 
-	if riot_client_location != old_location: # Update grid controller only if changed
-		if profile_grid_controller and profile_grid_controller.has_method("update_riot_client_location"):
-			profile_grid_controller.update_riot_client_location(riot_client_location)
 
-	if boot_screen:
-		boot_screen.visible = is_location_empty
-		if is_location_empty:
-			print("[Main:_on_configs_updated] Boot screen SHOULD BE VISIBLE.")
-		else:
-			print("[Main:_on_configs_updated] Boot screen should be hidden.")
-	else:
-		printerr("[Main:_on_configs_updated] boot_screen node reference is null!")
+#region Config handling
 
-	var should_show_warning = new_config_data.get("warning_shown", true) # Default to true if missing
-	print("[Main:_on_configs_updated] Config 'warning_shown' read as: ", should_show_warning)
-	if add_profile_controller and add_profile_controller.has_method("set_warning_visibility"):
-		print("[Main:_on_configs_updated] Setting add_profile_controller warning visibility to: ", should_show_warning)
-		# Set visibility DIRECTLY based on the flag (no inversion)
-		add_profile_controller.set_warning_visibility(should_show_warning)
+func _on_configs_updated(new_config_data: Dictionary) -> void:
+	var new_location: String = new_config_data.get("RiotClientLocation", "")
+	if new_location != riot_client_location:
+		riot_client_location = new_location
+		profile_grid.update_riot_client_location(riot_client_location)
 
-func connect_signals():
-	if boot_screen and boot_screen.has_signal("client_location_saved"):
-		boot_screen.client_location_saved.connect(_on_boot_client_location_saved)
-	elif boot_screen:
-		printerr("Boot screen node does not have 'client_location_saved' signal.")
-	else:
-		printerr("Boot screen node not found, cannot connect signals.")
+	# First-run: no client location yet, so keep the setup screen visible.
+	_set_boot_visible(riot_client_location.is_empty())
 
-func initialize_ui():
-	pass # Initialization primarily handled by controllers
+	add_menu.set_warning_visibility(new_config_data.get("warning_shown", true))
 
-### --- View Switching Handlers --- ###
-func _show_home_view():
-	print("Switching to Home view")
-	if settings_menu: settings_menu.visible = false
-	if add_menu: add_menu.visible = false
 
-func _show_settings_view():
-	print("Switching to Settings view")
-	if settings_menu: settings_menu.visible = true
-	if add_menu: add_menu.visible = false
+func _on_add_menu_warning_dismissed() -> void:
+	if not config_manager.set_value_and_save("warning_shown", false):
+		printerr("Main: Failed to save warning state.")
 
-func _show_add_profile_view():
-	print("Switching to Add Profile view")
-	if settings_menu: settings_menu.visible = false
-	if add_menu: add_menu.visible = true
+#endregion
 
-### --- Profile Creation Handler --- ###
+#region View switching
 
-func _on_profile_creation_success():
-	print("Main received profile_created_successfully signal.")
-	if left_menu_handler and left_menu_handler.has_method("select_home"):
-		left_menu_handler.select_home()
-	else:
-		_show_home_view() # Fallback
+func _show_home_view() -> void:
+	settings_menu.visible = false
+	add_menu.visible = false
 
-### --- Warning Popup Handlers --- ###
 
-func _on_add_menu_warning_dismissed():
-	print("[Main] Received warning_dismissed signal from AddProfileController.")
-	# When dismissed, we want to save warning_shown = false
-	_save_warning_config_state(false)
+func _show_settings_view() -> void:
+	settings_menu.visible = true
+	add_menu.visible = false
 
-func _save_warning_config_state(should_show: bool): # Renamed parameter for clarity
-	print("[Main] _save_warning_config_state called with should_show: ", should_show)
-	if not config_manager:
-		printerr("[Main] ConfigManager reference is null in _save_warning_config_state!")
-		return
-	print("[Main] Calling config_manager.set_value_and_save('warning_shown', ", should_show, ")")
-	if not config_manager.set_value_and_save("warning_shown", should_show):
-		printerr("Failed to save warning state via ConfigManager.")
-	else:
-		# Use the actual saved value in the print message
-		print("Updated configs.json with warning_shown = ", should_show)
 
-### --- Boot Screen Handlers --- ###
-func _on_boot_client_location_saved():
-	print("Client location saved signal received. Hiding boot screen.")
-	if boot_screen: boot_screen.visible = false
-	pass
+func _show_add_profile_view() -> void:
+	settings_menu.visible = false
+	add_menu.visible = true
 
-### --- System Notifications --- ###
 
-# FPS limiter for when the window is not focused
-func _notification(what):
-	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
-		Engine.max_fps = 5
-	elif what == NOTIFICATION_APPLICATION_FOCUS_IN:
-		Engine.max_fps = 60
+func _on_profile_creation_success() -> void:
+	left_menu_handler.select_home()
+
+#endregion
+
+#region Boot screen
+
+## Toggles the boot screen on/off, disabling processing and input when hidden
+## so it never interferes with the main UI.
+func _set_boot_visible(show_boot: bool) -> void:
+	boot_screen.visible = show_boot
+	boot_screen.set_process(show_boot)
+	boot_screen.set_process_input(show_boot)
+	# Block interaction with the content behind the boot screen.
+	boot_screen.mouse_filter = Control.MOUSE_FILTER_STOP if show_boot else Control.MOUSE_FILTER_IGNORE
+
+#endregion
+
+#region System tray / window lifecycle
+
+## Closing the window hides it to the tray; the running session is saved
+## so the account state is never lost.
+func _hide_to_tray() -> void:
+	profile_grid.save_running_session()
+	get_window().visible = false
+
+
+func _on_tray_show_window_requested() -> void:
+	get_window().visible = true
+	DisplayServer.window_move_to_foreground()
+
+
+func _on_tray_exit_requested() -> void:
+	profile_grid.save_running_session()
+	get_tree().quit()
+
+#endregion

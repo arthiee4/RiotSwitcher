@@ -14,11 +14,10 @@
 [ext_resource type="Texture2D" uid="uid://b6nts14e1ww8e" path="res://assets/backgrounds/profiles_bg/11.webp" id="12_rt4pg"]
 [ext_resource type="Texture2D" uid="uid://dxdh5o7h1o5kl" path="res://assets/backgrounds/profiles_bg/12.webp" id="13_rt4pg"]
 [ext_resource type="FontFile" uid="uid://10wh284qofrr" path="res://assets/fonts/Raleway-Light.ttf" id="14_i00sx"]
-[ext_resource type="Script" uid="uid://bu83haqbdh7sp" path="res://src/create_button.gd" id="15_7ik5n"]
 [ext_resource type="Shader" uid="uid://cswe7248fk0td" path="res://shaders/glow.gdshader" id="15_pnu40"]
-[ext_resource type="Texture2D" uid="uid://ifj5hs32k5ga" path="res://assets/user_icons/play.png" id="17_01n50"]
+[ext_resource type="Texture2D" uid="uid://ifj5hs32k5ga" path="res://assets/icons/ui/icon_play.png" id="17_01n50"]
 [ext_resource type="Texture2D" uid="uid://dhdywa4myu08r" path="res://assets/backgrounds/default_bg.webp" id="17_rt4pg"]
-[ext_resource type="Texture2D" uid="uid://clm6rit5id2rj" path="res://assets/warning1.png" id="19_pjph5"]
+[ext_resource type="Texture2D" uid="uid://clm6rit5id2rj" path="res://assets/icons/ui/icon_warning.png" id="19_pjph5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xlxo8"]
 bg_color = Color(0, 0, 0, 1)
@@ -1798,7 +1797,6 @@ offset_right = 117.0
 offset_bottom = 592.0
 mouse_default_cursor_shape = 2
 text = "create"
-script = ExtResource("15_7ik5n")
 
 [node name="FileDialog" type="FileDialog" parent="creation/create_button"]
 auto_translate_mode = 1
@@ -2046,4 +2044,3 @@ mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_lpgi8")
 text = "close thattt warning >:("
 
-[connection signal="pressed" from="creation/create_button" to="creation/create_button" method="_on_pressed"]
