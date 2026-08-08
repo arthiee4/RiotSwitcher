@@ -185,7 +185,7 @@ offset_bottom = 115.0
 theme_override_colors/font_color = Color(1, 1, 1, 0.65)
 theme_override_fonts/font = ExtResource("1_e2qsc")
 theme_override_font_sizes/font_size = 13
-text = "Ativar configurações compartilhadas no jogo para todos os perfis"
+text = "Enable shared in-game settings for all profiles"
 
 [node name="deleteall" type="Control" parent="VBoxContainer" unique_id=1826003715]
 custom_minimum_size = Vector2(0, 97)

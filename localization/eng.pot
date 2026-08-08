@@ -173,3 +173,11 @@ msgstr ""
 #: scenes/add_menu.tscn
 msgid "close thattt warning >:("
 msgstr ""
+
+#: scenes/settings_menu.tscn
+msgid "Game settings"
+msgstr ""
+
+#: scenes/settings_menu.tscn
+msgid "Enable shared in-game settings for all profiles"
+msgstr ""

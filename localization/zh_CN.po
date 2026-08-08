@@ -175,4 +175,12 @@ msgstr "首次打开账户时请记得执行此操作。"
 
 #: scenes/add_menu.tscn
 msgid "close thattt warning >:("
-msgstr "关闭那个警告 >:(" 
+msgstr "关闭那个警告 >:("
+
+#: scenes/settings_menu.tscn
+msgid "Game settings"
+msgstr "游戏设置"
+
+#: scenes/settings_menu.tscn
+msgid "Enable shared in-game settings for all profiles"
+msgstr "为所有配置文件启用共享游戏设置" 

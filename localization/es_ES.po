@@ -175,4 +175,12 @@ msgstr "Recuerda hacer esto la 1ª vez."
 
 #: scenes/add_menu.tscn
 msgid "close thattt warning >:("
-msgstr "cerrar aviso >:(" 
+msgstr "cerrar aviso >:("
+
+#: scenes/settings_menu.tscn
+msgid "Game settings"
+msgstr "Ajustes del juego"
+
+#: scenes/settings_menu.tscn
+msgid "Enable shared in-game settings for all profiles"
+msgstr "Activar configuración compartida del juego para todos los perfiles" 
