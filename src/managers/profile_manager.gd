@@ -134,6 +134,40 @@ func delete_profile(profile_name: String) -> bool:
 	return true
 
 
+## Deletes all profiles, clears all profile directories, and deletes custom background images.
+func delete_all_profiles() -> bool:
+	print("ProfileManager: Deleting all profiles...")
+	_profiles.clear()
+	_save_profiles_file()
+
+	if DirAccess.dir_exists_absolute(AppPaths.PROFILES_DIR):
+		_remove_dir_contents(AppPaths.PROFILES_DIR)
+
+	if DirAccess.dir_exists_absolute(AppPaths.BACKGROUNDS_DIR):
+		_remove_dir_contents(AppPaths.BACKGROUNDS_DIR)
+
+	profiles_updated.emit()
+	print("ProfileManager: All profiles successfully deleted.")
+	return true
+
+
+func _remove_dir_contents(dir_path: String) -> void:
+	var dir := DirAccess.open(dir_path)
+	if not dir:
+		return
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+	while file_name != "":
+		if file_name != "." and file_name != "..":
+			var full_path := dir_path.path_join(file_name)
+			if dir.current_is_dir():
+				_remove_dir_recursive(full_path)
+			else:
+				DirAccess.remove_absolute(full_path)
+		file_name = dir.get_next()
+	dir.list_dir_end()
+
+
 ## Returns true if the profile has not been opened yet (needs manual login).
 func is_first_time_opened(profile_name: String) -> bool:
 	var profile := _find_profile(profile_name)
