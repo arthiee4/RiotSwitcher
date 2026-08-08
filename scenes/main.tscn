@@ -4427,6 +4427,7 @@ offset_right = 173.0
 offset_bottom = 81.0
 
 [node name="add_menu" parent="." unique_id=31094257 instance=ExtResource("12_7avnf")]
+visible = false
 z_index = 12
 layout_mode = 0
 offset_left = 88.0
