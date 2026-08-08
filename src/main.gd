@@ -61,14 +61,22 @@ func _notification(what: int) -> void:
 
 func _on_configs_updated(new_config_data: Dictionary) -> void:
 	var new_location: String = new_config_data.get("RiotClientLocation", "")
+	if new_location.is_empty():
+		var default_path := "C:/Riot Games/Riot Client"
+		if FileAccess.file_exists(default_path.path_join("RiotClientServices.exe")):
+			new_location = default_path
+			ConfigManager.set_value_and_save("RiotClientLocation", default_path)
+
 	if new_location != riot_client_location:
 		riot_client_location = new_location
-		profile_grid.update_riot_client_location(riot_client_location)
+		if profile_grid:
+			profile_grid.update_riot_client_location(riot_client_location)
 
 	# First-run: no client location yet, so keep the setup screen visible.
 	_set_boot_visible(riot_client_location.is_empty())
 
-	add_menu.set_warning_visibility(new_config_data.get("warning_shown", true))
+	if add_menu and add_menu.has_method("set_warning_visibility"):
+		add_menu.set_warning_visibility(new_config_data.get("warning_shown", true))
 
 
 func _on_add_menu_warning_dismissed() -> void:

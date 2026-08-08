@@ -18,6 +18,8 @@ const DEFAULT_AUTOSTART: bool = false
 const DEFAULT_CLOSE_TO_TRAY: bool = true
 const DEFAULT_MINIMIZE_TO_TRAY: bool = true
 const DEFAULT_LANGUAGE: String = "pt_BR"
+const DEFAULT_SYNC_GAME_SETTINGS: bool = false
+const DEFAULT_DIRECT_LAUNCH: bool = true
 
 # UI & Animation Timings
 const TWEEN_DURATION_FAST: float = 0.15

@@ -34,6 +34,10 @@ var profile_name: String:
 func _ready() -> void:
 	_delete_button.pressed.connect(_on_delete_button_pressed)
 	_card.gui_input.connect(_on_card_gui_input)
+	if _card and _card is Button and not _card.pressed.is_connected(_on_profile_button_pressed):
+		_card.pressed.connect(_on_profile_button_pressed)
+	if _button and _button is Button and not _button.pressed.is_connected(_on_profile_button_pressed):
+		_button.pressed.connect(_on_profile_button_pressed)
 	_context_menu.visible = false
 	set_process_input(true)
 

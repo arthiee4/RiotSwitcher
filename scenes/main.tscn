@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://dax40m6v2hys2" path="res://src/ui/add_profile_controller.gd" id="13_dp3eg"]
 [ext_resource type="Script" uid="uid://b7k3ohhrolpu8" path="res://src/ui/systemtray.gd" id="14_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://c2xgjxmibyhyb" path="res://scenes/boot.tscn" id="16_jbj1t"]
+[ext_resource type="PackedScene" uid="uid://c8v7kmus1he0q" path="res://scenes/settings_menu.tscn" id="17_settings"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dswpw"]
 shader = ExtResource("7_myoxr")
@@ -1304,8 +1305,6 @@ corner_radius_bottom_left = 30
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_orfc4"]
 bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a8y0u"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a8y0u"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -4231,201 +4230,7 @@ offset_bottom = 703.0
 mouse_default_cursor_shape = 2
 text = "delete"
 
-[node name="settings_menu" type="Control" parent="." unique_id=1931606039]
-visible = false
-z_index = 99
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="Panel" type="Panel" parent="settings_menu" unique_id=1479096214]
-layout_mode = 1
-offset_left = 80.0
-offset_top = 32.0
-offset_right = 1282.0
-offset_bottom = 720.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_orfc4")
-
-[node name="Label" type="Label" parent="settings_menu" unique_id=870510906]
-layout_mode = 0
-offset_left = 133.0
-offset_top = 45.0
-offset_right = 335.0
-offset_bottom = 105.0
-theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 51
-text = "Settings"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="settings_menu" unique_id=693812970]
-layout_mode = 0
-offset_left = 124.0
-offset_top = 144.0
-offset_right = 458.0
-offset_bottom = 700.0
-theme_override_constants/separation = 100
-
-[node name="r3nzi" type="Control" parent="settings_menu/VBoxContainer" unique_id=954421521]
-visible = false
-layout_mode = 2
-mouse_filter = 1
-
-[node name="Panel" type="Panel" parent="settings_menu/VBoxContainer/r3nzi" unique_id=1492366427]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = 67.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_a8y0u")
-
-[node name="Label" type="Label" parent="settings_menu/VBoxContainer/r3nzi/Panel" unique_id=915651544]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 24
-text = "R3NZSKIN"
-
-[node name="CheckButton" type="CheckButton" parent="settings_menu/VBoxContainer/r3nzi/Panel" unique_id=1330029342]
-layout_mode = 0
-offset_left = 2.0
-offset_top = 51.0
-offset_right = 46.0
-offset_bottom = 75.0
-
-[node name="Label2" type="Label" parent="settings_menu/VBoxContainer/r3nzi/Panel" unique_id=531827605]
-layout_mode = 0
-offset_left = 1.0
-offset_top = 27.0
-offset_right = 392.0
-offset_bottom = 50.0
-theme_override_fonts/font = ExtResource("1_e2qsc")
-theme_override_font_sizes/font_size = 14
-text = "take care bro, dont use this option may cause ban]"
-
-[node name="vanguard" type="Control" parent="settings_menu/VBoxContainer" unique_id=773610456]
-layout_mode = 2
-mouse_filter = 1
-script = ExtResource("10_jkv2x")
-
-[node name="Panel" type="Panel" parent="settings_menu/VBoxContainer/vanguard" unique_id=1354868093]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -8.0
-offset_right = 43.0
-offset_bottom = 88.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
-
-[node name="Label" type="Label" parent="settings_menu/VBoxContainer/vanguard/Panel" unique_id=1577073183]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 12.0
-offset_right = 124.0
-offset_bottom = 41.0
-theme_override_colors/font_color = Color(0.81502, 3.58574e-06, 7.70092e-07, 1)
-theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 24
-text = "Vanguard"
-
-[node name="restart" type="Button" parent="settings_menu/VBoxContainer/vanguard/Panel" unique_id=1670999603]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 49.0
-offset_right = 80.0
-offset_bottom = 82.0
-mouse_default_cursor_shape = 2
-text = "Start"
-
-[node name="close" type="Button" parent="settings_menu/VBoxContainer/vanguard/Panel" unique_id=1981058596]
-layout_mode = 0
-offset_left = 92.0
-offset_top = 50.0
-offset_right = 164.0
-offset_bottom = 82.0
-mouse_default_cursor_shape = 2
-text = "Stop"
-
-[node name="deleteall" type="Control" parent="settings_menu/VBoxContainer" unique_id=992511159]
-visible = false
-layout_mode = 2
-mouse_filter = 1
-
-[node name="Panel" type="Panel" parent="settings_menu/VBoxContainer/deleteall" unique_id=1286157649]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -8.0
-offset_right = 42.0
-offset_bottom = 88.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
-
-[node name="Label" type="Label" parent="settings_menu/VBoxContainer/deleteall/Panel" unique_id=1425343071]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 14.0
-offset_right = 215.0
-offset_bottom = 43.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 24
-text = "Delete all profiles"
-
-[node name="Button" type="Button" parent="settings_menu/VBoxContainer/deleteall/Panel" unique_id=829619544]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 53.0
-offset_right = 86.0
-offset_bottom = 84.0
-text = "Delete"
-
-[node name="lang" type="Control" parent="settings_menu/VBoxContainer" unique_id=1806419925]
-layout_mode = 2
-mouse_filter = 1
-script = ExtResource("11_muem4")
-
-[node name="Panel" type="Panel" parent="settings_menu/VBoxContainer/lang" unique_id=1576852121]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -8.0
-offset_right = 42.0
-offset_bottom = 88.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
-
-[node name="Label" type="Label" parent="settings_menu/VBoxContainer/lang/Panel" unique_id=1710113197]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 14.0
-offset_right = 215.0
-offset_bottom = 43.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 24
-text = "Language"
-
-[node name="OptionButton" type="OptionButton" parent="settings_menu/VBoxContainer/lang/Panel" unique_id=469617545]
-layout_mode = 0
-offset_left = 17.0
-offset_top = 53.0
-offset_right = 173.0
-offset_bottom = 81.0
-
+[node name="settings_menu" parent="." instance=ExtResource("17_settings")]
 [node name="add_menu" parent="." unique_id=31094257 instance=ExtResource("12_7avnf")]
 visible = false
 z_index = 12

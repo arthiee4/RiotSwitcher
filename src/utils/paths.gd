@@ -10,6 +10,7 @@ const CONFIG_FILE := DATA_DIR + "configs.json"
 const PROFILES_FILE := DATA_DIR + "profiles_data.json"
 const PROFILES_DIR := "user://profiles/"
 const BACKGROUNDS_DIR := "user://backgrounds/"
+const SHARED_GAME_SETTINGS_DIR := "user://shared_game_settings/"
 
 ## Legacy locations used by older versions (kept for one-time migration).
 const LEGACY_CONFIG_FILE := "res://Data/configs.json"

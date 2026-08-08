@@ -12,12 +12,6 @@ config_version=5
 
 compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
-[autoload]
-
-Constants="*res://src/utils/constants.gd"
-ConfigManager="*res://src/managers/config_manager.gd"
-ProfileManager="*res://src/managers/profile_manager.gd"
-
 [application]
 
 config/name="riotswitcher"
@@ -29,6 +23,12 @@ boot_splash/show_image=false
 config/icon="uid://c4d0yabdmde5a"
 config/windows_native_icon="res://assets/icon.ico"
 
+[autoload]
+
+Constants="*res://src/utils/constants.gd"
+ConfigManager="*res://src/managers/config_manager.gd"
+ProfileManager="*res://src/managers/profile_manager.gd"
+
 [display]
 
 window/size/viewport_width=1280
@@ -37,10 +37,6 @@ window/size/borderless=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
-[gui]
-
-theme/custom="res://assets/theme/riotswitcher_theme.tres"
-
 [dotnet]
 
 project/assembly_name="riotswitcher"
@@ -48,6 +44,10 @@ project/assembly_name="riotswitcher"
 [editor]
 
 movie_writer/fps=30
+
+[gui]
+
+theme/custom="res://assets/theme/riotswitcher_theme.tres"
 
 [internationalization]
 

@@ -21,8 +21,15 @@ const POLL_INTERVAL_MS := 250
 
 ## Sends a single non-blocking taskkill for every known process.
 static func kill_all() -> void:
+	kill_names(PROCESS_NAMES)
+
+
+## Sends a single non-blocking taskkill for the given process names.
+static func kill_names(names: Array[String]) -> void:
+	if names.is_empty():
+		return
 	var arguments: Array[String] = ["/F", "/T"]
-	for process_name in PROCESS_NAMES:
+	for process_name in names:
 		arguments.append("/IM")
 		arguments.append(process_name)
 	var pid := OS.create_process("taskkill", arguments)
@@ -30,15 +37,22 @@ static func kill_all() -> void:
 		printerr("RiotProcesses: Failed to start taskkill.")
 
 
+## Returns true while the given process is running. Blocking — use from a thread.
+static func is_running(process_name: String) -> bool:
+	var output: Array = []
+	var exit_code := OS.execute("tasklist", ["/FI", "IMAGENAME eq %s" % process_name, "/NH"], output)
+	if exit_code == 0 and not output.is_empty():
+		var listing: String = output[0]
+		if listing.to_lower().contains(process_name.to_lower()):
+			return true
+	return false
+
+
 ## Returns true while any known process is still running. Blocking — use from a thread.
 static func are_any_running() -> bool:
 	for process_name in PROCESS_NAMES:
-		var output: Array = []
-		var exit_code := OS.execute("tasklist", ["/FI", "IMAGENAME eq %s" % process_name, "/NH"], output)
-		if exit_code == 0 and not output.is_empty():
-			var listing: String = output[0]
-			if listing.to_lower().contains(process_name.to_lower()):
-				return true
+		if is_running(process_name):
+			return true
 	return false
 
 
