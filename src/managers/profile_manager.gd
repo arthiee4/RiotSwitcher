@@ -1,4 +1,3 @@
-class_name ProfileManager
 extends Node
 
 ## Owns the profile database (user://data/profiles_data.json) and the

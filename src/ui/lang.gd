@@ -1,3 +1,4 @@
+class_name LanguageManager
 extends Control
 
 ## Language dropdown. The selected locale is persisted in the app config
@@ -22,11 +23,13 @@ const LOCALE_NAMES: Dictionary = {
 	"ko_KR": "한국어",
 }
 
-@onready var _dropdown: OptionButton = $Panel/OptionButton
+@onready var _dropdown: OptionButton = $Panel/OptionButton if has_node("Panel/OptionButton") else null
 
 
 func _ready() -> void:
 	_load_and_apply_saved_locale()
+	if not _dropdown:
+		return
 	_dropdown.clear()
 	for id in LOCALES:
 		var locale_code: String = LOCALES[id]
@@ -52,7 +55,7 @@ func _on_language_selected(index: int) -> void:
 
 
 func _update_dropdown_selection() -> void:
-	if not is_instance_valid(_dropdown):
+	if not is_instance_valid(_dropdown) or _dropdown.get_item_count() == 0:
 		return
 	var current_locale := TranslationServer.get_locale()
 	for id in LOCALES:

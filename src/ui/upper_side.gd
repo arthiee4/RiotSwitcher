@@ -1,3 +1,4 @@
+class_name UpperSide
 extends Control
 
 ## Drag handle for the borderless window: dragging this bar moves the window.

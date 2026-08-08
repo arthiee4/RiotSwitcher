@@ -1,4 +1,3 @@
-class_name ConfigManager
 extends Node
 
 ## Loads/saves the app configuration (user://data/configs.json) and

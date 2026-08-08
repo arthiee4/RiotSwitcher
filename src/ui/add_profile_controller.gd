@@ -1,3 +1,4 @@
+class_name AddProfileController
 extends Control
 
 ## "Add profile" form: name input, background picker (built-in or custom
@@ -10,17 +11,17 @@ const DEFAULT_BG_PATH := "res://assets/backgrounds/default_bg.webp"
 const ALLOWED_EXTENSIONS: Array[String] = ["png", "jpg", "webp"]
 
 ## Injected by Main.
-var profile_manager: ProfileManager
+var profile_manager: Node
 
 var _current_custom_bg_path: String = ""
 var _background_textures: Array = [] # Built-in backgrounds, aligned with picker buttons.
 
 @onready var _backgrounds_container: Control = $bg_select/backgrounds
-@onready var _preview_background: TextureRect = $preview/bgexample3/preview_bg
+@onready var _preview_background: TextureRect = $preview/profile_button/card/Panel/profile_bg if has_node("preview/profile_button/card/Panel/profile_bg") else get_node_or_null("preview/bgexample3/preview_bg")
 @onready var _browse_button: Button = $upload_custom_bg/browser_button
 @onready var _file_dialog: FileDialog = $creation/create_button/FileDialog
 @onready var _name_input: LineEdit = $profile_name/LineEdit
-@onready var _name_preview: Label = $preview/preview_profile_name
+@onready var _name_preview: Label = $preview/profile_button/profile_name if has_node("preview/profile_button/profile_name") else get_node_or_null("preview/preview_profile_name")
 @onready var _create_button: Button = $creation/create_button
 @onready var _error_label: Label = $error/Label
 @onready var _warning_panel: Control = $warning
@@ -35,8 +36,9 @@ func _ready() -> void:
 
 
 ## Injected by Main.
-func set_profile_manager(pm: ProfileManager) -> void:
+func set_profile_manager(pm: Node) -> void:
 	profile_manager = pm
+	_update_name_preview()
 
 
 func set_warning_visibility(visible_: bool) -> void:
@@ -46,7 +48,7 @@ func set_warning_visibility(visible_: bool) -> void:
 func reset_form() -> void:
 	_error_label.visible = false
 	_name_input.text = ""
-	_name_preview.text = ""
+	_update_name_preview()
 	_preview_background.texture = null
 	_current_custom_bg_path = ""
 
@@ -77,6 +79,25 @@ func _connect_signals() -> void:
 	_close_warning_button.pressed.connect(_on_close_warning_pressed)
 
 
+func _generate_auto_profile_name() -> String:
+	if not profile_manager:
+		return "Account 1"
+	var index := 1
+	while profile_manager.has_profile("Account %d" % index):
+		index += 1
+	return "Account %d" % index
+
+
+func _update_name_preview() -> void:
+	if not _name_preview:
+		return
+	var typed_name := _name_input.text.strip_edges()
+	if typed_name.is_empty():
+		_name_preview.text = _generate_auto_profile_name()
+	else:
+		_name_preview.text = typed_name
+
+
 func _on_create_button_pressed() -> void:
 	if not profile_manager:
 		_show_error("Internal error: Profile Manager not available.")
@@ -84,8 +105,8 @@ func _on_create_button_pressed() -> void:
 
 	var profile_name := _name_input.text.strip_edges()
 	if profile_name.is_empty():
-		_show_error("Profile name cannot be empty!")
-		return
+		profile_name = _generate_auto_profile_name()
+
 	if not _preview_background.texture:
 		_show_error("Please select or upload a background image!")
 		return
@@ -114,9 +135,6 @@ func _resolve_background_path() -> String:
 
 
 func _on_browse_button_pressed() -> void:
-	if _name_input.text.strip_edges().is_empty():
-		_show_error("Please enter a profile name first!")
-		return
 	_hide_error()
 	_file_dialog.popup_centered()
 
@@ -128,9 +146,8 @@ func _on_file_selected(path: String) -> void:
 		_show_error("Invalid file type. Please use PNG, JPG, or WEBP.")
 		return
 
-	var base_name := _name_input.text.strip_edges().validate_filename().replace(" ", "_")
-	if base_name.is_empty():
-		base_name = "untitled_profile"
+	var typed_name := _name_input.text.strip_edges()
+	var base_name := typed_name.validate_filename().replace(" ", "_") if not typed_name.is_empty() else _generate_auto_profile_name().validate_filename().replace(" ", "_")
 	var file_name := "%s_%d.%s" % [base_name, Time.get_unix_time_from_system(), extension]
 	var destination_path := AppPaths.BACKGROUNDS_DIR.path_join(file_name)
 
@@ -158,8 +175,8 @@ func _on_standard_background_selected(index: int) -> void:
 	_hide_error()
 
 
-func _on_name_text_changed(new_text: String) -> void:
-	_name_preview.text = new_text
+func _on_name_text_changed(_new_text: String) -> void:
+	_update_name_preview()
 	_hide_error()
 
 

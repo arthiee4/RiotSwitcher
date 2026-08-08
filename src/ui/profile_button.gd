@@ -1,3 +1,4 @@
+class_name ProfileButton
 extends Control
 
 ## A single profile card in the grid. It only handles presentation and user

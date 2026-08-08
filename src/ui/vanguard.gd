@@ -1,3 +1,4 @@
+class_name VanguardController
 extends Control
 
 ## Basic Riot Vanguard (vgc) service control. Commands run on a worker

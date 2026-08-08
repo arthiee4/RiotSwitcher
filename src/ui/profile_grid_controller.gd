@@ -13,7 +13,7 @@ const CLIENT_EXE := "RiotClientServices.exe"
 const LAUNCH_ARGS: Array[String] = ["--launch-product=league_of_legends", "--launch-patchline=live"]
 
 # Dependencies, injected by Main.
-var profile_manager: ProfileManager
+var profile_manager: Node
 var riot_client_location: String = ""
 
 var _active_button: Control = null
@@ -22,7 +22,7 @@ var _worker: Thread = null
 var _progress_tween: Tween = null
 
 
-func set_dependencies(pm: ProfileManager, client_location: String) -> void:
+func set_dependencies(pm: Node, client_location: String) -> void:
 	profile_manager = pm
 	riot_client_location = client_location
 	if not profile_manager:
@@ -195,7 +195,7 @@ func _begin_stop(button: Control) -> void:
 func _session_save_worker(profile_name: String) -> void:
 	RiotProcesses.kill_all()
 	RiotProcesses.wait_until_all_dead()
-	var success := profile_manager.save_profile_session(profile_name, riot_client_location)
+	var success: bool = profile_manager.save_profile_session(profile_name, riot_client_location)
 	call_deferred("_on_save_finished", success)
 
 

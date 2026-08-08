@@ -1,0 +1,219 @@
+[gd_scene format=3 uid="uid://c8v7kmus1he0q"]
+
+[ext_resource type="FontFile" uid="uid://10wh284qofrr" path="res://assets/fonts/Raleway-Light.ttf" id="1_e2qsc"]
+[ext_resource type="FontFile" uid="uid://bwbai0nq228wc" path="res://assets/fonts/Raleway-Bold.ttf" id="2_tuiqe"]
+[ext_resource type="Script" uid="uid://blac5x4qv3t14" path="res://src/ui/vanguard.gd" id="3_vanguard"]
+[ext_resource type="Script" uid="uid://t8yek8vtavjl" path="res://src/ui/lang.gd" id="4_lang"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_orfc4"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a8y0u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a8y0u"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.337255)
+border_blend = true
+
+[node name="settings_menu" type="Control"]
+visible = false
+z_index = 99
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 80.0
+offset_top = 32.0
+offset_right = 1282.0
+offset_bottom = 720.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_orfc4")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 133.0
+offset_top = 45.0
+offset_right = 335.0
+offset_bottom = 105.0
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 51
+text = "Settings"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 124.0
+offset_top = 144.0
+offset_right = 458.0
+offset_bottom = 700.0
+theme_override_constants/separation = 100
+
+[node name="r3nzi" type="Control" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Panel" type="Panel" parent="VBoxContainer/r3nzi"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 67.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_a8y0u")
+
+[node name="Label" type="Label" parent="VBoxContainer/r3nzi/Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 24
+text = "R3NZSKIN"
+
+[node name="CheckButton" type="CheckButton" parent="VBoxContainer/r3nzi/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 51.0
+offset_right = 46.0
+offset_bottom = 75.0
+
+[node name="Label2" type="Label" parent="VBoxContainer/r3nzi/Panel"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 27.0
+offset_right = 392.0
+offset_bottom = 50.0
+theme_override_fonts/font = ExtResource("1_e2qsc")
+theme_override_font_sizes/font_size = 14
+text = "take care bro, dont use this option may cause ban]"
+
+[node name="vanguard" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+script = ExtResource("3_vanguard")
+
+[node name="Panel" type="Panel" parent="VBoxContainer/vanguard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+offset_right = 43.0
+offset_bottom = 88.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
+
+[node name="Label" type="Label" parent="VBoxContainer/vanguard/Panel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 124.0
+offset_bottom = 41.0
+theme_override_colors/font_color = Color(0.81502, 3.58574e-06, 7.70092e-07, 1)
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 24
+text = "Vanguard"
+
+[node name="restart" type="Button" parent="VBoxContainer/vanguard/Panel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 49.0
+offset_right = 80.0
+offset_bottom = 82.0
+mouse_default_cursor_shape = 2
+text = "Start"
+
+[node name="close" type="Button" parent="VBoxContainer/vanguard/Panel"]
+layout_mode = 0
+offset_left = 92.0
+offset_top = 50.0
+offset_right = 164.0
+offset_bottom = 82.0
+mouse_default_cursor_shape = 2
+text = "Stop"
+
+[node name="deleteall" type="Control" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Panel" type="Panel" parent="VBoxContainer/deleteall"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+offset_right = 42.0
+offset_bottom = 88.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
+
+[node name="Label" type="Label" parent="VBoxContainer/deleteall/Panel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 14.0
+offset_right = 215.0
+offset_bottom = 43.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 24
+text = "Delete all profiles"
+
+[node name="Button" type="Button" parent="VBoxContainer/deleteall/Panel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 53.0
+offset_right = 86.0
+offset_bottom = 84.0
+text = "Delete"
+
+[node name="lang" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+script = ExtResource("4_lang")
+
+[node name="Panel" type="Panel" parent="VBoxContainer/lang"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+offset_right = 42.0
+offset_bottom = 88.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
+
+[node name="Label" type="Label" parent="VBoxContainer/lang/Panel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 14.0
+offset_right = 215.0
+offset_bottom = 43.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 24
+text = "Language"
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/lang/Panel"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 53.0
+offset_right = 173.0
+offset_bottom = 81.0

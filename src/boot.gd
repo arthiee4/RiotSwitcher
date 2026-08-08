@@ -9,13 +9,13 @@ extends Control
 @onready var _browse_button: Button = $Control/Button
 @onready var _error: Control = $Control/error
 
-var _config_manager: ConfigManager
+var _config_manager: Node
 var _initial_icon_rotation: float
 var _icon_tween: Tween
 
 
 ## Injected by Main before this screen is shown.
-func set_config_manager(config_manager: ConfigManager) -> void:
+func set_config_manager(config_manager: Node) -> void:
 	_config_manager = config_manager
 
 
