@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://c8v7kmus1he0q"]
 
-[ext_resource type="FontFile" uid="uid://10wh284qofrr" path="res://assets/fonts/Raleway-Light.ttf" id="1_e2qsc"]
-[ext_resource type="FontFile" uid="uid://bwbai0nq228wc" path="res://assets/fonts/Raleway-Bold.ttf" id="2_tuiqe"]
+[ext_resource type="FontFile" uid="uid://c08w5jcfwr4pe" path="res://assets/fonts/Raleway-Light.ttf" id="1_e2qsc"]
+[ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="2_tuiqe"]
 [ext_resource type="Script" uid="uid://blac5x4qv3t14" path="res://src/ui/vanguard.gd" id="3_vanguard"]
 [ext_resource type="Script" uid="uid://t8yek8vtavjl" path="res://src/ui/lang.gd" id="4_lang"]
+[ext_resource type="Script" uid="uid://cmdk7tdac0cnw" path="res://src/ui/toggle_setting.gd" id="5_toggle"]
+[ext_resource type="Script" uid="uid://btr4ti6tqximu" path="res://src/ui/shared_settings.gd" id="6_shared"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_orfc4"]
 bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a8y0u"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a8y0u"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -18,8 +18,7 @@ border_width_bottom = 2
 border_color = Color(1, 1, 1, 0.337255)
 border_blend = true
 
-[node name="settings_menu" type="Control"]
-visible = false
+[node name="settings_menu" type="Control" unique_id=1837348613]
 z_index = 99
 layout_mode = 3
 anchors_preset = 15
@@ -29,21 +28,16 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=328800751]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
 offset_left = 80.0
 offset_top = 32.0
 offset_right = 1282.0
 offset_bottom = 720.0
-grow_horizontal = 2
-grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_orfc4")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=594308262]
 layout_mode = 0
 offset_left = 133.0
 offset_top = 45.0
@@ -53,72 +47,29 @@ theme_override_fonts/font = ExtResource("2_tuiqe")
 theme_override_font_sizes/font_size = 51
 text = "Settings"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=375675035]
 layout_mode = 0
 offset_left = 124.0
 offset_top = 144.0
 offset_right = 458.0
 offset_bottom = 700.0
-theme_override_constants/separation = 100
 
-[node name="r3nzi" type="Control" parent="VBoxContainer"]
-visible = false
-layout_mode = 2
-mouse_filter = 1
-
-[node name="Panel" type="Panel" parent="VBoxContainer/r3nzi"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = 67.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_a8y0u")
-
-[node name="Label" type="Label" parent="VBoxContainer/r3nzi/Panel"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 24
-text = "R3NZSKIN"
-
-[node name="CheckButton" type="CheckButton" parent="VBoxContainer/r3nzi/Panel"]
-layout_mode = 0
-offset_left = 2.0
-offset_top = 51.0
-offset_right = 46.0
-offset_bottom = 75.0
-
-[node name="Label2" type="Label" parent="VBoxContainer/r3nzi/Panel"]
-layout_mode = 0
-offset_left = 1.0
-offset_top = 27.0
-offset_right = 392.0
-offset_bottom = 50.0
-theme_override_fonts/font = ExtResource("1_e2qsc")
-theme_override_font_sizes/font_size = 14
-text = "take care bro, dont use this option may cause ban]"
-
-[node name="vanguard" type="Control" parent="VBoxContainer"]
+[node name="vanguard" type="Control" parent="VBoxContainer" unique_id=1267153034]
+custom_minimum_size = Vector2(0, 97)
 layout_mode = 2
 mouse_filter = 1
 script = ExtResource("3_vanguard")
 
-[node name="Panel" type="Panel" parent="VBoxContainer/vanguard"]
+[node name="Panel" type="Panel" parent="VBoxContainer/vanguard" unique_id=761812574]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -8.0
-offset_right = 43.0
-offset_bottom = 88.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
 
-[node name="Label" type="Label" parent="VBoxContainer/vanguard/Panel"]
+[node name="Label" type="Label" parent="VBoxContainer/vanguard/Panel" unique_id=944484791]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 12.0
@@ -129,7 +80,7 @@ theme_override_fonts/font = ExtResource("2_tuiqe")
 theme_override_font_sizes/font_size = 24
 text = "Vanguard"
 
-[node name="restart" type="Button" parent="VBoxContainer/vanguard/Panel"]
+[node name="restart" type="Button" parent="VBoxContainer/vanguard/Panel" unique_id=76478765]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 49.0
@@ -138,7 +89,7 @@ offset_bottom = 82.0
 mouse_default_cursor_shape = 2
 text = "Start"
 
-[node name="close" type="Button" parent="VBoxContainer/vanguard/Panel"]
+[node name="close" type="Button" parent="VBoxContainer/vanguard/Panel" unique_id=1340708423]
 layout_mode = 0
 offset_left = 92.0
 offset_top = 50.0
@@ -147,60 +98,22 @@ offset_bottom = 82.0
 mouse_default_cursor_shape = 2
 text = "Stop"
 
-[node name="deleteall" type="Control" parent="VBoxContainer"]
-visible = false
-layout_mode = 2
-mouse_filter = 1
-
-[node name="Panel" type="Panel" parent="VBoxContainer/deleteall"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -8.0
-offset_right = 42.0
-offset_bottom = 88.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
-
-[node name="Label" type="Label" parent="VBoxContainer/deleteall/Panel"]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 14.0
-offset_right = 215.0
-offset_bottom = 43.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 24
-text = "Delete all profiles"
-
-[node name="Button" type="Button" parent="VBoxContainer/deleteall/Panel"]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 53.0
-offset_right = 86.0
-offset_bottom = 84.0
-text = "Delete"
-
-[node name="lang" type="Control" parent="VBoxContainer"]
+[node name="lang" type="Control" parent="VBoxContainer" unique_id=1198539989]
+custom_minimum_size = Vector2(0, 97)
 layout_mode = 2
 mouse_filter = 1
 script = ExtResource("4_lang")
 
-[node name="Panel" type="Panel" parent="VBoxContainer/lang"]
+[node name="Panel" type="Panel" parent="VBoxContainer/lang" unique_id=365758090]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -8.0
-offset_right = 42.0
-offset_bottom = 88.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
 
-[node name="Label" type="Label" parent="VBoxContainer/lang/Panel"]
+[node name="Label" type="Label" parent="VBoxContainer/lang/Panel" unique_id=1194137669]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 14.0
@@ -211,9 +124,147 @@ theme_override_fonts/font = ExtResource("2_tuiqe")
 theme_override_font_sizes/font_size = 24
 text = "Language"
 
-[node name="OptionButton" type="OptionButton" parent="VBoxContainer/lang/Panel"]
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/lang/Panel" unique_id=614759420]
 layout_mode = 0
 offset_left = 17.0
 offset_top = 53.0
 offset_right = 173.0
 offset_bottom = 81.0
+
+[node name="syncsettings" type="Control" parent="VBoxContainer" unique_id=1390081259]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+mouse_filter = 1
+script = ExtResource("6_shared")
+
+[node name="Panel" type="Panel" parent="VBoxContainer/syncsettings" unique_id=1240682029]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
+
+[node name="Label" type="Label" parent="VBoxContainer/syncsettings/Panel" unique_id=2101409681]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 215.0
+offset_bottom = 41.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 24
+text = "Game settings"
+
+[node name="CheckButton" type="CheckButton" parent="VBoxContainer/syncsettings/Panel" unique_id=1146379550]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 46.0
+offset_right = 56.0
+offset_bottom = 70.0
+
+[node name="Label2" type="Label" parent="VBoxContainer/syncsettings/Panel" unique_id=1157821865]
+layout_mode = 0
+offset_left = 187.0
+offset_top = 18.0
+offset_right = 541.0
+offset_bottom = 42.0
+theme_override_fonts/font = ExtResource("1_e2qsc")
+theme_override_font_sizes/font_size = 14
+text = "Ativar configurações compartilhadas"
+
+[node name="Label3" type="Label" parent="VBoxContainer/syncsettings/Panel" unique_id=916435212]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 84.0
+offset_right = 420.0
+offset_bottom = 108.0
+theme_override_fonts/font = ExtResource("1_e2qsc")
+theme_override_font_sizes/font_size = 14
+text = "Perfil com as configurações que todas as contas usarão:"
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/syncsettings/Panel" unique_id=1532169757]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 110.0
+offset_right = 222.0
+offset_bottom = 140.0
+
+[node name="directlaunch" type="Control" parent="VBoxContainer" unique_id=771596029]
+custom_minimum_size = Vector2(0, 97)
+layout_mode = 2
+mouse_filter = 1
+script = ExtResource("5_toggle")
+config_key = "DirectLeagueLaunch"
+default_value = true
+
+[node name="Panel" type="Panel" parent="VBoxContainer/directlaunch" unique_id=1508762339]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
+
+[node name="Label" type="Label" parent="VBoxContainer/directlaunch/Panel" unique_id=605520190]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 215.0
+offset_bottom = 41.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 24
+text = "Direct launch"
+
+[node name="CheckButton" type="CheckButton" parent="VBoxContainer/directlaunch/Panel" unique_id=196746363]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 46.0
+offset_right = 56.0
+offset_bottom = 70.0
+
+[node name="Label2" type="Label" parent="VBoxContainer/directlaunch/Panel" unique_id=729137699]
+layout_mode = 0
+offset_left = 66.0
+offset_top = 48.0
+offset_right = 420.0
+offset_bottom = 72.0
+theme_override_fonts/font = ExtResource("1_e2qsc")
+theme_override_font_sizes/font_size = 14
+text = "Launch League automatically and close the Riot Client window"
+
+[node name="deleteall" type="Control" parent="VBoxContainer" unique_id=1826003715]
+custom_minimum_size = Vector2(0, 97)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Panel" type="Panel" parent="VBoxContainer/deleteall" unique_id=1426190891]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
+
+[node name="Label" type="Label" parent="VBoxContainer/deleteall/Panel" unique_id=1532496836]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 14.0
+offset_right = 215.0
+offset_bottom = 43.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 24
+text = "Delete all profiles"
+
+[node name="Button" type="Button" parent="VBoxContainer/deleteall/Panel" unique_id=12594093]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 53.0
+offset_right = 86.0
+offset_bottom = 84.0
+text = "Delete"
