@@ -74,6 +74,10 @@ func _on_profile_button_pressed() -> void:
 	if not _is_interactable and not client_is_running:
 		return
 	_is_transitioning = true
+	if not client_is_running:
+		_state_icon.texture = STOP_ICON
+	else:
+		_state_icon.texture = PLAY_ICON
 	client_toggled.emit(self, not client_is_running)
 
 

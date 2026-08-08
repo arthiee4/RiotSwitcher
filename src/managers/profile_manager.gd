@@ -134,6 +134,14 @@ func delete_profile(profile_name: String) -> bool:
 	return true
 
 
+## Returns true if the profile has not been opened yet (needs manual login).
+func is_first_time_opened(profile_name: String) -> bool:
+	var profile := _find_profile(profile_name)
+	if profile.is_empty():
+		return true
+	return not profile.get("first_time_opened", false)
+
+
 ## Persists that the profile has been launched at least once.
 ## Silent: does not emit profiles_updated (avoids rebuilding the UI mid-launch).
 func mark_profile_opened(profile_name: String) -> void:

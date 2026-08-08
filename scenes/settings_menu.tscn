@@ -51,8 +51,9 @@ text = "Settings"
 layout_mode = 0
 offset_left = 124.0
 offset_top = 144.0
-offset_right = 458.0
+offset_right = 800.0
 offset_bottom = 700.0
+theme_override_constants/separation = 12
 
 [node name="vanguard" type="Control" parent="VBoxContainer" unique_id=1267153034]
 custom_minimum_size = Vector2(0, 97)
@@ -77,7 +78,7 @@ offset_right = 124.0
 offset_bottom = 41.0
 theme_override_colors/font_color = Color(0.81502, 3.58574e-06, 7.70092e-07, 1)
 theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 text = "Vanguard"
 
 [node name="restart" type="Button" parent="VBoxContainer/vanguard/Panel" unique_id=76478765]
@@ -121,18 +122,19 @@ offset_right = 215.0
 offset_bottom = 43.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 text = "Language"
 
 [node name="OptionButton" type="OptionButton" parent="VBoxContainer/lang/Panel" unique_id=614759420]
 layout_mode = 0
-offset_left = 17.0
-offset_top = 53.0
-offset_right = 173.0
-offset_bottom = 81.0
+offset_left = 12.0
+offset_top = 50.0
+offset_right = 230.0
+offset_bottom = 82.0
+mouse_default_cursor_shape = 2
 
 [node name="syncsettings" type="Control" parent="VBoxContainer" unique_id=1390081259]
-custom_minimum_size = Vector2(0, 150)
+custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
 mouse_filter = 1
 script = ExtResource("6_shared")
@@ -154,87 +156,35 @@ offset_right = 215.0
 offset_bottom = 41.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 text = "Game settings"
 
 [node name="CheckButton" type="CheckButton" parent="VBoxContainer/syncsettings/Panel" unique_id=1146379550]
 layout_mode = 0
 offset_left = 12.0
-offset_top = 46.0
+offset_top = 48.0
 offset_right = 56.0
-offset_bottom = 70.0
-
-[node name="Label2" type="Label" parent="VBoxContainer/syncsettings/Panel" unique_id=1157821865]
-layout_mode = 0
-offset_left = 187.0
-offset_top = 18.0
-offset_right = 541.0
-offset_bottom = 42.0
-theme_override_fonts/font = ExtResource("1_e2qsc")
-theme_override_font_sizes/font_size = 14
-text = "Ativar configurações compartilhadas"
-
-[node name="Label3" type="Label" parent="VBoxContainer/syncsettings/Panel" unique_id=916435212]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 84.0
-offset_right = 420.0
-offset_bottom = 108.0
-theme_override_fonts/font = ExtResource("1_e2qsc")
-theme_override_font_sizes/font_size = 14
-text = "Perfil com as configurações que todas as contas usarão:"
+offset_bottom = 78.0
+mouse_default_cursor_shape = 2
 
 [node name="OptionButton" type="OptionButton" parent="VBoxContainer/syncsettings/Panel" unique_id=1532169757]
 layout_mode = 0
-offset_left = 12.0
-offset_top = 110.0
-offset_right = 222.0
-offset_bottom = 140.0
+offset_left = 72.0
+offset_top = 47.0
+offset_right = 290.0
+offset_bottom = 79.0
+mouse_default_cursor_shape = 2
 
-[node name="directlaunch" type="Control" parent="VBoxContainer" unique_id=771596029]
-custom_minimum_size = Vector2(0, 97)
-layout_mode = 2
-mouse_filter = 1
-script = ExtResource("5_toggle")
-config_key = "DirectLeagueLaunch"
-default_value = true
-
-[node name="Panel" type="Panel" parent="VBoxContainer/directlaunch" unique_id=1508762339]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
-
-[node name="Label" type="Label" parent="VBoxContainer/directlaunch/Panel" unique_id=605520190]
+[node name="Label2" type="Label" parent="VBoxContainer/syncsettings/Panel" unique_id=1157821865]
 layout_mode = 0
 offset_left = 12.0
-offset_top = 12.0
-offset_right = 215.0
-offset_bottom = 41.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 24
-text = "Direct launch"
-
-[node name="CheckButton" type="CheckButton" parent="VBoxContainer/directlaunch/Panel" unique_id=196746363]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 46.0
-offset_right = 56.0
-offset_bottom = 70.0
-
-[node name="Label2" type="Label" parent="VBoxContainer/directlaunch/Panel" unique_id=729137699]
-layout_mode = 0
-offset_left = 66.0
-offset_top = 48.0
-offset_right = 420.0
-offset_bottom = 72.0
+offset_top = 90.0
+offset_right = 650.0
+offset_bottom = 115.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.65)
 theme_override_fonts/font = ExtResource("1_e2qsc")
-theme_override_font_sizes/font_size = 14
-text = "Launch League automatically and close the Riot Client window"
+theme_override_font_sizes/font_size = 13
+text = "Ativar configurações compartilhadas no jogo para todos os perfis"
 
 [node name="deleteall" type="Control" parent="VBoxContainer" unique_id=1826003715]
 custom_minimum_size = Vector2(0, 97)
@@ -258,13 +208,14 @@ offset_right = 215.0
 offset_bottom = 43.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 text = "Delete all profiles"
 
 [node name="Button" type="Button" parent="VBoxContainer/deleteall/Panel" unique_id=12594093]
 layout_mode = 0
 offset_left = 12.0
-offset_top = 53.0
-offset_right = 86.0
-offset_bottom = 84.0
+offset_top = 50.0
+offset_right = 90.0
+offset_bottom = 82.0
+mouse_default_cursor_shape = 2
 text = "Delete"
