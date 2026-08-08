@@ -175,4 +175,12 @@ msgstr "계정을 처음 열 때 이 작업을 수행하는 것을 잊지 마세
 
 #: scenes/add_menu.tscn
 msgid "close thattt warning >:("
-msgstr "이 경고 닫기 >:(" 
+msgstr "이 경고 닫기 >:("
+
+#: scenes/settings_menu.tscn
+msgid "Game settings"
+msgstr "게임 설정"
+
+#: scenes/settings_menu.tscn
+msgid "Enable shared in-game settings for all profiles"
+msgstr "모든 프로필에 대해 공유 게임 설정 활성화" 

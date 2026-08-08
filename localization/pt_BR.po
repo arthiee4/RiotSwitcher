@@ -175,4 +175,12 @@ msgstr "Lembre-se de fazer isso ao abrir a conta pela primeira vez."
 
 #: scenes/add_menu.tscn
 msgid "close thattt warning >:("
-msgstr "fechar esse aviso >:(" 
+msgstr "fechar esse aviso >:("
+
+#: scenes/settings_menu.tscn
+msgid "Game settings"
+msgstr "Configurações do jogo"
+
+#: scenes/settings_menu.tscn
+msgid "Enable shared in-game settings for all profiles"
+msgstr "Ativar configurações compartilhadas no jogo para todos os perfis" 
