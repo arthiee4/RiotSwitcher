@@ -1,4 +1,4 @@
-class_name LanguageManager
+class_name AppLanguageController
 extends Control
 
 # Language dropdown.
