@@ -12,8 +12,6 @@
 [ext_resource type="Texture2D" uid="uid://ckd8w1e1vnaef" path="res://assets/icons/ui/icon_home.png" id="7_jmtl2"]
 [ext_resource type="Shader" uid="uid://cswe7248fk0td" path="res://shaders/glow.gdshader" id="7_myoxr"]
 [ext_resource type="Script" uid="uid://dxcm2e2j4ubiw" path="res://src/ui/upper_side.gd" id="8_njgeq"]
-[ext_resource type="Script" uid="uid://blac5x4qv3t14" path="res://src/ui/vanguard.gd" id="10_jkv2x"]
-[ext_resource type="Script" uid="uid://t8yek8vtavjl" path="res://src/ui/lang.gd" id="11_muem4"]
 [ext_resource type="Texture2D" uid="uid://drrnkkjhq0hud" path="res://assets/icons/ui/icon_github.png" id="11_qja53"]
 [ext_resource type="PackedScene" uid="uid://w3jljyf63rcp" path="res://scenes/add_menu.tscn" id="12_7avnf"]
 [ext_resource type="Script" uid="uid://dax40m6v2hys2" path="res://src/ui/add_profile_controller.gd" id="13_dp3eg"]
@@ -1302,17 +1300,6 @@ corner_radius_top_left = 30
 corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_orfc4"]
-bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a8y0u"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_left = 2
-border_width_top = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 0.337255)
-border_blend = true
 
 [sub_resource type="Image" id="Image_jokpa"]
 data = {
@@ -4230,7 +4217,10 @@ offset_bottom = 703.0
 mouse_default_cursor_shape = 2
 text = "delete"
 
-[node name="settings_menu" parent="." instance=ExtResource("17_settings")]
+[node name="settings_menu" parent="." unique_id=1673985897 instance=ExtResource("17_settings")]
+visible = false
+layout_mode = 1
+
 [node name="add_menu" parent="." unique_id=31094257 instance=ExtResource("12_7avnf")]
 visible = false
 z_index = 12
