@@ -187,7 +187,7 @@ func _on_swap_finished(profile_name: String, executable_path: String, success: b
 
 
 func _begin_stop(button: Control) -> void:
-	_update_progress_bar(button, 15, true)
+	_update_progress_bar(button, 0, false)
 	_worker = Thread.new()
 	_worker.start(_session_save_worker.bind(button.profile_name))
 
@@ -206,7 +206,7 @@ func _on_save_finished(success: bool) -> void:
 		printerr("ProfileGridController: Session save finished with errors.")
 	if is_instance_valid(_active_button):
 		_active_button.confirm_stopped()
-		_update_progress_bar(_active_button, 100, false)
+		_update_progress_bar(_active_button, 0, false)
 	_active_button = null
 	_running_profile_name = ""
 	_enable_all_buttons()
