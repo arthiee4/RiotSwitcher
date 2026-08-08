@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://t8yek8vtavjl" path="res://src/ui/lang.gd" id="4_lang"]
 [ext_resource type="Script" uid="uid://cmdk7tdac0cnw" path="res://src/ui/toggle_setting.gd" id="5_toggle"]
 [ext_resource type="Script" uid="uid://btr4ti6tqximu" path="res://src/ui/shared_settings.gd" id="6_shared"]
+[ext_resource type="Script" path="res://src/ui/delete_all_profiles.gd" id="7_deleteall"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_orfc4"]
 bg_color = Color(0, 0, 0, 1)
@@ -190,6 +191,7 @@ text = "Ativar configurações compartilhadas no jogo para todos os perfis"
 custom_minimum_size = Vector2(0, 97)
 layout_mode = 2
 mouse_filter = 1
+script = ExtResource("7_deleteall")
 
 [node name="Panel" type="Panel" parent="VBoxContainer/deleteall" unique_id=1426190891]
 layout_mode = 1
