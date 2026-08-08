@@ -182,5 +182,5 @@ msgid "Game settings"
 msgstr "게임 설정"
 
 #: scenes/settings_menu.tscn
-msgid "Enable shared in-game settings for all profiles"
-msgstr "모든 프로필에 대해 공유 게임 설정 활성화" 
+msgid "Enable shared in-game settings for all profiles. (Restart game after a new profile's first login)"
+msgstr "모든 프로필에 대해 공유 게임 설정 활성화 (새 프로필의 첫 로그인 후 게임을 재시작하세요)" 

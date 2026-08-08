@@ -182,5 +182,5 @@ msgid "Game settings"
 msgstr "游戏设置"
 
 #: scenes/settings_menu.tscn
-msgid "Enable shared in-game settings for all profiles"
-msgstr "为所有配置文件启用共享游戏设置" 
+msgid "Enable shared in-game settings for all profiles. (Restart game after a new profile's first login)"
+msgstr "为所有配置文件启用共享游戏设置（新配置文件首次登录后请重启游戏）" 

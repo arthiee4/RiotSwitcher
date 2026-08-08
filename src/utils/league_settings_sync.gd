@@ -4,7 +4,7 @@ extends RefCounted
 # Shares League of Legends game settings (hotkeys, video, interface) across every profile by keeping a single shared copy of the files that carry them.
 
 const REG_LOL_UNINSTALL := "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Riot Game league_of_legends.live"
-const SHARED_FILES: Array[String] = ["game.cfg", "PersistedSettings.json"]
+const SHARED_FILES: Array[String] = ["game.cfg", "PersistedSettings.json", "input.ini"]
 
 
 # Locates the League of Legends install directory, or "" when not found.
@@ -20,40 +20,39 @@ static func find_league_dir(riot_client_location: String) -> String:
 	return ""
 
 
-# Copies the live game settings into the shared backup.
-static func save_shared_settings(league_dir: String) -> bool:
-	if league_dir.is_empty():
+# Captures game settings from a source directory (live League/Config or profile folder) into shared storage.
+static func save_shared_settings_from_dir(source_dir: String) -> bool:
+	if source_dir.is_empty() or not DirAccess.dir_exists_absolute(source_dir):
 		return false
-	var config_dir := league_dir.path_join("Config")
 	if DirAccess.make_dir_recursive_absolute(AppPaths.SHARED_GAME_SETTINGS_DIR) != OK:
 		printerr("LeagueSettingsSync: Failed to create shared settings directory.")
 		return false
 
-	var all_ok := true
+	var any_copied := false
 	for filename in SHARED_FILES:
-		var source := config_dir.path_join(filename)
+		var source := source_dir.path_join(filename)
 		if not FileAccess.file_exists(source):
 			continue
-		if DirAccess.copy_absolute(source, AppPaths.SHARED_GAME_SETTINGS_DIR.path_join(filename)) != OK:
-			printerr("LeagueSettingsSync: Failed to back up '%s'." % filename)
-			all_ok = false
-	return all_ok
+		if DirAccess.copy_absolute(source, AppPaths.SHARED_GAME_SETTINGS_DIR.path_join(filename)) == OK:
+			any_copied = true
+	return any_copied
 
 
-# Writes the shared backup over the live game settings.
-static func restore_shared_settings(league_dir: String) -> bool:
-	if league_dir.is_empty() or not DirAccess.dir_exists_absolute(AppPaths.SHARED_GAME_SETTINGS_DIR):
+# Writes the shared backup into the destination directory.
+static func restore_shared_settings_to_dir(dest_dir: String) -> bool:
+	if dest_dir.is_empty() or not DirAccess.dir_exists_absolute(AppPaths.SHARED_GAME_SETTINGS_DIR):
 		return true
-	var config_dir := league_dir.path_join("Config")
+
+	if DirAccess.make_dir_recursive_absolute(dest_dir) != OK:
+		return false
 
 	var all_ok := true
 	for filename in SHARED_FILES:
 		var backup := AppPaths.SHARED_GAME_SETTINGS_DIR.path_join(filename)
 		if not FileAccess.file_exists(backup):
 			continue
-		DirAccess.make_dir_recursive_absolute(config_dir)
-		if DirAccess.copy_absolute(backup, config_dir.path_join(filename)) != OK:
-			printerr("LeagueSettingsSync: Failed to restore '%s'." % filename)
+		if DirAccess.copy_absolute(backup, dest_dir.path_join(filename)) != OK:
+			printerr("LeagueSettingsSync: Failed to restore '%s' to '%s'." % [filename, dest_dir])
 			all_ok = false
 	return all_ok
 
