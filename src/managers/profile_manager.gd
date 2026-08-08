@@ -76,7 +76,7 @@ func has_profile(profile_name: String) -> bool:
 
 
 ## Creates the profile directory and registers the profile. Returns true on success.
-func add_profile(profile_name: String, background_path: String) -> bool:
+func add_profile(profile_name: String, background_path: String, has_custom_name: bool = true) -> bool:
 	if profile_name.is_empty():
 		printerr("ProfileManager: Profile name cannot be empty.")
 		return false
@@ -95,6 +95,7 @@ func add_profile(profile_name: String, background_path: String) -> bool:
 		"custom_background_image": background_path,
 		"first_time_opened": false,
 		"directory_name": directory_name,
+		"has_custom_name": has_custom_name,
 	}
 	_profiles.append(new_profile)
 	if not _save_profiles_file():

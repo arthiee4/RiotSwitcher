@@ -91,11 +91,7 @@ func _generate_auto_profile_name() -> String:
 func _update_name_preview() -> void:
 	if not _name_preview:
 		return
-	var typed_name := _name_input.text.strip_edges()
-	if typed_name.is_empty():
-		_name_preview.text = _generate_auto_profile_name()
-	else:
-		_name_preview.text = typed_name
+	_name_preview.text = _name_input.text.strip_edges()
 
 
 func _on_create_button_pressed() -> void:
@@ -103,9 +99,9 @@ func _on_create_button_pressed() -> void:
 		_show_error("Internal error: Profile Manager not available.")
 		return
 
-	var profile_name := _name_input.text.strip_edges()
-	if profile_name.is_empty():
-		profile_name = _generate_auto_profile_name()
+	var raw_typed := _name_input.text.strip_edges()
+	var has_custom_name := not raw_typed.is_empty()
+	var profile_name := raw_typed if has_custom_name else _generate_auto_profile_name()
 
 	if not _preview_background.texture:
 		_show_error("Please select or upload a background image!")
@@ -116,7 +112,7 @@ func _on_create_button_pressed() -> void:
 
 	_hide_error()
 	var background_path := _resolve_background_path()
-	if not profile_manager.add_profile(profile_name, background_path):
+	if not profile_manager.add_profile(profile_name, background_path, has_custom_name):
 		_show_error("Failed to create profile! Check logs.")
 		return
 

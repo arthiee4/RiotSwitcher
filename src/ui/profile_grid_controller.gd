@@ -68,8 +68,9 @@ func _create_profile_button(profile_data: Dictionary) -> void:
 	button.name = "profile_" + profile_data.get("directory_name", "unknown")
 
 	var label := button.find_child("profile_name", true, false)
-	if label:
-		label.text = profile_data.get("profile_name", "Unknown Profile")
+	if label and label is Label:
+		var has_custom_name: bool = profile_data.get("has_custom_name", true)
+		label.text = profile_data.get("profile_name", "") if has_custom_name else ""
 
 	var background := button.get_node_or_null("card/Panel/profile_bg")
 	if background:
