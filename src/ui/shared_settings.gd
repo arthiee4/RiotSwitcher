@@ -31,6 +31,8 @@ func _on_toggled(pressed: bool) -> void:
 	if not ConfigManager.set_value_and_save(CONFIG_KEY_ENABLED, pressed):
 		printerr("SharedSettings: Failed to save '%s'." % CONFIG_KEY_ENABLED)
 	_update_dropdown_state()
+	if pressed:
+		_sync_all_profiles_now()
 
 
 func _on_profile_selected(index: int) -> void:
@@ -39,6 +41,38 @@ func _on_profile_selected(index: int) -> void:
 		return
 	if not ConfigManager.set_value_and_save(CONFIG_KEY_SOURCE, profile_name):
 		printerr("SharedSettings: Failed to save '%s'." % CONFIG_KEY_SOURCE)
+	_sync_all_profiles_now()
+
+
+func _sync_all_profiles_now() -> void:
+	var source_profile: String = ConfigManager.get_value(CONFIG_KEY_SOURCE, "")
+	if source_profile.is_empty():
+		return
+
+	var source_dir := ""
+	if ProfileManager and ProfileManager.has_method("_get_profile_dir"):
+		var profile_dir: String = ProfileManager._get_profile_dir(source_profile)
+		if not profile_dir.is_empty() and DirAccess.dir_exists_absolute(profile_dir):
+			source_dir = profile_dir
+
+	var league_dir := LeagueSettingsSync.find_league_dir("")
+	var live_config_dir := league_dir.path_join("Config") if not league_dir.is_empty() else ""
+
+	if source_dir.is_empty() or not FileAccess.file_exists(source_dir.path_join("PersistedSettings.json")):
+		source_dir = live_config_dir
+
+	if not source_dir.is_empty() and DirAccess.dir_exists_absolute(source_dir):
+		LeagueSettingsSync.save_shared_settings_from_dir(source_dir)
+
+	if not live_config_dir.is_empty():
+		LeagueSettingsSync.restore_shared_settings_to_dir(live_config_dir)
+
+	if ProfileManager and ProfileManager.has_method("get_profiles"):
+		for profile: Dictionary in ProfileManager.get_profiles():
+			var dir_name: String = profile.get("directory_name", "")
+			if not dir_name.is_empty():
+				var target_p_dir := AppPaths.PROFILES_DIR.path_join(dir_name)
+				LeagueSettingsSync.restore_shared_settings_to_dir(target_p_dir)
 
 
 ## Rebuilds the dropdown from the profile list, keeping the saved selection.

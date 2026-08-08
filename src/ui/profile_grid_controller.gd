@@ -167,7 +167,7 @@ func _session_swap_worker(previous_profile: String, next_profile: String, execut
 		printerr("ProfileGridController: Failed to restore session of '%s'." % next_profile)
 		success = false
 	if success:
-		_restore_shared_game_settings()
+		_restore_shared_game_settings(next_profile)
 
 	call_deferred("_on_swap_finished", next_profile, executable_path, success)
 
@@ -255,14 +255,52 @@ func _save_shared_game_settings(profile_name: String) -> void:
 	var source_profile: String = ConfigManager.get_value(CONFIG_KEY_SYNC_SOURCE, "")
 	if source_profile.is_empty() or profile_name != source_profile:
 		return
-	LeagueSettingsSync.save_shared_settings(LeagueSettingsSync.find_league_dir(riot_client_location))
+
+	var league_dir := LeagueSettingsSync.find_league_dir(riot_client_location)
+	var live_config_dir := league_dir.path_join("Config") if not league_dir.is_empty() else ""
+
+	if not live_config_dir.is_empty() and DirAccess.dir_exists_absolute(live_config_dir):
+		LeagueSettingsSync.save_shared_settings_from_dir(live_config_dir)
+
+	if profile_manager and profile_manager.has_method("_get_profile_dir"):
+		var profile_dir: String = profile_manager._get_profile_dir(profile_name)
+		if not profile_dir.is_empty() and DirAccess.dir_exists_absolute(profile_dir):
+			LeagueSettingsSync.restore_shared_settings_to_dir(profile_dir)
 
 
-## Writes the shared game settings into the live League folder (if enabled).
-func _restore_shared_game_settings() -> void:
+## Writes the shared game settings from the source profile into the live League folder and target profile folder.
+func _restore_shared_game_settings(next_profile: String = "") -> void:
 	if not _sync_settings_enabled():
 		return
-	LeagueSettingsSync.restore_shared_settings(LeagueSettingsSync.find_league_dir(riot_client_location))
+	var source_profile: String = ConfigManager.get_value(CONFIG_KEY_SYNC_SOURCE, "")
+	if source_profile.is_empty():
+		return
+
+	# 1. Forcefully capture/refresh shared settings from source profile folder or live config
+	var source_dir := ""
+	if profile_manager and profile_manager.has_method("_get_profile_dir"):
+		var p_dir: String = profile_manager._get_profile_dir(source_profile)
+		if not p_dir.is_empty() and DirAccess.dir_exists_absolute(p_dir):
+			source_dir = p_dir
+
+	var league_dir := LeagueSettingsSync.find_league_dir(riot_client_location)
+	var live_config_dir := league_dir.path_join("Config") if not league_dir.is_empty() else ""
+
+	if source_dir.is_empty() or not FileAccess.file_exists(source_dir.path_join("game.cfg")):
+		source_dir = live_config_dir
+
+	if not source_dir.is_empty() and DirAccess.dir_exists_absolute(source_dir):
+		LeagueSettingsSync.save_shared_settings_from_dir(source_dir)
+
+	# 2. Restore shared settings into live League Config directory
+	if not live_config_dir.is_empty():
+		LeagueSettingsSync.restore_shared_settings_to_dir(live_config_dir)
+
+	# 3. Restore shared settings into target profile directory
+	if profile_manager and not next_profile.is_empty() and profile_manager.has_method("_get_profile_dir"):
+		var target_profile_dir: String = profile_manager._get_profile_dir(next_profile)
+		if not target_profile_dir.is_empty():
+			LeagueSettingsSync.restore_shared_settings_to_dir(target_profile_dir)
 
 
 func _load_texture(path: String) -> Texture2D:

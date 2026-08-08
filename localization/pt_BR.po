@@ -182,5 +182,5 @@ msgid "Game settings"
 msgstr "Configurações do jogo"
 
 #: scenes/settings_menu.tscn
-msgid "Enable shared in-game settings for all profiles"
-msgstr "Ativar configurações compartilhadas no jogo para todos os perfis" 
+msgid "Enable shared in-game settings for all profiles. (Restart game after a new profile's first login)"
+msgstr "Ativar configurações compartilhadas no jogo para todos os perfis. (Reinicie o jogo após o primeiro login de um novo perfil)" 

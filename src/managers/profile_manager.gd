@@ -90,6 +90,9 @@ func add_profile(profile_name: String, background_path: String, has_custom_name:
 		printerr("ProfileManager: Failed to create profile directory: ", profile_dir)
 		return false
 
+	# Seed the newly created profile folder with shared game settings if enabled
+	_seed_shared_settings_for_new_profile(profile_dir)
+
 	var new_profile := {
 		"profile_name": profile_name,
 		"custom_background_image": background_path,
@@ -276,6 +279,13 @@ func _sanitize_directory_name(profile_name: String) -> String:
 	if sanitized.is_empty():
 		sanitized = "profile_%d" % Time.get_unix_time_from_system()
 	return sanitized
+
+
+func _seed_shared_settings_for_new_profile(target_dir: String) -> void:
+	var sync_enabled := bool(ConfigManager.get_value("SyncGameSettings", false))
+	if not sync_enabled:
+		return
+	LeagueSettingsSync.restore_shared_settings_to_dir(target_dir)
 
 
 ## Resolves a FILES_TO_SWITCH entry to an absolute path, or "" when its
