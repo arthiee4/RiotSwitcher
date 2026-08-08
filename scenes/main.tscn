@@ -2,22 +2,22 @@
 
 [ext_resource type="Script" uid="uid://fq3op1fimbus" path="res://src/main.gd" id="1_0qlmk"]
 [ext_resource type="FontFile" uid="uid://c08w5jcfwr4pe" path="res://assets/fonts/Raleway-Light.ttf" id="1_e2qsc"]
-[ext_resource type="Script" uid="uid://dsiapwce0qph6" path="res://src/profile_grid_controller.gd" id="2_gqmmt"]
+[ext_resource type="Script" uid="uid://dsiapwce0qph6" path="res://src/ui/profile_grid_controller.gd" id="2_gqmmt"]
 [ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="2_tuiqe"]
-[ext_resource type="Script" uid="uid://bc7qhx1yer8kc" path="res://src/left_menu_handler.gd" id="3_0ld40"]
-[ext_resource type="Script" uid="uid://bmhqxoxdti76p" path="res://src/window_buttons.gd" id="4_sm8vm"]
+[ext_resource type="Script" uid="uid://bc7qhx1yer8kc" path="res://src/ui/left_menu_handler.gd" id="3_0ld40"]
+[ext_resource type="Script" uid="uid://bmhqxoxdti76p" path="res://src/ui/window_buttons.gd" id="4_sm8vm"]
 [ext_resource type="Texture2D" uid="uid://cvvwo42jdh7uj" path="res://assets/icons/ui/icon_add.png" id="6_36k36"]
 [ext_resource type="Texture2D" uid="uid://ivql3vhhafwm" path="res://assets/icons/ui/icon_settings.png" id="6_vqjbp"]
-[ext_resource type="Texture2D" uid="uid://dgdxtpsyq0png" path="res://no_bg.png" id="7_a8y0u"]
+[ext_resource type="Texture2D" uid="uid://dgdxtpsyq0png" path="res://assets/branding/no_bg.png" id="7_a8y0u"]
 [ext_resource type="Texture2D" uid="uid://ckd8w1e1vnaef" path="res://assets/icons/ui/icon_home.png" id="7_jmtl2"]
 [ext_resource type="Shader" uid="uid://cswe7248fk0td" path="res://shaders/glow.gdshader" id="7_myoxr"]
-[ext_resource type="Script" uid="uid://dxcm2e2j4ubiw" path="res://src/upper_side.gd" id="8_njgeq"]
-[ext_resource type="Script" uid="uid://blac5x4qv3t14" path="res://src/vanguard.gd" id="10_jkv2x"]
-[ext_resource type="Script" uid="uid://t8yek8vtavjl" path="res://src/lang.gd" id="11_muem4"]
+[ext_resource type="Script" uid="uid://dxcm2e2j4ubiw" path="res://src/ui/upper_side.gd" id="8_njgeq"]
+[ext_resource type="Script" uid="uid://blac5x4qv3t14" path="res://src/ui/vanguard.gd" id="10_jkv2x"]
+[ext_resource type="Script" uid="uid://t8yek8vtavjl" path="res://src/ui/lang.gd" id="11_muem4"]
 [ext_resource type="Texture2D" uid="uid://drrnkkjhq0hud" path="res://assets/icons/ui/icon_github.png" id="11_qja53"]
 [ext_resource type="PackedScene" uid="uid://w3jljyf63rcp" path="res://scenes/add_menu.tscn" id="12_7avnf"]
-[ext_resource type="Script" uid="uid://dax40m6v2hys2" path="res://src/add_profile_controller.gd" id="13_dp3eg"]
-[ext_resource type="Script" uid="uid://b7k3ohhrolpu8" path="res://src/systemtray.gd" id="14_a8y0u"]
+[ext_resource type="Script" uid="uid://dax40m6v2hys2" path="res://src/ui/add_profile_controller.gd" id="13_dp3eg"]
+[ext_resource type="Script" uid="uid://b7k3ohhrolpu8" path="res://src/ui/systemtray.gd" id="14_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://c2xgjxmibyhyb" path="res://scenes/boot.tscn" id="16_jbj1t"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dswpw"]
@@ -3846,13 +3846,6 @@ Button/styles/hover = SubResource("StyleBoxFlat_yq6so")
 Button/styles/normal = SubResource("StyleBoxFlat_fv21b")
 Button/styles/pressed = SubResource("StyleBoxFlat_tel4y")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dyql3"]
-shader = ExtResource("7_myoxr")
-shader_parameter/rect_size = Vector2(0.1, 0.1)
-shader_parameter/bness = 0.22
-shader_parameter/fall_off_scale = 3.365
-shader_parameter/b_offset = 0.0
-
 [node name="main" type="Control" unique_id=1369969409]
 layout_mode = 3
 anchors_preset = 15
@@ -3901,10 +3894,14 @@ columns = 4
 script = ExtResource("2_gqmmt")
 
 [node name="leftmenu_side" type="Control" parent="." unique_id=1813265131]
+z_index = 10
 layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -360.0
 offset_right = 86.0
+offset_bottom = 360.0
 grow_vertical = 2
 script = ExtResource("3_0ld40")
 
@@ -4430,163 +4427,150 @@ offset_right = 173.0
 offset_bottom = 81.0
 
 [node name="add_menu" parent="." unique_id=31094257 instance=ExtResource("12_7avnf")]
-visible = false
-z_index = 99
+z_index = 12
 layout_mode = 0
-offset_left = 89.0
-offset_top = 16.0
-offset_right = 1183.0
-offset_bottom = 704.0
+offset_left = 88.0
+offset_top = 5.0
+offset_right = 1094.0
+offset_bottom = 688.0
 mouse_filter = 2
 script = ExtResource("13_dp3eg")
 
-[node name="Panel" parent="add_menu" index="0"]
+[node name="Panel" parent="add_menu" index="0" unique_id=636082946]
 offset_left = -8.0
 offset_top = 22.0
 offset_right = 97.0
 offset_bottom = 16.0
 
-[node name="creation" parent="add_menu" index="5"]
+[node name="creation" parent="add_menu" index="5" unique_id=978803369]
 offset_left = 24.0
 offset_top = 504.0
 offset_right = 568.0
 offset_bottom = 690.0
 
-[node name="create_button" parent="add_menu/creation" index="0"]
+[node name="create_button" parent="add_menu/creation" index="0" unique_id=2114340849]
 offset_left = 34.0
 offset_top = 54.0
 offset_right = 91.0
 offset_bottom = 85.0
 
-[node name="Label" parent="add_menu/creation" index="1"]
+[node name="Label" parent="add_menu/creation" index="1" unique_id=610627928]
 offset_left = 33.0
 offset_top = 24.0
 offset_right = 170.0
 offset_bottom = 47.0
 
-[node name="Label2" parent="add_menu/creation" index="2"]
+[node name="Label2" parent="add_menu/creation" index="2" unique_id=305097381]
 offset_left = 34.0
 offset_top = 92.0
 offset_right = 185.0
 offset_bottom = 125.0
 
-[node name="warning" parent="add_menu" index="8"]
-offset_left = 676.155
-offset_top = 91.725
-offset_right = 961.155
-offset_bottom = 234.725
-
 [node name="upper_side" type="Control" parent="." unique_id=1838701198]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
+anchors_preset = 0
+offset_left = 80.0
+offset_right = 1212.0
 offset_bottom = 43.0
-grow_horizontal = 2
 mouse_filter = 1
 script = ExtResource("8_njgeq")
 
 [node name="title_label" type="Label" parent="upper_side" unique_id=1127470561]
 layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 20.0
-offset_top = -18.5
-offset_right = 75.0
-offset_bottom = 18.5
+anchors_preset = -1
+anchor_left = 0.118073
+anchor_top = 0.141123
+anchor_right = 0.251667
+anchor_bottom = 0.19529
+offset_left = -71.6875
+offset_top = 34.0167
+offset_right = 93.9688
+offset_bottom = 65.85
+grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_tuiqe")
 theme_override_font_sizes/font_size = 28
 text = "Riot"
+metadata/_edit_use_anchors_ = true
 
 [node name="title_label2" type="Label" parent="upper_side" unique_id=1971330885]
 layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 80.0
-offset_top = -18.5
-offset_right = 195.0
-offset_bottom = 18.5
+anchors_preset = -1
+anchor_left = 0.173752
+anchor_top = 0.139146
+anchor_right = 0.33395
+anchor_bottom = 0.189535
+offset_left = -71.6875
+offset_top = 34.0167
+offset_right = 93.9688
+offset_bottom = 65.85
+grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_tuiqe")
 theme_override_font_sizes/font_size = 28
 text = "Switcher"
-vertical_alignment = 1
+vertical_alignment = 3
+autowrap_mode = 3
+metadata/_edit_use_anchors_ = true
 
 [node name="title_label3" type="Label" parent="upper_side" unique_id=1385106653]
 layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 202.0
-offset_top = -5.5
-offset_right = 275.0
-offset_bottom = 14.5
+anchors_preset = -1
+anchor_left = 0.0565371
+anchor_top = 1.69767
+anchor_right = 0.121908
+anchor_bottom = 2.04651
+offset_right = -3.05176e-05
+grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 0.988235, 0.662745)
 theme_override_fonts/font = ExtResource("2_tuiqe")
 theme_override_font_sizes/font_size = 12
 text = "beta  Ana 3"
+metadata/_edit_use_anchors_ = true
 
 [node name="version_label" type="Label" parent="upper_side" unique_id=2137643513]
 visible = false
 layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 285.0
-offset_top = -10.0
-offset_right = 320.0
-offset_bottom = 10.0
+anchors_preset = -1
+anchor_left = 0.119755
+anchor_top = 0.200362
+anchor_right = 0.18538
+anchor_bottom = 0.232306
+offset_left = -71.5625
+offset_top = 57.5667
+offset_right = 1.8125
+offset_bottom = 76.2889
+grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("1_e2qsc")
 text = "0.2"
+metadata/_edit_use_anchors_ = true
 
 [node name="window_buttons" type="Control" parent="upper_side" unique_id=719105557]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -90.0
-offset_top = 5.0
-offset_right = -10.0
-offset_bottom = 37.0
-grow_horizontal = 0
+anchors_preset = 0
+offset_left = 1115.0
+offset_top = 1.0
+offset_right = 1200.0
+offset_bottom = 33.0
 mouse_filter = 1
 script = ExtResource("4_sm8vm")
 
 [node name="x" type="Button" parent="upper_side/window_buttons" unique_id=1594036698]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -36.0
-offset_top = -15.5
-offset_right = 0.0
-offset_bottom = 15.5
-grow_horizontal = 0
-grow_vertical = 2
+layout_mode = 0
+offset_left = 48.0
+offset_right = 85.0
+offset_bottom = 31.0
 mouse_default_cursor_shape = 2
 theme = SubResource("Theme_qxabq")
 text = "x"
 
 [node name="-" type="Button" parent="upper_side/window_buttons" unique_id=894216535]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 0.0
-offset_top = -15.5
-offset_right = 36.0
-offset_bottom = 15.5
-grow_vertical = 2
+layout_mode = 0
+offset_left = 12.0
+offset_top = 2.0
+offset_right = 48.0
+offset_bottom = 33.0
 theme = SubResource("Theme_3cans")
 text = "-"
 
@@ -4651,36 +4635,6 @@ visible = false
 z_index = 101
 layout_mode = 1
 mouse_filter = 1
-
-[node name="glow" type="ColorRect" parent="." unique_id=819804708]
-material = SubResource("ShaderMaterial_dyql3")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 489.0
-offset_top = 326.0
-offset_right = 767.0
-offset_bottom = 797.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0.201527, 0.201527, 0.201527, 1)
-
-[node name="glow2" type="ColorRect" parent="." unique_id=1615985907]
-material = SubResource("ShaderMaterial_dyql3")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 757.0
-offset_top = 12.0
-offset_right = 1035.0
-offset_bottom = 483.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0.201527, 0.201527, 0.201527, 1)
 
 [node name="systemtray" type="Node" parent="." unique_id=2000656063]
 script = ExtResource("14_a8y0u")

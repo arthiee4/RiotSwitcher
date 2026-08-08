@@ -79,7 +79,7 @@ To build Riot Switcher:
    - Open **Project > Export**.
    - Add a **Windows Desktop** preset (or others if needed).
    - Click **Export Project** to generate the executable.
-   - Copy and paste the **Data** folder into the same directory as the .exe.
+   - All user data and profile backups are automatically saved in `user://` (`%APPDATA%`), making the executable fully portable and independent!
 
 ## About Godot Engine
 

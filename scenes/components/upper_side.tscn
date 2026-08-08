@@ -1,0 +1,126 @@
+[gd_scene format=3 uid="uid://q7s7lj2lmkus"]
+
+[ext_resource type="FontFile" uid="uid://10wh284qofrr" path="res://assets/fonts/Raleway-Light.ttf" id="1_e2qsc"]
+[ext_resource type="FontFile" uid="uid://bwbai0nq228wc" path="res://assets/fonts/Raleway-Bold.ttf" id="2_tuiqe"]
+[ext_resource type="Script" uid="uid://bmhqxoxdti76p" path="res://src/ui/window_buttons.gd" id="4_sm8vm"]
+[ext_resource type="Script" uid="uid://dxcm2e2j4ubiw" path="res://src/ui/upper_side.gd" id="8_njgeq"]
+[ext_resource type="Texture2D" uid="uid://krjk2xjl64om" path="res://assets/icons/ui/icon_github.png" id="11_qja53"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0rk4d"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.4)
+
+[node name="upper_side" type="MarginContainer"]
+custom_minimum_size = Vector2(0, 43)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 43.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+script = ExtResource("8_njgeq")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="title_container" type="MarginContainer" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="title_hbox" type="HBoxContainer" parent="HBoxContainer/title_container"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="title_label" type="Label" parent="HBoxContainer/title_container/title_hbox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 28
+text = "Riot"
+
+[node name="title_label2" type="Label" parent="HBoxContainer/title_container/title_hbox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 28
+text = "Switcher"
+vertical_alignment = 1
+
+[node name="title_label3" type="Label" parent="HBoxContainer/title_container/title_hbox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0.988235, 0.662745)
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 12
+text = "beta  Ana 3"
+
+[node name="version_label" type="Label" parent="HBoxContainer/title_container/title_hbox"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_e2qsc")
+text = "0.2"
+
+[node name="header_spacer" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="git_button" type="Panel" parent="HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(30, 28)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0rk4d")
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/git_button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -9.0
+offset_top = -9.0
+offset_right = 9.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_qja53")
+expand_mode = 1
+
+[node name="Button" type="Button" parent="HBoxContainer/git_button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+flat = true
+
+[node name="window_buttons" type="HBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(80, 32)
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 2
+script = ExtResource("4_sm8vm")
+
+[node name="-" type="Button" parent="HBoxContainer/window_buttons"]
+custom_minimum_size = Vector2(36, 31)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "-"
+
+[node name="x" type="Button" parent="HBoxContainer/window_buttons"]
+custom_minimum_size = Vector2(36, 31)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+text = "x"

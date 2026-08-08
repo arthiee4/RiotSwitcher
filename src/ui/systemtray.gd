@@ -1,3 +1,4 @@
+class_name SystemTrayController
 extends Node
 
 # System tray icon.
