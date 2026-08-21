@@ -87,38 +87,47 @@ jobs:
         run: |
           ls -lh build/windows/
 
+      - name: Determine Version and Filename
+        id: release_info
+        run: |
+          if [ -n "${{ github.event.inputs.release_tag }}" ]; then
+            RAW_TAG="${{ github.event.inputs.release_tag }}"
+            CREATE_RELEASE=true
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            RAW_TAG="${GITHUB_REF#refs/tags/}"
+            CREATE_RELEASE=true
+          else
+            RAW_TAG="latest"
+            CREATE_RELEASE=false
+          fi
+          # Strip leading 'v' if present (e.g. v0.4.0 -> 0.4.0)
+          VERSION="${RAW_TAG#v}"
+          ZIP_NAME="RiotSwitcher-${VERSION}.zip"
+          echo "TAG=$RAW_TAG" >> $GITHUB_OUTPUT
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_OUTPUT
+          echo "CREATE_RELEASE=$CREATE_RELEASE" >> $GITHUB_OUTPUT
+
       - name: Package Release ZIP
         run: |
+          ZIP_NAME="${{ steps.release_info.outputs.ZIP_NAME }}"
           cd build/windows
-          zip -9 -r ../../RiotSwitcher-Windows-Optimized.zip .
+          zip -9 -r "../../$ZIP_NAME" .
           cd ../..
-          ls -lh RiotSwitcher-Windows-Optimized.zip
+          ls -lh "$ZIP_NAME"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: RiotSwitcher-Windows-Optimized
-          path: RiotSwitcher-Windows-Optimized.zip
-
-      - name: Determine Release Tag
-        id: release_info
-        run: |
-          if [ -n "${{ github.event.inputs.release_tag }}" ]; then
-            echo "TAG=${{ github.event.inputs.release_tag }}" >> $GITHUB_OUTPUT
-            echo "CREATE_RELEASE=true" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
-            TAG_NAME="${GITHUB_REF#refs/tags/}"
-            echo "TAG=$TAG_NAME" >> $GITHUB_OUTPUT
-            echo "CREATE_RELEASE=true" >> $GITHUB_OUTPUT
-          else
-            echo "CREATE_RELEASE=false" >> $GITHUB_OUTPUT
-          fi
+          name: ${{ steps.release_info.outputs.ZIP_NAME }}
+          path: ${{ steps.release_info.outputs.ZIP_NAME }}
 
       - name: Create GitHub Release
         if: steps.release_info.outputs.CREATE_RELEASE == 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.release_info.outputs.TAG }}
-          files: RiotSwitcher-Windows-Optimized.zip
+          name: RiotSwitcher ${{ steps.release_info.outputs.VERSION }}
+          files: ${{ steps.release_info.outputs.ZIP_NAME }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
