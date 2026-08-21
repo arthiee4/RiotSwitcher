@@ -3,6 +3,12 @@ extends RefCounted
 
 ## Centralized JSON file load/save helpers.
 ## All JSON persistence in the project should go through this class.
+##
+## Saves are atomic: data is written to a temporary file first and then
+## swapped into place, so a crash mid-save can never leave a truncated or
+## half-written JSON file behind.
+
+const TMP_SUFFIX := ".tmp"
 
 
 ## Loads and parses JSON data from [param path].
@@ -10,7 +16,9 @@ extends RefCounted
 ## does not exist, is empty, or fails to parse.
 static func load_data(path: String) -> Variant:
 	if not FileAccess.file_exists(path):
-		return null
+		_recover_interrupted_save(path)
+		if not FileAccess.file_exists(path):
+			return null
 
 	var file := FileAccess.open(path, FileAccess.READ)
 	if not file:
@@ -31,7 +39,8 @@ static func load_data(path: String) -> Variant:
 
 
 ## Saves [param data] as indented JSON to [param path], creating parent
-## directories as needed. Returns true on success.
+## directories as needed. The write is atomic (temp file + rename), so the
+## previous file content survives any failure. Returns true on success.
 static func save_data(path: String, data: Variant) -> bool:
 	var json_string := JSON.stringify(data, "\t")
 
@@ -40,10 +49,51 @@ static func save_data(path: String, data: Variant) -> bool:
 		printerr("JsonFile: Failed to create directory for '%s'. Error: %s" % [path, dir_error])
 		return false
 
-	var file := FileAccess.open(path, FileAccess.WRITE)
+	var tmp_path := path + TMP_SUFFIX
+	var file := FileAccess.open(tmp_path, FileAccess.WRITE)
 	if not file:
-		printerr("JsonFile: Could not open '%s' for writing. Error: %s" % [path, FileAccess.get_open_error()])
+		printerr("JsonFile: Could not open '%s' for writing. Error: %s" % [tmp_path, FileAccess.get_open_error()])
 		return false
 
 	file.store_string(json_string)
-	return true
+	file.flush()
+	file.close()
+
+	# Swap the temp file into place. The old file is only removed after the
+	# new content is fully on disk.
+	if FileAccess.file_exists(path):
+		var remove_error := DirAccess.remove_absolute(path)
+		if remove_error != OK:
+			printerr("JsonFile: Could not replace '%s'. Error: %s" % [path, remove_error])
+			return false
+
+	var rename_error := DirAccess.rename_absolute(tmp_path, path)
+	if rename_error == OK:
+		return true
+
+	# Windows can hold a brief lock on the freshly removed file; retry.
+	for attempt in 3:
+		OS.delay_msec(100)
+		rename_error = DirAccess.rename_absolute(tmp_path, path)
+		if rename_error == OK:
+			return true
+
+	# Last resort: copy the content over (leaves no corrupt window).
+	if DirAccess.copy_absolute(tmp_path, path) == OK:
+		DirAccess.remove_absolute(tmp_path)
+		return true
+
+	printerr("JsonFile: Failed to finalize save of '%s'. Error: %s" % [path, rename_error])
+	return false
+
+
+## Recovers a temp file left behind when the app died between removing the
+## old file and renaming the temp into place.
+static func _recover_interrupted_save(path: String) -> void:
+	var tmp_path := path + TMP_SUFFIX
+	if not FileAccess.file_exists(tmp_path):
+		return
+	if DirAccess.rename_absolute(tmp_path, path) != OK:
+		printerr("JsonFile: Found leftover temp save for '%s' but failed to recover it." % path)
+	else:
+		print("JsonFile: Recovered interrupted save for '%s'." % path)
