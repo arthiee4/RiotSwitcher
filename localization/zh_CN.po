@@ -2,6 +2,7 @@
 # res://scenes/boot.tscn
 # res://scenes/main.tscn
 # res://scenes/add_menu.tscn
+# res://scenes/settings_menu.tscn
 #
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -63,47 +64,53 @@ msgstr "设置"
 
 #: scenes/main.tscn
 msgid "R3NZSKIN"
-msgstr "R3NZSKIN" # Mantido como nome próprio
+msgstr "R3NZSKIN"
 
 #: scenes/main.tscn
 msgid "take care bro, dont use this option may cause ban]"
 msgstr "小心，使用此选项可能导致封禁"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Vanguard"
-msgstr "Vanguard" # Mantido como nome próprio
+msgstr "Vanguard"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Start"
 msgstr "开始"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Stop"
 msgstr "停止"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Delete all profiles"
 msgstr "删除所有配置文件"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Delete"
 msgstr "删除"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Language"
 msgstr "语言"
 
 #: scenes/main.tscn
 msgid "Riot"
-msgstr "Riot" # Mantido como nome próprio
+msgstr "Riot"
 
 #: scenes/main.tscn
 msgid "Switcher"
-msgstr "切换器" # Traduzido o conceito
+msgstr "切换器"
 
 #: scenes/main.tscn
 msgid "beta  Ana."
-msgstr "测试版 Ana." # Traduzido "beta"
+msgstr "测试版 Ana."
 
 #: scenes/main.tscn
 msgid "0.2"
@@ -127,7 +134,7 @@ msgstr "名称"
 
 #: scenes/add_menu.tscn
 msgid "Proifle name"
-msgstr "配置文件名称" # Corrigido typo "Proifle" -> "Profile"
+msgstr "配置文件名称"
 
 #: scenes/add_menu.tscn
 msgid "Upload custom image "
@@ -178,9 +185,29 @@ msgid "close thattt warning >:("
 msgstr "关闭那个警告 >:("
 
 #: scenes/settings_menu.tscn
+msgid "Appear Offline"
+msgstr "隐身模式"
+
+#: scenes/settings_menu.tscn
+msgid "Hides your online presence in Riot Client and supported games."
+msgstr "在 Riot Client 和支持的游戏中隐藏您的在线状态。"
+
+#: scenes/settings_menu.tscn
 msgid "Game settings"
 msgstr "游戏设置"
 
 #: scenes/settings_menu.tscn
-msgid "Enable shared in-game settings for all profiles. (Restart game after a new profile's first login)"
-msgstr "为所有配置文件启用共享游戏设置（新配置文件首次登录后请重启游戏）" 
+msgid "Enable shared in-game settings for all profiles."
+msgstr "为所有配置文件启用共享游戏设置。"
+
+#: scenes/settings_menu.tscn
+msgid "Manage Riot Vanguard anti-cheat service and tray process."
+msgstr "管理 Riot Vanguard 反作弊服务及托盘进程。"
+
+#: scenes/settings_menu.tscn
+msgid "Select the display language for the application."
+msgstr "选择应用程序的显示语言。"
+
+#: scenes/settings_menu.tscn
+msgid "Permanently deletes all saved account profiles and session data."
+msgstr "永久删除所有保存的账户配置文件和会话数据。"

@@ -2440,21 +2440,24 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jddgn"]
-bg_color = Color(0.0901961, 0.0901961, 0.101961, 0.980392)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.141176)
+bg_color = Color(0.09019608, 0.09019608, 0.101960786, 0)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wqqi4"]
-bg_color = Color(0.0588235, 0.0588235, 0.0588235, 0.396078)
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
 border_width_bottom = 1
 border_color = Color(1, 1, 1, 0.0901961)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="profile_button" type="Control" unique_id=1488976912]
 custom_minimum_size = Vector2(181, 50)

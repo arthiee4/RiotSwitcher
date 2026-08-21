@@ -2,6 +2,8 @@
 
 [ext_resource type="FontFile" uid="uid://c08w5jcfwr4pe" path="res://assets/fonts/Raleway-Light.ttf" id="1_font_light"]
 [ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="2_font_bold"]
+[ext_resource type="Texture2D" uid="uid://cp2060163ujg5" path="res://assets/theme/switch_off.svg" id="3_switch_off"]
+[ext_resource type="Texture2D" uid="uid://vt5cky3bxjtn" path="res://assets/theme/switch_on.svg" id="4_switch_on"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_hover"]
 content_margin_left = 12.0
@@ -35,6 +37,8 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_checkbutton"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
 bg_color = Color(0.08, 0.08, 0.1, 0.95)
 border_width_left = 1
@@ -55,4 +59,14 @@ Button/colors/font_hover_color = Color(1, 1, 1, 1)
 Button/fonts/font = ExtResource("2_font_bold")
 Button/styles/hover = SubResource("StyleBoxFlat_button_hover")
 Button/styles/normal = SubResource("StyleBoxFlat_button_normal")
+CheckButton/icons/checked = ExtResource("4_switch_on")
+CheckButton/icons/checked_disabled = ExtResource("4_switch_on")
+CheckButton/icons/unchecked = ExtResource("3_switch_off")
+CheckButton/icons/unchecked_disabled = ExtResource("3_switch_off")
+CheckButton/styles/disabled = SubResource("StyleBoxEmpty_checkbutton")
+CheckButton/styles/focus = SubResource("StyleBoxEmpty_checkbutton")
+CheckButton/styles/hover = SubResource("StyleBoxEmpty_checkbutton")
+CheckButton/styles/hover_pressed = SubResource("StyleBoxEmpty_checkbutton")
+CheckButton/styles/normal = SubResource("StyleBoxEmpty_checkbutton")
+CheckButton/styles/pressed = SubResource("StyleBoxEmpty_checkbutton")
 Panel/styles/panel = SubResource("StyleBoxFlat_panel")
