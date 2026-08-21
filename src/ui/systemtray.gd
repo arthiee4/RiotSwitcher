@@ -7,7 +7,7 @@ extends Node
 signal exit_requested
 signal show_window_requested
 
-const TRAY_ICON: Texture2D = preload("res://assets/icons/app_tray_icon.png")
+const TRAY_ICON: Texture2D = preload("res://assets/icons/icon1.png")
 
 const MENU_ID_EXIT := 0
 
