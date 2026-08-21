@@ -2,6 +2,7 @@
 # res://scenes/boot.tscn
 # res://scenes/main.tscn
 # res://scenes/add_menu.tscn
+# res://scenes/settings_menu.tscn
 #
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -59,7 +60,7 @@ msgstr "excluir"
 
 #: scenes/main.tscn
 msgid "Settings"
-msgstr "Config."
+msgstr "Configurações"
 
 #: scenes/main.tscn
 msgid "R3NZSKIN"
@@ -70,26 +71,32 @@ msgid "take care bro, dont use this option may cause ban]"
 msgstr "Cuidado, usar isso pode causar banimento"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Vanguard"
 msgstr "Vanguard"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Start"
 msgstr "Iniciar"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Stop"
 msgstr "Parar"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Delete all profiles"
-msgstr "Excluir todos perfis"
+msgstr "Excluir todos os perfis"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Delete"
 msgstr "Excluir"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Language"
 msgstr "Idioma"
 
@@ -127,7 +134,7 @@ msgstr "nome"
 
 #: scenes/add_menu.tscn
 msgid "Proifle name"
-msgstr "Nome do Perfil" # Corrigido typo "Proifle" -> "Profile" implicitamente
+msgstr "Nome do Perfil"
 
 #: scenes/add_menu.tscn
 msgid "Upload custom image "
@@ -178,9 +185,29 @@ msgid "close thattt warning >:("
 msgstr "fechar esse aviso >:("
 
 #: scenes/settings_menu.tscn
-msgid "Game settings"
-msgstr "Configurações do jogo"
+msgid "Appear Offline"
+msgstr "Aparecer Offline"
 
 #: scenes/settings_menu.tscn
-msgid "Enable shared in-game settings for all profiles. (Restart game after a new profile's first login)"
-msgstr "Ativar configurações compartilhadas no jogo para todos os perfis. (Reinicie o jogo após o primeiro login de um novo perfil)" 
+msgid "Hides your online presence in Riot Client and supported games."
+msgstr "Oculta sua presença online no Riot Client e nos jogos."
+
+#: scenes/settings_menu.tscn
+msgid "Game settings"
+msgstr "Configurações de Jogo"
+
+#: scenes/settings_menu.tscn
+msgid "Enable shared in-game settings for all profiles."
+msgstr "Ativar configurações compartilhadas no jogo para todos os perfis."
+
+#: scenes/settings_menu.tscn
+msgid "Manage Riot Vanguard anti-cheat service and tray process."
+msgstr "Gerenciar serviço e processo da bandeja do Riot Vanguard."
+
+#: scenes/settings_menu.tscn
+msgid "Select the display language for the application."
+msgstr "Selecione o idioma de exibição do aplicativo."
+
+#: scenes/settings_menu.tscn
+msgid "Permanently deletes all saved account profiles and session data."
+msgstr "Exclui permanentemente todos os perfis e dados de sessão salvos."

@@ -194,7 +194,7 @@ func _create_profile_button(profile_data: Dictionary, slot_index: int) -> void:
 
 
 ## Plays a crisp, staggered cascade entrance animation for all cards in the grid.
-func play_cascade_entrance() -> void:
+func play_cascade_entrance(initial_delay: float = 0.0) -> void:
 	for tw in _cascade_tweens:
 		if tw and tw.is_valid():
 			tw.kill()
@@ -214,15 +214,15 @@ func play_cascade_entrance() -> void:
 		if has_offset_transform:
 			card.set("offset_transform_enabled", true)
 			card.set("offset_transform_pivot_ratio", Vector2(0.5, 0.5))
-			card.set("offset_transform_scale", Vector2(0.88, 0.88))
+			card.set("offset_transform_scale", Vector2(0.82, 0.82))
 			card.set("offset_transform_visual_only", false)
 		else:
 			card.pivot_offset = card_size * 0.5
-			card.scale = Vector2(0.88, 0.88)
+			card.scale = Vector2(0.82, 0.82)
 
 		card.modulate.a = 0.0
 
-		var delay := i * 0.035 # Crisp stagger (35ms per card)
+		var delay: float = initial_delay + (i * 0.05) # Juicy stagger (50ms per card)
 		var tween := card.create_tween().set_parallel(true)
 		_cascade_tweens.append(tween)
 
@@ -230,11 +230,11 @@ func play_cascade_entrance() -> void:
 		if card.get("_is_interactable") == false and _active_button != null and card != _active_button:
 			target_alpha = 0.5
 
-		tween.tween_property(card, "modulate:a", target_alpha, 0.16).set_delay(delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tween.tween_property(card, "modulate:a", target_alpha, 0.22).set_delay(delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 		if has_offset_transform:
-			tween.tween_property(card, "offset_transform_scale", Vector2.ONE, 0.20).set_delay(delay).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			tween.tween_property(card, "offset_transform_scale", Vector2.ONE, 0.28).set_delay(delay).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		else:
-			tween.tween_property(card, "scale", Vector2.ONE, 0.20).set_delay(delay).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			tween.tween_property(card, "scale", Vector2.ONE, 0.28).set_delay(delay).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 #endregion
 
@@ -497,6 +497,9 @@ func _begin_start(button: Control) -> void:
 	_disable_other_buttons(button)
 	_update_progress_bar(button, 15, true)
 
+	if PresenceManager != null:
+		PresenceManager.stop_proxy()
+
 	_worker = Thread.new()
 	_worker.start(_session_swap_worker.bind(previous_profile, button.profile_name, executable_path))
 
@@ -525,17 +528,31 @@ func _on_swap_finished(profile_name: String, executable_path: String, success: b
 	_join_worker()
 	if not success or not is_instance_valid(_active_button) or _active_button.profile_name != profile_name:
 		ConfigManager.set_value_and_save(CONFIG_KEY_LAST_RUNNING, "")
+		if PresenceManager != null:
+			PresenceManager.stop_proxy()
 		_fail_start()
 		return
 
 	_update_progress_bar(_active_button, 75, true)
 
-	var pid := OS.create_process(executable_path, LAUNCH_ARGS)
+	var launch_args: Array[String] = LAUNCH_ARGS.duplicate()
+	if PresenceManager != null and PresenceManager.is_appear_offline_enabled():
+		if PresenceManager.start_proxy():
+			launch_args = PresenceManager.get_launch_args(launch_args)
+		else:
+			printerr("ProfileGridController: Failed to start PresenceManager proxy.")
+
+	var pid := OS.create_process(executable_path, launch_args)
 	if pid < 0:
 		printerr("ProfileGridController: Failed to launch Riot Client. Error: ", pid)
+		if PresenceManager != null:
+			PresenceManager.stop_proxy()
 		ConfigManager.set_value_and_save(CONFIG_KEY_LAST_RUNNING, "")
 		_fail_start()
 		return
+
+	if PresenceManager != null and PresenceManager.is_appear_offline_enabled():
+		PresenceManager.notify_client_started(pid)
 
 	_active_button.confirm_started()
 	profile_manager.mark_profile_opened(profile_name)
@@ -546,6 +563,8 @@ func _on_swap_finished(profile_name: String, executable_path: String, success: b
 
 func _begin_stop(button: Control) -> void:
 	_update_progress_bar(button, 0, false)
+	if PresenceManager != null:
+		PresenceManager.stop_proxy()
 	_worker = Thread.new()
 	_worker.start(_session_save_worker.bind(button.profile_name))
 
@@ -561,6 +580,8 @@ func _session_save_worker(profile_name: String) -> void:
 
 func _on_save_finished(success: bool) -> void:
 	_join_worker()
+	if PresenceManager != null:
+		PresenceManager.stop_proxy()
 	if not success:
 		printerr("ProfileGridController: Session save finished with errors.")
 	# The worker killed the client, so nothing is running anymore.

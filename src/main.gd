@@ -18,6 +18,11 @@ var _view_tween: Tween = null
 
 
 func _ready() -> void:
+	# Ensure transparent clear color for smooth desktop alpha blending
+	get_tree().root.transparent_bg = true
+	RenderingServer.set_default_clear_color(Color(0, 0, 0, 0))
+	modulate.a = 0.0
+
 	_setup_window_icon()
 	AppPaths.migrate_legacy_data()
 	# We handle NOTIFICATION_WM_CLOSE_REQUEST ourselves (minimize to tray).
@@ -56,6 +61,57 @@ func _ready() -> void:
 		profile_grid.edit_profile_requested.connect(_on_edit_profile_requested)
 
 	_show_home_view()
+	_play_startup_entrance()
+
+
+func _play_startup_entrance() -> void:
+	# Start fully transparent
+	modulate.a = 0.0
+
+	# Initial states for elements
+	var riot_lbl := home_view.get_node_or_null("riot") as Control if home_view else null
+	var switcher_lbl := home_view.get_node_or_null("switcher") as Control if home_view else null
+	var version_lbl := home_view.get_node_or_null("version") as Control if home_view else null
+
+	if riot_lbl:
+		riot_lbl.modulate.a = 0.0
+		riot_lbl.position.y -= 12.0
+	if switcher_lbl:
+		switcher_lbl.modulate.a = 0.0
+		switcher_lbl.position.y -= 12.0
+	if version_lbl:
+		version_lbl.modulate.a = 0.0
+	if left_menu_handler:
+		left_menu_handler.modulate.a = 0.0
+
+	# Wait 2 frames for rendering to stabilize
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	# 1. Root Scene Fade-in (fades entire transparent window into view over desktop)
+	const FADE_DURATION := 0.2
+	var window_tween := create_tween()
+	window_tween.tween_property(self, "modulate:a", 1.0, FADE_DURATION).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	# 2. Left Menu entrance
+	if left_menu_handler:
+		var left_tween := create_tween()
+		left_tween.tween_property(left_menu_handler, "modulate:a", 1.0, FADE_DURATION).set_delay(0.04).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	# 3. Header title labels entrance
+	var title_tween := create_tween().set_parallel(true)
+	if riot_lbl:
+		title_tween.tween_property(riot_lbl, "modulate:a", 1.0, 0.35).set_delay(0.08).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		title_tween.tween_property(riot_lbl, "position:y", riot_lbl.position.y + 12.0, 0.40).set_delay(0.08).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	if switcher_lbl:
+		title_tween.tween_property(switcher_lbl, "modulate:a", 1.0, 0.35).set_delay(0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		title_tween.tween_property(switcher_lbl, "position:y", switcher_lbl.position.y + 12.0, 0.40).set_delay(0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	if version_lbl:
+		title_tween.tween_property(version_lbl, "modulate:a", 0.66, 0.35).set_delay(0.16).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	# 4. Profile cards cascade entrance
+	if profile_grid and profile_grid.has_method("play_cascade_entrance"):
+		profile_grid.play_cascade_entrance(0.10)
 
 
 func _setup_window_icon() -> void:
@@ -220,6 +276,8 @@ func _set_boot_visible(show_boot: bool) -> void:
 func save_session_and_quit() -> void:
 	if profile_grid and is_instance_valid(profile_grid):
 		profile_grid.save_running_session()
+	if PresenceManager != null:
+		PresenceManager.stop_proxy()
 	get_tree().quit()
 
 

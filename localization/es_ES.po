@@ -2,17 +2,18 @@
 # res://scenes/boot.tscn
 # res://scenes/main.tscn
 # res://scenes/add_menu.tscn
+# res://scenes/settings_menu.tscn
 #
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: riotswitcher2\\n"
-"MIME-Version: 1.0\\n"
-"Content-Type: text/plain; charset=UTF-8\\n"
-"Content-Transfer-Encoding: 8-bit\\n"
-"Language: es_ES\\n"
+"Project-Id-Version: riotswitcher2\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8-bit\n"
+"Language: es_ES\n"
 
 #: scenes/boot.tscn
 #: scenes/add_menu.tscn
@@ -36,8 +37,8 @@ msgid "Select Current Folder"
 msgstr "Seleccionar Actual"
 
 #: scenes/boot.tscn
-msgid "u dont selected the right folder, please verify if is \\"Riot Client \\""
-msgstr "Carpeta incorrecta, verifica si es \\"Riot Client\\""
+msgid "u dont selected the right folder, please verify if is \"Riot Client \""
+msgstr "Carpeta incorrecta, verifica si es \"Riot Client\""
 
 #: scenes/boot.tscn
 #: scenes/main.tscn
@@ -70,26 +71,32 @@ msgid "take care bro, dont use this option may cause ban]"
 msgstr "Cuidado, usar esto puede causar baneo"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Vanguard"
 msgstr "Vanguard"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Start"
 msgstr "Iniciar"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Stop"
 msgstr "Detener"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Delete all profiles"
-msgstr "Eliminar todos"
+msgstr "Eliminar todos los perfiles"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Delete"
 msgstr "Eliminar"
 
 #: scenes/main.tscn
+#: scenes/settings_menu.tscn
 msgid "Language"
 msgstr "Idioma"
 
@@ -151,10 +158,10 @@ msgstr "Finalizar"
 
 #: scenes/add_menu.tscn
 msgid ""
-"Follow the steps and blabla\\n"
+"Follow the steps and blabla\n"
 "u know what thats mean"
 msgstr ""
-"Sigue los pasos y blabla\\n"
+"Sigue los pasos y blabla\n"
 "ya sabes qué hacer"
 
 #: scenes/add_menu.tscn
@@ -178,9 +185,29 @@ msgid "close thattt warning >:("
 msgstr "cerrar aviso >:("
 
 #: scenes/settings_menu.tscn
+msgid "Appear Offline"
+msgstr "Aparecer Invisible"
+
+#: scenes/settings_menu.tscn
+msgid "Hides your online presence in Riot Client and supported games."
+msgstr "Oculta tu presencia en línea en Riot Client y en los juegos."
+
+#: scenes/settings_menu.tscn
 msgid "Game settings"
 msgstr "Ajustes del juego"
 
 #: scenes/settings_menu.tscn
-msgid "Enable shared in-game settings for all profiles. (Restart game after a new profile's first login)"
-msgstr "Activar configuración compartida del juego para todos los perfiles. (Reinicia el juego tras el primer inicio de sesión de un perfil nuevo)" 
+msgid "Enable shared in-game settings for all profiles."
+msgstr "Activar configuración compartida del juego para todos los perfiles."
+
+#: scenes/settings_menu.tscn
+msgid "Manage Riot Vanguard anti-cheat service and tray process."
+msgstr "Administrar servicio y proceso de bandeja de Riot Vanguard."
+
+#: scenes/settings_menu.tscn
+msgid "Select the display language for the application."
+msgstr "Selecciona el idioma de la aplicación."
+
+#: scenes/settings_menu.tscn
+msgid "Permanently deletes all saved account profiles and session data."
+msgstr "Elimina permanentemente todos los perfiles y sesiones guardadas."

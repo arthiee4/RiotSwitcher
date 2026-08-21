@@ -3880,9 +3880,9 @@ text = "Riot"
 [node name="switcher" type="Label" parent="home" unique_id=2068869468]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.16882464
+anchor_left = 0.1767735
 anchor_top = 0.13914573
-anchor_right = 0.16882464
+anchor_right = 0.1767735
 anchor_bottom = 0.1405326
 offset_left = -107.50635
 offset_top = -140.83443

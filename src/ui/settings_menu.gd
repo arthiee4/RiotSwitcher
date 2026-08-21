@@ -4,7 +4,7 @@ extends Control
 ## Settings view controller. Manages presentation and staggered cascade entrance animation.
 
 @onready var _title_label: Label = $Label if has_node("Label") else null
-@onready var _vbox: VBoxContainer = $VBoxContainer if has_node("VBoxContainer") else null
+@onready var _container: Container = $GridContainer if has_node("GridContainer") else ($VBoxContainer if has_node("VBoxContainer") else null)
 
 var _cascade_tweens: Array[Tween] = []
 
@@ -40,12 +40,12 @@ func play_cascade_entrance() -> void:
 		else:
 			title_tween.tween_property(title_lbl, "position:y", 45.0, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
-	# Cards cascade inside VBoxContainer
-	var vbox_node: VBoxContainer = _vbox if _vbox else get_node_or_null("VBoxContainer")
-	if not vbox_node or not is_instance_valid(vbox_node):
+	# Cards cascade inside GridContainer / VBoxContainer
+	var container_node: Container = _container if _container else (get_node_or_null("GridContainer") if get_node_or_null("GridContainer") else get_node_or_null("VBoxContainer"))
+	if not container_node or not is_instance_valid(container_node):
 		return
 
-	var children := vbox_node.get_children()
+	var children := container_node.get_children()
 	for i in range(children.size()):
 		var child = children[i]
 		if not child is Control or not is_instance_valid(child):
