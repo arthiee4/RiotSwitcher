@@ -39,33 +39,55 @@ const FILES_TO_SWITCH: Array[Dictionary] = [
 	},
 ]
 
+const DIR_TMP_SUFFIX := "_tmp"
+const FILE_TMP_SUFFIX := ".tmp"
+
 var _profiles: Array = []
+var _profiles_lock := Mutex.new()
 
 
 
 # Loads profiles from disk into the cache and notifies listeners.
 func load_profiles_data() -> Array:
+	_profiles_lock.lock()
 	var data = JsonFile.load_data(AppPaths.PROFILES_FILE)
 	if data is Dictionary and data.get("profiles") is Array:
 		_profiles = data["profiles"]
+		_normalize_profiles()
 	else:
 		_profiles = []
+		if FileAccess.file_exists(AppPaths.PROFILES_FILE):
+			var corrupt_backup := AppPaths.PROFILES_FILE + ".corrupt.bak"
+			printerr("ProfileManager: profiles file is invalid; backing it up to '%s' before resetting." % corrupt_backup)
+			if DirAccess.copy_absolute(AppPaths.PROFILES_FILE, corrupt_backup) != OK:
+				printerr("ProfileManager: Failed to back up the corrupt profiles file!")
 		JsonFile.save_data(AppPaths.PROFILES_FILE, {"profiles": []})
+	var result: Array = _profiles.duplicate()
+	_profiles_lock.unlock()
 	profiles_updated.emit()
-	print("ProfileManager: %d profile(s) loaded." % _profiles.size())
-	return _profiles
+	print("ProfileManager: %d profile(s) loaded." % result.size())
+	return result
 
 
 func get_profiles() -> Array:
-	return _profiles
+	_profiles_lock.lock()
+	var copy: Array = _profiles.duplicate()
+	_profiles_lock.unlock()
+	return copy
 
 
 func get_profile_count() -> int:
-	return _profiles.size()
+	_profiles_lock.lock()
+	var count := _profiles.size()
+	_profiles_lock.unlock()
+	return count
 
 
 func has_profile(profile_name: String) -> bool:
-	return not _find_profile(profile_name).is_empty()
+	_profiles_lock.lock()
+	var found := not _find_profile_unsafe(profile_name).is_empty()
+	_profiles_lock.unlock()
+	return found
 
 
 # Creates the profile directory and registers the profile.
@@ -73,13 +95,18 @@ func add_profile(profile_name: String, background_path: String, has_custom_name:
 	if profile_name.is_empty():
 		printerr("ProfileManager: Profile name cannot be empty.")
 		return false
-	if has_profile(profile_name):
+
+	_profiles_lock.lock()
+	if not _find_profile_unsafe(profile_name).is_empty():
+		_profiles_lock.unlock()
 		printerr("ProfileManager: Profile '%s' already exists." % profile_name)
 		return false
 
-	var directory_name := _sanitize_directory_name(profile_name)
+	# Resolve a directory name that no other profile or on-disk folder uses, so two names like "A B" and "A_B" can never share (and corrupt) a session.
+	var directory_name := _resolve_unique_directory_name(_sanitize_directory_name(profile_name))
 	var profile_dir := AppPaths.PROFILES_DIR.path_join(directory_name)
 	if DirAccess.make_dir_recursive_absolute(profile_dir) != OK:
+		_profiles_lock.unlock()
 		printerr("ProfileManager: Failed to create profile directory: ", profile_dir)
 		return false
 
@@ -97,7 +124,11 @@ func add_profile(profile_name: String, background_path: String, has_custom_name:
 	_profiles.append(new_profile)
 	if not _save_profiles_file():
 		_profiles.erase(new_profile)
+		_profiles_lock.unlock()
+		# Best effort: remove the now-orphaned directory so no data is leaked.
+		DirAccess.remove_absolute(profile_dir)
 		return false
+	_profiles_lock.unlock()
 
 	profiles_updated.emit()
 	print("ProfileManager: Profile '%s' added." % profile_name)
@@ -106,15 +137,20 @@ func add_profile(profile_name: String, background_path: String, has_custom_name:
 
 # Removes the profile from the database and deletes its files.
 func delete_profile(profile_name: String) -> bool:
-	var profile := _find_profile(profile_name)
+	_profiles_lock.lock()
+	var profile := _find_profile_unsafe(profile_name)
 	if profile.is_empty():
+		_profiles_lock.unlock()
 		printerr("ProfileManager: Profile '%s' not found." % profile_name)
 		return false
 
-	_profiles.erase(profile)
+	var index := _profiles.find(profile)
+	_profiles.remove_at(index)
 	if not _save_profiles_file():
-		_profiles.append(profile) # Roll back the cache so it matches the file.
+		_profiles.insert(index, profile) # Roll back the cache so it matches the file.
+		_profiles_lock.unlock()
 		return false
+	_profiles_lock.unlock()
 
 	profiles_updated.emit()
 
@@ -134,8 +170,14 @@ func delete_profile(profile_name: String) -> bool:
 # Deletes all profiles, clears all profile directories, and deletes custom background images.
 func delete_all_profiles() -> bool:
 	print("ProfileManager: Deleting all profiles...")
+	_profiles_lock.lock()
+	var saved: bool = JsonFile.save_data(AppPaths.PROFILES_FILE, {"profiles": []})
+	if not saved:
+		_profiles_lock.unlock()
+		printerr("ProfileManager: Failed to clear profiles file; aborting deletion.")
+		return false
 	_profiles.clear()
-	_save_profiles_file()
+	_profiles_lock.unlock()
 
 	if DirAccess.dir_exists_absolute(AppPaths.PROFILES_DIR):
 		_remove_dir_contents(AppPaths.PROFILES_DIR)
@@ -167,23 +209,28 @@ func _remove_dir_contents(dir_path: String) -> void:
 
 # Returns true if the profile has not been opened yet (needs manual login).
 func is_first_time_opened(profile_name: String) -> bool:
-	var profile := _find_profile(profile_name)
-	if profile.is_empty():
-		return true
-	return not profile.get("first_time_opened", false)
+	_profiles_lock.lock()
+	var profile := _find_profile_unsafe(profile_name)
+	var first_time: bool = profile.is_empty() or not profile.get("first_time_opened", false)
+	_profiles_lock.unlock()
+	return first_time
 
 
 # Persists that the profile has been launched at least once.
 func mark_profile_opened(profile_name: String) -> void:
-	var profile := _find_profile(profile_name)
-	if profile.is_empty() or profile.get("first_time_opened", false):
-		return
-	profile["first_time_opened"] = true
-	_save_profiles_file()
+	_profiles_lock.lock()
+	var profile := _find_profile_unsafe(profile_name)
+	if not profile.is_empty() and not profile.get("first_time_opened", false):
+		profile["first_time_opened"] = true
+		_save_profiles_file()
+	_profiles_lock.unlock()
 
 
 # Reorders the in-memory profiles list to match ordered_names and saves to disk.
 func reorder_profiles(ordered_names: Array) -> bool:
+	_profiles_lock.lock()
+	var old_profiles: Array = _profiles.duplicate()
+
 	var name_to_profile: Dictionary = {}
 	for profile in _profiles:
 		if profile is Dictionary:
@@ -200,20 +247,39 @@ func reorder_profiles(ordered_names: Array) -> bool:
 		new_profiles.append(remaining_profile)
 
 	_profiles = new_profiles
-	var saved := _save_profiles_file()
-	if saved:
-		print("ProfileManager: Profiles reordered and saved successfully (%d profiles)." % _profiles.size())
-	return saved
+	if not _save_profiles_file():
+		_profiles = old_profiles
+		_profiles_lock.unlock()
+		return false
+	_profiles_lock.unlock()
+
+	print("ProfileManager: Profiles reordered and saved successfully (%d profiles)." % _profiles.size())
+	return true
 
 
 # Returns the profile dictionary by name, or an empty Dictionary if not found.
 func get_profile(profile_name: String) -> Dictionary:
-	return _find_profile(profile_name)
+	_profiles_lock.lock()
+	var profile := _find_profile_unsafe(profile_name)
+	var result := profile.duplicate() if not profile.is_empty() else {}
+	_profiles_lock.unlock()
+	return result
 
 
 # Returns the absolute directory path for a profile, or "" if not found.
 func get_profile_dir(profile_name: String) -> String:
-	return _get_profile_dir(profile_name)
+	_profiles_lock.lock()
+	var result := _get_profile_dir_unsafe(profile_name)
+	_profiles_lock.unlock()
+	return result
+
+
+# Back-compat alias for get_profile_dir (used by controllers).
+func _get_profile_dir(profile_name: String) -> String:
+	_profiles_lock.lock()
+	var result := _get_profile_dir_unsafe(profile_name)
+	_profiles_lock.unlock()
+	return result
 
 
 # Updates an existing profile's name, background image, and/or directory on disk safely.
@@ -225,55 +291,73 @@ func update_profile(
 	has_custom_name: Variant = null,
 	description: String = ""
 ) -> bool:
-	var profile := _find_profile(old_name)
-	if profile.is_empty():
-		printerr("ProfileManager: Profile '%s' not found for update." % old_name)
-		return false
-
 	var trimmed_new_name := new_name.strip_edges()
 	if trimmed_new_name.is_empty():
 		printerr("ProfileManager: New profile name cannot be empty.")
 		return false
 
+	_profiles_lock.lock()
+	var profile := _find_profile_unsafe(old_name)
+	if profile.is_empty():
+		_profiles_lock.unlock()
+		printerr("ProfileManager: Profile '%s' not found for update." % old_name)
+		return false
+
 	# If changing name, ensure new name is unique
-	if trimmed_new_name != old_name and has_profile(trimmed_new_name):
+	if trimmed_new_name != old_name and not _find_profile_unsafe(trimmed_new_name).is_empty():
+		_profiles_lock.unlock()
 		printerr("ProfileManager: Profile '%s' already exists." % trimmed_new_name)
 		return false
 
 	var old_dir_name: String = profile.get("directory_name", "")
 	var target_dir_name := old_dir_name
 	var old_bg_path: String = profile.get("custom_background_image", "")
+	var old_has_custom: Variant = profile.get("has_custom_name", true)
+	var old_description: String = profile.get("description", "")
+	var dir_renamed := false
 
 	# 1.
 	if rename_directory and trimmed_new_name != old_name:
 		var proposed_dir := _sanitize_directory_name(trimmed_new_name)
 		if proposed_dir != old_dir_name:
 			if not _rename_profile_directory(old_dir_name, proposed_dir):
+				_profiles_lock.unlock()
 				printerr("ProfileManager: Failed to rename profile directory from '%s' to '%s'." % [old_dir_name, proposed_dir])
 				return false
 			target_dir_name = proposed_dir
+			dir_renamed = true
 
 	# 2.
-	if not new_background_path.is_empty() and new_background_path != old_bg_path:
-		_cleanup_orphaned_background(old_bg_path, old_name)
-		profile["custom_background_image"] = new_background_path
-
-	# 3.
 	profile["profile_name"] = trimmed_new_name
 	profile["directory_name"] = target_dir_name
+	if not new_background_path.is_empty() and new_background_path != old_bg_path:
+		profile["custom_background_image"] = new_background_path
 	if has_custom_name != null:
 		profile["has_custom_name"] = bool(has_custom_name)
 	profile["description"] = description.strip_edges()
 
+	# 3.
+	if not _save_profiles_file():
+		profile["profile_name"] = old_name
+		profile["directory_name"] = old_dir_name
+		profile["custom_background_image"] = old_bg_path
+		profile["has_custom_name"] = old_has_custom
+		profile["description"] = old_description
+		if dir_renamed:
+			_rename_profile_directory(target_dir_name, old_dir_name)
+		_profiles_lock.unlock()
+		printerr("ProfileManager: Failed to save profiles file after update.")
+		return false
+	_profiles_lock.unlock()
+
 	# 4.
+	if not new_background_path.is_empty() and new_background_path != old_bg_path:
+		_cleanup_orphaned_background(old_bg_path, old_name)
+
+	# 5.
 	var current_shared_source: String = ConfigManager.get_value("SharedSettingsSourceProfile", "")
 	if current_shared_source == old_name:
 		ConfigManager.set_value_and_save("SharedSettingsSourceProfile", trimmed_new_name)
-
-	# 5.
-	if not _save_profiles_file():
-		printerr("ProfileManager: Failed to save profiles file after update.")
-		return false
 
 	profiles_updated.emit()
 	print("ProfileManager: Profile '%s' successfully updated to '%s'." % [old_name, trimmed_new_name])
@@ -283,9 +367,18 @@ func update_profile(
 
 # Copies the current Riot Client files into the profile's backup folder.
 func save_profile_session(profile_name: String, riot_install_dir: String) -> bool:
-	var profile_dir := _get_profile_dir(profile_name)
-	if profile_dir.is_empty():
+	_profiles_lock.lock()
+	var profile := _find_profile_unsafe(profile_name)
+	var profile_dir := _get_profile_dir_unsafe(profile_name)
+	_profiles_lock.unlock()
+	if profile.is_empty():
 		return false
+
+	# The directory must exist before any copy starts.
+	if not DirAccess.dir_exists_absolute(profile_dir):
+		if DirAccess.make_dir_recursive_absolute(profile_dir) != OK:
+			printerr("ProfileManager: Failed to create profile directory: ", profile_dir)
+			return false
 
 	print("ProfileManager: Saving session for '%s'..." % profile_name)
 	var all_success := true
@@ -297,15 +390,13 @@ func save_profile_session(profile_name: String, riot_install_dir: String) -> boo
 		if file_def.get("is_dir", false):
 			if not DirAccess.dir_exists_absolute(source_path):
 				continue
-			if DirAccess.dir_exists_absolute(dest_path):
-				_remove_dir_recursive(dest_path)
-			if _copy_dir_recursive(source_path, dest_path) != OK:
+			if _copy_dir_atomic(source_path, dest_path) != OK:
 				printerr("ProfileManager: Failed to back up directory '%s'." % file_def["filename"])
 				all_success = false
 		else:
 			if not FileAccess.file_exists(source_path):
 				continue
-			if DirAccess.copy_absolute(source_path, dest_path) != OK:
+			if _copy_file_atomic(source_path, dest_path) != OK:
 				printerr("ProfileManager: Failed to back up '%s'." % file_def["filename"])
 				all_success = false
 	return all_success
@@ -313,8 +404,11 @@ func save_profile_session(profile_name: String, riot_install_dir: String) -> boo
 
 # Writes the profile's backed-up files over the live Riot Client files.
 func restore_profile_session(profile_name: String, riot_install_dir: String) -> bool:
-	var profile_dir := _get_profile_dir(profile_name)
-	if profile_dir.is_empty():
+	_profiles_lock.lock()
+	var profile := _find_profile_unsafe(profile_name)
+	var profile_dir := _get_profile_dir_unsafe(profile_name)
+	_profiles_lock.unlock()
+	if profile.is_empty():
 		return false
 
 	print("ProfileManager: Restoring session for '%s'..." % profile_name)
@@ -323,39 +417,74 @@ func restore_profile_session(profile_name: String, riot_install_dir: String) -> 
 		var dest_path := _resolve_path(file_def, riot_install_dir)
 		if dest_path.is_empty():
 			continue
-		var source_path := profile_dir.path_join(file_def["filename"])
 		DirAccess.make_dir_recursive_absolute(dest_path.get_base_dir())
+		var source_path := profile_dir.path_join(file_def["filename"])
 		if file_def.get("is_dir", false):
-			if DirAccess.dir_exists_absolute(dest_path):
-				_remove_dir_recursive(dest_path)
 			if DirAccess.dir_exists_absolute(source_path):
-				if _copy_dir_recursive(source_path, dest_path) != OK:
+				if _copy_dir_atomic(source_path, dest_path) != OK:
 					printerr("ProfileManager: Failed to restore directory '%s'." % file_def["filename"])
+					all_success = false
+			elif DirAccess.dir_exists_absolute(dest_path):
+				if _remove_dir_recursive(dest_path) != OK:
+					printerr("ProfileManager: Failed to clear stale directory '%s'." % file_def["filename"])
 					all_success = false
 		else:
 			if FileAccess.file_exists(source_path):
-				if DirAccess.copy_absolute(source_path, dest_path) != OK:
+				if _copy_file_atomic(source_path, dest_path) != OK:
 					printerr("ProfileManager: Failed to restore '%s'." % file_def["filename"])
 					all_success = false
 			elif FileAccess.file_exists(dest_path):
-				DirAccess.remove_absolute(dest_path)
+				if DirAccess.remove_absolute(dest_path) != OK:
+					printerr("ProfileManager: Failed to clear stale file '%s'." % file_def["filename"])
+					all_success = false
 	return all_success
 
 
 
-func _find_profile(profile_name: String) -> Dictionary:
+func _find_profile_unsafe(profile_name: String) -> Dictionary:
 	for profile: Dictionary in _profiles:
 		if profile.get("profile_name") == profile_name:
 			return profile
 	return {}
 
 
-func _get_profile_dir(profile_name: String) -> String:
-	var profile := _find_profile(profile_name)
+func _get_profile_dir_unsafe(profile_name: String) -> String:
+	var profile := _find_profile_unsafe(profile_name)
 	if profile.is_empty():
 		printerr("ProfileManager: Profile '%s' not found." % profile_name)
 		return ""
 	return AppPaths.PROFILES_DIR.path_join(profile.get("directory_name", ""))
+
+
+# Fills in missing fields for profiles written by older versions and drops invalid entries.
+func _normalize_profiles() -> void:
+	var changed := false
+	var normalized: Array = []
+	for entry in _profiles:
+		if not entry is Dictionary:
+			changed = true
+			continue
+		var profile: Dictionary = entry
+		if str(profile.get("directory_name", "")).is_empty():
+			profile["directory_name"] = _sanitize_directory_name(str(profile.get("profile_name", "profile")))
+			changed = true
+		if not profile.has("first_time_opened"):
+			profile["first_time_opened"] = false
+			changed = true
+		if not profile.has("custom_background_image"):
+			profile["custom_background_image"] = ""
+			changed = true
+		if not profile.has("has_custom_name"):
+			profile["has_custom_name"] = true
+			changed = true
+		if not profile.has("description"):
+			profile["description"] = ""
+			changed = true
+		normalized.append(profile)
+	if changed:
+		_profiles = normalized
+		JsonFile.save_data(AppPaths.PROFILES_FILE, {"profiles": _profiles})
+		print("ProfileManager: Normalized profile data (missing fields filled in).")
 
 
 func _sanitize_directory_name(profile_name: String) -> String:
@@ -365,11 +494,96 @@ func _sanitize_directory_name(profile_name: String) -> String:
 	return sanitized
 
 
+# Returns a directory name based on base_name that neither another profile nor an existing on-disk folder already uses.
+func _resolve_unique_directory_name(base_name: String) -> String:
+	var candidate := base_name
+	var suffix := 2
+	while _directory_name_in_use(candidate):
+		candidate = "%s_%d" % [base_name, suffix]
+		suffix += 1
+	return candidate
+
+
+func _directory_name_in_use(dir_name: String) -> bool:
+	for p: Dictionary in _profiles:
+		if p.get("directory_name", "") == dir_name:
+			return true
+	return DirAccess.dir_exists_absolute(AppPaths.PROFILES_DIR.path_join(dir_name))
+
+
 func _seed_shared_settings_for_new_profile(target_dir: String) -> void:
 	var sync_enabled := bool(ConfigManager.get_value("SyncGameSettings", false))
 	if not sync_enabled:
 		return
 	LeagueSettingsSync.restore_shared_settings_to_dir(target_dir)
+
+
+func _save_profiles_file() -> bool:
+	if JsonFile.save_data(AppPaths.PROFILES_FILE, {"profiles": _profiles}):
+		return true
+	printerr("ProfileManager: Failed to save profiles file.")
+	return false
+
+
+
+# Copies a file to a temp sibling and swaps it into place only after the copy fully succeeded.
+func _copy_file_atomic(source_path: String, dest_path: String) -> Error:
+	var tmp_path := dest_path + FILE_TMP_SUFFIX
+	if FileAccess.file_exists(tmp_path):
+		DirAccess.remove_absolute(tmp_path) # Clean up leftovers from an interrupted run.
+
+	if DirAccess.copy_absolute(source_path, tmp_path) != OK:
+		printerr("ProfileManager: Failed to copy '%s'." % source_path)
+		return FAILED
+
+	if FileAccess.file_exists(dest_path):
+		var remove_error := DirAccess.remove_absolute(dest_path)
+		if remove_error != OK:
+			printerr("ProfileManager: Failed to replace '%s'. Error: %s" % [dest_path, remove_error])
+			return remove_error
+
+	var rename_error := _rename_with_retry(tmp_path, dest_path)
+	if rename_error != OK:
+		# Fallback: plain copy (dest is complete only if the copy finishes).
+		if DirAccess.copy_absolute(tmp_path, dest_path) == OK:
+			DirAccess.remove_absolute(tmp_path)
+			return OK
+	return rename_error
+
+
+# Copies a directory to a temp sibling and swaps it into place only after the copy fully succeeded.
+func _copy_dir_atomic(source_path: String, dest_path: String) -> Error:
+	var tmp_path := dest_path + DIR_TMP_SUFFIX
+	if DirAccess.dir_exists_absolute(tmp_path):
+		_remove_dir_recursive(tmp_path)
+
+	if _copy_dir_recursive(source_path, tmp_path) != OK:
+		printerr("ProfileManager: Failed to copy directory '%s'." % source_path)
+		_remove_dir_recursive(tmp_path)
+		return FAILED
+
+	if DirAccess.dir_exists_absolute(dest_path):
+		var remove_error := _remove_dir_recursive(dest_path)
+		if remove_error != OK:
+			printerr("ProfileManager: Failed to replace directory '%s'." % dest_path)
+			return remove_error
+
+	var rename_error := _rename_with_retry(tmp_path, dest_path)
+	if rename_error != OK:
+		if _copy_dir_recursive(tmp_path, dest_path) == OK:
+			_remove_dir_recursive(tmp_path)
+			return OK
+	return rename_error
+
+
+func _rename_with_retry(old_path: String, new_path: String) -> Error:
+	for attempt in 3:
+		var err := DirAccess.rename_absolute(old_path, new_path)
+		if err == OK:
+			return OK
+		OS.delay_msec(100)
+	printerr("ProfileManager: Rename '%s' -> '%s' failed after retries." % [old_path, new_path])
+	return FAILED
 
 
 # Resolves a FILES_TO_SWITCH entry to an absolute path, or "" when its base directory is unavailable.
@@ -385,13 +599,6 @@ func _resolve_path(file_def: Dictionary, riot_install_dir: String) -> String:
 				return ""
 			return riot_install_dir.path_join(file_def["rel_path"])
 	return ""
-
-
-func _save_profiles_file() -> bool:
-	if JsonFile.save_data(AppPaths.PROFILES_FILE, {"profiles": _profiles}):
-		return true
-	printerr("ProfileManager: Failed to save profiles file.")
-	return false
 
 
 func _copy_dir_recursive(source_path: String, dest_path: String) -> Error:
