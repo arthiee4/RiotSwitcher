@@ -169,9 +169,17 @@ func play_cascade_entrance() -> void:
 		if not is_instance_valid(card):
 			continue
 
-		card.pivot_offset = card_size * 0.5
+		var has_offset_transform: bool = "offset_transform_enabled" in card
+		if has_offset_transform:
+			card.set("offset_transform_enabled", true)
+			card.set("offset_transform_pivot_ratio", Vector2(0.5, 0.5))
+			card.set("offset_transform_scale", Vector2(0.88, 0.88))
+			card.set("offset_transform_visual_only", false)
+		else:
+			card.pivot_offset = card_size * 0.5
+			card.scale = Vector2(0.88, 0.88)
+
 		card.modulate.a = 0.0
-		card.scale = Vector2(0.88, 0.88)
 
 		var delay := i * 0.035 # Crisp stagger (35ms per card)
 		var tween := card.create_tween().set_parallel(true)
@@ -182,7 +190,10 @@ func play_cascade_entrance() -> void:
 			target_alpha = 0.5
 
 		tween.tween_property(card, "modulate:a", target_alpha, 0.16).set_delay(delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-		tween.tween_property(card, "scale", Vector2.ONE, 0.20).set_delay(delay).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		if has_offset_transform:
+			tween.tween_property(card, "offset_transform_scale", Vector2.ONE, 0.20).set_delay(delay).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		else:
+			tween.tween_property(card, "scale", Vector2.ONE, 0.20).set_delay(delay).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 #endregion
 

@@ -28,6 +28,8 @@ var _background_textures: Array = [] # Built-in backgrounds, aligned with picker
 @onready var _warning_panel: Control = $warning
 @onready var _close_warning_button: Button = $warning/closewarning
 
+var _cascade_tweens: Array[Tween] = []
+
 
 func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(AppPaths.BACKGROUNDS_DIR)
@@ -194,3 +196,145 @@ func _show_error(message: String) -> void:
 
 func _hide_error() -> void:
 	_error_label.visible = false
+
+
+## Plays a professional staggered cascade entrance animation for the add profile view.
+func play_cascade_entrance() -> void:
+	for tw in _cascade_tweens:
+		if tw and tw.is_valid():
+			tw.kill()
+	_cascade_tweens.clear()
+
+	# 1. Title entrance (slide down + fade)
+	var title_node := get_node_or_null("tittle") as Control
+	if title_node:
+		title_node.modulate.a = 0.0
+		var title_has_offset: bool = "offset_transform_enabled" in title_node
+		if title_has_offset:
+			title_node.set("offset_transform_enabled", true)
+			title_node.set("offset_transform_position", Vector2(0.0, -8.0))
+			title_node.set("offset_transform_visual_only", true)
+		else:
+			title_node.position.y = 20.0
+
+		var tw := title_node.create_tween().set_parallel(true)
+		_cascade_tweens.append(tw)
+		tw.tween_property(title_node, "modulate:a", 1.0, 0.16).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		if title_has_offset:
+			tw.tween_property(title_node, "offset_transform_position", Vector2.ZERO, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		else:
+			tw.tween_property(title_node, "position:y", 28.0, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	# 2. Input fields (profile_name and profile_description)
+	var input_nodes: Array[Control] = []
+	var p_name := get_node_or_null("profile_name") as Control
+	var p_desc := get_node_or_null("profile_description") as Control
+	if p_name: input_nodes.append(p_name)
+	if p_desc: input_nodes.append(p_desc)
+
+	for inp in input_nodes:
+		inp.modulate.a = 0.0
+		var has_offset: bool = "offset_transform_enabled" in inp
+		if has_offset:
+			inp.set("offset_transform_enabled", true)
+			inp.set("offset_transform_pivot_ratio", Vector2(0.5, 0.5))
+			inp.set("offset_transform_scale", Vector2(0.96, 0.96))
+			inp.set("offset_transform_visual_only", false)
+		else:
+			inp.scale = Vector2(0.96, 0.96)
+
+		var tw := inp.create_tween().set_parallel(true)
+		_cascade_tweens.append(tw)
+		tw.tween_property(inp, "modulate:a", 1.0, 0.16).set_delay(0.04).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		if has_offset:
+			tw.tween_property(inp, "offset_transform_scale", Vector2.ONE, 0.18).set_delay(0.04).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		else:
+			tw.tween_property(inp, "scale", Vector2.ONE, 0.18).set_delay(0.04).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+	# 3. Background label ("Choose your bg")
+	var bg_label := get_node_or_null("bg_select/Label") as Control
+	if bg_label:
+		bg_label.modulate.a = 0.0
+		var tw := bg_label.create_tween()
+		_cascade_tweens.append(tw)
+		tw.tween_property(bg_label, "modulate:a", 1.0, 0.14).set_delay(0.05).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	# 4. Background thumbnails cascade (bgexample1 ... bgexample12)
+	if _backgrounds_container:
+		var bg_children := _backgrounds_container.get_children()
+		for i in range(bg_children.size()):
+			var bg_card := bg_children[i] as Control
+			if not bg_card or not is_instance_valid(bg_card):
+				continue
+
+			bg_card.modulate.a = 0.0
+			var has_offset: bool = "offset_transform_enabled" in bg_card
+			if has_offset:
+				bg_card.set("offset_transform_enabled", true)
+				bg_card.set("offset_transform_pivot_ratio", Vector2(0.5, 0.5))
+				bg_card.set("offset_transform_scale", Vector2(0.85, 0.85))
+				bg_card.set("offset_transform_visual_only", false)
+			else:
+				var sz := bg_card.size
+				if sz.x > 0 and sz.y > 0:
+					bg_card.pivot_offset = sz * 0.5
+				bg_card.scale = Vector2(0.85, 0.85)
+
+			var delay: float = 0.06 + (i * 0.025) # 25ms ripple stagger
+			var tw := bg_card.create_tween().set_parallel(true)
+			_cascade_tweens.append(tw)
+			tw.tween_property(bg_card, "modulate:a", 1.0, 0.14).set_delay(delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+			if has_offset:
+				tw.tween_property(bg_card, "offset_transform_scale", Vector2.ONE, 0.18).set_delay(delay).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			else:
+				tw.tween_property(bg_card, "scale", Vector2.ONE, 0.18).set_delay(delay).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+	# 5. Upload custom image & Finish creation
+	var bottom_nodes: Array[Control] = []
+	var upload_node := get_node_or_null("upload_custom_bg") as Control
+	var create_node := get_node_or_null("creation") as Control
+	if upload_node: bottom_nodes.append(upload_node)
+	if create_node: bottom_nodes.append(create_node)
+
+	for b_node in bottom_nodes:
+		b_node.modulate.a = 0.0
+		var has_offset: bool = "offset_transform_enabled" in b_node
+		if has_offset:
+			b_node.set("offset_transform_enabled", true)
+			b_node.set("offset_transform_pivot_ratio", Vector2(0.5, 0.5))
+			b_node.set("offset_transform_scale", Vector2(0.96, 0.96))
+			b_node.set("offset_transform_visual_only", false)
+		else:
+			b_node.scale = Vector2(0.96, 0.96)
+
+		var tw := b_node.create_tween().set_parallel(true)
+		_cascade_tweens.append(tw)
+		tw.tween_property(b_node, "modulate:a", 1.0, 0.16).set_delay(0.16).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		if has_offset:
+			tw.tween_property(b_node, "offset_transform_scale", Vector2.ONE, 0.18).set_delay(0.16).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		else:
+			tw.tween_property(b_node, "scale", Vector2.ONE, 0.18).set_delay(0.16).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+	# 6. Live preview card zoom pop
+	var preview_node := get_node_or_null("preview") as Control
+	if preview_node:
+		preview_node.modulate.a = 0.0
+		var has_offset: bool = "offset_transform_enabled" in preview_node
+		if has_offset:
+			preview_node.set("offset_transform_enabled", true)
+			preview_node.set("offset_transform_pivot_ratio", Vector2(0.5, 0.5))
+			preview_node.set("offset_transform_scale", Vector2(0.92, 0.92))
+			preview_node.set("offset_transform_visual_only", false)
+		else:
+			var sz := preview_node.size
+			if sz.x > 0 and sz.y > 0:
+				preview_node.pivot_offset = sz * 0.5
+			preview_node.scale = Vector2(0.92, 0.92)
+
+		var tw := preview_node.create_tween().set_parallel(true)
+		_cascade_tweens.append(tw)
+		tw.tween_property(preview_node, "modulate:a", 1.0, 0.18).set_delay(0.10).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		if has_offset:
+			tw.tween_property(preview_node, "offset_transform_scale", Vector2.ONE, 0.22).set_delay(0.10).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		else:
+			tw.tween_property(preview_node, "scale", Vector2.ONE, 0.22).set_delay(0.10).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)

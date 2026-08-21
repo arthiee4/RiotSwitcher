@@ -150,6 +150,16 @@ func _switch_to_view(target_view: Control) -> void:
 		target_view.scale = Vector2.ONE
 		if profile_grid and profile_grid.has_method("play_cascade_entrance"):
 			profile_grid.play_cascade_entrance()
+	elif target_view == settings_menu:
+		target_view.modulate.a = 1.0
+		target_view.scale = Vector2.ONE
+		if settings_menu and settings_menu.has_method("play_cascade_entrance"):
+			settings_menu.play_cascade_entrance()
+	elif target_view == add_menu:
+		target_view.modulate.a = 1.0
+		target_view.scale = Vector2.ONE
+		if add_menu and add_menu.has_method("play_cascade_entrance"):
+			add_menu.play_cascade_entrance()
 	else:
 		var sz := target_view.size
 		if sz.x <= 0 or sz.y <= 0:

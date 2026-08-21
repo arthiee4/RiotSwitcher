@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://w3jljyf63rcp"]
 
+[ext_resource type="Script" path="res://src/ui/add_profile_controller.gd" id="1_addctrl"]
 [ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="1_0x52k"]
 [ext_resource type="Texture2D" uid="uid://s1o3n3furub3" path="res://assets/backgrounds/profiles_bg/1.webp" id="2_rt4pg"]
 [ext_resource type="Texture2D" uid="uid://b2qwlyi8mcf62" path="res://assets/backgrounds/profiles_bg/2.webp" id="3_pjph5"]
@@ -130,6 +131,7 @@ offset_left = 89.0
 offset_top = 16.0
 offset_right = 1183.0
 offset_bottom = 704.0
+script = ExtResource("1_addctrl")
 
 [node name="Panel" type="Panel" parent="." unique_id=636082946]
 layout_mode = 1
