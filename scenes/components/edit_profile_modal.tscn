@@ -168,7 +168,7 @@ text = "EDIT PROFILE"
 anchors_preset = 0
 offset_left = 46.0
 offset_top = 82.0
-offset_right = 320.0
+offset_right = 246.0
 offset_bottom = 150.0
 
 [node name="Label2" type="Label" parent="Panel/profile_name" unique_id=733324181]
@@ -184,7 +184,7 @@ text = "Profile name"
 [node name="Panel" type="Panel" parent="Panel/profile_name" unique_id=182577402]
 layout_mode = 0
 offset_top = 28.0
-offset_right = 230.0
+offset_right = 195.0
 offset_bottom = 62.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_input_box")
 
@@ -201,6 +201,44 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_lineedit")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_lineedit")
 placeholder_text = "name"
 max_length = 20
+
+[node name="profile_description" type="Control" parent="Panel" unique_id=421910263]
+anchors_preset = 0
+offset_left = 256.0
+offset_top = 82.0
+offset_right = 470.0
+offset_bottom = 150.0
+
+[node name="Label2" type="Label" parent="Panel/profile_description" unique_id=733324182]
+layout_mode = 0
+offset_top = 2.0
+offset_right = 180.0
+offset_bottom = 25.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.8)
+theme_override_fonts/font = ExtResource("3_raleway_light")
+theme_override_font_sizes/font_size = 14
+text = "Profile description"
+
+[node name="Panel" type="Panel" parent="Panel/profile_description" unique_id=182577403]
+layout_mode = 0
+offset_top = 28.0
+offset_right = 205.0
+offset_bottom = 62.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_input_box")
+
+[node name="LineEdit" type="LineEdit" parent="Panel/profile_description/Panel" unique_id=382214894]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_raleway_bold")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxEmpty_lineedit")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_lineedit")
+placeholder_text = "description"
+max_length = 35
 
 [node name="bg_select" type="Control" parent="Panel" unique_id=647320231]
 anchors_preset = 0

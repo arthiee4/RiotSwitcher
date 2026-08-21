@@ -20,6 +20,7 @@ var _anim_tween: Tween = null
 @onready var _backdrop: ColorRect = $backdrop if has_node("backdrop") else find_child("backdrop", true, false)
 @onready var _panel: Panel = $Panel if has_node("Panel") else find_child("Panel", true, false)
 @onready var _name_input: LineEdit = $Panel/profile_name/Panel/LineEdit if has_node("Panel/profile_name/Panel/LineEdit") else find_child("LineEdit", true, false)
+@onready var _desc_input: LineEdit = $Panel/profile_description/Panel/LineEdit if has_node("Panel/profile_description/Panel/LineEdit") else null
 @onready var _preview_button: Control = $Panel/preview/profile_button if has_node("Panel/preview/profile_button") else find_child("profile_button", true, false)
 @onready var _preview_name: Label = $Panel/preview/profile_button/profile_name if has_node("Panel/preview/profile_button/profile_name") else find_child("profile_name", true, false)
 @onready var _preview_bg: TextureRect = $Panel/preview/profile_button/card/Panel/profile_bg if has_node("Panel/preview/profile_button/card/Panel/profile_bg") else find_child("profile_bg", true, false)
@@ -42,6 +43,8 @@ func _ready() -> void:
 	_save_button.pressed.connect(_on_save_pressed)
 	_name_input.text_changed.connect(_on_name_text_changed)
 	_name_input.text_submitted.connect(func(_text): _on_save_pressed())
+	if _desc_input:
+		_desc_input.text_submitted.connect(func(_text): _on_save_pressed())
 	_browse_button.pressed.connect(_on_upload_button_pressed)
 	_file_dialog.file_selected.connect(_on_file_selected)
 	_backdrop.gui_input.connect(_on_backdrop_gui_input)
@@ -82,6 +85,8 @@ func open_edit(profile_data: Dictionary) -> void:
 	_current_bg_path = profile_data.get("custom_background_image", "")
 
 	_name_input.text = current_name
+	if _desc_input:
+		_desc_input.text = profile_data.get("description", "")
 	_preview_name.text = current_name
 	_update_bg_preview()
 	_hide_error()
@@ -194,12 +199,15 @@ func _on_save_pressed() -> void:
 		_show_error("A profile named '%s' already exists." % new_name)
 		return
 
+	var description: String = _desc_input.text.strip_edges() if _desc_input else ""
+
 	var success: bool = profile_manager.update_profile(
 		old_name,
 		new_name,
 		_current_bg_path,
 		true,
-		true
+		true,
+		description
 	)
 
 	if not success:

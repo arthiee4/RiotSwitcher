@@ -21,6 +21,7 @@ var _background_textures: Array = [] # Built-in backgrounds, aligned with picker
 @onready var _browse_button: Button = $upload_custom_bg/browser_button
 @onready var _file_dialog: FileDialog = $creation/create_button/FileDialog
 @onready var _name_input: LineEdit = $profile_name/LineEdit
+@onready var _description_input: LineEdit = $profile_description/LineEdit if has_node("profile_description/LineEdit") else null
 @onready var _name_preview: Label = $preview/profile_button/profile_name
 @onready var _create_button: Button = $creation/create_button
 @onready var _error_label: Label = $error/Label
@@ -48,6 +49,8 @@ func set_warning_visibility(visible_: bool) -> void:
 func reset_form() -> void:
 	_error_label.visible = false
 	_name_input.text = ""
+	if _description_input:
+		_description_input.text = ""
 	_update_name_preview()
 	_preview_background.texture = null
 	_current_custom_bg_path = ""
@@ -72,6 +75,8 @@ func _load_background_images() -> void:
 
 func _connect_signals() -> void:
 	_name_input.text_changed.connect(_on_name_text_changed)
+	if _description_input:
+		_description_input.text_submitted.connect(func(_text): _on_create_button_pressed())
 	_file_dialog.filters = ["*.png, *.jpg, *.webp ; Image Files"]
 	_file_dialog.file_selected.connect(_on_file_selected)
 	_browse_button.pressed.connect(_on_browse_button_pressed)
@@ -102,6 +107,7 @@ func _on_create_button_pressed() -> void:
 	var raw_typed := _name_input.text.strip_edges()
 	var has_custom_name := not raw_typed.is_empty()
 	var profile_name := raw_typed if has_custom_name else _generate_auto_profile_name()
+	var description := _description_input.text.strip_edges() if _description_input else ""
 
 	if not _preview_background.texture:
 		_show_error("Please select or upload a background image!")
@@ -112,7 +118,7 @@ func _on_create_button_pressed() -> void:
 
 	_hide_error()
 	var background_path := _resolve_background_path()
-	if not profile_manager.add_profile(profile_name, background_path, has_custom_name):
+	if not profile_manager.add_profile(profile_name, background_path, has_custom_name, description):
 		_show_error("Failed to create profile! Check logs.")
 		return
 

@@ -76,7 +76,7 @@ func has_profile(profile_name: String) -> bool:
 
 
 ## Creates the profile directory and registers the profile. Returns true on success.
-func add_profile(profile_name: String, background_path: String, has_custom_name: bool = true) -> bool:
+func add_profile(profile_name: String, background_path: String, has_custom_name: bool = true, description: String = "") -> bool:
 	if profile_name.is_empty():
 		printerr("ProfileManager: Profile name cannot be empty.")
 		return false
@@ -99,6 +99,7 @@ func add_profile(profile_name: String, background_path: String, has_custom_name:
 		"first_time_opened": false,
 		"directory_name": directory_name,
 		"has_custom_name": has_custom_name,
+		"description": description.strip_edges(),
 	}
 	_profiles.append(new_profile)
 	if not _save_profiles_file():
@@ -231,7 +232,8 @@ func update_profile(
 	new_name: String,
 	new_background_path: String = "",
 	rename_directory: bool = true,
-	has_custom_name: Variant = null
+	has_custom_name: Variant = null,
+	description: String = ""
 ) -> bool:
 	var profile := _find_profile(old_name)
 	if profile.is_empty():
@@ -271,6 +273,7 @@ func update_profile(
 	profile["directory_name"] = target_dir_name
 	if has_custom_name != null:
 		profile["has_custom_name"] = bool(has_custom_name)
+	profile["description"] = description.strip_edges()
 
 	# 4. Keep configs.json in sync (SharedSettingsSourceProfile)
 	var current_shared_source: String = ConfigManager.get_value("SharedSettingsSourceProfile", "")
