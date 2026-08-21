@@ -164,6 +164,15 @@ func _on_profile_button_pressed() -> void:
 		return
 	_is_transitioning = true
 	var starting := not client_is_running
+
+	# Immediately switch icon with punchy pop animation for instant UI responsiveness
+	if _state_icon:
+		_state_icon.pivot_offset = _state_icon.size * 0.5
+		_state_icon.texture = STOP_ICON if starting else PLAY_ICON
+		_state_icon.scale = Vector2(1.28, 1.28)
+		var icon_tw := create_tween()
+		icon_tw.tween_property(_state_icon, "scale", Vector2.ONE, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
 	client_toggled.emit(self, starting)
 
 
@@ -319,17 +328,38 @@ func _hide_hover_info() -> void:
 	)
 
 
-## Dims and disables the card (or restores it) with a short animation.
-func set_interactable(interactable: bool) -> void:
+var _interactable_tween: Tween = null
+
+
+## Dims and disables the card (or restores it) with smooth, juicy animations.
+func set_interactable(interactable: bool, delay: float = 0.0) -> void:
 	_is_interactable = interactable
 	if _button:
 		_button.disabled = not interactable
 	if not interactable:
 		_hide_hover_info()
 
-	var target_modulate := Color(1, 1, 1, 1) if interactable else Color(1, 1, 1, 0.5)
-	var tween := create_tween().set_parallel(true)
-	tween.tween_property(self, "modulate", target_modulate, 0.1).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
+	pivot_offset = size * 0.5
+
+	if _interactable_tween and _interactable_tween.is_valid():
+		_interactable_tween.kill()
+
+	_interactable_tween = create_tween().set_parallel(true)
+
+	if interactable:
+		var target_modulate := Color(1, 1, 1, 1)
+		var tw_mod := _interactable_tween.tween_property(self, "modulate", target_modulate, 0.26).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		var tw_scale := _interactable_tween.tween_property(self, "scale", Vector2.ONE, 0.28).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		if delay > 0.0:
+			tw_mod.set_delay(delay)
+			tw_scale.set_delay(delay)
+	else:
+		var target_modulate := Color(1, 1, 1, 0.45)
+		var tw_mod := _interactable_tween.tween_property(self, "modulate", target_modulate, 0.22).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		var tw_scale := _interactable_tween.tween_property(self, "scale", Vector2(0.97, 0.97), 0.22).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		if delay > 0.0:
+			tw_mod.set_delay(delay)
+			tw_scale.set_delay(delay)
 
 	if not interactable and _glow_effect:
 		if _glow_tween and _glow_tween.is_valid():

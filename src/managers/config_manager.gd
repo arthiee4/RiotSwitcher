@@ -53,5 +53,5 @@ func set_value_and_save(key: String, value: Variant) -> bool:
 	if not saved:
 		printerr("ConfigManager: Failed to save config file.")
 		return false
-	configs_updated.emit(snapshot)
+	configs_updated.emit.call_deferred(snapshot)
 	return true

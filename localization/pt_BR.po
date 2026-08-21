@@ -197,8 +197,8 @@ msgid "Game settings"
 msgstr "Configurações de Jogo"
 
 #: scenes/settings_menu.tscn
-msgid "Enable shared in-game settings for all profiles."
-msgstr "Ativar configurações compartilhadas no jogo para todos os perfis."
+msgid "Share in-game settings (only works with League of Legends closed)."
+msgstr "Compartilha as configurações no jogo (só funciona com o League fechado)."
 
 #: scenes/settings_menu.tscn
 msgid "Manage Riot Vanguard anti-cheat service and tray process."
@@ -211,3 +211,7 @@ msgstr "Selecione o idioma de exibição do aplicativo."
 #: scenes/settings_menu.tscn
 msgid "Permanently deletes all saved account profiles and session data."
 msgstr "Exclui permanentemente todos os perfis e dados de sessão salvos."
+
+#: src/ui/shared_settings.gd
+msgid "Settings are locked while a profile is running. Close the game to modify."
+msgstr "Configurações bloqueadas enquanto o perfil estiver aberto. Feche o jogo para alterar."

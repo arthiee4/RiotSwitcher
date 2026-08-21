@@ -125,9 +125,6 @@ func add_profile(profile_name: String, background_path: String, has_custom_name:
 		printerr("ProfileManager: Failed to create profile directory: ", profile_dir)
 		return false
 
-	# Seed the newly created profile folder with shared game settings if enabled
-	_seed_shared_settings_for_new_profile(profile_dir)
-
 	var new_profile := {
 		"profile_name": profile_name,
 		"custom_background_image": background_path,
@@ -145,8 +142,11 @@ func add_profile(profile_name: String, background_path: String, has_custom_name:
 		return false
 	_profiles_lock.unlock()
 
+	# Seed the newly created profile folder with shared game settings if enabled (outside mutex lock)
+	_seed_shared_settings_for_new_profile(profile_dir)
+
 	profiles_updated.emit()
-	print("ProfileManager: Profile '%s' added." % profile_name)
+	print("ProfileManager: Profile '%s' successfully added." % profile_name)
 	return true
 
 
@@ -178,6 +178,15 @@ func delete_profile(profile_name: String) -> bool:
 	if background_path.begins_with(AppPaths.BACKGROUNDS_DIR) and FileAccess.file_exists(background_path):
 		DirAccess.remove_absolute(background_path)
 
+	# If the deleted profile was the shared settings source, clear the configuration
+	var deleted_dir: String = profile.get("directory_name", "")
+	var current_source_dir: String = ConfigManager.get_value("SharedSettingsSourceDirectory", "")
+	var current_source_name: String = ConfigManager.get_value("SharedSettingsSourceProfile", "")
+	if (not deleted_dir.is_empty() and deleted_dir == current_source_dir) or current_source_name == profile_name:
+		ConfigManager.set_value_and_save("SharedSettingsSourceDirectory", "")
+		ConfigManager.set_value_and_save("SharedSettingsSourceProfile", "")
+		print("ProfileManager: Cleared Source Profile configuration because profile '%s' was deleted." % profile_name)
+
 	print("ProfileManager: Profile '%s' deleted." % profile_name)
 	return true
 
@@ -195,11 +204,17 @@ func delete_all_profiles() -> bool:
 	_profiles.clear()
 	_profiles_lock.unlock()
 
+	ConfigManager.set_value_and_save("SharedSettingsSourceDirectory", "")
+	ConfigManager.set_value_and_save("SharedSettingsSourceProfile", "")
+
 	if DirAccess.dir_exists_absolute(AppPaths.PROFILES_DIR):
 		_remove_dir_contents(AppPaths.PROFILES_DIR)
 
 	if DirAccess.dir_exists_absolute(AppPaths.BACKGROUNDS_DIR):
 		_remove_dir_contents(AppPaths.BACKGROUNDS_DIR)
+
+	if DirAccess.dir_exists_absolute(AppPaths.SHARED_GAME_SETTINGS_DIR):
+		_remove_dir_contents(AppPaths.SHARED_GAME_SETTINGS_DIR)
 
 	profiles_updated.emit()
 	print("ProfileManager: All profiles successfully deleted.")
@@ -375,9 +390,11 @@ func update_profile(
 	if not new_background_path.is_empty() and new_background_path != old_bg_path:
 		_cleanup_orphaned_background(old_bg_path, old_name)
 
-	# 5. Keep configs.json in sync (SharedSettingsSourceProfile)
+	# 5. Keep configs.json in sync (SharedSettingsSourceDirectory and legacy SharedSettingsSourceProfile)
+	var current_source_dir: String = ConfigManager.get_value("SharedSettingsSourceDirectory", "")
 	var current_shared_source: String = ConfigManager.get_value("SharedSettingsSourceProfile", "")
-	if current_shared_source == old_name:
+	if current_source_dir == old_dir_name or current_shared_source == old_name:
+		ConfigManager.set_value_and_save("SharedSettingsSourceDirectory", target_dir_name)
 		ConfigManager.set_value_and_save("SharedSettingsSourceProfile", trimmed_new_name)
 
 	profiles_updated.emit()
@@ -550,7 +567,8 @@ func _seed_shared_settings_for_new_profile(target_dir: String) -> void:
 	var sync_enabled := bool(ConfigManager.get_value("SyncGameSettings", false))
 	if not sync_enabled:
 		return
-	LeagueSettingsSync.restore_shared_settings_to_dir(target_dir)
+	if LeagueSettingsSync.has_valid_settings(AppPaths.SHARED_GAME_SETTINGS_DIR):
+		LeagueSettingsSync.restore_shared_settings_to_dir(target_dir)
 
 
 func _save_profiles_file() -> bool:

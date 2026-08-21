@@ -17,6 +17,7 @@ const LAUNCH_ARGS: Array[String] = ["--launch-product=league_of_legends", "--lau
 
 @export var card_size: Vector2 = Vector2(181, 50)
 const HYSTERESIS_FACTOR := 0.20 # 15px deadband on 75px pitch to completely prevent jitter
+const SETTINGS_WATCHDOG_INTERVAL := 2.0
 
 # Config keys (see the settings menu toggles).
 const CONFIG_KEY_SYNC_SETTINGS := "SyncGameSettings"
@@ -31,6 +32,13 @@ var _active_button: Control = null
 var _running_profile_name: String = "" # Survives grid repopulation.
 var _worker: Thread = null
 var _progress_tween: Tween = null
+var _lcu_injector: LcuInjector = null
+
+# Live settings watchdog state (watches League/Config while a profile runs)
+var _settings_watchdog: Timer = null
+var _watchdog_baseline: Dictionary = {}
+var _watchdog_pending: Dictionary = {}
+var _watchdog_last_warned: Dictionary = {}
 
 # Interactive drag state
 var _cards: Array[Control] = []
@@ -45,6 +53,17 @@ var _card_tweens: Dictionary = {}
 var _cascade_tweens: Array[Tween] = []
 
 
+func _ready() -> void:
+	_lcu_injector = LcuInjector.new()
+	add_child(_lcu_injector)
+
+	_settings_watchdog = Timer.new()
+	_settings_watchdog.wait_time = SETTINGS_WATCHDOG_INTERVAL
+	_settings_watchdog.one_shot = false
+	_settings_watchdog.timeout.connect(_on_settings_watchdog_tick)
+	add_child(_settings_watchdog)
+
+
 func set_dependencies(pm: Node, client_location: String) -> void:
 	profile_manager = pm
 	riot_client_location = client_location
@@ -55,6 +74,8 @@ func set_dependencies(pm: Node, client_location: String) -> void:
 		profile_manager.profiles_updated.connect(_populate_profile_buttons)
 	_adopt_running_profile_from_config()
 	_populate_profile_buttons()
+	if not _running_profile_name.is_empty():
+		_start_settings_watchdog()
 
 
 ## If a client was left running when the app last exited (or crashed) and the
@@ -98,12 +119,18 @@ func save_running_session() -> void:
 		# The button reference was lost (grid rebuilt/torn down), fall back to
 		# the process table so a live client's session is still saved.
 		confirmed_running = RiotProcesses.is_running(CLIENT_EXE)
+
+	# The live League/Config folder still belongs to the last running profile
+	# even when the client already exited, so always capture the shared game
+	# settings (source profile updates included) before quitting.
+	if not _running_profile_name.is_empty():
+		_save_shared_game_settings(_running_profile_name)
+
 	if not confirmed_running:
 		ConfigManager.set_value_and_save(CONFIG_KEY_LAST_RUNNING, "")
 		return
 
 	profile_manager.save_profile_session(_running_profile_name, riot_client_location)
-	_save_shared_game_settings(_running_profile_name)
 
 
 #region Grid population & Layout math
@@ -137,6 +164,8 @@ func _populate_profile_buttons() -> void:
 		return
 	_cleanup_drag()
 	for child in get_children():
+		if child == _lcu_injector or child == _settings_watchdog:
+			continue
 		child.queue_free()
 	_cards.clear()
 	_active_button = null
@@ -494,11 +523,16 @@ func _begin_start(button: Control) -> void:
 	var previous_profile := _running_profile_name
 	_active_button = button
 	_running_profile_name = button.profile_name
+	# Lock the settings UI while a swap is in flight: changing the sync toggle
+	# or the source profile mid-swap would race with the worker thread.
+	ConfigManager.set_value_and_save(CONFIG_KEY_LAST_RUNNING, button.profile_name)
 	_disable_other_buttons(button)
 	_update_progress_bar(button, 15, true)
 
 	if PresenceManager != null:
 		PresenceManager.stop_proxy()
+	if _lcu_injector:
+		_lcu_injector.stop()
 
 	_worker = Thread.new()
 	_worker.start(_session_swap_worker.bind(previous_profile, button.profile_name, executable_path))
@@ -508,6 +542,7 @@ func _begin_start(button: Control) -> void:
 func _session_swap_worker(previous_profile: String, next_profile: String, executable_path: String) -> void:
 	RiotProcesses.kill_all()
 	RiotProcesses.wait_until_all_dead()
+	OS.delay_msec(250) # Allow Vanguard and Windows OS handles to fully flush and release
 
 	var success := true
 	if not previous_profile.is_empty() and previous_profile != next_profile:
@@ -515,11 +550,13 @@ func _session_swap_worker(previous_profile: String, next_profile: String, execut
 			printerr("ProfileGridController: Failed to save session of '%s'." % previous_profile)
 			success = false
 		_save_shared_game_settings(previous_profile)
+		OS.delay_msec(100) # Settle saved files on disk
 	if success and not profile_manager.restore_profile_session(next_profile, riot_client_location):
 		printerr("ProfileGridController: Failed to restore session of '%s'." % next_profile)
 		success = false
 	if success:
 		_restore_shared_game_settings(next_profile)
+		OS.delay_msec(150) # Settle game config files on disk before starting client
 
 	call_deferred("_on_swap_finished", next_profile, executable_path, success)
 
@@ -530,6 +567,8 @@ func _on_swap_finished(profile_name: String, executable_path: String, success: b
 		ConfigManager.set_value_and_save(CONFIG_KEY_LAST_RUNNING, "")
 		if PresenceManager != null:
 			PresenceManager.stop_proxy()
+		if _lcu_injector:
+			_lcu_injector.stop()
 		_fail_start()
 		return
 
@@ -547,6 +586,8 @@ func _on_swap_finished(profile_name: String, executable_path: String, success: b
 		printerr("ProfileGridController: Failed to launch Riot Client. Error: ", pid)
 		if PresenceManager != null:
 			PresenceManager.stop_proxy()
+		if _lcu_injector:
+			_lcu_injector.stop()
 		ConfigManager.set_value_and_save(CONFIG_KEY_LAST_RUNNING, "")
 		_fail_start()
 		return
@@ -559,12 +600,28 @@ func _on_swap_finished(profile_name: String, executable_path: String, success: b
 	ConfigManager.set_value_and_save(CONFIG_KEY_LAST_RUNNING, profile_name)
 	_update_progress_bar(_active_button, 100, false)
 	print("ProfileGridController: Profile '%s' launched (PID %d)." % [profile_name, pid])
+	_start_settings_watchdog()
+
+	# Trigger real-time LCU API Settings Injection for Secondary Profiles
+	if _sync_settings_enabled() and _lcu_injector:
+		var source_info := LeagueSettingsSync.resolve_source_profile(profile_manager)
+		var p_dir := ""
+		if profile_manager and profile_manager.has_method("get_profile_dir"):
+			p_dir = profile_manager.get_profile_dir(profile_name)
+		var is_secondary: bool = not source_info["is_valid"] or p_dir.get_file() != String(source_info.get("directory_name", ""))
+		if is_secondary:
+			var league_dir := LeagueSettingsSync.find_league_dir(riot_client_location)
+			var master_persisted := AppPaths.SHARED_GAME_SETTINGS_DIR.path_join("PersistedSettings.json")
+			if not league_dir.is_empty() and FileAccess.file_exists(master_persisted):
+				_lcu_injector.start_injection(league_dir, master_persisted)
 
 
 func _begin_stop(button: Control) -> void:
 	_update_progress_bar(button, 0, false)
 	if PresenceManager != null:
 		PresenceManager.stop_proxy()
+	if _lcu_injector:
+		_lcu_injector.stop()
 	_worker = Thread.new()
 	_worker.start(_session_save_worker.bind(button.profile_name))
 
@@ -573,13 +630,16 @@ func _begin_stop(button: Control) -> void:
 func _session_save_worker(profile_name: String) -> void:
 	RiotProcesses.kill_all()
 	RiotProcesses.wait_until_all_dead()
+	OS.delay_msec(250) # Settle OS handles and file locks before session archive
 	var success: bool = profile_manager.save_profile_session(profile_name, riot_client_location)
 	_save_shared_game_settings(profile_name)
+	OS.delay_msec(100) # Clean flush
 	call_deferred("_on_save_finished", success)
 
 
 func _on_save_finished(success: bool) -> void:
 	_join_worker()
+	_stop_settings_watchdog()
 	if PresenceManager != null:
 		PresenceManager.stop_proxy()
 	if not success:
@@ -598,6 +658,7 @@ func _on_save_finished(success: bool) -> void:
 #region Helpers
 
 func _fail_start() -> void:
+	_stop_settings_watchdog()
 	if is_instance_valid(_active_button):
 		_active_button.reset_toggle_state()
 		_update_progress_bar(_active_button, 0, false)
@@ -623,59 +684,215 @@ func _sync_settings_enabled() -> bool:
 	return bool(ConfigManager.get_value(CONFIG_KEY_SYNC_SETTINGS, Constants.DEFAULT_SYNC_GAME_SETTINGS))
 
 
-## Saves the live game settings into the source profile's backup folder (if enabled).
-func _save_shared_game_settings(profile_name: String) -> void:
-	if not _sync_settings_enabled() or profile_name.is_empty():
+#region Live settings watchdog
+
+## Starts polling the live League/Config files after a profile launch.
+func _start_settings_watchdog() -> void:
+	if not _settings_watchdog or not _sync_settings_enabled():
 		return
-	var source_profile: String = ConfigManager.get_value(CONFIG_KEY_SYNC_SOURCE, "")
-	if source_profile.is_empty() or profile_name != source_profile:
+	_watchdog_baseline = {}
+	_watchdog_pending = {}
+	_watchdog_last_warned = {}
+	_settings_watchdog.start()
+	print("[GameSettings] Watching League settings for live changes (poll every %.0fs)." % SETTINGS_WATCHDOG_INTERVAL)
+
+
+func _stop_settings_watchdog() -> void:
+	if _settings_watchdog:
+		_settings_watchdog.stop()
+	_watchdog_baseline = {}
+	_watchdog_pending = {}
+	_watchdog_last_warned = {}
+
+
+## Polls the live League/Config files while a profile is running.
+## When the SOURCE profile changes anything in-game (hotkeys, video, audio...)
+## the change is printed immediately and the master snapshot is captured as
+## soon as the files stabilize — no need to close the profile, and the change
+## can never be lost to a crash.
+func _on_settings_watchdog_tick() -> void:
+	if _is_busy() or _running_profile_name.is_empty():
 		return
 
-	var league_dir := LeagueSettingsSync.find_league_dir(riot_client_location)
-	var live_config_dir := league_dir.path_join("Config") if not league_dir.is_empty() else ""
-
-	if not live_config_dir.is_empty() and DirAccess.dir_exists_absolute(live_config_dir):
-		LeagueSettingsSync.save_shared_settings_from_dir(live_config_dir)
-
-	if profile_manager and profile_manager.has_method("_get_profile_dir"):
-		var profile_dir: String = profile_manager._get_profile_dir(profile_name)
-		if not profile_dir.is_empty() and DirAccess.dir_exists_absolute(profile_dir):
-			LeagueSettingsSync.restore_shared_settings_to_dir(profile_dir)
-
-
-## Writes the shared game settings from the source profile into the live League folder and target profile folder.
-func _restore_shared_game_settings(next_profile: String = "") -> void:
 	if not _sync_settings_enabled():
-		return
-	var source_profile: String = ConfigManager.get_value(CONFIG_KEY_SYNC_SOURCE, "")
-	if source_profile.is_empty():
+		_watchdog_baseline = {}
+		_watchdog_pending = {}
+		_watchdog_last_warned = {}
 		return
 
-	# 1. Forcefully capture/refresh shared settings from source profile folder or live config
-	var source_dir := ""
-	if profile_manager and profile_manager.has_method("_get_profile_dir"):
-		var p_dir: String = profile_manager._get_profile_dir(source_profile)
-		if not p_dir.is_empty() and DirAccess.dir_exists_absolute(p_dir):
-			source_dir = p_dir
+	var source_info := LeagueSettingsSync.resolve_source_profile(profile_manager)
+	if not source_info["is_valid"]:
+		return
+
+	var live_config_dir := _live_league_config_dir()
+	if live_config_dir.is_empty() or not LeagueSettingsSync.has_valid_settings(live_config_dir):
+		return
+
+	var sig := _compute_live_settings_signature(live_config_dir)
+	if sig.is_empty():
+		return
+
+	# First observation after (re)start: baseline silently, no false positives.
+	if _watchdog_baseline.is_empty():
+		_watchdog_baseline = sig
+		return
+
+	var p_dir := ""
+	if profile_manager and profile_manager.has_method("get_profile_dir"):
+		p_dir = profile_manager.get_profile_dir(_running_profile_name)
+	var is_source_running: bool = p_dir.get_file() == String(source_info.get("directory_name", ""))
+
+	if not is_source_running:
+		return
+
+	if sig == _watchdog_baseline:
+		_watchdog_pending = {}
+		return
+
+	var changed_files := _diff_signature_files(_watchdog_baseline, sig)
+
+	if sig != _watchdog_pending:
+		# Files changed: League is writing modifications
+		print("[GameSettings] ALTERACAO DETECTADA: O perfil pai '%s' modificou as configuracoes no League (Arquivos: %s)!" % [_running_profile_name, ", ".join(changed_files)])
+		_watchdog_pending = sig
+		return
+
+	# Stable for two consecutive polls: capture now.
+	print("[GameSettings] Atualizando snapshot mestre com as novas configuracoes do perfil pai '%s'..." % _running_profile_name)
+	var capture_res := LeagueSettingsSync.capture_master_snapshot(live_config_dir, source_info["directory_name"], source_info["display_name"])
+	if capture_res == LeagueSettingsSync.CaptureResult.SUCCESS:
+		if not String(source_info["profile_dir"]).is_empty():
+			LeagueSettingsSync.copy_settings(live_config_dir, source_info["profile_dir"])
+		_watchdog_baseline = sig
+		var league_dir := LeagueSettingsSync.find_league_dir(riot_client_location)
+		LcuInjector.trigger_cloud_save(league_dir)
+		print("[GameSettings] SUCESSO: Snapshot mestre atualizado a partir de '%s'! Todas as contas secundarias agora usarao essas novas configuracoes." % _running_profile_name)
+	else:
+		printerr("[GameSettings] Live capture failed (Error: %d). Will retry on the next poll." % capture_res)
+	_watchdog_pending = {}
+
+
+func _live_league_config_dir() -> String:
+	var league_dir := LeagueSettingsSync.find_league_dir(riot_client_location)
+	return league_dir.path_join("Config") if not league_dir.is_empty() else ""
+
+
+## Hashes every tracked settings file inside the live League config.
+func _compute_live_settings_signature(live_config_dir: String) -> Dictionary:
+	var sig: Dictionary = {}
+	for filename in LeagueSettingsSync.SHARED_FILES:
+		var path := live_config_dir.path_join(filename)
+		if FileAccess.file_exists(path):
+			sig[filename] = FileAccess.get_sha256(path)
+	return sig
+
+
+func _diff_signature_files(old_sig: Dictionary, new_sig: Dictionary) -> PackedStringArray:
+	var changed := PackedStringArray()
+	var seen: Dictionary = {}
+	for key in old_sig.keys():
+		seen[key] = true
+	for key in new_sig.keys():
+		seen[key] = true
+	var names: Array = seen.keys()
+	names.sort()
+	for name in names:
+		if str(old_sig.get(name, "")) != str(new_sig.get(name, "")):
+			changed.append(str(name))
+	return changed
+
+#endregion
+
+
+## Saves the live game settings into the source profile's backup folder (if enabled)
+## or saves the profile's own settings when sync is disabled.
+func _save_shared_game_settings(profile_name: String) -> void:
+	if profile_name.is_empty():
+		return
 
 	var league_dir := LeagueSettingsSync.find_league_dir(riot_client_location)
 	var live_config_dir := league_dir.path_join("Config") if not league_dir.is_empty() else ""
+	if live_config_dir.is_empty() or not LeagueSettingsSync.has_valid_settings(live_config_dir):
+		return
 
-	if source_dir.is_empty() or not FileAccess.file_exists(source_dir.path_join("game.cfg")):
-		source_dir = live_config_dir
+	var sync_enabled := _sync_settings_enabled()
 
-	if not source_dir.is_empty() and DirAccess.dir_exists_absolute(source_dir):
-		LeagueSettingsSync.save_shared_settings_from_dir(source_dir)
+	if sync_enabled:
+		var source_info := LeagueSettingsSync.resolve_source_profile(profile_manager)
+		if not source_info["is_valid"]:
+			return
 
-	# 2. Restore shared settings into live League Config directory
-	if not live_config_dir.is_empty():
-		LeagueSettingsSync.restore_shared_settings_to_dir(live_config_dir)
+		var p_dir := ""
+		if profile_manager and profile_manager.has_method("get_profile_dir"):
+			p_dir = profile_manager.get_profile_dir(profile_name)
 
-	# 3. Restore shared settings into target profile directory
-	if profile_manager and not next_profile.is_empty() and profile_manager.has_method("_get_profile_dir"):
-		var target_profile_dir: String = profile_manager._get_profile_dir(next_profile)
-		if not target_profile_dir.is_empty():
-			LeagueSettingsSync.restore_shared_settings_to_dir(target_profile_dir)
+		var closed_dir_name := p_dir.get_file()
+
+		# Only the Source Profile may update the master shared snapshot!
+		if closed_dir_name == source_info["directory_name"]:
+			var capture_res := LeagueSettingsSync.capture_master_snapshot(live_config_dir, source_info["directory_name"], source_info["display_name"])
+			if capture_res == LeagueSettingsSync.CaptureResult.SUCCESS:
+				if not source_info["profile_dir"].is_empty():
+					LeagueSettingsSync.copy_settings(live_config_dir, source_info["profile_dir"])
+				LcuInjector.trigger_cloud_save(league_dir)
+				print("[GameSettings] ENCERRAMENTO DO PAI: Configuracoes finais do perfil pai '%s' salvas no snapshot mestre!" % profile_name)
+			else:
+				printerr("[GameSettings] Failed to update master settings from source profile '%s' (Error: %d). Previous snapshot preserved." % [profile_name, capture_res])
+		else:
+			print("[GameSettings] Secondary profile '%s' closed: master shared snapshot preserved unchanged." % profile_name)
+	else:
+		# Sync is disabled: save this profile's own settings into its directory
+		if profile_manager and profile_manager.has_method("get_profile_dir"):
+			var profile_dir: String = profile_manager.get_profile_dir(profile_name)
+			if not profile_dir.is_empty():
+				LeagueSettingsSync.copy_settings(live_config_dir, profile_dir)
+
+
+## Restores game settings into live League/Config before launch.
+func _restore_shared_game_settings(next_profile: String = "") -> void:
+	var league_dir := LeagueSettingsSync.find_league_dir(riot_client_location)
+	var live_config_dir := league_dir.path_join("Config") if not league_dir.is_empty() else ""
+	if live_config_dir.is_empty():
+		return
+
+	var sync_enabled := _sync_settings_enabled()
+
+	if sync_enabled:
+		var source_info := LeagueSettingsSync.resolve_source_profile(profile_manager)
+		var next_p_dir := ""
+		if profile_manager and profile_manager.has_method("get_profile_dir"):
+			next_p_dir = profile_manager.get_profile_dir(next_profile)
+		var next_dir_name := next_p_dir.get_file()
+
+		var is_source_profile: bool = bool(source_info.get("is_valid", false)) and next_dir_name == String(source_info.get("directory_name", ""))
+		var enforce_readonly: bool = not is_source_profile
+
+		if is_source_profile:
+			# For the Source Profile: deploy master snapshot and ensure read-write for live editing
+			LeagueSettingsSync.cleanup_readonly_flags(live_config_dir)
+			if LeagueSettingsSync.has_valid_settings(AppPaths.SHARED_GAME_SETTINGS_DIR):
+				LeagueSettingsSync.copy_settings(AppPaths.SHARED_GAME_SETTINGS_DIR, live_config_dir)
+			elif not next_p_dir.is_empty() and LeagueSettingsSync.has_valid_settings(next_p_dir):
+				LeagueSettingsSync.copy_settings(next_p_dir, live_config_dir)
+				LeagueSettingsSync.capture_master_snapshot(next_p_dir, source_info["directory_name"], source_info["display_name"])
+			LeagueSettingsSync.cleanup_readonly_flags(live_config_dir)
+			print("[GameSettings] INICIANDO PERFIL PAI '%s' (Arquivos destravados para edicao e salvamento in-game)." % next_profile)
+		else:
+			# For Secondary Profiles: deploy master shared snapshot cleanly
+			LeagueSettingsSync.cleanup_readonly_flags(live_config_dir)
+			if LeagueSettingsSync.has_valid_settings(AppPaths.SHARED_GAME_SETTINGS_DIR):
+				LeagueSettingsSync.copy_settings(AppPaths.SHARED_GAME_SETTINGS_DIR, live_config_dir)
+			elif not source_info["profile_dir"].is_empty() and LeagueSettingsSync.has_valid_settings(source_info["profile_dir"]):
+				LeagueSettingsSync.copy_settings(source_info["profile_dir"], live_config_dir)
+			LeagueSettingsSync.cleanup_readonly_flags(live_config_dir)
+			print("[GameSettings] INICIANDO PERFIL SECUNDARIO '%s' (Configuracoes do pai '%s' aplicadas com sucesso)." % [next_profile, source_info["display_name"]])
+	else:
+		# Sync is disabled: remove Read-Only and restore the profile's own settings if available
+		LeagueSettingsSync.cleanup_readonly_flags(live_config_dir)
+		if profile_manager and not next_profile.is_empty() and profile_manager.has_method("get_profile_dir"):
+			var target_profile_dir: String = profile_manager.get_profile_dir(next_profile)
+			if not target_profile_dir.is_empty() and LeagueSettingsSync.has_valid_settings(target_profile_dir):
+				LeagueSettingsSync.copy_settings(target_profile_dir, live_config_dir)
 
 
 func _load_texture(path: String) -> Texture2D:
@@ -716,19 +933,27 @@ func _update_progress_bar(button: Control, value: float, bar_visible: bool) -> v
 
 
 func _enable_all_buttons() -> void:
+	var idx := 0
 	for child in get_children():
 		if child.has_method("set_interactable"):
-			child.set_interactable(true)
+			child.set_interactable(true, idx * 0.03)
+			idx += 1
 
 
 func _disable_other_buttons(active_button: Control) -> void:
+	var idx := 0
 	for child in get_children():
 		if child.has_method("set_interactable"):
-			child.set_interactable(child == active_button)
+			if child == active_button:
+				child.set_interactable(true, 0.0)
+			else:
+				child.set_interactable(false, idx * 0.025)
+				idx += 1
 
 
 func _exit_tree() -> void:
 	_cleanup_drag()
 	_join_worker()
+	_stop_settings_watchdog()
 
 #endregion
