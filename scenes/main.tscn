@@ -20,17 +20,32 @@
 [ext_resource type="PackedScene" uid="uid://c8v7kmus1he0q" path="res://scenes/settings_menu.tscn" id="17_settings"]
 [ext_resource type="PackedScene" uid="uid://bwm4r2kefw1yq" path="res://scenes/components/edit_profile_modal.tscn" id="18_editmodal"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0ld40"]
+shader = ExtResource("7_myoxr")
+shader_parameter/rect_size = Vector2(0.02, 0.1)
+shader_parameter/bness = 0.55
+shader_parameter/fall_off_scale = 1.5
+shader_parameter/b_offset = 0.35
+shader_parameter/glow_color = Color(1, 0.04, 0.14, 1)
+shader_parameter/glow_color_secondary = Color(0.76, 0.06, 0.38, 0.5)
+shader_parameter/pulse_speed = 1.8
+shader_parameter/pulse_amount = 0.06
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hmayk"]
+bg_color = Color(1, 0.04, 0.14, 1)
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dswpw"]
 shader = ExtResource("7_myoxr")
 shader_parameter/rect_size = Vector2(-0.09, -0.055)
 shader_parameter/bness = 0.28
 shader_parameter/fall_off_scale = 0.985
 shader_parameter/b_offset = 0.56
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hmayk"]
-bg_color = Color(0.692886, 0, 0.240296, 1)
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
+shader_parameter/glow_color = Color(1, 0.04, 0.14, 1)
+shader_parameter/glow_color_secondary = Color(0.76, 0.06, 0.38, 0.5)
+shader_parameter/pulse_speed = 1.8
+shader_parameter/pulse_amount = 0.06
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u7l1t"]
 bg_color = Color(1, 1, 1, 0)
@@ -3892,6 +3907,7 @@ offset_right = 86.0
 offset_bottom = 360.0
 grow_vertical = 2
 script = ExtResource("3_0ld40")
+preview_glow = false
 
 [node name="bg" type="ColorRect" parent="leftmenu_side" unique_id=789187168]
 layout_mode = 1
@@ -3930,21 +3946,21 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="glow" type="ColorRect" parent="leftmenu_side/iconhighlight" unique_id=569600811]
-material = SubResource("ShaderMaterial_dswpw")
+material = SubResource("ShaderMaterial_0ld40")
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -183.0
-offset_top = -83.0
-offset_right = 62.0
-offset_bottom = 81.0
+offset_left = -125.0
+offset_top = -81.0
+offset_right = 120.0
+offset_bottom = 83.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.552941, 0, 0, 1)
+color = Color(1, 0.04, 0.14, 1)
 
 [node name="Panel" type="Panel" parent="leftmenu_side/iconhighlight" unique_id=1290242044]
 layout_mode = 1
@@ -4238,9 +4254,6 @@ offset_left = -8.0
 offset_top = 22.0
 offset_right = 97.0
 offset_bottom = 16.0
-
-[node name="Label2" parent="add_menu/profile_name" parent_id_path=PackedInt32Array(31094257, 1467946524) index="1" unique_id=304362144]
-text = "Profile name"
 
 [node name="creation" parent="add_menu" index="6" unique_id=978803369]
 offset_left = 24.0
