@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://c6xk4y8v2rabm"]
+
+[ext_resource type="FontFile" uid="uid://c08w5jcfwr4pe" path="res://assets/fonts/Raleway-Light.ttf" id="1_light"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover_panel"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.0705882, 0.0705882, 0.0862745, 0.960784)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.180392)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="profile_hover_info" type="PanelContainer"]
+z_index = 50
+offset_right = 40.0
+offset_bottom = 26.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hover_panel")
+
+[node name="desc_label" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.92, 0.96, 0.95)
+theme_override_fonts/font = ExtResource("1_light")
+theme_override_font_sizes/font_size = 12
+text = "Description"
+horizontal_alignment = 1
+vertical_alignment = 1
