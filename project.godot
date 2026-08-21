@@ -20,7 +20,7 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 run/max_fps=60
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
-config/icon="uid://c4d0yabdmde5a"
+config/icon="uid://b5vrrtjf2dxnf"
 config/windows_native_icon="res://assets/icon.ico"
 
 [autoload]
