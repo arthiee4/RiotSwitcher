@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://c8v7kmus1he0q"]
 
+[ext_resource type="Script" path="res://src/ui/settings_menu.gd" id="1_settingsctrl"]
 [ext_resource type="FontFile" uid="uid://c08w5jcfwr4pe" path="res://assets/fonts/Raleway-Light.ttf" id="1_e2qsc"]
 [ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="2_tuiqe"]
 [ext_resource type="Script" uid="uid://blac5x4qv3t14" path="res://src/ui/vanguard.gd" id="3_vanguard"]
@@ -28,6 +29,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("1_settingsctrl")
 
 [node name="Panel" type="Panel" parent="." unique_id=328800751]
 layout_mode = 1
