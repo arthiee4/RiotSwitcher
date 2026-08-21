@@ -529,7 +529,32 @@ offset_left = 89.0
 offset_top = 185.0
 offset_right = 188.0
 offset_bottom = 208.0
-text = "Proifle name"
+text = "Profile name"
+
+[node name="profile_description" type="Control" parent="." unique_id=1467946525]
+anchors_preset = 0
+offset_left = -38.0
+offset_top = -58.0
+offset_right = 334.0
+offset_bottom = 113.0
+mouse_filter = 2
+
+[node name="LineEdit" type="LineEdit" parent="profile_description" unique_id=992527879]
+layout_mode = 0
+offset_left = 270.0
+offset_top = 211.0
+offset_right = 475.0
+offset_bottom = 242.0
+placeholder_text = "description"
+max_length = 35
+
+[node name="Label2" type="Label" parent="profile_description" unique_id=304362145]
+layout_mode = 0
+offset_left = 270.0
+offset_top = 185.0
+offset_right = 420.0
+offset_bottom = 208.0
+text = "Profile description"
 
 [node name="upload_custom_bg" type="Control" parent="." unique_id=761621479]
 anchors_preset = 0

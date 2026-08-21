@@ -3834,6 +3834,7 @@ Button/styles/normal = SubResource("StyleBoxFlat_fv21b")
 Button/styles/pressed = SubResource("StyleBoxFlat_tel4y")
 
 [node name="main" type="Control" unique_id=1369969409]
+clip_contents = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -4223,7 +4224,6 @@ visible = false
 layout_mode = 1
 
 [node name="add_menu" parent="." unique_id=31094257 instance=ExtResource("12_7avnf")]
-visible = false
 z_index = 12
 layout_mode = 0
 offset_left = 88.0
@@ -4239,7 +4239,10 @@ offset_top = 22.0
 offset_right = 97.0
 offset_bottom = 16.0
 
-[node name="creation" parent="add_menu" index="5" unique_id=978803369]
+[node name="Label2" parent="add_menu/profile_name" parent_id_path=PackedInt32Array(31094257, 1467946524) index="1" unique_id=304362144]
+text = "Profile name"
+
+[node name="creation" parent="add_menu" index="6" unique_id=978803369]
 offset_left = 24.0
 offset_top = 504.0
 offset_right = 568.0
@@ -4265,6 +4268,13 @@ offset_bottom = 125.0
 
 [node name="profile_button" parent="add_menu/preview" parent_id_path=PackedInt32Array(31094257, 1859603040) index="0" unique_id=101788536]
 custom_minimum_size = Vector2(0, 0)
+
+[node name="error" parent="add_menu" index="8" unique_id=1088895385]
+visible = false
+
+[node name="Label" parent="add_menu/error" index="0" unique_id=942423663]
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="upper_side" type="Control" parent="." unique_id=1838701198]
 anchors_preset = 0
