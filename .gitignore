@@ -13,6 +13,8 @@ rcedit-x64.exe
 *.exe
 *.pck
 *.tmp
+/build/dist/
+/build/*.zip
 
 # User Data & sensitive configs
 Data/profiles_data.json
