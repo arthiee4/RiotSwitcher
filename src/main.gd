@@ -4,16 +4,21 @@ extends Control
 ## app-level behavior (view switching, window focus FPS, close-to-tray).
 
 @onready var left_menu_handler: Control = $leftmenu_side if has_node("leftmenu_side") else find_child("leftmenu_side", true, false)
-@onready var profile_grid: GridContainer = $content_side/GridContainer if has_node("content_side/GridContainer") else find_child("GridContainer", true, false)
+@onready var home_view: Control = $home if has_node("home") else find_child("home", true, false)
+@onready var profile_grid: GridContainer = $home/GridContainer if has_node("home/GridContainer") else find_child("GridContainer", true, false)
 @onready var settings_menu: Control = $settings_menu if has_node("settings_menu") else find_child("settings_menu", true, false)
 @onready var add_menu: Control = $add_menu if has_node("add_menu") else find_child("add_menu", true, false)
+@onready var edit_profile_modal: Control = $edit_profile_modal if has_node("edit_profile_modal") else find_child("edit_profile_modal", true, false)
 @onready var boot_screen: Control = $boot if has_node("boot") else find_child("boot", true, false)
 @onready var system_tray: Node = $systemtray if has_node("systemtray") else find_child("systemtray", true, false)
 
 var riot_client_location: String = ""
+var _current_active_view: Control = null
+var _view_tween: Tween = null
 
 
 func _ready() -> void:
+	_setup_window_icon()
 	AppPaths.migrate_legacy_data()
 	# We handle NOTIFICATION_WM_CLOSE_REQUEST ourselves (minimize to tray).
 	get_tree().auto_accept_quit = false
@@ -34,17 +39,31 @@ func _ready() -> void:
 		add_menu.profile_created_successfully.connect(_on_profile_creation_success)
 		add_menu.warning_dismissed.connect(_on_add_menu_warning_dismissed)
 
+	if edit_profile_modal:
+		edit_profile_modal.profile_manager = ProfileManager
+
 	if system_tray:
 		system_tray.exit_requested.connect(_on_tray_exit_requested)
 		system_tray.show_window_requested.connect(_on_tray_show_window_requested)
 
 	if profile_grid:
 		profile_grid.set_dependencies(ProfileManager, riot_client_location)
+		profile_grid.edit_profile_requested.connect(_on_edit_profile_requested)
 
 	ProfileManager.load_profiles_data()
 	ConfigManager.load_configs()
 
 	_show_home_view()
+
+
+func _setup_window_icon() -> void:
+	var icon_tex := load("res://assets/icons/icon1.png") as Texture2D
+	if not icon_tex:
+		icon_tex = load("res://icon.svg") as Texture2D
+	if icon_tex:
+		var image := icon_tex.get_image()
+		if image:
+			DisplayServer.set_icon(image)
 
 
 func _notification(what: int) -> void:
@@ -85,25 +104,88 @@ func _on_add_menu_warning_dismissed() -> void:
 
 #endregion
 
-#region View switching
+#region View switching (Juicy & Minimalist Transitions)
+
+func _switch_to_view(target_view: Control) -> void:
+	if not target_view or not is_instance_valid(target_view):
+		return
+	if _current_active_view == target_view and target_view.visible:
+		return
+
+	if edit_profile_modal and edit_profile_modal.has_method("close"):
+		edit_profile_modal.close()
+
+	if _view_tween and _view_tween.is_valid():
+		_view_tween.kill()
+		_view_tween = null
+
+	_current_active_view = target_view
+	var all_views: Array[Control] = [home_view, settings_menu, add_menu]
+
+	var views_to_hide: Array[Control] = []
+	for v in all_views:
+		if not v or not is_instance_valid(v) or v == target_view:
+			continue
+		if v.visible:
+			views_to_hide.append(v)
+
+	var needs_tween := views_to_hide.size() > 0 or target_view != home_view
+
+	if needs_tween:
+		_view_tween = create_tween().set_parallel(true)
+		for v in views_to_hide:
+			_view_tween.tween_property(v, "modulate:a", 0.0, 0.10).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+			_view_tween.tween_property(v, "scale", Vector2(0.985, 0.985), 0.10).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+			var captured_v := v
+			_view_tween.chain().tween_callback(func():
+				captured_v.visible = false
+				captured_v.scale = Vector2.ONE
+			)
+
+	# Setup and animate target view entrance
+	target_view.visible = true
+
+	if target_view == home_view:
+		target_view.modulate.a = 1.0
+		target_view.scale = Vector2.ONE
+		if profile_grid and profile_grid.has_method("play_cascade_entrance"):
+			profile_grid.play_cascade_entrance()
+	else:
+		var sz := target_view.size
+		if sz.x <= 0 or sz.y <= 0:
+			sz = target_view.get_rect().size
+		if sz.x > 0 and sz.y > 0:
+			target_view.pivot_offset = sz * 0.5
+
+		target_view.modulate.a = 0.0
+		target_view.scale = Vector2(0.975, 0.975)
+
+		if _view_tween:
+			_view_tween.tween_property(target_view, "modulate:a", 1.0, 0.16).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+			_view_tween.tween_property(target_view, "scale", Vector2.ONE, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
 
 func _show_home_view() -> void:
-	settings_menu.visible = false
-	add_menu.visible = false
+	_switch_to_view(home_view)
 
 
 func _show_settings_view() -> void:
-	settings_menu.visible = true
-	add_menu.visible = false
+	_switch_to_view(settings_menu)
 
 
 func _show_add_profile_view() -> void:
-	settings_menu.visible = false
-	add_menu.visible = true
+	if add_menu and add_menu.has_method("reset_form"):
+		add_menu.reset_form()
+	_switch_to_view(add_menu)
 
 
 func _on_profile_creation_success() -> void:
 	left_menu_handler.select_home()
+
+
+func _on_edit_profile_requested(profile_data: Dictionary) -> void:
+	if edit_profile_modal and edit_profile_modal.has_method("open_edit"):
+		edit_profile_modal.open_edit(profile_data)
 
 #endregion
 

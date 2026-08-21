@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://b7k3ohhrolpu8" path="res://src/ui/systemtray.gd" id="14_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://c2xgjxmibyhyb" path="res://scenes/boot.tscn" id="16_jbj1t"]
 [ext_resource type="PackedScene" uid="uid://c8v7kmus1he0q" path="res://scenes/settings_menu.tscn" id="17_settings"]
+[ext_resource type="PackedScene" uid="uid://bwm4r2kefw1yq" path="res://scenes/components/edit_profile_modal.tscn" id="18_editmodal"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dswpw"]
 shader = ExtResource("7_myoxr")
@@ -3849,7 +3850,7 @@ anchor_bottom = 1.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="content_side" type="Control" parent="." unique_id=1481071262]
+[node name="home" type="Control" parent="." unique_id=1481071262]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -3863,19 +3864,19 @@ offset_bottom = 290.0
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="GridContainer" type="GridContainer" parent="content_side" unique_id=1971424930]
+[node name="GridContainer" type="GridContainer" parent="home" unique_id=1971424930]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 34.0
 offset_top = 35.0
-offset_right = -259.0
+offset_right = -3.0
 offset_bottom = -30.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/h_separation = 205
-theme_override_constants/v_separation = 75
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 25
 columns = 4
 script = ExtResource("2_gqmmt")
 
@@ -4262,6 +4263,9 @@ offset_top = 92.0
 offset_right = 185.0
 offset_bottom = 125.0
 
+[node name="profile_button" parent="add_menu/preview" parent_id_path=PackedInt32Array(31094257, 1859603040) index="0" unique_id=101788536]
+custom_minimum_size = Vector2(0, 0)
+
 [node name="upper_side" type="Control" parent="." unique_id=1838701198]
 anchors_preset = 0
 offset_left = 80.0
@@ -4314,7 +4318,7 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0565371
 anchor_top = 1.69767
-anchor_right = 0.121908
+anchor_right = 0.2084806
 anchor_bottom = 2.04651
 offset_right = -3.05176e-05
 grow_horizontal = 2
@@ -4322,7 +4326,7 @@ grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 0.988235, 0.662745)
 theme_override_fonts/font = ExtResource("2_tuiqe")
 theme_override_font_sizes/font_size = 12
-text = "beta  Ana 3"
+text = "beta  Ana 0.3.4"
 metadata/_edit_use_anchors_ = true
 
 [node name="version_label" type="Label" parent="upper_side" unique_id=2137643513]
@@ -4424,7 +4428,11 @@ offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 12
-text = "v 0.3.0"
+
+[node name="edit_profile_modal" parent="." unique_id=2089123456 instance=ExtResource("18_editmodal")]
+visible = false
+z_index = 100
+layout_mode = 1
 
 [node name="boot" parent="." unique_id=1739636290 instance=ExtResource("16_jbj1t")]
 visible = false

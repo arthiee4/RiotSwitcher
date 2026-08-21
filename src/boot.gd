@@ -78,4 +78,3 @@ func _on_dir_selected(dir_path: String) -> void:
 		return
 
 	_stop_icon_animation()
-

@@ -17,11 +17,11 @@ var _current_custom_bg_path: String = ""
 var _background_textures: Array = [] # Built-in backgrounds, aligned with picker buttons.
 
 @onready var _backgrounds_container: Control = $bg_select/backgrounds
-@onready var _preview_background: TextureRect = $preview/profile_button/card/Panel/profile_bg if has_node("preview/profile_button/card/Panel/profile_bg") else get_node_or_null("preview/bgexample3/preview_bg")
+@onready var _preview_background: TextureRect = $preview/profile_button/card/Panel/profile_bg
 @onready var _browse_button: Button = $upload_custom_bg/browser_button
 @onready var _file_dialog: FileDialog = $creation/create_button/FileDialog
 @onready var _name_input: LineEdit = $profile_name/LineEdit
-@onready var _name_preview: Label = $preview/profile_button/profile_name if has_node("preview/profile_button/profile_name") else get_node_or_null("preview/preview_profile_name")
+@onready var _name_preview: Label = $preview/profile_button/profile_name
 @onready var _create_button: Button = $creation/create_button
 @onready var _error_label: Label = $error/Label
 @onready var _warning_panel: Control = $warning
