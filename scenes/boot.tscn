@@ -1,14 +1,14 @@
-[gd_scene load_steps=38 format=4 uid="uid://c2xgjxmibyhyb"]
+[gd_scene format=4 uid="uid://c2xgjxmibyhyb"]
 
 [ext_resource type="Shader" uid="uid://cswe7248fk0td" path="res://shaders/glow.gdshader" id="1_6ypks"]
 [ext_resource type="Script" uid="uid://cxblws6at7dcf" path="res://src/boot.gd" id="1_n61mk"]
-[ext_resource type="FontFile" uid="uid://bwbai0nq228wc" path="res://assets/fonts/Raleway-Bold.ttf" id="3_j20pb"]
-[ext_resource type="FontFile" uid="uid://10wh284qofrr" path="res://assets/fonts/Raleway-Light.ttf" id="4_fbohu"]
-[ext_resource type="Texture2D" uid="uid://bv6blnmtqhgvg" path="res://assets/icons/app_tray_icon.png" id="5_fbohu"]
-[ext_resource type="Script" uid="uid://dxcm2e2j4ubiw" path="res://src/upper_side.gd" id="6_0pljo"]
-[ext_resource type="Script" uid="uid://t8yek8vtavjl" path="res://src/lang.gd" id="6_u8wmu"]
-[ext_resource type="Script" uid="uid://bmhqxoxdti76p" path="res://src/window_buttons.gd" id="7_u8wmu"]
-[ext_resource type="Texture2D" uid="uid://krjk2xjl64om" path="res://assets/icons/ui/icon_github.png" id="8_r4jsg"]
+[ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="3_j20pb"]
+[ext_resource type="FontFile" uid="uid://c08w5jcfwr4pe" path="res://assets/fonts/Raleway-Light.ttf" id="4_fbohu"]
+[ext_resource type="Texture2D" uid="uid://570qml8jg6bm" path="res://assets/icons/icon2.png" id="5_u8wmu"]
+[ext_resource type="Script" uid="uid://dxcm2e2j4ubiw" path="res://src/ui/upper_side.gd" id="6_0pljo"]
+[ext_resource type="Script" uid="uid://t8yek8vtavjl" path="res://src/ui/lang.gd" id="6_u8wmu"]
+[ext_resource type="Script" uid="uid://bmhqxoxdti76p" path="res://src/ui/window_buttons.gd" id="7_u8wmu"]
+[ext_resource type="Texture2D" uid="uid://drrnkkjhq0hud" path="res://assets/icons/ui/icon_github.png" id="8_r4jsg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n61mk"]
 shader = ExtResource("1_6ypks")
@@ -62,6 +62,15 @@ font_weight = 600
 subpixel_positioning = 0
 msdf_pixel_range = 14
 msdf_size = 128
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
 cache/0/16/0/ascent = 18.0
 cache/0/16/0/descent = 5.0
 cache/0/16/0/underline_position = 1.60938
@@ -1259,6 +1268,15 @@ font_weight = 600
 subpixel_positioning = 0
 msdf_pixel_range = 14
 msdf_size = 128
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
 cache/0/16/0/ascent = 18.0
 cache/0/16/0/descent = 5.0
 cache/0/16/0/underline_position = 1.60938
@@ -2540,7 +2558,7 @@ Button/styles/hover = SubResource("StyleBoxFlat_r0wm5")
 Button/styles/normal = SubResource("StyleBoxFlat_2vri3")
 Button/styles/pressed = SubResource("StyleBoxFlat_romkt")
 
-[node name="boot" type="Control"]
+[node name="boot" type="Control" unique_id=2037967951]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -2549,7 +2567,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_n61mk")
 
-[node name="bg_test" type="ColorRect" parent="."]
+[node name="bg_test" type="ColorRect" parent="." unique_id=1421930203]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -2557,7 +2575,7 @@ anchor_bottom = 1.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="glow" type="ColorRect" parent="."]
+[node name="glow" type="ColorRect" parent="." unique_id=1414966683]
 material = SubResource("ShaderMaterial_n61mk")
 layout_mode = 1
 anchors_preset = 15
@@ -2573,7 +2591,7 @@ rotation = 2.88733
 mouse_filter = 2
 color = Color(0.201527, 0.201527, 0.201527, 1)
 
-[node name="glow2" type="ColorRect" parent="."]
+[node name="glow2" type="ColorRect" parent="." unique_id=1461245641]
 material = SubResource("ShaderMaterial_n61mk")
 layout_mode = 1
 anchors_preset = 15
@@ -2589,7 +2607,7 @@ rotation = 2.88733
 mouse_filter = 2
 color = Color(0.201527, 0.201527, 0.201527, 1)
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=1938827579]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -2603,7 +2621,7 @@ offset_bottom = 221.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Button" type="Button" parent="Control"]
+[node name="Button" type="Button" parent="Control" unique_id=1442546010]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -2618,7 +2636,7 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "browser"
 
-[node name="Label" type="Label" parent="Control"]
+[node name="Label" type="Label" parent="Control" unique_id=1533414657]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -2636,7 +2654,7 @@ theme_override_fonts/font = ExtResource("3_j20pb")
 theme_override_font_sizes/font_size = 24
 text = "Select your Riot Client folder"
 
-[node name="Label2" type="Label" parent="Control"]
+[node name="Label2" type="Label" parent="Control" unique_id=935760060]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -2653,14 +2671,14 @@ theme_override_colors/font_color = Color(1, 1, 1, 0.576471)
 theme_override_fonts/font = ExtResource("4_fbohu")
 text = "usually on C/Riot Games/Riot Client"
 
-[node name="FileDialog" type="FileDialog" parent="Control"]
+[node name="FileDialog" type="FileDialog" parent="Control" unique_id=318818388]
 title = "Open a Directory"
 ok_button_text = "Select Current Folder"
 file_mode = 2
 access = 2
 use_native_dialog = true
 
-[node name="error" type="Label" parent="Control"]
+[node name="error" type="Label" parent="Control" unique_id=41588127]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -2677,7 +2695,7 @@ theme_override_colors/font_color = Color(1, 0.335514, 0.269596, 1)
 theme_override_fonts/font = ExtResource("4_fbohu")
 text = "u dont selected the right folder, please verify if is \"Riot Client \""
 
-[node name="TextureRect" type="TextureRect" parent="Control"]
+[node name="TextureRect" type="TextureRect" parent="Control" unique_id=1160870654]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -2691,10 +2709,9 @@ offset_bottom = -76.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(90, 90)
-texture = ExtResource("5_fbohu")
+texture = ExtResource("5_u8wmu")
 
-[node name="lang" type="Control" parent="Control"]
-layout_mode = 3
+[node name="lang" type="Control" parent="Control" unique_id=698248422]
 anchors_preset = 0
 offset_left = 136.0
 offset_top = -131.0
@@ -2703,7 +2720,7 @@ offset_bottom = -131.0
 mouse_filter = 1
 script = ExtResource("6_u8wmu")
 
-[node name="Panel" type="Panel" parent="Control/lang"]
+[node name="Panel" type="Panel" parent="Control/lang" unique_id=797901482]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2715,7 +2732,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_r4jsg")
 
-[node name="Label" type="Label" parent="Control/lang/Panel"]
+[node name="Label" type="Label" parent="Control/lang/Panel" unique_id=1393227539]
 visible = false
 layout_mode = 0
 offset_left = 12.0
@@ -2727,14 +2744,14 @@ theme_override_fonts/font = ExtResource("3_j20pb")
 theme_override_font_sizes/font_size = 24
 text = "Language"
 
-[node name="OptionButton" type="OptionButton" parent="Control/lang/Panel"]
+[node name="OptionButton" type="OptionButton" parent="Control/lang/Panel" unique_id=555607477]
 layout_mode = 0
 offset_left = 14.0
 offset_top = 224.0
 offset_right = 170.0
 offset_bottom = 252.0
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=1797795980]
 layout_mode = 0
 offset_left = -96.0
 offset_top = -73.0
@@ -2742,7 +2759,7 @@ offset_right = 309.0
 offset_bottom = 822.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_fbohu")
 
-[node name="Panel2" type="Panel" parent="."]
+[node name="Panel2" type="Panel" parent="." unique_id=1162780715]
 layout_mode = 0
 offset_left = 974.0
 offset_top = -73.0
@@ -2750,8 +2767,7 @@ offset_right = 1379.0
 offset_bottom = 822.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_fbohu")
 
-[node name="upper_side" type="Control" parent="."]
-layout_mode = 3
+[node name="upper_side" type="Control" parent="." unique_id=1478064841]
 anchors_preset = 0
 offset_left = 2.0
 offset_right = 1279.0
@@ -2759,7 +2775,7 @@ offset_bottom = 43.0
 mouse_filter = 1
 script = ExtResource("6_0pljo")
 
-[node name="window_buttons" type="Control" parent="upper_side"]
+[node name="window_buttons" type="Control" parent="upper_side" unique_id=799522953]
 anchors_preset = 0
 offset_left = 1191.0
 offset_top = 1.0
@@ -2768,7 +2784,7 @@ offset_bottom = 33.0
 mouse_filter = 1
 script = ExtResource("7_u8wmu")
 
-[node name="x" type="Button" parent="upper_side/window_buttons"]
+[node name="x" type="Button" parent="upper_side/window_buttons" unique_id=1907859665]
 layout_mode = 0
 offset_left = 48.0
 offset_right = 85.0
@@ -2777,7 +2793,7 @@ mouse_default_cursor_shape = 2
 theme = SubResource("Theme_yna0k")
 text = "x"
 
-[node name="-" type="Button" parent="upper_side/window_buttons"]
+[node name="-" type="Button" parent="upper_side/window_buttons" unique_id=1571922670]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 2.0
@@ -2786,7 +2802,7 @@ offset_bottom = 33.0
 theme = SubResource("Theme_dxidu")
 text = "-"
 
-[node name="git_button" type="Panel" parent="upper_side"]
+[node name="git_button" type="Panel" parent="upper_side" unique_id=1747242699]
 visible = false
 layout_mode = 0
 offset_left = 249.0
@@ -2795,7 +2811,7 @@ offset_right = 279.0
 offset_bottom = 78.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_m8d3o")
 
-[node name="TextureRect" type="TextureRect" parent="upper_side/git_button"]
+[node name="TextureRect" type="TextureRect" parent="upper_side/git_button" unique_id=269545559]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -2811,7 +2827,7 @@ grow_vertical = 2
 texture = ExtResource("8_r4jsg")
 expand_mode = 1
 
-[node name="Button" type="Button" parent="upper_side/git_button"]
+[node name="Button" type="Button" parent="upper_side/git_button" unique_id=389298009]
 layout_mode = 0
 offset_right = 29.0
 offset_bottom = 27.0
