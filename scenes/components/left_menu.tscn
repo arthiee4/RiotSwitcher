@@ -5,14 +5,15 @@
 [ext_resource type="Texture2D" uid="uid://ivql3vhhafwm" path="res://assets/icons/ui/icon_settings.png" id="3_settingsicon"]
 [ext_resource type="Texture2D" uid="uid://dgdxtpsyq0png" path="res://assets/branding/no_bg.png" id="4_logo"]
 [ext_resource type="Texture2D" uid="uid://ckd8w1e1vnaef" path="res://assets/icons/ui/icon_home.png" id="5_homeicon"]
-[ext_resource type="Shader" uid="uid://cswe7248fk0td" path="res://shaders/glow.gdshader" id="6_glowshader"]
+[ext_resource type="Shader" path="res://shaders/menu_glow.gdshader" id="6_glowshader"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dswpw"]
 shader = ExtResource("6_glowshader")
-shader_parameter/rect_size = Vector2(-0.09, -0.055)
-shader_parameter/bness = 0.28
-shader_parameter/fall_off_scale = 0.985
-shader_parameter/b_offset = 0.56
+shader_parameter/rect_size = Vector2(0.02, 0.1)
+shader_parameter/bness = 1.6
+shader_parameter/fall_off_scale = 1.5
+shader_parameter/b_offset = 0.35
+shader_parameter/glow_color = Color(1, 0.04, 0.14, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hmayk"]
 bg_color = Color(0.692886, 0, 0.240296, 1)
