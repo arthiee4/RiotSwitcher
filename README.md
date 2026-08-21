@@ -70,7 +70,38 @@ Done! Your account is ready for one-click switching.
 
 The project is developed using **Godot Engine**, a powerful open-source game engine.
 
-To build Riot Switcher:
+There are two ways to build Riot Switcher: the **automated Python builder** (recommended) or the manual editor export.
+
+### Automated Build (Python) — Recommended
+
+A small Python script exports the project, compresses the executable with **UPX** and zips everything into a release named `RiotSwitcher-<version>.zip`.
+
+**What you need:**
+
+- **Python 3.10+** — no extra libraries required, the script uses only Python's standard library (no `pip install` needed).
+- **Godot editor** — found automatically: the script scans GodotHub installs, the official `Programs\Godot` folder and the PATH, and picks the editor matching the version required by the project. If your setup is different, set the `GODOT_EDITOR` environment variable or fill the `EXTRA_GODOT_PATHS` list at the top of the script.
+- **UPX** — found automatically in the PATH or in the bin folder next to the custom Godot template; override with the `UPX_PATH` environment variable if needed.
+- **The custom lightweight template** — already configured in `export_presets.cfg`; its build recipe lives in `build/custom.py` + `build/build_profile.build` in case you ever want to recompile it.
+
+**Simple steps:**
+
+1. Open a terminal in the project folder.
+2. Run the script with the version you want:
+
+   ```bash
+   python build/build_release.py 0.3.4
+   ```
+
+   (Or just `python build/build_release.py` — it will ask for the version.)
+3. Done! The script exports the game headlessly, runs `upx --best` on the executable and creates the release next to the script:
+
+   ```
+   build/RiotSwitcher-0.3.4.zip
+   ```
+
+### Manual Build (Godot Editor)
+
+To build Riot Switcher by hand:
 
 1. **Download Godot Engine:** [Official Website](https://godotengine.org/)
 2. **Open the Project:** Launch Godot, click "Import Project" and select the Riot Switcher project folder.
