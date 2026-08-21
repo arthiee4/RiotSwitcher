@@ -21,6 +21,7 @@ const HYSTERESIS_FACTOR := 0.20 # 15px deadband on 75px pitch to completely prev
 # Config keys (see the settings menu toggles).
 const CONFIG_KEY_SYNC_SETTINGS := "SyncGameSettings"
 const CONFIG_KEY_SYNC_SOURCE := "SharedSettingsSourceProfile"
+const CONFIG_KEY_LAST_RUNNING := "LastRunningProfile"
 
 # Dependencies, injected by Main.
 var profile_manager: Node
@@ -52,7 +53,25 @@ func set_dependencies(pm: Node, client_location: String) -> void:
 		return
 	if not profile_manager.profiles_updated.is_connected(_populate_profile_buttons):
 		profile_manager.profiles_updated.connect(_populate_profile_buttons)
+	_adopt_running_profile_from_config()
 	_populate_profile_buttons()
+
+
+## If a client was left running when the app last exited (or crashed) and the
+## client process is still alive, adopt that profile as "running" so switching
+## to another profile saves its session first instead of silently killing it.
+func _adopt_running_profile_from_config() -> void:
+	var last_running: String = ConfigManager.get_value(CONFIG_KEY_LAST_RUNNING, "")
+	if last_running.is_empty():
+		return
+	if not profile_manager.has_profile(last_running):
+		ConfigManager.set_value_and_save(CONFIG_KEY_LAST_RUNNING, "")
+		return
+	if not RiotProcesses.is_running(CLIENT_EXE):
+		ConfigManager.set_value_and_save(CONFIG_KEY_LAST_RUNNING, "")
+		return
+	_running_profile_name = last_running
+	print("ProfileGridController: Adopted running profile '%s' from the previous session." % last_running)
 
 
 func update_riot_client_location(client_location: String) -> void:
@@ -65,9 +84,24 @@ func get_running_profile_name() -> String:
 
 
 ## Best-effort save of the running profile's session (used before quitting).
+## Waits for any in-flight session swap first so the main thread can never
+## write over the files a worker thread is currently swapping. Saves only
+## when the client was actually confirmed running — otherwise the files on
+## disk may not belong to the running profile.
 func save_running_session() -> void:
-	if _running_profile_name.is_empty() or not profile_manager:
+	if not profile_manager:
 		return
+	_join_worker()
+
+	var confirmed_running: bool = not _running_profile_name.is_empty() and is_instance_valid(_active_button) and _active_button.client_is_running
+	if not confirmed_running and not _running_profile_name.is_empty() and not is_instance_valid(_active_button):
+		# The button reference was lost (grid rebuilt/torn down), fall back to
+		# the process table so a live client's session is still saved.
+		confirmed_running = RiotProcesses.is_running(CLIENT_EXE)
+	if not confirmed_running:
+		ConfigManager.set_value_and_save(CONFIG_KEY_LAST_RUNNING, "")
+		return
+
 	profile_manager.save_profile_session(_running_profile_name, riot_client_location)
 	_save_shared_game_settings(_running_profile_name)
 
@@ -108,9 +142,16 @@ func _populate_profile_buttons() -> void:
 	_active_button = null
 
 	var profiles: Array = profile_manager.get_profiles()
+	var running_still_exists := _running_profile_name.is_empty()
 	for i in range(profiles.size()):
 		var profile_data: Dictionary = profiles[i]
+		if profile_data.get("profile_name") == _running_profile_name:
+			running_still_exists = true
 		_create_profile_button(profile_data, i)
+
+	# Safety net: the profile backing the running state was removed.
+	if not running_still_exists:
+		_running_profile_name = ""
 
 	if is_visible_in_tree():
 		call_deferred("play_cascade_entrance")
@@ -483,6 +524,7 @@ func _session_swap_worker(previous_profile: String, next_profile: String, execut
 func _on_swap_finished(profile_name: String, executable_path: String, success: bool) -> void:
 	_join_worker()
 	if not success or not is_instance_valid(_active_button) or _active_button.profile_name != profile_name:
+		ConfigManager.set_value_and_save(CONFIG_KEY_LAST_RUNNING, "")
 		_fail_start()
 		return
 
@@ -491,11 +533,13 @@ func _on_swap_finished(profile_name: String, executable_path: String, success: b
 	var pid := OS.create_process(executable_path, LAUNCH_ARGS)
 	if pid < 0:
 		printerr("ProfileGridController: Failed to launch Riot Client. Error: ", pid)
+		ConfigManager.set_value_and_save(CONFIG_KEY_LAST_RUNNING, "")
 		_fail_start()
 		return
 
 	_active_button.confirm_started()
 	profile_manager.mark_profile_opened(profile_name)
+	ConfigManager.set_value_and_save(CONFIG_KEY_LAST_RUNNING, profile_name)
 	_update_progress_bar(_active_button, 100, false)
 	print("ProfileGridController: Profile '%s' launched (PID %d)." % [profile_name, pid])
 
@@ -519,6 +563,8 @@ func _on_save_finished(success: bool) -> void:
 	_join_worker()
 	if not success:
 		printerr("ProfileGridController: Session save finished with errors.")
+	# The worker killed the client, so nothing is running anymore.
+	ConfigManager.set_value_and_save(CONFIG_KEY_LAST_RUNNING, "")
 	if is_instance_valid(_active_button):
 		_active_button.confirm_stopped()
 		_update_progress_bar(_active_button, 0, false)

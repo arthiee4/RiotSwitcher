@@ -46,12 +46,14 @@ func _ready() -> void:
 		system_tray.exit_requested.connect(_on_tray_exit_requested)
 		system_tray.show_window_requested.connect(_on_tray_show_window_requested)
 
+	# Load persisted data before wiring the grid so it can adopt a profile
+	# that was left running when the app last exited.
+	ProfileManager.load_profiles_data()
+	ConfigManager.load_configs()
+
 	if profile_grid:
 		profile_grid.set_dependencies(ProfileManager, riot_client_location)
 		profile_grid.edit_profile_requested.connect(_on_edit_profile_requested)
-
-	ProfileManager.load_profiles_data()
-	ConfigManager.load_configs()
 
 	_show_home_view()
 
