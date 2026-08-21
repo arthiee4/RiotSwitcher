@@ -1,0 +1,705 @@
+[gd_scene format=3 uid="uid://bwm4r2kefw1yq"]
+
+[ext_resource type="Script" uid="uid://bk6y0xtdfy2ac" path="res://src/ui/edit_profile_controller.gd" id="1_editctrl"]
+[ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="2_raleway_bold"]
+[ext_resource type="FontFile" uid="uid://c08w5jcfwr4pe" path="res://assets/fonts/Raleway-Light.ttf" id="3_raleway_light"]
+[ext_resource type="Texture2D" uid="uid://s1o3n3furub3" path="res://assets/backgrounds/profiles_bg/1.webp" id="4_bg1"]
+[ext_resource type="Texture2D" uid="uid://b2qwlyi8mcf62" path="res://assets/backgrounds/profiles_bg/2.webp" id="5_bg2"]
+[ext_resource type="Texture2D" uid="uid://d4mkb6xfmh8ej" path="res://assets/backgrounds/profiles_bg/3.webp" id="6_bg3"]
+[ext_resource type="Texture2D" uid="uid://dutbqrc30jxwi" path="res://assets/backgrounds/profiles_bg/4.webp" id="7_bg4"]
+[ext_resource type="Texture2D" uid="uid://bk3jpqhynsac2" path="res://assets/backgrounds/profiles_bg/5.webp" id="8_bg5"]
+[ext_resource type="Texture2D" uid="uid://bv6h1uou2mn8b" path="res://assets/backgrounds/profiles_bg/6.webp" id="9_bg6"]
+[ext_resource type="Texture2D" uid="uid://bkcjmk6b36dqo" path="res://assets/backgrounds/profiles_bg/7.webp" id="10_bg7"]
+[ext_resource type="Texture2D" uid="uid://dryldfttfffsv" path="res://assets/backgrounds/profiles_bg/8.webp" id="11_bg8"]
+[ext_resource type="Texture2D" uid="uid://c3dduk10x5f78" path="res://assets/backgrounds/profiles_bg/9.webp" id="12_bg9"]
+[ext_resource type="Texture2D" uid="uid://da7i08gme2lel" path="res://assets/backgrounds/profiles_bg/10.webp" id="13_bg10"]
+[ext_resource type="Texture2D" uid="uid://dqjcfkpy2meof" path="res://assets/backgrounds/profiles_bg/11.webp" id="14_bg11"]
+[ext_resource type="Texture2D" uid="uid://d25ai16dxf64j" path="res://assets/backgrounds/profiles_bg/12.webp" id="15_bg12"]
+[ext_resource type="PackedScene" uid="uid://b8nrrv40q70su" path="res://scenes/components/profile_button.tscn" id="16_profilebtn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal_panel"]
+bg_color = Color(0.0431373, 0.0431373, 0.0470588, 0.980392)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.160784)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_input_box"]
+bg_color = Color(0.109804, 0.109804, 0.121569, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.16)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lineedit"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg_card"]
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_browser_btn"]
+bg_color = Color(0.141176, 0.141176, 0.160784, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.2)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_browser_hover"]
+bg_color = Color(0.2, 0.2, 0.23, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.35)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cancel_btn"]
+bg_color = Color(0.141176, 0.141176, 0.160784, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.15)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cancel_hover"]
+bg_color = Color(0.22, 0.22, 0.25, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.28)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_save_btn"]
+bg_color = Color(0.819608, 0, 0.180392, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_save_pressed"]
+bg_color = Color(0.65, 0, 0.14, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_save_hover"]
+bg_color = Color(0.95, 0.08, 0.24, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="edit_profile_modal" type="Control" unique_id=328792013]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_editctrl")
+
+[node name="backdrop" type="ColorRect" parent="." unique_id=1356873799]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.745098)
+
+[node name="Panel" type="Panel" parent="." unique_id=1010735486]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -440.0
+offset_top = -270.0
+offset_right = 440.0
+offset_bottom = 270.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal_panel")
+
+[node name="title" type="Label" parent="Panel" unique_id=1231251554]
+layout_mode = 0
+offset_left = 46.0
+offset_top = 26.0
+offset_right = 420.0
+offset_bottom = 76.0
+theme_override_fonts/font = ExtResource("2_raleway_bold")
+theme_override_font_sizes/font_size = 36
+text = "EDIT PROFILE"
+
+[node name="profile_name" type="Control" parent="Panel" unique_id=421910262]
+anchors_preset = 0
+offset_left = 46.0
+offset_top = 82.0
+offset_right = 320.0
+offset_bottom = 150.0
+
+[node name="Label2" type="Label" parent="Panel/profile_name" unique_id=733324181]
+layout_mode = 0
+offset_top = 2.0
+offset_right = 150.0
+offset_bottom = 25.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.8)
+theme_override_fonts/font = ExtResource("3_raleway_light")
+theme_override_font_sizes/font_size = 14
+text = "Profile name"
+
+[node name="Panel" type="Panel" parent="Panel/profile_name" unique_id=182577402]
+layout_mode = 0
+offset_top = 28.0
+offset_right = 230.0
+offset_bottom = 62.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_input_box")
+
+[node name="LineEdit" type="LineEdit" parent="Panel/profile_name/Panel" unique_id=382214893]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_raleway_bold")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxEmpty_lineedit")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_lineedit")
+placeholder_text = "name"
+max_length = 20
+
+[node name="bg_select" type="Control" parent="Panel" unique_id=647320231]
+anchors_preset = 0
+offset_left = 46.0
+offset_top = 158.0
+offset_right = 470.0
+offset_bottom = 360.0
+
+[node name="Label" type="Label" parent="Panel/bg_select" unique_id=846933553]
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.8)
+theme_override_fonts/font = ExtResource("3_raleway_light")
+theme_override_font_sizes/font_size = 14
+text = "Choose your bg"
+
+[node name="backgrounds" type="Control" parent="Panel/bg_select" unique_id=885957197]
+anchors_preset = 0
+offset_top = 28.0
+offset_right = 430.0
+offset_bottom = 190.0
+
+[node name="bgexample1" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=634563357]
+clip_children = 2
+layout_mode = 0
+offset_right = 98.0
+offset_bottom = 44.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
+
+[node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample1" unique_id=813148461]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_bg1")
+expand_mode = 5
+
+[node name="Button" type="Button" parent="Panel/bg_select/backgrounds/bgexample1" unique_id=488220999]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+flat = true
+
+[node name="bgexample2" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=1990645338]
+clip_children = 2
+layout_mode = 0
+offset_left = 106.0
+offset_right = 204.0
+offset_bottom = 44.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
+
+[node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample2" unique_id=1907465826]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_bg2")
+expand_mode = 5
+
+[node name="Button" type="Button" parent="Panel/bg_select/backgrounds/bgexample2" unique_id=1821691945]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+flat = true
+
+[node name="bgexample3" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=1803513895]
+clip_children = 2
+layout_mode = 0
+offset_left = 212.0
+offset_right = 310.0
+offset_bottom = 44.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
+
+[node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample3" unique_id=1467689946]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_bg3")
+expand_mode = 5
+
+[node name="Button" type="Button" parent="Panel/bg_select/backgrounds/bgexample3" unique_id=1399324471]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+flat = true
+
+[node name="bgexample4" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=2061936621]
+clip_children = 2
+layout_mode = 0
+offset_left = 318.0
+offset_right = 416.0
+offset_bottom = 44.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
+
+[node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample4" unique_id=1349075211]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_bg4")
+expand_mode = 5
+
+[node name="Button" type="Button" parent="Panel/bg_select/backgrounds/bgexample4" unique_id=362704852]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+flat = true
+
+[node name="bgexample5" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=572771702]
+clip_children = 2
+layout_mode = 0
+offset_top = 52.0
+offset_right = 98.0
+offset_bottom = 96.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
+
+[node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample5" unique_id=410982111]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_bg5")
+expand_mode = 5
+
+[node name="Button" type="Button" parent="Panel/bg_select/backgrounds/bgexample5" unique_id=1207796503]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+flat = true
+
+[node name="bgexample6" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=706336027]
+clip_children = 2
+layout_mode = 0
+offset_left = 106.0
+offset_top = 52.0
+offset_right = 204.0
+offset_bottom = 96.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
+
+[node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample6" unique_id=1575052664]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_bg6")
+expand_mode = 5
+
+[node name="Button" type="Button" parent="Panel/bg_select/backgrounds/bgexample6" unique_id=698587915]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+flat = true
+
+[node name="bgexample7" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=922750143]
+clip_children = 2
+layout_mode = 0
+offset_left = 212.0
+offset_top = 52.0
+offset_right = 310.0
+offset_bottom = 96.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
+
+[node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample7" unique_id=467979250]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_bg7")
+expand_mode = 5
+
+[node name="Button" type="Button" parent="Panel/bg_select/backgrounds/bgexample7" unique_id=139533613]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+flat = true
+
+[node name="bgexample8" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=83024228]
+clip_children = 2
+layout_mode = 0
+offset_left = 318.0
+offset_top = 52.0
+offset_right = 416.0
+offset_bottom = 96.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
+
+[node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample8" unique_id=43080905]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_bg8")
+expand_mode = 5
+
+[node name="Button" type="Button" parent="Panel/bg_select/backgrounds/bgexample8" unique_id=1353543173]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+flat = true
+
+[node name="bgexample9" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=67348430]
+clip_children = 2
+layout_mode = 0
+offset_top = 104.0
+offset_right = 98.0
+offset_bottom = 148.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
+
+[node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample9" unique_id=894489904]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("12_bg9")
+expand_mode = 5
+
+[node name="Button" type="Button" parent="Panel/bg_select/backgrounds/bgexample9" unique_id=830463630]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+flat = true
+
+[node name="bgexample10" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=1068621061]
+clip_children = 2
+layout_mode = 0
+offset_left = 106.0
+offset_top = 104.0
+offset_right = 204.0
+offset_bottom = 148.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
+
+[node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample10" unique_id=320334684]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_bg10")
+expand_mode = 5
+
+[node name="Button" type="Button" parent="Panel/bg_select/backgrounds/bgexample10" unique_id=1912739980]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+flat = true
+
+[node name="bgexample11" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=744743979]
+clip_children = 2
+layout_mode = 0
+offset_left = 212.0
+offset_top = 104.0
+offset_right = 310.0
+offset_bottom = 148.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
+
+[node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample11" unique_id=498587565]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_bg11")
+expand_mode = 5
+
+[node name="Button" type="Button" parent="Panel/bg_select/backgrounds/bgexample11" unique_id=160625010]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+flat = true
+
+[node name="bgexample12" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=1730926349]
+clip_children = 2
+layout_mode = 0
+offset_left = 318.0
+offset_top = 104.0
+offset_right = 416.0
+offset_bottom = 148.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
+
+[node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample12" unique_id=1286982190]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_bg12")
+expand_mode = 5
+
+[node name="Button" type="Button" parent="Panel/bg_select/backgrounds/bgexample12" unique_id=460765437]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+flat = true
+
+[node name="upload_custom_bg" type="Control" parent="Panel" unique_id=531201861]
+anchors_preset = 0
+offset_left = 46.0
+offset_top = 370.0
+offset_right = 430.0
+offset_bottom = 410.0
+
+[node name="Label" type="Label" parent="Panel/upload_custom_bg" unique_id=1888491007]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 160.0
+offset_bottom = 27.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.8)
+theme_override_fonts/font = ExtResource("3_raleway_light")
+theme_override_font_sizes/font_size = 14
+text = "Upload custom image "
+
+[node name="browser_button" type="Button" parent="Panel/upload_custom_bg" unique_id=173369636]
+layout_mode = 0
+offset_left = 160.0
+offset_right = 230.0
+offset_bottom = 28.0
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("3_raleway_light")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_browser_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_browser_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_browser_hover")
+text = "browser"
+
+[node name="preview" type="Control" parent="Panel" unique_id=2053533187]
+anchors_preset = 0
+offset_left = 665.0
+offset_top = 220.0
+offset_right = 765.0
+offset_bottom = 320.0
+
+[node name="Label" type="Label" parent="Panel/preview" unique_id=439495049]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -151.0
+offset_top = -70.0
+offset_right = -89.0
+offset_bottom = -41.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_raleway_bold")
+theme_override_font_sizes/font_size = 18
+text = "Preview"
+
+[node name="profile_button" parent="Panel/preview" unique_id=2034650739 instance=ExtResource("16_profilebtn")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.5
+offset_top = -25.0
+offset_right = 90.5
+offset_bottom = 25.0
+scale = Vector2(1.5, 1.5)
+pivot_offset = Vector2(90.5, 25)
+
+[node name="error" type="Control" parent="Panel" unique_id=802838178]
+anchors_preset = 0
+offset_left = 510.0
+offset_top = 370.0
+offset_right = 830.0
+offset_bottom = 400.0
+
+[node name="Label" type="Label" parent="Panel/error" unique_id=38729663]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.22, 0.28, 1)
+theme_override_fonts/font = ExtResource("3_raleway_light")
+theme_override_font_sizes/font_size = 13
+text = "Error message here"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="actions" type="HBoxContainer" parent="Panel" unique_id=453245029]
+layout_mode = 0
+offset_left = 540.0
+offset_top = 460.0
+offset_right = 834.0
+offset_bottom = 502.0
+theme_override_constants/separation = 12
+
+[node name="cancel_button" type="Button" parent="Panel/actions" unique_id=2999799]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("2_raleway_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_cancel_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cancel_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cancel_hover")
+text = "Cancel"
+
+[node name="save_button" type="Button" parent="Panel/actions" unique_id=404411795]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("2_raleway_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_save_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_save_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_save_hover")
+text = "Save"
+
+[node name="FileDialog" type="FileDialog" parent="." unique_id=34446097]
+title = "Open a File"
+size = Vector2i(650, 450)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.png ; PNG Images", "*.jpg, *.jpeg ; JPEG Images", "*.webp ; WebP Images")
