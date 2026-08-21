@@ -2443,6 +2443,7 @@ border_width_bottom = 1
 border_color = Color(1, 1, 1, 0.0901961)
 
 [node name="profile_button" type="Control" unique_id=1488976912]
+custom_minimum_size = Vector2(181, 50)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -2565,6 +2566,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_hqcdx")
 show_percentage = false
 
 [node name="context_menu" type="Control" parent="card" unique_id=1441773388]
+visible = false
 z_index = 1
 layout_mode = 1
 anchor_left = 0.584846
@@ -2643,7 +2645,6 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wqqi4")
 
 [node name="Label" type="Label" parent="card/context_menu/Panel/edit" unique_id=873786174]
-modulate = Color(1, 1, 1, 0.254902)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -2665,6 +2666,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_default_cursor_shape = 2
 
 [node name="profile_name" type="Label" parent="." unique_id=552114266]
 layout_mode = 0

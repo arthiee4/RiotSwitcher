@@ -8,9 +8,11 @@ extends Control
 
 signal client_toggled(profile_button: Control, is_starting: bool)
 signal delete_requested(profile_button: Control)
+signal edit_requested(profile_button: Control)
 
 const PLAY_ICON: Texture2D = preload("res://assets/icons/ui/icon_play.png")
 const STOP_ICON: Texture2D = preload("res://assets/icons/ui/icon_stop.png")
+const DRAG_THRESHOLD := 6.0
 
 ## Full profile dictionary from ProfileManager. Set right after instantiation.
 var profile_data: Dictionary = {}
@@ -19,8 +21,13 @@ var client_is_running := false
 var _is_interactable := true
 var _is_transitioning := false
 
+# Drag & click state
+var _is_mouse_down := false
+var _drag_start_pos := Vector2.ZERO
+
 @onready var _context_menu: Control = $card/context_menu
 @onready var _delete_button: TextureButton = $card/context_menu/Panel/delete/TextureButton
+@onready var _edit_button: TextureButton = $card/context_menu/Panel/edit/TextureButton
 @onready var _glow_effect: Control = $card/card_inner/glow
 @onready var _button: Button = $card/card_inner/Button
 @onready var _state_icon: TextureRect = $card/card_inner/Button/TextureRect
@@ -33,9 +40,9 @@ var profile_name: String:
 
 func _ready() -> void:
 	_delete_button.pressed.connect(_on_delete_button_pressed)
+	if _edit_button:
+		_edit_button.pressed.connect(_on_edit_button_pressed)
 	_card.gui_input.connect(_on_card_gui_input)
-	if _card and _card is Button and not _card.pressed.is_connected(_on_profile_button_pressed):
-		_card.pressed.connect(_on_profile_button_pressed)
 	if _button and _button is Button and not _button.pressed.is_connected(_on_profile_button_pressed):
 		_button.pressed.connect(_on_profile_button_pressed)
 	_context_menu.visible = false
@@ -89,16 +96,50 @@ func _on_delete_button_pressed() -> void:
 	delete_requested.emit(self)
 
 
+func _on_edit_button_pressed() -> void:
+	_context_menu.visible = false
+	if client_is_running or _is_transitioning:
+		printerr("Cannot edit profile while its client is running.")
+		return
+	edit_requested.emit(self)
+
+
 func _on_card_gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.is_pressed():
-		if not _is_interactable:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_RIGHT and event.is_pressed():
+			if not _is_interactable or _is_transitioning:
+				get_viewport().set_input_as_handled()
+				return
+			_context_menu.visible = true
+			_context_menu.global_position = event.global_position
 			get_viewport().set_input_as_handled()
 			return
-		_context_menu.visible = true
-		_context_menu.global_position = event.global_position
-		get_viewport().set_input_as_handled()
-	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed() and _context_menu.visible:
-		_context_menu.visible = false
+
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.is_pressed():
+				if _context_menu.visible:
+					_context_menu.visible = false
+					get_viewport().set_input_as_handled()
+					return
+				if not _is_interactable or _is_transitioning or profile_data.is_empty():
+					return
+				var parent_grid = get_parent()
+				if parent_grid and parent_grid.has_method("_is_busy") and parent_grid._is_busy():
+					return
+
+				_is_mouse_down = true
+				_drag_start_pos = event.global_position
+			else:
+				# Mouse release on card body (clicking card body does not start profile)
+				_is_mouse_down = false
+
+	elif event is InputEventMouseMotion:
+		if _is_mouse_down:
+			if event.global_position.distance_to(_drag_start_pos) >= DRAG_THRESHOLD:
+				_is_mouse_down = false
+				var parent_grid = get_parent()
+				if parent_grid and parent_grid.has_method("start_card_drag"):
+					parent_grid.start_card_drag(self, event.global_position)
 
 
 ## Hides the context menu when clicking anywhere outside of it.
