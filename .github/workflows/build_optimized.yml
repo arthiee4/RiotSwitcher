@@ -1,4 +1,4 @@
-name: Build Optimized Release (< 25MB)
+name: Optimized Compiled
 
 on:
   push:
