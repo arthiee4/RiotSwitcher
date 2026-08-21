@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://gvvosu0smpm3" path="res://assets/icons/ui/icon_play.png" id="1_dc1tc"]
 [ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="2_h8srp"]
 [ext_resource type="Texture2D" uid="uid://81r0kj8nnwtj" path="res://assets/backgrounds/default_bg.webp" id="4_at24t"]
+[ext_resource type="PackedScene" uid="uid://c6xk4y8v2rabm" path="res://scenes/components/profile_hover_info.tscn" id="6_hover_info"]
 
 [sub_resource type="Image" id="Image_1r0kl"]
 data = {
@@ -1227,6 +1228,12 @@ Button/styles/hover = SubResource("StyleBoxFlat_35ike")
 Button/styles/normal = SubResource("StyleBoxFlat_kjmeb")
 Button/styles/pressed = SubResource("StyleBoxFlat_ur6ka")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_at24t"]
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hqcdx"]
+bg_color = Color(0.376591, 0.704649, 1, 1)
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rmlkp"]
 
 [sub_resource type="Image" id="Image_bsbw7"]
@@ -2417,9 +2424,9 @@ Button/styles/pressed = SubResource("StyleBoxEmpty_wqqi4")
 Panel/styles/panel = SubResource("StyleBoxFlat_rie56")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cqkpw"]
-bg_color = Color(0, 0, 0, 0.623529)
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
+bg_color = Color(0, 0, 0, 0.6431373)
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a4rcj"]
 shader = ExtResource("1_3aoht")
@@ -2428,14 +2435,17 @@ shader_parameter/bness = 1.0
 shader_parameter/fall_off_scale = 0.78
 shader_parameter/b_offset = 0.815
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_at24t"]
-bg_color = Color(0, 0, 0, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hqcdx"]
-bg_color = Color(0.376591, 0.704649, 1, 1)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jddgn"]
-bg_color = Color(0.103744, 0.103744, 0.103743, 1)
+bg_color = Color(0.0901961, 0.0901961, 0.101961, 0.980392)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.141176)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wqqi4"]
 bg_color = Color(0.0588235, 0.0588235, 0.0588235, 0.396078)
@@ -2462,17 +2472,55 @@ offset_bottom = 50.0
 theme = SubResource("Theme_umlav")
 flat = true
 
-[node name="card_inner" type="Panel" parent="card" unique_id=1314834495]
+[node name="Panel" type="Panel" parent="card" unique_id=2109158057]
+modulate = Color(0.678944, 0.678944, 0.678944, 1)
+clip_children = 2
+clip_contents = true
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.737968
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="profile_bg" type="TextureRect" parent="card/Panel" unique_id=1562076324]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_at24t")
+expand_mode = 5
+stretch_mode = 6
+
+[node name="ProgressBar" type="ProgressBar" parent="card/Panel" unique_id=1334389532]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.85
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_at24t")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hqcdx")
+show_percentage = false
+
+[node name="card_inner" type="Panel" parent="card" unique_id=1314834495]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -48.0
 grow_horizontal = 0
 grow_vertical = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_rmlkp")
-metadata/_edit_use_anchors_ = true
 
 [node name="Button" type="Button" parent="card/card_inner" unique_id=785495265]
 z_index = 1
@@ -2491,7 +2539,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 0.42778
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -2522,60 +2569,21 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -223.786
-offset_top = -82.0
-offset_right = 91.2139
-offset_bottom = 82.0
+offset_left = -235.0
+offset_top = -79.0
+offset_right = 80.0
+offset_bottom = 85.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-
-[node name="Panel" type="Panel" parent="card" unique_id=2109158057]
-modulate = Color(0.678944, 0.678944, 0.678944, 1)
-clip_children = 2
-clip_contents = true
-layout_mode = 0
-offset_right = 181.0
-offset_bottom = 50.0
-mouse_filter = 2
-
-[node name="profile_bg" type="TextureRect" parent="card/Panel" unique_id=1562076324]
-clip_children = 2
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("4_at24t")
-expand_mode = 5
-stretch_mode = 6
-
-[node name="ProgressBar" type="ProgressBar" parent="card/Panel" unique_id=1334389532]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.85
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_at24t")
-theme_override_styles/fill = SubResource("StyleBoxFlat_hqcdx")
-show_percentage = false
 
 [node name="context_menu" type="Control" parent="card" unique_id=1441773388]
 visible = false
-z_index = 1
-layout_mode = 1
-anchor_left = 0.584846
-anchor_top = 0.66
-anchor_right = 1.27715
-anchor_bottom = 3.34
-offset_left = 0.142859
-offset_right = 0.142853
-metadata/_edit_use_anchors_ = true
+z_index = 100
+z_as_relative = false
+anchors_preset = 0
+offset_right = 126.0
+offset_bottom = 82.0
 
 [node name="Panel" type="Panel" parent="card/context_menu" unique_id=1975531184]
 clip_contents = true
@@ -2583,55 +2591,12 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -0.307693
-offset_bottom = -54.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_jddgn")
 
-[node name="delete" type="Control" parent="card/context_menu/Panel" unique_id=1858013135]
-anchors_preset = 0
-offset_top = 41.0
-offset_right = 126.0
-offset_bottom = 81.0
-mouse_default_cursor_shape = 2
-
-[node name="Panel" type="Panel" parent="card/context_menu/Panel/delete" unique_id=409621454]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_wqqi4")
-
-[node name="Label" type="Label" parent="card/context_menu/Panel/delete" unique_id=1125422536]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -28.5
-offset_top = -11.5
-offset_right = 28.5
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "DELETE"
-
-[node name="TextureButton" type="TextureButton" parent="card/context_menu/Panel/delete" unique_id=2065274005]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_default_cursor_shape = 2
-
 [node name="edit" type="Control" parent="card/context_menu/Panel" unique_id=1583996910]
 anchors_preset = 0
-offset_top = 1.0
 offset_right = 126.0
 offset_bottom = 41.0
 
@@ -2668,6 +2633,46 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
 
+[node name="delete" type="Control" parent="card/context_menu/Panel" unique_id=1858013135]
+anchors_preset = 0
+offset_top = 41.0
+offset_right = 126.0
+offset_bottom = 82.0
+mouse_default_cursor_shape = 2
+
+[node name="Panel" type="Panel" parent="card/context_menu/Panel/delete" unique_id=409621454]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wqqi4")
+
+[node name="Label" type="Label" parent="card/context_menu/Panel/delete" unique_id=1125422536]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -28.5
+offset_top = -11.5
+offset_right = 28.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "DELETE"
+
+[node name="TextureButton" type="TextureButton" parent="card/context_menu/Panel/delete" unique_id=2065274005]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+
 [node name="profile_name" type="Label" parent="." unique_id=552114266]
 layout_mode = 0
 offset_left = 9.0
@@ -2678,6 +2683,12 @@ theme_override_fonts/font = ExtResource("2_h8srp")
 theme_override_font_sizes/font_size = 21
 text = "Account1"
 clip_text = true
+
+[node name="hover_info" parent="." unique_id=2087735166 instance=ExtResource("6_hover_info")]
+visible = false
+layout_mode = 0
+offset_top = -48.0
+offset_bottom = -17.0
 
 [connection signal="mouse_entered" from="card" to="." method="_on_card_mouse_entered"]
 [connection signal="mouse_exited" from="card" to="." method="_on_card_mouse_exited"]

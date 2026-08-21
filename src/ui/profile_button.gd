@@ -32,6 +32,10 @@ var _drag_start_pos := Vector2.ZERO
 @onready var _button: Button = $card/card_inner/Button
 @onready var _state_icon: TextureRect = $card/card_inner/Button/TextureRect
 @onready var _card: Control = $card
+@onready var _hover_info: Control = $hover_info if has_node("hover_info") else null
+@onready var _desc_label: Label = $hover_info/desc_label if has_node("hover_info/desc_label") else null
+
+var _hover_tween: Tween = null
 
 
 var profile_name: String:
@@ -46,6 +50,8 @@ func _ready() -> void:
 	if _button and _button is Button and not _button.pressed.is_connected(_on_profile_button_pressed):
 		_button.pressed.connect(_on_profile_button_pressed)
 	_context_menu.visible = false
+	if _hover_info:
+		_hover_info.visible = false
 	set_process_input(true)
 
 
@@ -110,6 +116,7 @@ func _on_card_gui_input(event: InputEvent) -> void:
 			if not _is_interactable or _is_transitioning:
 				get_viewport().set_input_as_handled()
 				return
+			_hide_hover_info()
 			_context_menu.visible = true
 			_context_menu.global_position = event.global_position
 			get_viewport().set_input_as_handled()
@@ -137,6 +144,7 @@ func _on_card_gui_input(event: InputEvent) -> void:
 		if _is_mouse_down:
 			if event.global_position.distance_to(_drag_start_pos) >= DRAG_THRESHOLD:
 				_is_mouse_down = false
+				_hide_hover_info()
 				var parent_grid = get_parent()
 				if parent_grid and parent_grid.has_method("start_card_drag"):
 					parent_grid.start_card_drag(self, event.global_position)
@@ -152,7 +160,7 @@ func _input(event: InputEvent) -> void:
 
 #endregion
 
-#region Visual state
+#region Visual state & Hover Info
 
 func _on_card_mouse_entered() -> void:
 	if not _is_interactable:
@@ -160,18 +168,70 @@ func _on_card_mouse_entered() -> void:
 	var tween := create_tween()
 	tween.tween_property(_glow_effect, "modulate", Color(1, 1, 1, 0.4), 0.02).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 
+	var description: String = profile_data.get("description", "").strip_edges()
+	if not description.is_empty() and _hover_info and _desc_label:
+		_desc_label.text = description
+		_show_hover_info()
+
 
 func _on_card_mouse_exited() -> void:
 	if not _is_interactable:
 		return
 	var tween := create_tween()
 	tween.tween_property(_glow_effect, "modulate", Color(1, 1, 1, 0.0), 0.02).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
+	_hide_hover_info()
+
+
+func _show_hover_info() -> void:
+	if not _hover_info or _context_menu.visible or not _is_interactable:
+		return
+
+	if _hover_tween and _hover_tween.is_valid():
+		_hover_tween.kill()
+
+	# Recalculate dynamic container dimensions based on text content & padding
+	_hover_info.visible = true
+	_hover_info.reset_size()
+	var min_sz := _hover_info.get_combined_minimum_size()
+	var card_w: float = size.x if size.x > 0 else 181.0
+	var final_w: float = maxf(min_sz.x, _hover_info.size.x)
+	var final_h: float = maxf(min_sz.y, _hover_info.size.y)
+
+	_hover_info.size = Vector2(final_w, final_h)
+	# Center horizontally above card with 7px gap
+	_hover_info.position = Vector2((card_w - final_w) * 0.5, -final_h - 7.0)
+	_hover_info.pivot_offset = Vector2(final_w * 0.5, final_h)
+
+	_hover_info.modulate.a = 0.0
+	_hover_info.scale = Vector2(0.92, 0.92)
+
+	_hover_tween = create_tween().set_parallel(true)
+	_hover_tween.tween_property(_hover_info, "modulate:a", 1.0, 0.14).set_delay(0.08).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_hover_tween.tween_property(_hover_info, "scale", Vector2.ONE, 0.16).set_delay(0.08).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
+func _hide_hover_info() -> void:
+	if not _hover_info or not _hover_info.visible:
+		return
+
+	if _hover_tween and _hover_tween.is_valid():
+		_hover_tween.kill()
+
+	_hover_tween = create_tween().set_parallel(true)
+	_hover_tween.tween_property(_hover_info, "modulate:a", 0.0, 0.08).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_hover_tween.tween_property(_hover_info, "scale", Vector2(0.95, 0.95), 0.08).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_hover_tween.chain().tween_callback(func():
+		if is_instance_valid(_hover_info):
+			_hover_info.visible = false
+	)
 
 
 ## Dims and disables the card (or restores it) with a short animation.
 func set_interactable(interactable: bool) -> void:
 	_is_interactable = interactable
 	_button.disabled = not interactable
+	if not interactable:
+		_hide_hover_info()
 
 	var target_modulate := Color(1, 1, 1, 1) if interactable else Color(1, 1, 1, 0.5)
 	var tween := create_tween().set_parallel(true)
