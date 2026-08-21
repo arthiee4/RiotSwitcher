@@ -5,10 +5,15 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
-
-env:
-  GODOT_VERSION: "4.3-stable"
-  GODOT_BRANCH: "4.3-stable"
+    inputs:
+      godot_branch:
+        description: "Godot Branch / Tag to compile"
+        required: true
+        default: "master"
+      release_tag:
+        description: "Release Tag (ex: v0.4.0) - leave empty if only generating artifact"
+        required: false
+        default: ""
 
 jobs:
   build-custom-template:
@@ -29,15 +34,21 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y mingw-w64 scons upx-ucl
 
+      - name: Set Godot Branch
+        id: branch_step
+        run: |
+          BRANCH="${{ github.event.inputs.godot_branch || 'master' }}"
+          echo "GODOT_BRANCH=$BRANCH" >> $GITHUB_ENV
+
       - name: Cache Godot Source & SCons Build
         uses: actions/cache@v4
         with:
           path: |
             godot-source
             ~/.scons_cache
-          key: ${{ runner.os }}-godot-${{ env.GODOT_VERSION }}-${{ hashFiles('build_config/custom.py', 'build_profile.build') }}
+          key: ${{ runner.os }}-godot-${{ env.GODOT_BRANCH }}-${{ hashFiles('build_config/custom.py', 'build_profile.build') }}
           restore-keys: |
-            ${{ runner.os }}-godot-${{ env.GODOT_VERSION }}-
+            ${{ runner.os }}-godot-${{ env.GODOT_BRANCH }}-
 
       - name: Clone Godot Source
         run: |
@@ -48,7 +59,7 @@ jobs:
       - name: Compile Custom Export Template
         run: |
           cd godot-source
-          scons platform=windows target=template_release arch=x86_64 optimize=size lto=full use_static_cpp=yes debug_symbols=no disable_3d=yes build_profile=../build_profile.build profile=../build_config/custom.py -j$(nproc)
+          scons platform=windows target=template_release arch=x86_64 optimize=size lto=full use_static_cpp=yes debug_symbols=no disable_3d=yes d3d12=no accesskit=no build_profile=../build_profile.build profile=../build_config/custom.py -j$(nproc)
           
           # Strip symbols
           x86_64-w64-mingw32-strip bin/godot.windows.template_release.x86_64.exe
@@ -57,22 +68,22 @@ jobs:
           mkdir -p ../templates
           cp bin/godot.windows.template_release.x86_64.exe ../templates/windows_release_x86_64.exe
 
-      - name: Compress Template with UPX
+      - name: Compile Headless Editor for Export
         run: |
-          upx --best --lzma templates/windows_release_x86_64.exe || true
-
-      - name: Setup Headless Godot Editor for Export
-        run: |
-          wget -q https://github.com/godotengine/godot/releases/download/${{ env.GODOT_VERSION }}/Godot_v${{ env.GODOT_VERSION }}_linux.x86_64.zip
-          unzip -q Godot_v${{ env.GODOT_VERSION }}_linux.x86_64.zip
-          mv Godot_v${{ env.GODOT_VERSION }}_linux.x86_64 godot-editor
+          cd godot-source
+          scons platform=linuxbsd target=editor arch=x86_64 optimize=speed -j$(nproc)
+          cp bin/godot.linuxbsd.editor.x86_64 ../godot-editor
 
       - name: Export Optimized Project
         run: |
           mkdir -p build/windows
           ./godot-editor --headless --export-release "Windows Desktop" build/windows/RiotSwitcher.exe
 
-      - name: Display Binary Sizes
+      - name: Compress Exported Executable with UPX
+        run: |
+          upx --best build/windows/RiotSwitcher.exe || true
+
+      - name: Display Exported Files
         run: |
           ls -lh build/windows/
 
@@ -83,16 +94,31 @@ jobs:
           cd ../..
           ls -lh RiotSwitcher-Windows-Optimized.zip
 
-      - name: Upload Release Artifact
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: RiotSwitcher-Windows-Optimized
           path: RiotSwitcher-Windows-Optimized.zip
 
-      - name: Create GitHub Release (on tag)
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Determine Release Tag
+        id: release_info
+        run: |
+          if [ -n "${{ github.event.inputs.release_tag }}" ]; then
+            echo "TAG=${{ github.event.inputs.release_tag }}" >> $GITHUB_OUTPUT
+            echo "CREATE_RELEASE=true" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            TAG_NAME="${GITHUB_REF#refs/tags/}"
+            echo "TAG=$TAG_NAME" >> $GITHUB_OUTPUT
+            echo "CREATE_RELEASE=true" >> $GITHUB_OUTPUT
+          else
+            echo "CREATE_RELEASE=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Release
+        if: steps.release_info.outputs.CREATE_RELEASE == 'true'
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.release_info.outputs.TAG }}
           files: RiotSwitcher-Windows-Optimized.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
