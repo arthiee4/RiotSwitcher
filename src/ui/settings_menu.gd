@@ -21,29 +21,31 @@ func play_cascade_entrance() -> void:
 	_cascade_tweens.clear()
 
 	# Title animation
-	if _title_label and is_instance_valid(_title_label):
-		_title_label.modulate.a = 0.0
-		var title_has_offset: bool = "offset_transform_enabled" in _title_label
+	var title_lbl: Label = _title_label if _title_label else get_node_or_null("Label")
+	if title_lbl and is_instance_valid(title_lbl):
+		title_lbl.modulate.a = 0.0
+		var title_has_offset: bool = "offset_transform_enabled" in title_lbl
 		if title_has_offset:
-			_title_label.set("offset_transform_enabled", true)
-			_title_label.set("offset_transform_position", Vector2(0.0, -8.0))
-			_title_label.set("offset_transform_visual_only", true)
+			title_lbl.set("offset_transform_enabled", true)
+			title_lbl.set("offset_transform_position", Vector2(0.0, -8.0))
+			title_lbl.set("offset_transform_visual_only", true)
 		else:
-			_title_label.position.y = 37.0
+			title_lbl.position.y = 37.0
 
-		var title_tween := _title_label.create_tween().set_parallel(true)
+		var title_tween := title_lbl.create_tween().set_parallel(true)
 		_cascade_tweens.append(title_tween)
-		title_tween.tween_property(_title_label, "modulate:a", 1.0, 0.16).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		title_tween.tween_property(title_lbl, "modulate:a", 1.0, 0.16).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 		if title_has_offset:
-			title_tween.tween_property(_title_label, "offset_transform_position", Vector2.ZERO, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+			title_tween.tween_property(title_lbl, "offset_transform_position", Vector2.ZERO, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 		else:
-			title_tween.tween_property(_title_label, "position:y", 45.0, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+			title_tween.tween_property(title_lbl, "position:y", 45.0, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 	# Cards cascade inside VBoxContainer
-	if not _vbox or not is_instance_valid(_vbox):
+	var vbox_node: VBoxContainer = _vbox if _vbox else get_node_or_null("VBoxContainer")
+	if not vbox_node or not is_instance_valid(vbox_node):
 		return
 
-	var children := _vbox.get_children()
+	var children := vbox_node.get_children()
 	for i in range(children.size()):
 		var child = children[i]
 		if not child is Control or not is_instance_valid(child):

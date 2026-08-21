@@ -4251,7 +4251,6 @@ text = "delete"
 [node name="settings_menu" parent="." unique_id=1673985897 instance=ExtResource("17_settings")]
 visible = false
 layout_mode = 1
-script = null
 
 [node name="add_menu" parent="." unique_id=31094257 instance=ExtResource("12_7avnf")]
 visible = false
