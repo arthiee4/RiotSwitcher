@@ -116,24 +116,27 @@ func _poll_session(session: Dictionary) -> bool:
 	var upstream_tls: StreamPeerTLS = session.upstream_tls
 	var now := Time.get_ticks_msec()
 
-	raw_client.poll()
-	raw_upstream.poll()
-
-	if raw_client.get_status() == StreamPeerTCP.STATUS_ERROR or raw_client.get_status() == StreamPeerTCP.STATUS_NONE:
-		return false
-	if raw_upstream.get_status() == StreamPeerTCP.STATUS_ERROR or raw_upstream.get_status() == StreamPeerTCP.STATUS_NONE:
-		return false
-
 	# Phase 1: Wait for raw upstream TCP connection
 	if session.state == "CONNECTING_UPSTREAM":
+		raw_client.poll()
+		raw_upstream.poll()
+
+		if raw_client.get_status() == StreamPeerTCP.STATUS_ERROR or raw_client.get_status() == StreamPeerTCP.STATUS_NONE:
+			return false
+		if raw_upstream.get_status() == StreamPeerTCP.STATUS_ERROR or raw_upstream.get_status() == StreamPeerTCP.STATUS_NONE:
+			return false
+
 		if (now - session.created_at) > HANDSHAKE_TIMEOUT_MS:
 			printerr("[Presence/ChatProxy] Upstream TCP connection timeout.")
 			return false
 
 		if raw_upstream.get_status() == StreamPeerTCP.STATUS_CONNECTED:
 			# Start TLS handshakes
-			client_tls.accept_stream(raw_client, session.tls_server_options)
-			upstream_tls.connect_to_stream(raw_upstream, _upstream_host, TLSOptions.client())
+			var accept_err := client_tls.accept_stream(raw_client, session.tls_server_options)
+			var connect_err := upstream_tls.connect_to_stream(raw_upstream, _upstream_host, TLSOptions.client_unsafe())
+			if accept_err != OK or connect_err != OK:
+				printerr("[Presence/ChatProxy] Failed to initialize TLS streams (Client: %d, Upstream: %d)" % [accept_err, connect_err])
+				return false
 			session.state = "TLS_HANDSHAKE"
 			session.handshake_started_at = now
 			print("[Presence/ChatProxy] Upstream TCP connected. Starting dual TLS handshakes...")
@@ -141,7 +144,7 @@ func _poll_session(session: Dictionary) -> bool:
 
 	# Phase 2: Complete TLS Handshakes
 	if session.state == "TLS_HANDSHAKE":
-		var handshake_start: int = session.get("handshake_started_at", session.created_at)
+		var handshake_start: int = int(session.get("handshake_started_at", session.created_at))
 		if (now - handshake_start) > HANDSHAKE_TIMEOUT_MS:
 			printerr("[Presence/ChatProxy] TLS handshake timeout.")
 			return false
@@ -152,7 +155,8 @@ func _poll_session(session: Dictionary) -> bool:
 		var c_status := client_tls.get_status()
 		var u_status := upstream_tls.get_status()
 
-		if c_status == StreamPeerTLS.STATUS_ERROR or u_status == StreamPeerTLS.STATUS_ERROR:
+		if c_status == StreamPeerTLS.STATUS_ERROR or c_status == StreamPeerTLS.STATUS_ERROR_HOSTNAME_MISMATCH \
+		or u_status == StreamPeerTLS.STATUS_ERROR or u_status == StreamPeerTLS.STATUS_ERROR_HOSTNAME_MISMATCH:
 			printerr("[Presence/ChatProxy] TLS handshake failed (Client: %d, Upstream: %d)" % [c_status, u_status])
 			return false
 
@@ -166,6 +170,9 @@ func _poll_session(session: Dictionary) -> bool:
 	if session.state == "CONNECTED":
 		client_tls.poll()
 		upstream_tls.poll()
+
+		if client_tls.get_status() != StreamPeerTLS.STATUS_CONNECTED or upstream_tls.get_status() != StreamPeerTLS.STATUS_CONNECTED:
+			return false
 
 		var c_avail := client_tls.get_available_bytes()
 		if c_avail > 0:
@@ -182,7 +189,7 @@ func _poll_session(session: Dictionary) -> bool:
 				# Pass inbound data (roster, incoming messages, invites) intact to client
 				client_tls.put_data(upstream_data[1])
 
-		return client_tls.get_status() == StreamPeerTLS.STATUS_CONNECTED and upstream_tls.get_status() == StreamPeerTLS.STATUS_CONNECTED
+		return true
 
 	return false
 

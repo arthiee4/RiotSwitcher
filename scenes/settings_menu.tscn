@@ -172,7 +172,7 @@ offset_bottom = 110.0
 theme_override_colors/font_color = Color(1, 1, 1, 0.65)
 theme_override_fonts/font = ExtResource("1_e2qsc")
 theme_override_font_sizes/font_size = 13
-text = "Enable shared in-game settings for all profiles."
+text = "Share in-game settings (only works with League of Legends closed)."
 
 [node name="vanguard" type="Control" parent="GridContainer" unique_id=1267153034]
 custom_minimum_size = Vector2(536, 120)
