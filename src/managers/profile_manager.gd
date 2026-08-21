@@ -188,6 +188,104 @@ func mark_profile_opened(profile_name: String) -> void:
 	profile["first_time_opened"] = true
 	_save_profiles_file()
 
+
+## Reorders the in-memory profiles list to match ordered_names and saves to disk.
+## Silent: does not emit profiles_updated so the caller can manage UI nodes directly without rebuilding the UI.
+func reorder_profiles(ordered_names: Array) -> bool:
+	var name_to_profile: Dictionary = {}
+	for profile in _profiles:
+		if profile is Dictionary:
+			name_to_profile[profile.get("profile_name", "")] = profile
+
+	var new_profiles: Array = []
+	for p_name in ordered_names:
+		if name_to_profile.has(p_name):
+			new_profiles.append(name_to_profile[p_name])
+			name_to_profile.erase(p_name)
+
+	# Append any profiles that weren't specified in ordered_names (safety fallback)
+	for remaining_profile in name_to_profile.values():
+		new_profiles.append(remaining_profile)
+
+	_profiles = new_profiles
+	var saved := _save_profiles_file()
+	if saved:
+		print("ProfileManager: Profiles reordered and saved successfully (%d profiles)." % _profiles.size())
+	return saved
+
+
+## Returns the profile dictionary by name, or an empty Dictionary if not found.
+func get_profile(profile_name: String) -> Dictionary:
+	return _find_profile(profile_name)
+
+
+## Returns the absolute directory path for a profile, or "" if not found.
+func get_profile_dir(profile_name: String) -> String:
+	return _get_profile_dir(profile_name)
+
+
+## Updates an existing profile's name, background image, and/or directory on disk safely.
+## Emits `profiles_updated` and returns true on success.
+func update_profile(
+	old_name: String,
+	new_name: String,
+	new_background_path: String = "",
+	rename_directory: bool = true,
+	has_custom_name: Variant = null
+) -> bool:
+	var profile := _find_profile(old_name)
+	if profile.is_empty():
+		printerr("ProfileManager: Profile '%s' not found for update." % old_name)
+		return false
+
+	var trimmed_new_name := new_name.strip_edges()
+	if trimmed_new_name.is_empty():
+		printerr("ProfileManager: New profile name cannot be empty.")
+		return false
+
+	# If changing name, ensure new name is unique
+	if trimmed_new_name != old_name and has_profile(trimmed_new_name):
+		printerr("ProfileManager: Profile '%s' already exists." % trimmed_new_name)
+		return false
+
+	var old_dir_name: String = profile.get("directory_name", "")
+	var target_dir_name := old_dir_name
+	var old_bg_path: String = profile.get("custom_background_image", "")
+
+	# 1. Rename directory on disk if requested and name changed
+	if rename_directory and trimmed_new_name != old_name:
+		var proposed_dir := _sanitize_directory_name(trimmed_new_name)
+		if proposed_dir != old_dir_name:
+			if not _rename_profile_directory(old_dir_name, proposed_dir):
+				printerr("ProfileManager: Failed to rename profile directory from '%s' to '%s'." % [old_dir_name, proposed_dir])
+				return false
+			target_dir_name = proposed_dir
+
+	# 2. Update background image & clean up orphaned old custom background
+	if not new_background_path.is_empty() and new_background_path != old_bg_path:
+		_cleanup_orphaned_background(old_bg_path, old_name)
+		profile["custom_background_image"] = new_background_path
+
+	# 3. Update name and metadata
+	profile["profile_name"] = trimmed_new_name
+	profile["directory_name"] = target_dir_name
+	if has_custom_name != null:
+		profile["has_custom_name"] = bool(has_custom_name)
+
+	# 4. Keep configs.json in sync (SharedSettingsSourceProfile)
+	var current_shared_source: String = ConfigManager.get_value("SharedSettingsSourceProfile", "")
+	if current_shared_source == old_name:
+		ConfigManager.set_value_and_save("SharedSettingsSourceProfile", trimmed_new_name)
+
+	# 5. Persist profiles_data.json
+	if not _save_profiles_file():
+		printerr("ProfileManager: Failed to save profiles file after update.")
+		return false
+
+	profiles_updated.emit()
+	print("ProfileManager: Profile '%s' successfully updated to '%s'." % [old_name, trimmed_new_name])
+	return true
+
 #endregion
 
 #region Public API — session backup/restore
@@ -362,5 +460,53 @@ func _remove_dir_recursive(path: String) -> Error:
 
 	printerr("ProfileManager: Failed to remove directory '%s' after retries." % path)
 	return FAILED
+
+
+## Windows-safe directory rename with retry loop and recursive copy/delete fallback.
+func _rename_profile_directory(old_dir_name: String, new_dir_name: String) -> bool:
+	if old_dir_name.is_empty() or new_dir_name.is_empty() or old_dir_name == new_dir_name:
+		return true
+
+	var old_path := AppPaths.PROFILES_DIR.path_join(old_dir_name)
+	var new_path := AppPaths.PROFILES_DIR.path_join(new_dir_name)
+
+	# If old directory doesn't exist yet, simply create the new one
+	if not DirAccess.dir_exists_absolute(old_path):
+		return DirAccess.make_dir_recursive_absolute(new_path) == OK
+
+	# If destination already exists unexpectedly, abort to prevent overwriting
+	if DirAccess.dir_exists_absolute(new_path):
+		printerr("ProfileManager: Target directory '%s' already exists." % new_path)
+		return false
+
+	# Attempt atomic rename with retry (handles transient OS locks)
+	for attempt in 3:
+		var err := DirAccess.rename_absolute(old_path, new_path)
+		if err == OK:
+			return true
+		OS.delay_msec(100)
+
+	# Fallback: recursive copy + recursive delete
+	print("ProfileManager: Atomic rename failed; falling back to recursive copy/delete for '%s' -> '%s'..." % [old_dir_name, new_dir_name])
+	if _copy_dir_recursive(old_path, new_path) == OK:
+		_remove_dir_recursive(old_path)
+		return true
+
+	# If copy failed, clean up any partial target folder
+	if DirAccess.dir_exists_absolute(new_path):
+		_remove_dir_recursive(new_path)
+	return false
+
+
+## Removes old custom background if no other profile references it.
+func _cleanup_orphaned_background(old_bg_path: String, excluding_profile_name: String) -> void:
+	if not old_bg_path.begins_with(AppPaths.BACKGROUNDS_DIR) or not FileAccess.file_exists(old_bg_path):
+		return
+
+	for p: Dictionary in _profiles:
+		if p.get("profile_name") != excluding_profile_name and p.get("custom_background_image") == old_bg_path:
+			return # Still in use by another profile
+
+	DirAccess.remove_absolute(old_bg_path)
 
 #endregion
