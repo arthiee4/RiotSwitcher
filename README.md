@@ -1,6 +1,6 @@
 # Riot Switcher
 
-**⚠️ IMPORTANT SECURITY NOTICE:**
+** IMPORTANT SECURITY NOTICE:**
 
 **Always download Riot Switcher ONLY from the official source.**  
 **Do NOT trust unknown links or unofficial websites.**  
@@ -32,7 +32,7 @@ Downloading from untrusted sources may compromise your computer's security.
 3. **Automatic Login:** Riot Client opens directly in the chosen account.
 4. **Updates:** Future support for profile updates, per-account language settings, and additional integrations.
 
-## 🧐 How to Use Riot Switcher Properly
+##  How to Use Riot Switcher Properly
 
 After creating your account profile inside Riot Switcher, click on the **Play** button for the selected profile.
 
