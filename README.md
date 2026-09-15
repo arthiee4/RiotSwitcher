@@ -62,9 +62,7 @@ Done! Your account is ready for one-click switching.
 
 ## AI Usage
 
-Generative AI is strictly prohibited for artwork and creative assets. ALL CATui art, illustrations, visual assets, and other creative work are made by human artists. We believe in supporting artists and real human creativity.
-
-AI assisted tools are allowed for development tasks such as research, debugging, documentation, and code assistance. Contributions must always be understood, reviewed, and maintained by the person submitting them. Be efficient, but not dumb. Vibe coded contributions are NOT accepted.
+Generative AI is strictly prohibited, AI assisted tools are allowed for development tasks such as research, debugging, documentation, and code assistance. Contributions must always be understood, reviewed, and maintained by the person submitting them. Be efficient, but not dumb. Vibe coded contributions are NOT accepted.
 
 ## License and Disclaimer
 
