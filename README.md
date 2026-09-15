@@ -56,46 +56,15 @@ If you don't check "Stay signed in," Riot Switcher won't be able to handle autom
 
 Done! Your account is ready for one-click switching.
 
-## Requirements
-
-- Windows 10/11
-- Installed Riot Games Client
-- Administrator permissions (recommended for file copying and process management)
-
 ## Project Status
 
 > Actively under development — currently focusing on bug fixes and new features. Future plans include Valorant integration, per-account language settings, and enhanced client management.
 
-## How to Build the Project
+## AI Usage
 
-The project is developed using **Godot Engine**, a powerful open-source game engine.
+Generative AI is strictly prohibited for artwork and creative assets. ALL CATui art, illustrations, visual assets, and other creative work are made by human artists. We believe in supporting artists and real human creativity.
 
-### Automated Build (Python) — Recommended
-
-Requires **Python 3.10+** only (no extra libraries). The script finds Godot and UPX automatically, exports the project, compresses the executable with UPX and zips everything into a release.
-
-```bash
-python build/build_release.py 0.3.4
-```
-
-Or just `python build/build_release.py` — it will ask for the version. The release is created next to the script as `build/RiotSwitcher-0.3.4.zip`.
-
-### Manual Build (Godot Editor)
-
-1. **Download Godot Engine:** [Official Website](https://godotengine.org/)
-2. **Open the Project:** Launch Godot, click "Import Project" and select the Riot Switcher project folder.
-3. **Export the Build:**
-   - Open **Project > Export**.
-   - Add a **Windows Desktop** preset (or others if needed).
-   - Click **Export Project** to generate the executable.
-   - All user data and profile backups are automatically saved in `user://` (`%APPDATA%`), making the executable fully portable and independent!
-
-## About Godot Engine
-
-- **No need for external build systems** — everything is managed inside the editor.
-- **Cross-platform** — easily deploy to Windows, Linux, Mac, Web, and more.
-- **Lightweight builds** — small and efficient executables.
-- **Active community** — continuous improvements and new features.
+AI assisted tools are allowed for development tasks such as research, debugging, documentation, and code assistance. Contributions must always be understood, reviewed, and maintained by the person submitting them. Be efficient, but not dumb. Vibe coded contributions are NOT accepted.
 
 ## License and Disclaimer
 
