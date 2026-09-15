@@ -18,13 +18,6 @@ Downloading from untrusted sources may compromise your computer's security.
 
 > **Note:** Riot Switcher is currently only available for League of Legends. Valorant support is planned for future updates.
 
-## Main Features
-
-- Manage multiple accounts separately.
-- Log in to any account with just **one click**.
-- Instantly switch the game's language (voice and text). *(Feature planned for future updates)*
-- Basic Vanguard core control support.
-
 ## How It Works
 
 1. **Save Current Account:** Captures local credentials from the Riot Client.
@@ -55,10 +48,6 @@ If you don't check "Stay signed in," Riot Switcher won't be able to handle autom
 ![Stay Signed In Guide](assets/stay_signed_in.gif)
 
 Done! Your account is ready for one-click switching.
-
-## Project Status
-
-> Actively under development — currently focusing on bug fixes and new features. Future plans include Valorant integration, per-account language settings, and enhanced client management.
 
 ## AI Usage
 
