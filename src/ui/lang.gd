@@ -13,6 +13,7 @@ const LOCALES: Dictionary = {
 	2: "zh_CN",
 	3: "es_ES",
 	4: "ko_KR",
+	5: "vi_VN",
 }
 
 const LOCALE_NAMES: Dictionary = {
@@ -21,6 +22,7 @@ const LOCALE_NAMES: Dictionary = {
 	"zh_CN": "中文 (简体)",
 	"es_ES": "Español (España)",
 	"ko_KR": "한국어",
+	"vi_VN": "Tiếng Việt",
 }
 
 @onready var _dropdown: OptionButton = $Panel/OptionButton if has_node("Panel/OptionButton") else null
