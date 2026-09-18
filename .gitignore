@@ -16,13 +16,7 @@ rcedit-x64.exe
 *.exe
 *.pck
 *.tmp
-/build/dist/
-/build/packages/
-/build/image_backup/
-/build/baseline/
-/build/*.zip
-/build/build_history.json
-/build/build_profile.json
+/build/
 
 # User Data & sensitive configs
 Data/profiles_data.json
