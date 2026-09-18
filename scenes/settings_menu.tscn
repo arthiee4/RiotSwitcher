@@ -1,13 +1,16 @@
 [gd_scene format=3 uid="uid://c8v7kmus1he0q"]
 
 [ext_resource type="FontFile" uid="uid://c08w5jcfwr4pe" path="res://assets/fonts/Raleway-Light.ttf" id="1_e2qsc"]
-[ext_resource type="Script" path="res://src/ui/settings_menu.gd" id="1_settingsctrl"]
+[ext_resource type="Script" uid="uid://ddc452vo3rcuh" path="res://src/ui/settings_menu.gd" id="1_settingsctrl"]
 [ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="2_tuiqe"]
 [ext_resource type="Script" uid="uid://blac5x4qv3t14" path="res://src/ui/vanguard.gd" id="3_vanguard"]
 [ext_resource type="Script" uid="uid://t8yek8vtavjl" path="res://src/ui/lang.gd" id="4_lang"]
 [ext_resource type="Script" uid="uid://cmdk7tdac0cnw" path="res://src/ui/toggle_setting.gd" id="5_toggle"]
 [ext_resource type="Script" uid="uid://btr4ti6tqximu" path="res://src/ui/shared_settings.gd" id="6_shared"]
-[ext_resource type="Script" path="res://src/ui/delete_all_profiles.gd" id="7_deleteall"]
+[ext_resource type="Script" uid="uid://ci22pic4pb3ci" path="res://src/ui/delete_all_profiles.gd" id="7_deleteall"]
+[ext_resource type="Script" uid="uid://jei1kf2i30pm" path="res://src/ui/clean_logs.gd" id="8_cleanlogs"]
+[ext_resource type="PackedScene" uid="uid://cx8v4kmoae7q1" path="res://scenes/components/backup_progress_modal.tscn" id="10_progressmodal"]
+[ext_resource type="PackedScene" uid="uid://c3bkupcrd1a2b" path="res://scenes/components/profile_backup_card.tscn" id="11_backupcard"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_orfc4"]
 bg_color = Color(0, 0, 0, 1)
@@ -77,7 +80,6 @@ size_flags_horizontal = 3
 mouse_filter = 1
 script = ExtResource("5_toggle")
 config_key = "AppearOffline"
-default_value = false
 
 [node name="Panel" type="Panel" parent="GridContainer/AppearOffline" unique_id=2001002]
 layout_mode = 1
@@ -322,3 +324,68 @@ theme_override_colors/font_color = Color(1, 1, 1, 0.65)
 theme_override_fonts/font = ExtResource("1_e2qsc")
 theme_override_font_sizes/font_size = 13
 text = "Permanently deletes all saved account profiles and session data."
+
+[node name="cleanlogs" type="Control" parent="GridContainer" unique_id=1999001001]
+custom_minimum_size = Vector2(536, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+script = ExtResource("8_cleanlogs")
+
+[node name="Panel" type="Panel" parent="GridContainer/cleanlogs" unique_id=1999001002]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_right")
+
+[node name="Label" type="Label" parent="GridContainer/cleanlogs/Panel" unique_id=1999001003]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 400.0
+offset_bottom = 41.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 22
+text = "Riot Logs & Cache"
+
+[node name="Button" type="Button" parent="GridContainer/cleanlogs/Panel" unique_id=1999001004]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 46.0
+offset_right = 110.0
+offset_bottom = 78.0
+mouse_default_cursor_shape = 2
+text = "Clean"
+
+[node name="status_label" type="Label" parent="GridContainer/cleanlogs/Panel" unique_id=1999001005]
+layout_mode = 0
+offset_left = 124.0
+offset_top = 50.0
+offset_right = 450.0
+offset_bottom = 74.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.65)
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 14
+
+[node name="Label2" type="Label" parent="GridContainer/cleanlogs/Panel" unique_id=1999001006]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 84.0
+offset_right = 520.0
+offset_bottom = 110.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.65)
+theme_override_fonts/font = ExtResource("1_e2qsc")
+theme_override_font_sizes/font_size = 13
+text = "Permanently removes old log files and crash dumps to reclaim disk space."
+
+[node name="backup_profiles" parent="GridContainer" unique_id=2026001001 instance=ExtResource("11_backupcard")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="backup_progress_modal" parent="." unique_id=2026001099 instance=ExtResource("10_progressmodal")]
+visible = false
+layout_mode = 1

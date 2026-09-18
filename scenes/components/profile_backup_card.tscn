@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://c3bkupcrd1a2b"]
+
+[ext_resource type="Script" uid="uid://kghctfpxt0ji" path="res://src/ui/profile_backup_controller.gd" id="1_backupctrl"]
+[ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="2_bold"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.337255)
+border_blend = true
+
+[node name="backup_profiles" type="Control"]
+custom_minimum_size = Vector2(536, 120)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 536.0
+offset_bottom = 120.0
+mouse_filter = 1
+script = ExtResource("1_backupctrl")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 400.0
+offset_bottom = 41.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_bold")
+theme_override_font_sizes/font_size = 22
+text = "Backup Profiles"
+
+[node name="export_button" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 46.0
+offset_right = 106.0
+offset_bottom = 78.0
+mouse_default_cursor_shape = 2
+text = "Export"
+
+[node name="import_button" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 46.0
+offset_right = 206.0
+offset_bottom = 78.0
+mouse_default_cursor_shape = 2
+text = "Import"
+
+[node name="status_label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 50.0
+offset_right = 510.0
+offset_bottom = 74.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.65)
+theme_override_fonts/font = ExtResource("2_bold")
+theme_override_font_sizes/font_size = 14
+
+[node name="export_dialog" type="FileDialog" parent="."]
+title = "Export Backup"
+size = Vector2i(650, 450)
+ok_button_text = "Export"
+file_mode = 4
+access = 2
+use_native_dialog = true
+filters = PackedStringArray("*.zip ; RiotSwitcher Backup (*.zip)")
+
+[node name="import_dialog" type="FileDialog" parent="."]
+title = "Import Backup"
+size = Vector2i(650, 450)
+ok_button_text = "Import"
+file_mode = 0
+access = 2
+use_native_dialog = true
+filters = PackedStringArray("*.zip ; RiotSwitcher Backup (*.zip)")
