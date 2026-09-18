@@ -137,7 +137,9 @@ func _on_import_finished(res: Dictionary) -> void:
 	_set_buttons_enabled(true)
 
 	if res.get("success", false):
-		var count: int = res.get("profile_count", 0)
+		# Reload on the main thread so the home grid repopulates immediately.
+		var loaded: Array = ProfileManager.load_profiles_data()
+		var count: int = loaded.size()
 		var msg: String = tr("Imported %d profile(s) successfully!") % count
 		if _progress_modal:
 			_progress_modal.finish_success(msg)
