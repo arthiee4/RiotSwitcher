@@ -1249,7 +1249,7 @@ Button/styles/pressed = SubResource("StyleBoxFlat_ur6ka")
 bg_color = Color(0, 0, 0, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hqcdx"]
-bg_color = Color(0.376591, 0.704649, 1, 1)
+bg_color = Color(1, 0, 0, 0.54901963)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rmlkp"]
 
@@ -2558,8 +2558,7 @@ stretch_mode = 6
 
 [node name="ProgressBar" type="ProgressBar" parent="card/Panel" unique_id=1334389532]
 layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.85
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -2620,6 +2619,7 @@ mouse_filter = 2
 texture = ExtResource("1_dc1tc")
 
 [node name="context_menu" type="PanelContainer" parent="card" unique_id=1441773388]
+visible = false
 z_index = 100
 z_as_relative = false
 custom_minimum_size = Vector2(150, 0)
