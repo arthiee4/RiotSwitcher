@@ -57,6 +57,10 @@ func _ready() -> void:
 	_lcu_injector = LcuInjector.new()
 	add_child(_lcu_injector)
 
+	# Kick the first process snapshot off-thread at boot so the presence
+	# watchdog and startup adoption never have to spawn tasklist on the UI.
+	RiotProcesses.warm_up()
+
 	_settings_watchdog = Timer.new()
 	_settings_watchdog.wait_time = SETTINGS_WATCHDOG_INTERVAL
 	_settings_watchdog.one_shot = false
@@ -955,5 +959,7 @@ func _exit_tree() -> void:
 	_cleanup_drag()
 	_join_worker()
 	_stop_settings_watchdog()
+	# Join the background snapshot thread so it never outlives the app.
+	RiotProcesses.shutdown()
 
 #endregion

@@ -123,7 +123,9 @@ func notify_client_started(pid: int) -> void:
 
 
 ## Watchdog routine that detects when Riot processes are closed by the user.
-## Uses fast non-blocking OS.is_process_running first to prevent UI freezing.
+## Fully non-blocking: the tracked PID is validated via OS.is_process_running and
+## RiotProcesses.are_any_running() answers from a cached, background-refreshed
+## process snapshot — no shell spawns on the UI thread.
 func _check_processes_watchdog() -> void:
 	if _tracked_pid > 0 and OS.is_process_running(_tracked_pid):
 		return

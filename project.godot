@@ -48,6 +48,10 @@ project/assembly_name="riotswitcher"
 
 movie_writer/fps=30
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/catui-builder/plugin.cfg")
+
 [gui]
 
 theme/custom="res://assets/theme/riotswitcher_theme.tres"
