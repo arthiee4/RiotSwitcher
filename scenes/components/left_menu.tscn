@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bc7qhx1yer8kc" path="res://src/ui/left_menu_handler.gd" id="1_leftmenu"]
 [ext_resource type="Texture2D" uid="uid://cvvwo42jdh7uj" path="res://assets/icons/ui/icon_add.png" id="2_addicon"]
 [ext_resource type="Texture2D" uid="uid://ivql3vhhafwm" path="res://assets/icons/ui/icon_settings.png" id="3_settingsicon"]
-[ext_resource type="Texture2D" uid="uid://dgdxtpsyq0png" path="res://assets/branding/no_bg.png" id="4_logo"]
+[ext_resource type="Texture2D" uid="uid://dgdxtpsyq0png" path="res://assets/icons/no_bg.png" id="4_logo"]
 [ext_resource type="Texture2D" uid="uid://ckd8w1e1vnaef" path="res://assets/icons/ui/icon_home.png" id="5_homeicon"]
 [ext_resource type="Shader" path="res://shaders/menu_glow.gdshader" id="6_glowshader"]
 
