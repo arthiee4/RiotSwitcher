@@ -6,6 +6,8 @@
 [ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="2_h8srp"]
 [ext_resource type="Texture2D" uid="uid://81r0kj8nnwtj" path="res://assets/backgrounds/default_bg.webp" id="4_at24t"]
 [ext_resource type="PackedScene" uid="uid://c6xk4y8v2rabm" path="res://scenes/components/profile_hover_info.tscn" id="6_hover_info"]
+[ext_resource type="Texture2D" uid="uid://bbmd0vp2h0kr8" path="res://assets/icons/ui/icon_edit.svg" id="7_edit_icon"]
+[ext_resource type="Texture2D" uid="uid://btm00ogppbdjn" path="res://assets/icons/ui/icon_delete.svg" id="8_delete_icon"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a4rcj"]
 shader = ExtResource("1_3aoht")
@@ -1173,7 +1175,8 @@ corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
-corner_detail = 5
+corner_detail = 12
+anti_aliasing_size = 1.5
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1h7gi"]
 
@@ -1187,7 +1190,8 @@ corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
-corner_detail = 5
+corner_detail = 12
+anti_aliasing_size = 1.5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kjmeb"]
 content_margin_left = 4.0
@@ -1199,7 +1203,8 @@ corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
-corner_detail = 5
+corner_detail = 12
+anti_aliasing_size = 1.5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ur6ka"]
 content_margin_left = 4.0
@@ -1211,7 +1216,8 @@ corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
-corner_detail = 5
+corner_detail = 12
+anti_aliasing_size = 1.5
 
 [sub_resource type="Theme" id="Theme_umlav"]
 Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
@@ -2436,39 +2442,63 @@ Panel/styles/panel = SubResource("StyleBoxFlat_rie56")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cqkpw"]
 bg_color = Color(0, 0, 0, 0.6431373)
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_detail = 12
+anti_aliasing_size = 1.5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jddgn"]
-bg_color = Color(0.09019608, 0.09019608, 0.101960786, 0)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wqqi4"]
-bg_color = Color(0, 0, 0, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_context_bg"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.0687983, 0.0687983, 0.0687983, 0.98)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.0901961)
+border_color = Color(1, 1, 1, 0.16862746)
 border_blend = true
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 12
+anti_aliasing_size = 1.5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_item_normal"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_item_hover"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.12, 0.12, 0.14, 0.95)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 10
+anti_aliasing_size = 1.5
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_context_sep"]
+color = Color(1, 1, 1, 0.054902)
 
 [node name="profile_button" type="Control" unique_id=1488976912]
 custom_minimum_size = Vector2(181, 50)
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -1098.0
-offset_bottom = -670.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_right = 181.0
+offset_bottom = 50.0
 pivot_offset_ratio = Vector2(0.5, 0.5)
 script = ExtResource("1_bfvnd")
 preview_glow = true
@@ -2589,101 +2619,70 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("1_dc1tc")
 
-[node name="context_menu" type="Control" parent="card" unique_id=1441773388]
-visible = false
+[node name="context_menu" type="PanelContainer" parent="card" unique_id=1441773388]
 z_index = 100
 z_as_relative = false
-anchors_preset = 0
-offset_right = 126.0
-offset_bottom = 82.0
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 86.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_context_bg")
 
-[node name="Panel" type="Panel" parent="card/context_menu" unique_id=1975531184]
-clip_contents = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_jddgn")
+[node name="vbox" type="VBoxContainer" parent="card/context_menu" unique_id=1975531184]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/separation = 3
 
-[node name="edit" type="Control" parent="card/context_menu/Panel" unique_id=1583996910]
-anchors_preset = 0
-offset_right = 126.0
-offset_bottom = 41.0
-
-[node name="Panel" type="Panel" parent="card/context_menu/Panel/edit" unique_id=1227244751]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_wqqi4")
-
-[node name="Label" type="Label" parent="card/context_menu/Panel/edit" unique_id=873786174]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -17.5
-offset_top = -11.5
-offset_right = 17.5
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "EDIT"
-
-[node name="TextureButton" type="TextureButton" parent="card/context_menu/Panel/edit" unique_id=2087735165]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="edit_button" type="Button" parent="card/context_menu/vbox" unique_id=2087735165]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.85, 0.85, 0.88, 0.9)
+theme_override_colors/font_focus_color = Color(0.85, 0.85, 0.88, 0.9)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_normal_color = Color(0.85, 0.85, 0.88, 0.85)
+theme_override_colors/icon_focus_color = Color(0.85, 0.85, 0.88, 0.85)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_constants/h_separation = 8
+theme_override_fonts/font = ExtResource("2_h8srp")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_item_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_item_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_item_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_item_normal")
+text = "Edit"
+icon = ExtResource("7_edit_icon")
+alignment = 0
 
-[node name="delete" type="Control" parent="card/context_menu/Panel" unique_id=1858013135]
-anchors_preset = 0
-offset_top = 41.0
-offset_right = 126.0
-offset_bottom = 82.0
+[node name="separator" type="HSeparator" parent="card/context_menu/vbox" unique_id=1583996910]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_context_sep")
+
+[node name="delete_button" type="Button" parent="card/context_menu/vbox" unique_id=2065274005]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
 mouse_default_cursor_shape = 2
-
-[node name="Panel" type="Panel" parent="card/context_menu/Panel/delete" unique_id=409621454]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_wqqi4")
-
-[node name="Label" type="Label" parent="card/context_menu/Panel/delete" unique_id=1125422536]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -28.5
-offset_top = -11.5
-offset_right = 28.5
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "DELETE"
-
-[node name="TextureButton" type="TextureButton" parent="card/context_menu/Panel/delete" unique_id=2065274005]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.85, 0.85, 0.88, 0.9)
+theme_override_colors/font_focus_color = Color(0.85, 0.85, 0.88, 0.9)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_normal_color = Color(0.85, 0.85, 0.88, 0.85)
+theme_override_colors/icon_focus_color = Color(0.85, 0.85, 0.88, 0.85)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_constants/h_separation = 8
+theme_override_fonts/font = ExtResource("2_h8srp")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_item_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_item_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_item_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_item_normal")
+text = "Delete"
+icon = ExtResource("8_delete_icon")
+alignment = 0
 
 [node name="profile_name" type="Label" parent="." unique_id=552114266]
 layout_mode = 0
@@ -2699,8 +2698,6 @@ clip_text = true
 [node name="hover_info" parent="." unique_id=2087735166 instance=ExtResource("6_hover_info")]
 visible = false
 layout_mode = 0
-offset_top = -48.0
-offset_bottom = -17.0
 
 [connection signal="mouse_entered" from="card" to="." method="_on_card_mouse_entered"]
 [connection signal="mouse_exited" from="card" to="." method="_on_card_mouse_exited"]

@@ -1,35 +1,99 @@
 [gd_scene format=3 uid="uid://c6xk4y8v2rabm"]
 
-[ext_resource type="FontFile" uid="uid://c08w5jcfwr4pe" path="res://assets/fonts/Raleway-Light.ttf" id="1_light"]
+[ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="1_bold"]
+[ext_resource type="FontFile" uid="uid://csusmm2bxfqsy" path="res://assets/fonts/Raleway-Regular.ttf" id="2_regular"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover_panel"]
-content_margin_left = 12.0
-content_margin_top = 6.0
-content_margin_right = 12.0
-content_margin_bottom = 6.0
-bg_color = Color(0.0705882, 0.0705882, 0.0862745, 0.960784)
+content_margin_left = 18.0
+content_margin_top = 15.0
+content_margin_right = 18.0
+content_margin_bottom = 15.0
+bg_color = Color(0.0687983, 0.0687983, 0.0687983, 0.98)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.180392)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+border_color = Color(1, 1, 1, 0.16862746)
+border_blend = true
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 12
 
-[node name="profile_hover_info" type="PanelContainer"]
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_sep"]
+color = Color(1, 1, 1, 0.054902)
+
+[node name="profile_hover_info" type="PanelContainer" unique_id=1107368368]
 z_index = 50
-offset_right = 40.0
-offset_bottom = 26.0
+custom_minimum_size = Vector2(280, 0)
+offset_right = 280.0
+offset_bottom = 90.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hover_panel")
 
-[node name="desc_label" type="Label" parent="."]
+[node name="vbox" type="VBoxContainer" parent="." unique_id=685728187]
+custom_minimum_size = Vector2(244, 0)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.92, 0.92, 0.96, 0.95)
-theme_override_fonts/font = ExtResource("1_light")
-theme_override_font_sizes/font_size = 12
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="name_level_row" type="HBoxContainer" parent="vbox" unique_id=163655427]
+custom_minimum_size = Vector2(244, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="summoner_name" type="Label" parent="vbox/name_level_row" unique_id=231256783]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_bold")
+theme_override_font_sizes/font_size = 18
+text = "Summoner"
+text_overrun_behavior = 3
+
+[node name="summoner_level" type="Label" parent="vbox/name_level_row" unique_id=379262385]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.75)
+theme_override_fonts/font = ExtResource("1_bold")
+theme_override_font_sizes/font_size = 14
+text = "Nv. 0"
+
+[node name="rank_row" type="HBoxContainer" parent="vbox" unique_id=673543579]
+custom_minimum_size = Vector2(244, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="rank_badge" type="TextureRect" parent="vbox/rank_row" unique_id=279261573]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="rank_tier_label" type="Label" parent="vbox/rank_row" unique_id=835068112]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85098, 0.85098, 0.882353, 1)
+theme_override_fonts/font = ExtResource("1_bold")
+theme_override_font_sizes/font_size = 15
+text = "Unranked"
+
+[node name="separator" type="HSeparator" parent="vbox" unique_id=519460258]
+custom_minimum_size = Vector2(244, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_sep")
+
+[node name="desc_label" type="Label" parent="vbox" unique_id=1347543832]
+custom_minimum_size = Vector2(244, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.760784, 0.768627, 0.823529, 0.95)
+theme_override_constants/line_spacing = 3
+theme_override_fonts/font = ExtResource("2_regular")
+theme_override_font_sizes/font_size = 13
 text = "Description"
-horizontal_alignment = 1
-vertical_alignment = 1
+autowrap_mode = 3

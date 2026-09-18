@@ -18,107 +18,148 @@
 [ext_resource type="PackedScene" uid="uid://b8nrrv40q70su" path="res://scenes/components/profile_button.tscn" id="16_profilebtn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal_panel"]
-bg_color = Color(0.0431373, 0.0431373, 0.0470588, 0.980392)
+bg_color = Color(0.0687983, 0.0687983, 0.0687983, 0.98)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.160784)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+border_color = Color(1, 1, 1, 0.16862746)
+border_blend = true
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 12
+anti_aliasing_size = 1.5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_input_box"]
-bg_color = Color(0.109804, 0.109804, 0.121569, 1)
+bg_color = Color(0.05, 0.05, 0.055, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.16)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+border_color = Color(1, 1, 1, 0.054902)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 10
+anti_aliasing_size = 1.5
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lineedit"]
 content_margin_left = 10.0
 content_margin_right = 10.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg_card"]
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+bg_color = Color(0.08, 0.08, 0.09, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.054902)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 10
+anti_aliasing_size = 1.5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg_card_hover"]
+bg_color = Color(1, 1, 1, 0.06)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.16)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 10
+anti_aliasing_size = 1.5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_browser_btn"]
-bg_color = Color(0.141176, 0.141176, 0.160784, 1)
+bg_color = Color(0.1, 0.1, 0.11, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.2)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+border_color = Color(1, 1, 1, 0.054902)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 10
+anti_aliasing_size = 1.5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_browser_hover"]
-bg_color = Color(0.2, 0.2, 0.23, 1)
+bg_color = Color(0.15, 0.15, 0.17, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.35)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+border_color = Color(1, 1, 1, 0.12)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 10
+anti_aliasing_size = 1.5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cancel_btn"]
-bg_color = Color(0.141176, 0.141176, 0.160784, 1)
+bg_color = Color(0.1, 0.1, 0.11, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.15)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+border_color = Color(1, 1, 1, 0.054902)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 10
+anti_aliasing_size = 1.5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cancel_hover"]
-bg_color = Color(0.22, 0.22, 0.25, 1)
+bg_color = Color(0.15, 0.15, 0.17, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.28)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+border_color = Color(1, 1, 1, 0.12)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 10
+anti_aliasing_size = 1.5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_save_btn"]
 bg_color = Color(0.819608, 0, 0.180392, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 10
+anti_aliasing_size = 1.5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_save_pressed"]
 bg_color = Color(0.65, 0, 0.14, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 10
+anti_aliasing_size = 1.5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_save_hover"]
-bg_color = Color(0.95, 0.08, 0.24, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+bg_color = Color(0.92, 0.05, 0.22, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 10
+anti_aliasing_size = 1.5
 
 [node name="edit_profile_modal" type="Control" unique_id=328792013]
 layout_mode = 3
@@ -270,7 +311,6 @@ offset_bottom = 44.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
 
 [node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample1" unique_id=813148461]
-clip_children = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -288,6 +328,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bg_card_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bg_card_hover")
 flat = true
 
 [node name="bgexample2" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=1990645338]
@@ -299,7 +341,6 @@ offset_bottom = 44.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
 
 [node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample2" unique_id=1907465826]
-clip_children = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -317,6 +358,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bg_card_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bg_card_hover")
 flat = true
 
 [node name="bgexample3" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=1803513895]
@@ -328,7 +371,6 @@ offset_bottom = 44.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
 
 [node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample3" unique_id=1467689946]
-clip_children = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -346,6 +388,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bg_card_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bg_card_hover")
 flat = true
 
 [node name="bgexample4" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=2061936621]
@@ -357,7 +401,6 @@ offset_bottom = 44.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
 
 [node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample4" unique_id=1349075211]
-clip_children = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -375,6 +418,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bg_card_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bg_card_hover")
 flat = true
 
 [node name="bgexample5" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=572771702]
@@ -386,7 +431,6 @@ offset_bottom = 96.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
 
 [node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample5" unique_id=410982111]
-clip_children = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -404,6 +448,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bg_card_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bg_card_hover")
 flat = true
 
 [node name="bgexample6" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=706336027]
@@ -416,7 +462,6 @@ offset_bottom = 96.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
 
 [node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample6" unique_id=1575052664]
-clip_children = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -434,6 +479,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bg_card_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bg_card_hover")
 flat = true
 
 [node name="bgexample7" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=922750143]
@@ -446,7 +493,6 @@ offset_bottom = 96.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
 
 [node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample7" unique_id=467979250]
-clip_children = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -464,6 +510,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bg_card_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bg_card_hover")
 flat = true
 
 [node name="bgexample8" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=83024228]
@@ -476,7 +524,6 @@ offset_bottom = 96.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
 
 [node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample8" unique_id=43080905]
-clip_children = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -494,6 +541,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bg_card_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bg_card_hover")
 flat = true
 
 [node name="bgexample9" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=67348430]
@@ -505,7 +554,6 @@ offset_bottom = 148.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
 
 [node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample9" unique_id=894489904]
-clip_children = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -523,6 +571,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bg_card_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bg_card_hover")
 flat = true
 
 [node name="bgexample10" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=1068621061]
@@ -535,7 +585,6 @@ offset_bottom = 148.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
 
 [node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample10" unique_id=320334684]
-clip_children = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -553,6 +602,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bg_card_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bg_card_hover")
 flat = true
 
 [node name="bgexample11" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=744743979]
@@ -565,7 +616,6 @@ offset_bottom = 148.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
 
 [node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample11" unique_id=498587565]
-clip_children = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -583,6 +633,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bg_card_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bg_card_hover")
 flat = true
 
 [node name="bgexample12" type="Panel" parent="Panel/bg_select/backgrounds" unique_id=1730926349]
@@ -595,7 +647,6 @@ offset_bottom = 148.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bg_card")
 
 [node name="TextureRect" type="TextureRect" parent="Panel/bg_select/backgrounds/bgexample12" unique_id=1286982190]
-clip_children = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -613,6 +664,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_default_cursor_shape = 2
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bg_card_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bg_card_hover")
 flat = true
 
 [node name="upload_custom_bg" type="Control" parent="Panel" unique_id=531201861]
@@ -676,12 +729,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -90.5
+offset_left = -90.0
 offset_top = -25.0
-offset_right = 90.5
+offset_right = 91.0
 offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(1.5, 1.5)
-pivot_offset = Vector2(90.5, 25)
+pivot_offset = Vector2(90, 25)
 
 [node name="error" type="Control" parent="Panel" unique_id=802838178]
 anchors_preset = 0
