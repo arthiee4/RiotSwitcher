@@ -1,6 +1,6 @@
 # Riot Switcher
 
-**⚠️ IMPORTANT SECURITY NOTICE:**
+** IMPORTANT SECURITY NOTICE:**
 
 **Always download Riot Switcher ONLY from the official source.**  
 **Do NOT trust unknown links or unofficial websites.**  
@@ -18,13 +18,6 @@ Downloading from untrusted sources may compromise your computer's security.
 
 > **Note:** Riot Switcher is currently only available for League of Legends. Valorant support is planned for future updates.
 
-## Main Features
-
-- Manage multiple accounts separately.
-- Log in to any account with just **one click**.
-- Instantly switch the game's language (voice and text). *(Feature planned for future updates)*
-- Basic Vanguard core control support.
-
 ## How It Works
 
 1. **Save Current Account:** Captures local credentials from the Riot Client.
@@ -32,7 +25,7 @@ Downloading from untrusted sources may compromise your computer's security.
 3. **Automatic Login:** Riot Client opens directly in the chosen account.
 4. **Updates:** Future support for profile updates, per-account language settings, and additional integrations.
 
-## 🧐 How to Use Riot Switcher Properly
+##  How to Use Riot Switcher Properly
 
 After creating your account profile inside Riot Switcher, click on the **Play** button for the selected profile.
 
@@ -56,46 +49,9 @@ If you don't check "Stay signed in," Riot Switcher won't be able to handle autom
 
 Done! Your account is ready for one-click switching.
 
-## Requirements
+## AI Usage
 
-- Windows 10/11
-- Installed Riot Games Client
-- Administrator permissions (recommended for file copying and process management)
-
-## Project Status
-
-> Actively under development — currently focusing on bug fixes and new features. Future plans include Valorant integration, per-account language settings, and enhanced client management.
-
-## How to Build the Project
-
-The project is developed using **Godot Engine**, a powerful open-source game engine.
-
-### Automated Build (Python) — Recommended
-
-Requires **Python 3.10+** only (no extra libraries). The script finds Godot and UPX automatically, exports the project, compresses the executable with UPX and zips everything into a release.
-
-```bash
-python build/build_release.py 0.3.4
-```
-
-Or just `python build/build_release.py` — it will ask for the version. The release is created next to the script as `build/RiotSwitcher-0.3.4.zip`.
-
-### Manual Build (Godot Editor)
-
-1. **Download Godot Engine:** [Official Website](https://godotengine.org/)
-2. **Open the Project:** Launch Godot, click "Import Project" and select the Riot Switcher project folder.
-3. **Export the Build:**
-   - Open **Project > Export**.
-   - Add a **Windows Desktop** preset (or others if needed).
-   - Click **Export Project** to generate the executable.
-   - All user data and profile backups are automatically saved in `user://` (`%APPDATA%`), making the executable fully portable and independent!
-
-## About Godot Engine
-
-- **No need for external build systems** — everything is managed inside the editor.
-- **Cross-platform** — easily deploy to Windows, Linux, Mac, Web, and more.
-- **Lightweight builds** — small and efficient executables.
-- **Active community** — continuous improvements and new features.
+Generative AI is strictly prohibited, AI assisted tools are allowed for development tasks such as research, debugging, documentation, and code assistance. Contributions must always be understood, reviewed, and maintained by the person submitting them. Be efficient, but not dumb. Vibe coded contributions are NOT accepted.
 
 ## License and Disclaimer
 

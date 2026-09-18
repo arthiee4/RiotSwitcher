@@ -1,0 +1,213 @@
+# LANGUAGE translation for riotswitcher2 for the following files:
+# res://scenes/boot.tscn
+# res://scenes/main.tscn
+# res://scenes/add_menu.tscn
+# res://scenes/settings_menu.tscn
+#
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: riotswitcher2\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8-bit\n"
+"Language: vi\n"
+
+#: scenes/boot.tscn
+#: scenes/add_menu.tscn
+msgid "browser"
+msgstr "Duyệt"
+
+#: scenes/boot.tscn
+msgid "Select your Riot Client folder"
+msgstr "Chọn thư mục Riot Client của bạn"
+
+#: scenes/boot.tscn
+msgid "usually on C/Riot Games/Riot Client"
+msgstr "Thường Nằm ở C:/Riot Games/Riot Client"
+
+#: scenes/boot.tscn
+msgid "Open a Directory"
+msgstr "Mở thư mục"
+
+#: scenes/boot.tscn
+msgid "Select Current Folder"
+msgstr "Chọn thư mục hiện tại"
+
+#: scenes/boot.tscn
+msgid "u dont selected the right folder, please verify if is \"Riot Client \""
+msgstr "Bạn đã chọn sai thư mục, vui lòng kiểm tra xem có phải là \"Riot Client \" không"
+
+#: scenes/boot.tscn
+#: scenes/main.tscn
+msgid "x"
+msgstr "x"
+
+#: scenes/boot.tscn
+#: scenes/main.tscn
+msgid "-"
+msgstr "-"
+
+#: scenes/main.tscn
+msgid "accountname"
+msgstr "Tên Tài Khoản"
+
+#: scenes/main.tscn
+msgid "delete"
+msgstr "Xóa"
+
+#: scenes/main.tscn
+msgid "Settings"
+msgstr "Cài đặt"
+
+#: scenes/main.tscn
+msgid "R3NZSKIN"
+msgstr "R3NZSKIN"
+
+#: scenes/main.tscn
+msgid "take care bro, dont use this option may cause ban]"
+msgstr "Cẩn thận bạn ơi, đừng dùng tùy chọn này có thể gây ban]"
+
+#: scenes/main.tscn
+#: scenes/settings_menu.tscn
+msgid "Vanguard"
+msgstr "Vanguard"
+
+#: scenes/main.tscn
+#: scenes/settings_menu.tscn
+msgid "Start"
+msgstr "Bắt đầu"
+
+#: scenes/main.tscn
+#: scenes/settings_menu.tscn
+msgid "Stop"
+msgstr "Dừng"
+
+#: scenes/main.tscn
+#: scenes/settings_menu.tscn
+msgid "Delete all profiles"
+msgstr "Xóa tất cả hồ sơ"
+
+#: scenes/main.tscn
+#: scenes/settings_menu.tscn
+msgid "Delete"
+msgstr "Xóa"
+
+#: scenes/main.tscn
+#: scenes/settings_menu.tscn
+msgid "Language"
+msgstr "Ngôn ngữ"
+
+#: scenes/main.tscn
+msgid "Riot"
+msgstr "Riot"
+
+#: scenes/main.tscn
+msgid "Switcher"
+msgstr "Switcher"
+
+#: scenes/main.tscn
+msgid "beta  Ana."
+msgstr "beta Ana."
+
+#: scenes/main.tscn
+msgid "0.2"
+msgstr "0.2"
+
+#: scenes/main.tscn
+msgid "v 0.2"
+msgstr "v 0.2"
+
+#: scenes/add_menu.tscn
+msgid "Add an account"
+msgstr "Thêm tài khoản"
+
+#: scenes/add_menu.tscn
+msgid "Choose your bg"
+msgstr "Chọn nền"
+
+#: scenes/add_menu.tscn
+msgid "name"
+msgstr "tên"
+
+#: scenes/add_menu.tscn
+msgid "Proifle name"
+msgstr "Tên hồ sơ"
+
+#: scenes/add_menu.tscn
+msgid "Upload custom image "
+msgstr "Tải lên hình ảnh"
+
+#: scenes/add_menu.tscn
+msgid "create"
+msgstr "tạo"
+
+#: scenes/add_menu.tscn
+msgid "Open a File"
+msgstr "Mở tệp"
+
+#: scenes/add_menu.tscn
+msgid "Open"
+msgstr "Mở"
+
+#: scenes/add_menu.tscn
+msgid "Finish creation"
+msgstr "Hoàn tất tạo"
+
+#: scenes/add_menu.tscn
+msgid ""
+"Follow the steps and blabla\n"
+"u know what thats mean"
+msgstr ""
+"Làm theo các bước và blabla\n"
+"bạn biết điều đó nghĩa là gì mà"
+
+#: scenes/add_menu.tscn
+msgid "Account1"
+msgstr "Tài khoản1"
+
+#: scenes/add_menu.tscn
+msgid "Preview"
+msgstr "Xem trước"
+
+#: scenes/add_menu.tscn
+msgid "error 1"
+msgstr "lỗi 1"
+
+#: scenes/add_menu.tscn
+msgid "Remember to do this when u open your account for the first time."
+msgstr "Hãy nhớ làm điều này khi bạn mở tài khoản lần đầu tiên."
+
+#: scenes/add_menu.tscn
+msgid "close thattt warning >:("
+msgstr "đóng cái cảnh báo đó đi >:("
+
+#: scenes/settings_menu.tscn
+msgid "Appear Offline"
+msgstr "Hiển thị ngoại tuyến"
+
+#: scenes/settings_menu.tscn
+msgid "Hides your online presence in Riot Client and supported games."
+msgstr "Ẩn trạng thái trực tuyến của bạn trong Riot Client và các trò chơi được hỗ trợ."
+
+#: scenes/settings_menu.tscn
+msgid "Game settings"
+msgstr "Cài đặt trò chơi"
+
+#: scenes/settings_menu.tscn
+msgid "Enable shared in-game settings for all profiles."
+msgstr "Bật cài đặt trong trò chơi dùng chung cho tất cả hồ sơ."
+
+#: scenes/settings_menu.tscn
+msgid "Manage Riot Vanguard anti-cheat service and tray process."
+msgstr "Quản lý dịch vụ chống gian lận Riot Vanguard và tray process."
+
+#: scenes/settings_menu.tscn
+msgid "Select the display language for the application."
+msgstr "Chọn ngôn ngữ hiển thị cho ứng dụng."
+
+#: scenes/settings_menu.tscn
+msgid "Permanently deletes all saved account profiles and session data."
+msgstr "Xóa vĩnh viễn tất cả hồ sơ tài khoản đã lưu và dữ liệu session."
