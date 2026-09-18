@@ -373,14 +373,8 @@ static func import_backup(src_file_path: String, progress_cb: Callable = Callabl
 	if progress_cb.is_valid():
 		progress_cb.call(0.95, _tr("Updating profile manager..."))
 
-	# Reload profiles in ProfileManager
-	var tree := Engine.get_main_loop() as SceneTree
-	var profile_mgr = tree.root.get_node_or_null("/root/ProfileManager") if tree and tree.root else null
+	# ProfileManager is reloaded on the main thread by the caller.
 	var actual_count := profile_count
-	if profile_mgr and profile_mgr.has_method("load_profiles_data"):
-		var loaded_profiles = profile_mgr.load_profiles_data()
-		if loaded_profiles is Array:
-			actual_count = loaded_profiles.size()
 
 	if progress_cb.is_valid():
 		progress_cb.call(1.0, _tr("Profiles imported successfully!"))
