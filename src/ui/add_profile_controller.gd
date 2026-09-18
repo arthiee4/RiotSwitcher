@@ -83,6 +83,7 @@ func _connect_signals() -> void:
 	_file_dialog.file_selected.connect(_on_file_selected)
 	_browse_button.pressed.connect(_on_browse_button_pressed)
 	_create_button.pressed.connect(_on_create_button_pressed)
+	_create_button.set_meta("sfx", &"confirm")
 	_close_warning_button.pressed.connect(_on_close_warning_pressed)
 
 
@@ -192,6 +193,7 @@ func _on_close_warning_pressed() -> void:
 func _show_error(message: String) -> void:
 	_error_label.text = message
 	_error_label.visible = true
+	SfxManager.error()
 
 
 func _hide_error() -> void:

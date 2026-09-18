@@ -75,6 +75,12 @@ func _ready() -> void:
 	if add_btn and not add_btn.pressed.is_connected(_on_add_profile_button_pressed):
 		add_btn.pressed.connect(_on_add_profile_button_pressed)
 
+	# Left rail uses the distinct navigation sound instead of the generic click.
+	for panel in [_home_button_panel, _settings_button_panel, _add_button_panel]:
+		var nav_btn := _get_button(panel)
+		if nav_btn:
+			nav_btn.set_meta("sfx", &"nav")
+
 	select_home()
 
 

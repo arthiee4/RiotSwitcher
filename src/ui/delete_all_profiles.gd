@@ -6,6 +6,7 @@ extends Control
 func _ready() -> void:
 	if _delete_button:
 		_delete_button.pressed.connect(_on_delete_all_pressed)
+		_delete_button.set_meta("sfx", &"cancel")
 
 
 func _on_delete_all_pressed() -> void:

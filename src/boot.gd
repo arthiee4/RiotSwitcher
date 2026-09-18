@@ -67,6 +67,7 @@ func _on_dir_selected(dir_path: String) -> void:
 	if not FileAccess.file_exists(exe_path):
 		_error.text = "RiotClientServices.exe not found in this directory! Please select the correct folder."
 		_error.visible = true
+		SfxManager.error()
 		return
 
 	_error.visible = false

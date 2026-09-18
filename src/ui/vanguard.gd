@@ -14,7 +14,9 @@ var _worker: Thread = null
 
 func _ready() -> void:
 	_restart_button.pressed.connect(_on_restart_pressed)
+	_restart_button.set_meta("sfx", &"confirm")
 	_close_button.pressed.connect(_on_close_pressed)
+	_close_button.set_meta("sfx", &"cancel")
 
 
 func _exit_tree() -> void:
