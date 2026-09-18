@@ -9,15 +9,20 @@
 # Binary Tools
 rcedit-x64.exe
 
+# Vendored addon source repo (has its own .git); only addons/ is shipped
+/native/
+
 # Build Artifacts & Backups
 *.exe
 *.pck
 *.tmp
 /build/dist/
+/build/packages/
 /build/image_backup/
 /build/baseline/
 /build/*.zip
 /build/build_history.json
+/build/build_profile.json
 
 # User Data & sensitive configs
 Data/profiles_data.json
