@@ -211,3 +211,165 @@ msgstr "选择应用程序的显示语言。"
 #: scenes/settings_menu.tscn
 msgid "Permanently deletes all saved account profiles and session data."
 msgstr "永久删除所有保存的账户配置文件和会话数据。"
+
+#: scenes/settings_menu.tscn
+msgid "Riot Logs & Cache"
+msgstr "Riot 日志与缓存"
+
+#: scenes/settings_menu.tscn
+msgid "Clean"
+msgstr "清理"
+
+#: scenes/settings_menu.tscn
+msgid "Permanently removes old log files and crash dumps to reclaim disk space."
+msgstr "永久删除旧日志文件和崩溃转储以释放磁盘空间。"
+
+#: scenes/settings_menu.tscn
+msgid "Backup Profiles"
+msgstr "备份配置文件"
+
+#: scenes/settings_menu.tscn
+msgid "Export"
+msgstr "导出"
+
+#: scenes/settings_menu.tscn
+msgid "Import"
+msgstr "导入"
+
+#: scenes/settings_menu.tscn
+msgid "Export or import an encrypted backup (.zip) with all profiles, sessions, and backgrounds."
+msgstr "导出或导入包含所有配置文件、会话和背景的加密备份 (.zip)。"
+
+#: scenes/settings_menu.tscn
+msgid "Share in-game settings (only works with League of Legends closed)."
+msgstr "为所有配置文件启用共享游戏设置（仅在 LoL 关闭时有效）。"
+
+#: src/ui/profile_button.gd
+msgid "Edit"
+msgstr "编辑"
+
+#: src/ui/profile_button.gd
+msgid "Waiting for first login..."
+msgstr "等待首次登录..."
+
+#: src/ui/systemtray.gd
+msgid "Exit"
+msgstr "退出"
+
+#: src/ui/clean_logs.gd
+msgid "Cleaning..."
+msgstr "清理中..."
+
+#: src/ui/clean_logs.gd
+msgid "Freed %s"
+msgstr "已释放 %s"
+
+#: src/ui/clean_logs.gd
+msgid "Already clean (0 B)"
+msgstr "已清洁 (0 B)"
+
+#: src/ui/shared_settings.gd
+msgid "Settings are locked while a profile is running. Close the game to modify."
+msgstr "配置文件运行时设置被锁定。关闭游戏后修改。"
+
+msgid "Iron"
+msgstr "坚韧黑铁"
+
+msgid "Bronze"
+msgstr "英勇黄铜"
+
+msgid "Silver"
+msgstr "不屈白银"
+
+msgid "Gold"
+msgstr "荣耀黄金"
+
+msgid "Platinum"
+msgstr "华贵铂金"
+
+msgid "Emerald"
+msgstr "流光翡翠"
+
+msgid "Diamond"
+msgstr "璀璨钻石"
+
+msgid "Master"
+msgstr "超凡大师"
+
+msgid "Grandmaster"
+msgstr "傲世宗师"
+
+msgid "Challenger"
+msgstr "最强王者"
+
+msgid "Unranked"
+msgstr "未定级"
+
+msgid "Importing"
+msgstr "正在导入"
+
+msgid "Exporting"
+msgstr "正在导出"
+
+msgid "Success!"
+msgstr "成功！"
+
+msgid "Exported %d profile(s) successfully!"
+msgstr "已成功导出 %d 个配置文件！"
+
+msgid "Imported %d profile(s) successfully!"
+msgstr "已成功导入 %d 个配置文件！"
+
+msgid "Failed"
+msgstr "失败"
+
+msgid "Close"
+msgstr "关闭"
+
+msgid "Preparing..."
+msgstr "准备中..."
+
+msgid "Gathering profile data..."
+msgstr "正在收集配置文件数据..."
+
+msgid "Writing manifest..."
+msgstr "正在写入清单..."
+
+msgid "Packing session files (%d/%d)..."
+msgstr "正在打包会话文件 (%d/%d)..."
+
+msgid "Packing background images (%d/%d)..."
+msgstr "正在打包背景图片 (%d/%d)..."
+
+msgid "Encrypting backup archive..."
+msgstr "正在加密备份文档..."
+
+msgid "Saving file to disk..."
+msgstr "正在保存文件到磁盘..."
+
+msgid "Reading backup file..."
+msgstr "正在读取备份文件..."
+
+msgid "Verifying security and decrypting..."
+msgstr "正在验证安全性并解密..."
+
+msgid "Opening archive..."
+msgstr "正在打开存档..."
+
+msgid "Restoring files (%d/%d)..."
+msgstr "正在恢复文件 (%d/%d)..."
+
+msgid "Updating profile manager..."
+msgstr "正在更新配置文件管理器..."
+
+msgid "Profiles imported successfully!"
+msgstr "配置文件导入成功！"
+
+msgid "Error"
+msgstr "错误"
+
+msgid "Export failed."
+msgstr "导出失败。"
+
+msgid "Import failed."
+msgstr "导入失败。"

@@ -211,3 +211,165 @@ msgstr "Selecciona el idioma de la aplicación."
 #: scenes/settings_menu.tscn
 msgid "Permanently deletes all saved account profiles and session data."
 msgstr "Elimina permanentemente todos los perfiles y sesiones guardadas."
+
+#: scenes/settings_menu.tscn
+msgid "Riot Logs & Cache"
+msgstr "Logs y caché de Riot"
+
+#: scenes/settings_menu.tscn
+msgid "Clean"
+msgstr "Limpiar"
+
+#: scenes/settings_menu.tscn
+msgid "Permanently removes old log files and crash dumps to reclaim disk space."
+msgstr "Elimina permanentemente archivos de log y volcados de memoria para liberar espacio."
+
+#: scenes/settings_menu.tscn
+msgid "Backup Profiles"
+msgstr "Copia de seguridad"
+
+#: scenes/settings_menu.tscn
+msgid "Export"
+msgstr "Exportar"
+
+#: scenes/settings_menu.tscn
+msgid "Import"
+msgstr "Importar"
+
+#: scenes/settings_menu.tscn
+msgid "Export or import an encrypted backup (.zip) with all profiles, sessions, and backgrounds."
+msgstr "Exporta o importa una copia cifrada (.zip) con todos los perfiles, sesiones e imágenes."
+
+#: scenes/settings_menu.tscn
+msgid "Share in-game settings (only works with League of Legends closed)."
+msgstr "Comparte la configuración del juego para todos los perfiles (solo con LoL cerrado)."
+
+#: src/ui/profile_button.gd
+msgid "Edit"
+msgstr "Editar"
+
+#: src/ui/profile_button.gd
+msgid "Waiting for first login..."
+msgstr "Esperando primer inicio de sesión..."
+
+#: src/ui/systemtray.gd
+msgid "Exit"
+msgstr "Salir"
+
+#: src/ui/clean_logs.gd
+msgid "Cleaning..."
+msgstr "Limpiando..."
+
+#: src/ui/clean_logs.gd
+msgid "Freed %s"
+msgstr "Liberado %s"
+
+#: src/ui/clean_logs.gd
+msgid "Already clean (0 B)"
+msgstr "Ya limpio (0 B)"
+
+#: src/ui/shared_settings.gd
+msgid "Settings are locked while a profile is running. Close the game to modify."
+msgstr "Ajustes bloqueados mientras hay un perfil activo. Cierra el juego para modificar."
+
+msgid "Iron"
+msgstr "Hierro"
+
+msgid "Bronze"
+msgstr "Bronce"
+
+msgid "Silver"
+msgstr "Plata"
+
+msgid "Gold"
+msgstr "Oro"
+
+msgid "Platinum"
+msgstr "Platino"
+
+msgid "Emerald"
+msgstr "Esmeralda"
+
+msgid "Diamond"
+msgstr "Diamante"
+
+msgid "Master"
+msgstr "Maestro"
+
+msgid "Grandmaster"
+msgstr "Gran Maestro"
+
+msgid "Challenger"
+msgstr "Desafiante"
+
+msgid "Unranked"
+msgstr "Sin rango"
+
+msgid "Importing"
+msgstr "Importando"
+
+msgid "Exporting"
+msgstr "Exportando"
+
+msgid "Success!"
+msgstr "¡Éxito!"
+
+msgid "Exported %d profile(s) successfully!"
+msgstr "¡%d perfil(es) exportado(s) con éxito!"
+
+msgid "Imported %d profile(s) successfully!"
+msgstr "¡%d perfil(es) importado(s) con éxito!"
+
+msgid "Failed"
+msgstr "Error"
+
+msgid "Close"
+msgstr "Cerrar"
+
+msgid "Preparing..."
+msgstr "Preparando..."
+
+msgid "Gathering profile data..."
+msgstr "Recopilando datos de perfiles..."
+
+msgid "Writing manifest..."
+msgstr "Escribiendo manifiesto..."
+
+msgid "Packing session files (%d/%d)..."
+msgstr "Empaquetando sesiones (%d/%d)..."
+
+msgid "Packing background images (%d/%d)..."
+msgstr "Empaquetando imágenes de fondo (%d/%d)..."
+
+msgid "Encrypting backup archive..."
+msgstr "Cifrando archivo de copia de seguridad..."
+
+msgid "Saving file to disk..."
+msgstr "Guardando en disco..."
+
+msgid "Reading backup file..."
+msgstr "Leyendo archivo de copia de seguridad..."
+
+msgid "Verifying security and decrypting..."
+msgstr "Verificando seguridad y descifrando..."
+
+msgid "Opening archive..."
+msgstr "Abriendo archivo..."
+
+msgid "Restoring files (%d/%d)..."
+msgstr "Restaurando archivos (%d/%d)..."
+
+msgid "Updating profile manager..."
+msgstr "Actualizando gestor de perfiles..."
+
+msgid "Profiles imported successfully!"
+msgstr "¡Perfiles importados con éxito!"
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Export failed."
+msgstr "Error al exportar."
+
+msgid "Import failed."
+msgstr "Error al importar."

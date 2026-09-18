@@ -211,3 +211,165 @@ msgstr "애플리케이션의 표시 언어를 선택하세요."
 #: scenes/settings_menu.tscn
 msgid "Permanently deletes all saved account profiles and session data."
 msgstr "저장된 모든 계정 프로필 및 세션 데이터를 영구적으로 삭제합니다."
+
+#: scenes/settings_menu.tscn
+msgid "Riot Logs & Cache"
+msgstr "Riot 로그 및 캐시"
+
+#: scenes/settings_menu.tscn
+msgid "Clean"
+msgstr "정리"
+
+#: scenes/settings_menu.tscn
+msgid "Permanently removes old log files and crash dumps to reclaim disk space."
+msgstr "오래된 로그 파일과 크래시 덤프를 영구 삭제하여 디스크 공간을 확보합니다."
+
+#: scenes/settings_menu.tscn
+msgid "Backup Profiles"
+msgstr "프로필 백업"
+
+#: scenes/settings_menu.tscn
+msgid "Export"
+msgstr "내보내기"
+
+#: scenes/settings_menu.tscn
+msgid "Import"
+msgstr "가져오기"
+
+#: scenes/settings_menu.tscn
+msgid "Export or import an encrypted backup (.zip) with all profiles, sessions, and backgrounds."
+msgstr "모든 프로필, 세션, 배경을 포함한 암호화된 백업(.zip)을 내보내거나 가져옵니다."
+
+#: scenes/settings_menu.tscn
+msgid "Share in-game settings (only works with League of Legends closed)."
+msgstr "모든 프로필에 대해 공유 게임 설정을 활성화합니다 (LoL이 종료된 상태에서만 작동)."
+
+#: src/ui/profile_button.gd
+msgid "Edit"
+msgstr "편집"
+
+#: src/ui/profile_button.gd
+msgid "Waiting for first login..."
+msgstr "첫 번째 로그인 대기 중..."
+
+#: src/ui/systemtray.gd
+msgid "Exit"
+msgstr "종료"
+
+#: src/ui/clean_logs.gd
+msgid "Cleaning..."
+msgstr "정리 중..."
+
+#: src/ui/clean_logs.gd
+msgid "Freed %s"
+msgstr "%s 해제됨"
+
+#: src/ui/clean_logs.gd
+msgid "Already clean (0 B)"
+msgstr "이미 깨끗함 (0 B)"
+
+#: src/ui/shared_settings.gd
+msgid "Settings are locked while a profile is running. Close the game to modify."
+msgstr "프로필이 실행 중일 때는 설정이 잠겨 있습니다. 게임을 닫고 수정하세요."
+
+msgid "Iron"
+msgstr "아이언"
+
+msgid "Bronze"
+msgstr "브론즈"
+
+msgid "Silver"
+msgstr "실버"
+
+msgid "Gold"
+msgstr "골드"
+
+msgid "Platinum"
+msgstr "플래티넘"
+
+msgid "Emerald"
+msgstr "에메랄드"
+
+msgid "Diamond"
+msgstr "다이아몬드"
+
+msgid "Master"
+msgstr "마스터"
+
+msgid "Grandmaster"
+msgstr "그랜드마스터"
+
+msgid "Challenger"
+msgstr "챌린저"
+
+msgid "Unranked"
+msgstr "언랭크"
+
+msgid "Importing"
+msgstr "가져오는 중"
+
+msgid "Exporting"
+msgstr "내보내는 중"
+
+msgid "Success!"
+msgstr "성공!"
+
+msgid "Exported %d profile(s) successfully!"
+msgstr "%d개 프로필을 성공적으로 내보냈습니다!"
+
+msgid "Imported %d profile(s) successfully!"
+msgstr "%d개 프로필을 성공적으로 가져왔습니다!"
+
+msgid "Failed"
+msgstr "실패"
+
+msgid "Close"
+msgstr "닫기"
+
+msgid "Preparing..."
+msgstr "준비 중..."
+
+msgid "Gathering profile data..."
+msgstr "프로필 데이터 수집 중..."
+
+msgid "Writing manifest..."
+msgstr "매니페스트 작성 중..."
+
+msgid "Packing session files (%d/%d)..."
+msgstr "세션 파일 압축 중 (%d/%d)..."
+
+msgid "Packing background images (%d/%d)..."
+msgstr "배경 이미지 압축 중 (%d/%d)..."
+
+msgid "Encrypting backup archive..."
+msgstr "백업 아카이브 암호화 중..."
+
+msgid "Saving file to disk..."
+msgstr "파일 저장 중..."
+
+msgid "Reading backup file..."
+msgstr "백업 파일 읽는 중..."
+
+msgid "Verifying security and decrypting..."
+msgstr "보안 확인 및 복호화 중..."
+
+msgid "Opening archive..."
+msgstr "아카이브 열기..."
+
+msgid "Restoring files (%d/%d)..."
+msgstr "파일 복원 중 (%d/%d)..."
+
+msgid "Updating profile manager..."
+msgstr "프로필 매니저 업데이트 중..."
+
+msgid "Profiles imported successfully!"
+msgstr "프로필을 성공적으로 가져왔습니다!"
+
+msgid "Error"
+msgstr "오류"
+
+msgid "Export failed."
+msgstr "내보내기에 실패했습니다."
+
+msgid "Import failed."
+msgstr "가져오기에 실패했습니다."
