@@ -71,3 +71,4 @@ common/physics_jitter_fix=0.0
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+anti_aliasing/quality/msaa_2d=2
