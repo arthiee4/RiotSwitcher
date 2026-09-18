@@ -21,6 +21,7 @@
 [ext_resource type="AudioStream" uid="uid://hu0g74hrua5e" path="res://assets/sfx/12_scn1_btn_11.wav" id="20_sfx_click"]
 [ext_resource type="AudioStream" uid="uid://dcujumw388yfm" path="res://assets/sfx/40_scn3_btn_2.wav" id="21_sfx_nav"]
 [ext_resource type="AudioStream" uid="uid://cjiv62ae386rh" path="res://assets/sfx/10_scn1_btn_1.wav" id="22_sfx_cancel"]
+[ext_resource type="Script" uid="uid://8ilwat7bye36" path="res://src/ui/update_notifier.gd" id="23_updatenotifier"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0ld40"]
 shader = ExtResource("7_myoxr")
@@ -3839,6 +3840,8 @@ Button/styles/hover = SubResource("StyleBoxFlat_yq6so")
 Button/styles/normal = SubResource("StyleBoxFlat_fv21b")
 Button/styles/pressed = SubResource("StyleBoxFlat_tel4y")
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_updbtn"]
+
 [node name="main" type="Control" unique_id=1369969409]
 clip_contents = true
 layout_mode = 3
@@ -4447,5 +4450,49 @@ pitch_scale = 0.94
 stream = ExtResource("22_sfx_cancel")
 volume_db = -25.0
 pitch_scale = 0.82
+
+[node name="update_notifier" type="Control" parent="." unique_id=1428346001]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -366.0
+offset_top = -43.0
+offset_right = -22.0
+offset_bottom = -17.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("23_updatenotifier")
+
+[node name="update_label" type="Button" parent="update_notifier" unique_id=1428346002]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = 2.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.04, 0.14, 1)
+theme_override_colors/font_hover_color = Color(1, 0.35, 0.4, 1)
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxEmpty_updbtn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_updbtn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_updbtn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_updbtn")
+text = "Update available (x.x.x)"
+alignment = 2
+
+[node name="http" type="HTTPRequest" parent="update_notifier" unique_id=1428346003]
 
 [editable path="add_menu"]
