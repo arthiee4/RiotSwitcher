@@ -1,0 +1,113 @@
+[gd_scene format=3 uid="uid://cx8v4kmoae7q1"]
+
+[ext_resource type="Script" uid="uid://dhd530yevrol6" path="res://src/ui/backup_progress_modal.gd" id="1_modalctrl"]
+[ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="2_bold"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal_panel"]
+bg_color = Color(0.0687983, 0.0687983, 0.0687983, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.16862746)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 12
+anti_aliasing_size = 1.5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prog_bg"]
+bg_color = Color(0.04, 0.04, 0.05, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.16862746)
+border_blend = true
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prog_fill"]
+bg_color = Color(1, 0.04, 0.14, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="backup_progress_modal" type="Control" unique_id=1123351879]
+z_index = 200
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_modalctrl")
+
+[node name="backdrop" type="ColorRect" parent="." unique_id=695242081]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.72)
+
+[node name="Panel" type="Panel" parent="." unique_id=1049882731]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -197.0
+offset_top = -64.47
+offset_right = 197.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal_panel")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1416145443]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 24.0
+offset_right = -30.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 21
+alignment = 1
+
+[node name="title_label" type="Label" parent="Panel/VBoxContainer" unique_id=171214776]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_bold")
+theme_override_font_sizes/font_size = 18
+text = "Importing..."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="Panel/VBoxContainer" unique_id=388967750]
+custom_minimum_size = Vector2(320, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_prog_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_prog_fill")
+show_percentage = false
+
+[node name="action_button" type="Button" parent="Panel/VBoxContainer" unique_id=613397727]
+visible = false
+custom_minimum_size = Vector2(100, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+text = "Close"
