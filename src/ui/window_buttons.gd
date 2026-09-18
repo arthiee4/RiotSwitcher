@@ -10,6 +10,7 @@ extends Control
 func _ready() -> void:
 	if _close_button and not _close_button.pressed.is_connected(_on_close_button_pressed):
 		_close_button.pressed.connect(_on_close_button_pressed)
+		_close_button.set_meta("sfx", &"cancel")
 	if _minimize_button and not _minimize_button.pressed.is_connected(_on_minimize_button_pressed):
 		_minimize_button.pressed.connect(_on_minimize_button_pressed)
 

@@ -5,18 +5,22 @@
 [ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="2_tuiqe"]
 [ext_resource type="Script" uid="uid://bc7qhx1yer8kc" path="res://src/ui/left_menu_handler.gd" id="3_0ld40"]
 [ext_resource type="Script" uid="uid://bmhqxoxdti76p" path="res://src/ui/window_buttons.gd" id="4_sm8vm"]
-[ext_resource type="Texture2D" uid="uid://d5g0gb7ai60e" path="res://assets/icons/ui/icon_add.png" id="6_36k36"]
-[ext_resource type="Texture2D" uid="uid://ctj0hpnxllfo7" path="res://assets/icons/ui/icon_settings.png" id="6_vqjbp"]
-[ext_resource type="Texture2D" uid="uid://ba38x6la61tn4" path="res://assets/branding/no_bg.png" id="7_a8y0u"]
-[ext_resource type="Texture2D" uid="uid://c51yxo6qsv20f" path="res://assets/icons/ui/icon_home.png" id="7_jmtl2"]
+[ext_resource type="Texture2D" uid="uid://cvvwo42jdh7uj" path="res://assets/icons/ui/icon_add.png" id="6_36k36"]
+[ext_resource type="Texture2D" uid="uid://ivql3vhhafwm" path="res://assets/icons/ui/icon_settings.png" id="6_vqjbp"]
+[ext_resource type="Texture2D" uid="uid://dgdxtpsyq0png" path="res://assets/branding/no_bg.png" id="7_a8y0u"]
+[ext_resource type="Texture2D" uid="uid://ckd8w1e1vnaef" path="res://assets/icons/ui/icon_home.png" id="7_jmtl2"]
 [ext_resource type="Shader" uid="uid://cswe7248fk0td" path="res://shaders/glow.gdshader" id="7_myoxr"]
 [ext_resource type="Script" uid="uid://dxcm2e2j4ubiw" path="res://src/ui/upper_side.gd" id="8_njgeq"]
-[ext_resource type="Texture2D" uid="uid://b66uhow7vane4" path="res://assets/icons/ui/icon_github.png" id="11_qja53"]
+[ext_resource type="Texture2D" uid="uid://drrnkkjhq0hud" path="res://assets/icons/ui/icon_github.png" id="11_qja53"]
 [ext_resource type="PackedScene" uid="uid://w3jljyf63rcp" path="res://scenes/add_menu.tscn" id="12_7avnf"]
 [ext_resource type="Script" uid="uid://b7k3ohhrolpu8" path="res://src/ui/systemtray.gd" id="14_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://c2xgjxmibyhyb" path="res://scenes/boot.tscn" id="16_jbj1t"]
 [ext_resource type="PackedScene" uid="uid://c8v7kmus1he0q" path="res://scenes/settings_menu.tscn" id="17_settings"]
 [ext_resource type="PackedScene" uid="uid://bwm4r2kefw1yq" path="res://scenes/components/edit_profile_modal.tscn" id="18_editmodal"]
+[ext_resource type="Script" uid="uid://c0sfmgr7a2cad" path="res://src/managers/sfx_manager.gd" id="19_sfxmgr"]
+[ext_resource type="AudioStream" uid="uid://hu0g74hrua5e" path="res://assets/sfx/12_scn1_btn_11.wav" id="20_sfx_click"]
+[ext_resource type="AudioStream" uid="uid://dcujumw388yfm" path="res://assets/sfx/40_scn3_btn_2.wav" id="21_sfx_nav"]
+[ext_resource type="AudioStream" uid="uid://cjiv62ae386rh" path="res://assets/sfx/10_scn1_btn_1.wav" id="22_sfx_cancel"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0ld40"]
 shader = ExtResource("7_myoxr")
@@ -4294,6 +4298,8 @@ offset_bottom = 125.0
 
 [node name="profile_button" parent="add_menu/preview" parent_id_path=PackedInt32Array(31094257, 1859603040) index="0" unique_id=101788536]
 custom_minimum_size = Vector2(0, 0)
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="error" parent="add_menu" index="8" unique_id=1088895385]
 visible = false
@@ -4405,5 +4411,41 @@ mouse_filter = 1
 
 [node name="systemtray" type="Node" parent="." unique_id=2000656063]
 script = ExtResource("14_a8y0u")
+
+[node name="audio" type="Node" parent="." unique_id=542774275]
+script = ExtResource("19_sfxmgr")
+
+[node name="click" type="AudioStreamPlayer" parent="audio" unique_id=1193484940]
+stream = ExtResource("20_sfx_click")
+volume_db = -10.0
+pitch_scale = 1.05
+
+[node name="toggle" type="AudioStreamPlayer" parent="audio" unique_id=1832443510]
+stream = ExtResource("20_sfx_click")
+volume_db = -10.0
+pitch_scale = 1.15
+
+[node name="nav" type="AudioStreamPlayer" parent="audio" unique_id=246586727]
+stream = ExtResource("21_sfx_nav")
+volume_db = -10.0
+
+[node name="open" type="AudioStreamPlayer" parent="audio" unique_id=1439545887]
+stream = ExtResource("21_sfx_nav")
+volume_db = -10.0
+pitch_scale = 1.12
+
+[node name="cancel" type="AudioStreamPlayer" parent="audio" unique_id=974529201]
+stream = ExtResource("22_sfx_cancel")
+volume_db = -25.0
+
+[node name="confirm" type="AudioStreamPlayer" parent="audio" unique_id=1422984141]
+stream = ExtResource("20_sfx_click")
+volume_db = -10.0
+pitch_scale = 0.94
+
+[node name="error" type="AudioStreamPlayer" parent="audio" unique_id=961214824]
+stream = ExtResource("22_sfx_cancel")
+volume_db = -25.0
+pitch_scale = 0.82
 
 [editable path="add_menu"]
