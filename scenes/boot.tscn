@@ -1,6 +1,5 @@
 [gd_scene format=4 uid="uid://c2xgjxmibyhyb"]
 
-[ext_resource type="Shader" uid="uid://cswe7248fk0td" path="res://shaders/glow.gdshader" id="1_6ypks"]
 [ext_resource type="Script" uid="uid://cxblws6at7dcf" path="res://src/boot.gd" id="1_n61mk"]
 [ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="3_j20pb"]
 [ext_resource type="FontFile" uid="uid://c08w5jcfwr4pe" path="res://assets/fonts/Raleway-Light.ttf" id="4_fbohu"]
@@ -9,13 +8,6 @@
 [ext_resource type="Script" uid="uid://t8yek8vtavjl" path="res://src/ui/lang.gd" id="6_u8wmu"]
 [ext_resource type="Script" uid="uid://bmhqxoxdti76p" path="res://src/ui/window_buttons.gd" id="7_u8wmu"]
 [ext_resource type="Texture2D" uid="uid://drrnkkjhq0hud" path="res://assets/icons/ui/icon_github.png" id="8_r4jsg"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_n61mk"]
-shader = ExtResource("1_6ypks")
-shader_parameter/rect_size = Vector2(0.1, 0.1)
-shader_parameter/bness = 0.22
-shader_parameter/fall_off_scale = 3.365
-shader_parameter/b_offset = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r4jsg"]
 
@@ -2574,38 +2566,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
-
-[node name="glow" type="ColorRect" parent="." unique_id=1414966683]
-material = SubResource("ShaderMaterial_n61mk")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 593.483
-offset_top = 438.708
-offset_right = 871.483
-offset_bottom = 909.708
-grow_horizontal = 2
-grow_vertical = 2
-rotation = 2.88733
-mouse_filter = 2
-color = Color(0.201527, 0.201527, 0.201527, 1)
-
-[node name="glow2" type="ColorRect" parent="." unique_id=1461245641]
-material = SubResource("ShaderMaterial_n61mk")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 861.483
-offset_top = 124.708
-offset_right = 1139.48
-offset_bottom = 595.708
-grow_horizontal = 2
-grow_vertical = 2
-rotation = 2.88733
-mouse_filter = 2
-color = Color(0.201527, 0.201527, 0.201527, 1)
 
 [node name="Control" type="Control" parent="." unique_id=1938827579]
 layout_mode = 1

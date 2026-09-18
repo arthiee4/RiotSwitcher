@@ -14,16 +14,16 @@ extends Node
 ## Client is still booting.
 
 signal injection_finished(success: bool)
+signal summoner_stats_fetched(stats: Dictionary)
 
 enum State {
 	IDLE,
 	POLLING_LOCKFILE,
 	INJECTING,
-	DONE
 }
 
-const MAX_POLL_ATTEMPTS := 80 # 80 * 2.0s = 160s timeout
 const POLL_INTERVAL_SEC := 2.0
+const IDLE_PING_INTERVAL_MSEC := 60000 # 60 seconds ping when sitting in lobby
 
 ## Hard deadline for each HTTP exchange (connect + request + response).
 const HTTP_STEP_TIMEOUT_SEC := 8.0
@@ -33,23 +33,30 @@ const LCU_HOST := "127.0.0.1"
 
 # Injection pipeline steps.
 const STEP_READY_SUMMONER := 0
-const STEP_READY_FALLBACK := 1
-const STEP_PATCH := 2
-const STEP_SAVE := 3
-const STEP_RELOAD := 4
-const STEP_FINISH := 5
+const STEP_FETCH_RANKED := 1
+const STEP_FETCH_CHAT_ME := 2
+const STEP_PATCH := 3
+const STEP_SAVE := 4
+const STEP_RELOAD := 5
+const STEP_FINISH := 6
 
 var _state: State = State.IDLE
 var _polling_timer: Timer = null
+var _captured_stats: Dictionary = {}
+var _response_buffer := PackedByteArray()
 
 var _league_dir: String = ""
 var _persisted_settings_path: String = ""
-var _attempts: int = 0
 var _active_port: int = 0
 var _active_token: String = ""
 var _active_pid: int = 0
 var _lcu_payload: Dictionary = {}
 var _payload_json: String = ""
+
+var _stats_captured: bool = false
+var _settings_injected: bool = false
+var _was_in_game: bool = false
+var _last_ping_msec: int = 0
 
 # --- Async HTTP pipeline state (driven from _process) ---
 var _http: HTTPClient = null
@@ -81,31 +88,37 @@ func _exit_tree() -> void:
 	stop()
 
 
-## Starts watching for LeagueClient and performs settings injection as soon as it's ready.
-func start_injection(league_dir: String, persisted_settings_path: String) -> void:
+## Starts watching for LeagueClient. Continuously monitors live summoner stats and,
+## if a persisted settings path is provided, injects shared game settings.
+func start_injection(league_dir: String, persisted_settings_path: String = "") -> void:
 	stop()
 	_league_dir = league_dir
 	_persisted_settings_path = persisted_settings_path
-	_attempts = 0
 	_active_port = 0
 	_active_token = ""
 	_active_pid = 0
-	_lcu_payload = _load_payload()
-	if _lcu_payload.is_empty():
-		printerr("[GameSettings/LCU] Cannot inject: PersistedSettings payload is empty or invalid.")
-		injection_finished.emit(false)
-		return
-	_payload_json = JSON.stringify(_lcu_payload)
+	_stats_captured = false
+	_settings_injected = false
+	_was_in_game = false
+	_last_ping_msec = 0
+	_captured_stats.clear()
+	_response_buffer.clear()
 
-	# Remove the temp file written by previous curl-based builds; the payload now
-	# travels in memory straight into the PATCH body.
+	if not _persisted_settings_path.is_empty():
+		_lcu_payload = _load_payload()
+		_payload_json = JSON.stringify(_lcu_payload) if not _lcu_payload.is_empty() else ""
+	else:
+		_lcu_payload = {}
+		_payload_json = ""
+
+	# Remove legacy temp file if present
 	var legacy_tmp := AppPaths.SHARED_GAME_SETTINGS_DIR.path_join("lcu_payload_tmp.json")
 	if FileAccess.file_exists(legacy_tmp):
 		DirAccess.remove_absolute(legacy_tmp)
 
 	_state = State.POLLING_LOCKFILE
 	_polling_timer.start()
-	print("[GameSettings/LCU] Watchdog ativo para injetar configuracoes no League Client em: ", _league_dir)
+	print("[LCU/Watchdog] Watchdog ativo em: ", _league_dir)
 
 
 ## Stops any active injection or watchdog.
@@ -114,30 +127,44 @@ func stop() -> void:
 	_active_port = 0
 	_active_token = ""
 	_active_pid = 0
+	_stats_captured = false
+	_settings_injected = false
+	_was_in_game = false
+	_last_ping_msec = 0
 	_teardown_http()
 	if _polling_timer and is_instance_valid(_polling_timer):
 		_polling_timer.stop()
 
 
 func _on_tick() -> void:
-	if _state != State.POLLING_LOCKFILE:
+	if _state == State.IDLE or _league_dir.is_empty():
 		return
 
-	_attempts += 1
-	if _attempts > MAX_POLL_ATTEMPTS:
-		print("[GameSettings/LCU] Tempo limite atingido aguardando League Client.")
-		stop()
-		injection_finished.emit(false)
+	# 1. In-game match pause: pause all HTTP pings during active match
+	var in_game: bool = RiotProcesses.is_running("LeagueofLegends.exe")
+	if in_game:
+		_was_in_game = true
 		return
 
-	_poll_lockfile()
+	if _was_in_game and not in_game:
+		# Player just finished a match and returned to the lobby!
+		print("[LCU/Watchdog] Partida encerrada. Atualizando estatisticas...")
+		_was_in_game = false
+		_stats_captured = false # Force immediate refresh
 
-
-func _poll_lockfile() -> void:
+	# 2. Check lockfile on disk
 	var lockfile_path := _league_dir.path_join("lockfile")
 	if not FileAccess.file_exists(lockfile_path):
+		if _active_pid > 0:
+			_active_pid = 0
+			_active_port = 0
+			_active_token = ""
+			_stats_captured = false
+			_settings_injected = false
+			_teardown_http()
 		return
 
+	# 3. Read lockfile
 	var content := FileAccess.get_file_as_string(lockfile_path).strip_edges()
 	var parts := content.split(":")
 	if parts.size() < 4 or parts[0] != "LeagueClient":
@@ -149,16 +176,23 @@ func _poll_lockfile() -> void:
 	if pid <= 0 or port <= 0 or token.is_empty():
 		return
 
-	# Verify the process is actually alive to avoid a dead lockfile from a
-	# closed session. In-process check: no tasklist spawn, no blocking.
-	if not RiotProcesses.is_pid_alive(pid):
-		return
-
 	_active_pid = pid
 	_active_port = port
 	_active_token = token
-	_state = State.INJECTING
-	_begin_injection()
+
+	# 4. If an HTTP request sequence is already in flight, let _process continue
+	if _state == State.INJECTING:
+		return
+
+	# 5. Check if we need to fetch stats or ping
+	var now_ms := Time.get_ticks_msec()
+	var needs_stats: bool = not _stats_captured
+	var needs_settings: bool = not _payload_json.is_empty() and not _settings_injected
+	var needs_ping: bool = _stats_captured and (now_ms - _last_ping_msec > IDLE_PING_INTERVAL_MSEC)
+
+	if needs_stats or needs_settings or needs_ping:
+		_state = State.INJECTING
+		_begin_injection()
 
 
 func _begin_injection() -> void:
@@ -171,9 +205,10 @@ func _begin_injection() -> void:
 	_http_last_code = 0
 	_http_elapsed = 0.0
 	_http_wait_left = 0.0
+	_captured_stats.clear()
 	var err := _http.connect_to_host(LCU_HOST, _active_port, _http_tls)
 	if err != OK:
-		printerr("[GameSettings/LCU] Failed to start connection to LCU API (error %d)." % err)
+		printerr("[LCU/Watchdog] Failed to start connection to LCU API (error %d)." % err)
 		_return_to_polling()
 
 
@@ -181,10 +216,7 @@ func _process(delta: float) -> void:
 	if _state != State.INJECTING or _http == null or _http_step < 0:
 		return
 
-	# Inter-step settle delay (replaces the old blocking OS.delay_msec calls).
-	# The client keeps being polled during the pause so a reconnect started
-	# between steps can finish while we wait — otherwise the next step would
-	# tear it down and connect a second time for the same exchange.
+	# Inter-step settle delay
 	if _http_wait_left > 0.0:
 		_http_wait_left -= delta
 		var wait_status := _http.get_status()
@@ -231,8 +263,10 @@ func _drain_response_body() -> void:
 	for _i in range(MAX_BODY_CHUNKS_PER_FRAME):
 		if _http == null or _http.get_status() != HTTPClient.STATUS_BODY:
 			return
-		if _http.read_response_body_chunk().is_empty():
+		var chunk := _http.read_response_body_chunk()
+		if chunk.is_empty():
 			return
+		_response_buffer.append_array(chunk)
 
 
 func _ensure_connection_ready() -> void:
@@ -246,10 +280,8 @@ func _ensure_connection_ready() -> void:
 		_http_connected = true
 		_send_step_request()
 	elif status == HTTPClient.STATUS_RESOLVING or status == HTTPClient.STATUS_CONNECTING:
-		pass # Connect still in progress: _process() keeps polling it.
+		pass
 	else:
-		# Connection dropped between steps (or the previous connect failed):
-		# open a fresh one for the next exchange.
 		_reconnect()
 
 
@@ -258,6 +290,7 @@ func _send_step_request() -> void:
 		_finish_injection()
 		return
 
+	_response_buffer.clear()
 	var auth_b64 := Marshalls.raw_to_base64(("riot:%s" % _active_token).to_utf8_buffer())
 	var headers := PackedStringArray([
 		"Authorization: Basic " + auth_b64,
@@ -269,8 +302,10 @@ func _send_step_request() -> void:
 	match _http_step:
 		STEP_READY_SUMMONER:
 			path = "/lol-summoner/v1/current-summoner"
-		STEP_READY_FALLBACK:
-			path = "/lol-game-settings/v1/game-settings"
+		STEP_FETCH_RANKED:
+			path = "/lol-ranked/v1/current-ranked-stats"
+		STEP_FETCH_CHAT_ME:
+			path = "/lol-chat/v1/me"
 		STEP_PATCH:
 			method = HTTPClient.METHOD_PATCH
 			path = "/lol-game-settings/v1/game-settings"
@@ -287,13 +322,12 @@ func _send_step_request() -> void:
 			headers.append("Content-Type: application/json")
 			body = "{}"
 		_:
-			# Unknown step: nothing left to send.
 			_finish_injection()
 			return
 
 	var err := _http.request(method, path, headers, body)
 	if err != OK:
-		printerr("[GameSettings/LCU] HTTP request failed to start (error %d)." % err)
+		printerr("[LCU/Watchdog] HTTP request failed to start (error %d)." % err)
 		_fail_step("request_error")
 		return
 	_http_request_sent = true
@@ -305,30 +339,144 @@ func _complete_step(code: int) -> void:
 	match _http_step:
 		STEP_READY_SUMMONER:
 			if code == 200:
-				print("[GameSettings/LCU] League Client 100%% conectado e logado (HTTP %d na porta %d). Injetando configuracoes..." % [code, _active_port])
-				_advance_step(STEP_PATCH, 250) # Breathing room for LCU schema initialization
+				print("[LCU/Watchdog] League Client conectado e autenticado (HTTP %d na porta %d)." % [code, _active_port])
+				_parse_summoner_response()
+				_advance_step(STEP_FETCH_RANKED, 100)
 			else:
-				# Still logging in: probe the game-settings endpoint as fallback.
-				_advance_step(STEP_READY_FALLBACK, 0)
-		STEP_READY_FALLBACK:
-			if code == 200 or code == 204:
-				print("[GameSettings/LCU] League Client 100%% conectado e logado (HTTP %d na porta %d). Injetando configuracoes..." % [code, _active_port])
-				_advance_step(STEP_PATCH, 250)
-			else:
-				# League Client is still starting or logging in; retry on next tick.
+				# Client is still at login screen or starting up; retry on next watchdog tick
 				_return_to_polling()
+		STEP_FETCH_RANKED:
+			if code == 200:
+				_parse_ranked_response()
+				var tier: String = str(_captured_stats.get("rank_tier", "UNRANKED"))
+				if tier == "UNRANKED":
+					_advance_step(STEP_FETCH_CHAT_ME, 50)
+					return
+			else:
+				_advance_step(STEP_FETCH_CHAT_ME, 50)
+				return
+
+			_finish_stats_and_proceed()
+		STEP_FETCH_CHAT_ME:
+			if code == 200:
+				_parse_chat_me_response()
+			_finish_stats_and_proceed()
 		STEP_PATCH:
 			if code != 200 and code != 204:
 				printerr("[GameSettings/LCU] PATCH game-settings respondeu HTTP %d (esperado 200/204)." % code)
-			_advance_step(STEP_SAVE, 150) # Settle memory state
+			_advance_step(STEP_SAVE, 150)
 		STEP_SAVE:
 			if code != 200 and code != 204:
 				printerr("[GameSettings/LCU] POST save respondeu HTTP %d (esperado 200/204)." % code)
-			_advance_step(STEP_RELOAD, 150) # Allow cloud sync negotiation
+			_advance_step(STEP_RELOAD, 150)
 		STEP_RELOAD:
 			if code != 200 and code != 204:
 				printerr("[GameSettings/LCU] POST reload-post-game respondeu HTTP %d (esperado 200/204)." % code)
-			_advance_step(STEP_FINISH, 100) # Settle engine reload
+			_advance_step(STEP_FINISH, 100)
+
+
+func _finish_stats_and_proceed() -> void:
+	if not _captured_stats.is_empty():
+		summoner_stats_fetched.emit(_captured_stats.duplicate())
+		_stats_captured = true
+		_last_ping_msec = Time.get_ticks_msec()
+
+	if not _payload_json.is_empty() and not _settings_injected:
+		_advance_step(STEP_PATCH, 150)
+	else:
+		_advance_step(STEP_FINISH, 50)
+
+
+func _parse_summoner_response() -> void:
+	var body_text := _response_buffer.get_string_from_utf8()
+	if body_text.is_empty():
+		return
+	var json_var = JSON.parse_string(body_text)
+	if not json_var is Dictionary:
+		return
+	var data: Dictionary = json_var
+	var g_name := str(data.get("gameName", "")).strip_edges()
+	var tag := str(data.get("tagLine", "")).strip_edges()
+	var display := str(data.get("displayName", "")).strip_edges()
+	var nick := ""
+	if not g_name.is_empty() and not tag.is_empty():
+		nick = "%s#%s" % [g_name, tag]
+	elif not g_name.is_empty():
+		nick = g_name
+	elif not display.is_empty():
+		nick = display
+
+	if not nick.is_empty():
+		_captured_stats["summoner_name"] = nick
+	var level := int(data.get("summonerLevel", 0))
+	if level > 0:
+		_captured_stats["summoner_level"] = level
+	var icon_id := int(data.get("profileIconId", 0))
+	if icon_id > 0:
+		_captured_stats["profile_icon_id"] = icon_id
+	print("[LCU/Watchdog] Invocador autenticado: %s (Nivel %d)" % [nick, level])
+
+
+func _parse_ranked_response() -> void:
+	var body_text := _response_buffer.get_string_from_utf8()
+	if body_text.is_empty():
+		return
+	var json_var = JSON.parse_string(body_text)
+	if not json_var is Dictionary:
+		return
+	var data: Dictionary = json_var
+	var queues = data.get("queues", [])
+	var best_queue: Dictionary = {}
+	if queues is Array:
+		# Priority 1: RANKED_SOLO_5x5
+		for q in queues:
+			if q is Dictionary and str(q.get("queueType", "")) == "RANKED_SOLO_5x5":
+				best_queue = q
+				break
+		# Priority 2: Fallback to any queue with a valid tier (e.g. RANKED_FLEX_SR)
+		if best_queue.is_empty() or str(best_queue.get("tier", "UNRANKED")).to_upper() == "UNRANKED":
+			for q in queues:
+				if q is Dictionary:
+					var t := str(q.get("tier", "")).to_upper()
+					if not t.is_empty() and t != "UNRANKED" and t != "NONE" and t != "NA":
+						best_queue = q
+						break
+
+	var tier := str(best_queue.get("tier", "UNRANKED")).to_upper().strip_edges()
+	if tier.is_empty() or tier == "NONE" or tier == "NA":
+		tier = "UNRANKED"
+	var division := str(best_queue.get("division", "")).to_upper().strip_edges()
+	if division == "NA":
+		division = ""
+	var lp := int(best_queue.get("leaguePoints", 0))
+
+	_captured_stats["rank_tier"] = tier
+	_captured_stats["rank_division"] = division
+	_captured_stats["rank_lp"] = lp
+	print("[LCU/Watchdog] Estatisticas de rank detectadas: %s %s (%d LP)" % [tier, division, lp])
+
+
+func _parse_chat_me_response() -> void:
+	var body_text := _response_buffer.get_string_from_utf8()
+	if body_text.is_empty():
+		return
+	var json_var = JSON.parse_string(body_text)
+	if not json_var is Dictionary:
+		return
+	var data: Dictionary = json_var
+	var lol_data = data.get("lol", {})
+	if lol_data is Dictionary:
+		var tier := str(lol_data.get("rankedLeagueTier", "")).to_upper().strip_edges()
+		var division := str(lol_data.get("rankedLeagueDivision", "")).to_upper().strip_edges()
+		if not tier.is_empty() and tier != "NONE" and tier != "NA":
+			_captured_stats["rank_tier"] = tier
+			if division != "NA":
+				_captured_stats["rank_division"] = division
+			print("[LCU/Watchdog] Rank detectado via chat/me: %s %s" % [tier, division])
+		var level_str := str(lol_data.get("level", "0"))
+		var level := int(level_str)
+		if level > 0 and int(_captured_stats.get("summoner_level", 0)) == 0:
+			_captured_stats["summoner_level"] = level
 
 
 func _advance_step(next_step: int, wait_ms: int) -> void:
@@ -343,14 +491,16 @@ func _advance_step(next_step: int, wait_ms: int) -> void:
 
 
 func _fail_step(reason: String) -> void:
-	if _http_step == STEP_READY_SUMMONER or _http_step == STEP_READY_FALLBACK:
-		# League Client is still starting or logging in: fall back to lockfile
-		# polling and retry on the next tick.
+	if _http_step == STEP_READY_SUMMONER:
 		_return_to_polling()
 		return
-	# Mutation steps are best-effort (same policy as the previous curl client):
-	# log the failure and continue the sequence on a fresh connection.
-	printerr("[GameSettings/LCU] Falha de conexao no passo %d (%s); continuando sequencia." % [_http_step, reason])
+	if _http_step == STEP_FETCH_RANKED:
+		_advance_step(STEP_FETCH_CHAT_ME, 50)
+		return
+	if _http_step == STEP_FETCH_CHAT_ME:
+		_finish_stats_and_proceed()
+		return
+	printerr("[LCU/Watchdog] Falha no passo %d (%s); continuando." % [_http_step, reason])
 	_advance_step(_http_step + 1, 100)
 
 
@@ -360,33 +510,34 @@ func _return_to_polling() -> void:
 
 
 func _finish_injection() -> void:
-	# 5. Overwrite live input.ini and PersistedSettings.json directly on disk
-	# to ensure instant in-game match application.
-	var live_config := _league_dir.path_join("Config")
-	if DirAccess.dir_exists_absolute(live_config):
-		var master_input := AppPaths.SHARED_GAME_SETTINGS_DIR.path_join("input.ini")
-		var target_input := live_config.path_join("input.ini")
-		if FileAccess.file_exists(master_input):
-			var input_content := FileAccess.get_file_as_string(master_input)
-			var fa := FileAccess.open(target_input, FileAccess.WRITE)
-			if fa:
-				fa.store_string(input_content)
-				fa.close()
+	if not _payload_json.is_empty() and not _settings_injected:
+		var live_config := _league_dir.path_join("Config")
+		if DirAccess.dir_exists_absolute(live_config):
+			var master_input := AppPaths.SHARED_GAME_SETTINGS_DIR.path_join("input.ini")
+			var target_input := live_config.path_join("input.ini")
+			if FileAccess.file_exists(master_input):
+				var input_content := FileAccess.get_file_as_string(master_input)
+				var fa := FileAccess.open(target_input, FileAccess.WRITE)
+				if fa:
+					fa.store_string(input_content)
+					fa.close()
 
-		var master_persisted := AppPaths.SHARED_GAME_SETTINGS_DIR.path_join("PersistedSettings.json")
-		var target_persisted := live_config.path_join("PersistedSettings.json")
-		if FileAccess.file_exists(master_persisted):
-			var persisted_content := FileAccess.get_file_as_string(master_persisted)
-			var fa_p := FileAccess.open(target_persisted, FileAccess.WRITE)
-			if fa_p:
-				fa_p.store_string(persisted_content)
-				fa_p.close()
+			var master_persisted := AppPaths.SHARED_GAME_SETTINGS_DIR.path_join("PersistedSettings.json")
+			var target_persisted := live_config.path_join("PersistedSettings.json")
+			if FileAccess.file_exists(master_persisted):
+				var persisted_content := FileAccess.get_file_as_string(master_persisted)
+				var fa_p := FileAccess.open(target_persisted, FileAccess.WRITE)
+				if fa_p:
+					fa_p.store_string(persisted_content)
+					fa_p.close()
 
-	print("[GameSettings/LCU] SUCESSO: Configuracoes do perfil pai sincronizadas no League Client, disco e nuvem da Riot!")
-	_state = State.DONE
-	_teardown_http()
-	stop()
-	injection_finished.emit(true)
+		_settings_injected = true
+		print("[GameSettings/LCU] SUCESSO: Configuracoes sincronizadas no League Client, disco e nuvem!")
+		injection_finished.emit(true)
+	else:
+		print("[LCU/Watchdog] SUCESSO: Estatisticas sincronizadas com sucesso!")
+
+	_return_to_polling()
 
 
 func _reconnect() -> void:

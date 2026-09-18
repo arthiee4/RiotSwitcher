@@ -55,6 +55,7 @@ var _cascade_tweens: Array[Tween] = []
 
 func _ready() -> void:
 	_lcu_injector = LcuInjector.new()
+	_lcu_injector.summoner_stats_fetched.connect(_on_summoner_stats_fetched)
 	add_child(_lcu_injector)
 
 	# Kick the first process snapshot off-thread at boot so the presence
@@ -80,6 +81,7 @@ func set_dependencies(pm: Node, client_location: String) -> void:
 	_populate_profile_buttons()
 	if not _running_profile_name.is_empty():
 		_start_settings_watchdog()
+		_start_lcu_watchdog(_running_profile_name)
 
 
 ## If a client was left running when the app last exited (or crashed) and the
@@ -92,7 +94,7 @@ func _adopt_running_profile_from_config() -> void:
 	if not profile_manager.has_profile(last_running):
 		ConfigManager.set_value_and_save(CONFIG_KEY_LAST_RUNNING, "")
 		return
-	if not RiotProcesses.is_running(CLIENT_EXE):
+	if not RiotProcesses.is_running(CLIENT_EXE) and not RiotProcesses.is_running("LeagueClient.exe"):
 		ConfigManager.set_value_and_save(CONFIG_KEY_LAST_RUNNING, "")
 		return
 	_running_profile_name = last_running
@@ -283,15 +285,27 @@ func _input(event: InputEvent) -> void:
 		_finish_card_drag()
 
 
+func is_dragging_card() -> bool:
+	return _dragged_card != null or _is_snapping
+
+
 ## Starts dragging the actual card with elevation, bounce scale, and dynamic tilt.
 func start_card_drag(card: Control, mouse_pos: Vector2) -> void:
 	if _is_busy() or not is_instance_valid(card) or _dragged_card != null or _is_snapping:
 		return
 
+	ProfileButton.is_any_card_dragging = true
+
+	# Instantly hide hover info on all cards when dragging begins
+	for c in _cards:
+		if is_instance_valid(c) and c.has_method("_hide_hover_info"):
+			c._hide_hover_info(true)
+
 	_dragged_card = card
 	_drag_origin_idx = _cards.find(card)
 	if _drag_origin_idx == -1:
 		_dragged_card = null
+		ProfileButton.is_any_card_dragging = false
 		return
 
 	_current_target_idx = _drag_origin_idx
@@ -420,6 +434,7 @@ func _finish_card_drag() -> void:
 
 		_dragged_card = null
 		_is_snapping = false
+		ProfileButton.is_any_card_dragging = false
 
 		# Persist new order
 		var new_order: Array = []
@@ -429,6 +444,14 @@ func _finish_card_drag() -> void:
 
 		if profile_manager and profile_manager.has_method("reorder_profiles"):
 			profile_manager.reorder_profiles(new_order)
+
+		# When drag finishes, if mouse is currently resting over a card, show its hover info
+		var global_mouse := get_global_mouse_position()
+		for c in _cards:
+			if is_instance_valid(c) and c.get_global_rect().has_point(global_mouse):
+				if c.has_method("_on_card_mouse_entered"):
+					c._on_card_mouse_entered()
+				break
 	)
 
 
@@ -445,6 +468,7 @@ func _cleanup_drag() -> void:
 		_dragged_card.rotation_degrees = 0.0
 	_dragged_card = null
 	_is_snapping = false
+	ProfileButton.is_any_card_dragging = false
 
 
 ## Directly reorders a card and persists to disk.
@@ -507,6 +531,45 @@ func _on_profile_edit_requested(button: Control) -> void:
 	if not is_instance_valid(button) or button.profile_data.is_empty():
 		return
 	edit_profile_requested.emit(button.profile_data)
+
+
+func _on_summoner_stats_fetched(stats: Dictionary) -> void:
+	if _running_profile_name.is_empty() or not profile_manager:
+		return
+	if profile_manager.has_method("update_profile_stats"):
+		profile_manager.update_profile_stats(_running_profile_name, stats, false)
+	if profile_manager.has_method("get_profile"):
+		var updated_profile: Dictionary = profile_manager.get_profile(_running_profile_name)
+		if not updated_profile.is_empty():
+			if is_instance_valid(_active_button):
+				_active_button.profile_data = updated_profile
+			else:
+				for card in _cards:
+					if is_instance_valid(card) and card.profile_name == _running_profile_name:
+						_active_button = card
+						card.profile_data = updated_profile
+						break
+
+
+func _start_lcu_watchdog(profile_name: String) -> void:
+	if not _lcu_injector or profile_name.is_empty():
+		return
+	var league_dir := LeagueSettingsSync.find_league_dir(riot_client_location)
+	if league_dir.is_empty():
+		return
+	var persisted_path := ""
+	if _sync_settings_enabled():
+		var source_info := LeagueSettingsSync.resolve_source_profile(profile_manager)
+		var p_dir := ""
+		if profile_manager and profile_manager.has_method("get_profile_dir"):
+			p_dir = profile_manager.get_profile_dir(profile_name)
+		var is_secondary: bool = not source_info["is_valid"] or p_dir.get_file() != String(source_info.get("directory_name", ""))
+		if is_secondary:
+			var master_persisted := AppPaths.SHARED_GAME_SETTINGS_DIR.path_join("PersistedSettings.json")
+			if FileAccess.file_exists(master_persisted):
+				persisted_path = master_persisted
+
+	_lcu_injector.start_injection(league_dir, persisted_path)
 
 #endregion
 
@@ -606,18 +669,8 @@ func _on_swap_finished(profile_name: String, executable_path: String, success: b
 	print("ProfileGridController: Profile '%s' launched (PID %d)." % [profile_name, pid])
 	_start_settings_watchdog()
 
-	# Trigger real-time LCU API Settings Injection for Secondary Profiles
-	if _sync_settings_enabled() and _lcu_injector:
-		var source_info := LeagueSettingsSync.resolve_source_profile(profile_manager)
-		var p_dir := ""
-		if profile_manager and profile_manager.has_method("get_profile_dir"):
-			p_dir = profile_manager.get_profile_dir(profile_name)
-		var is_secondary: bool = not source_info["is_valid"] or p_dir.get_file() != String(source_info.get("directory_name", ""))
-		if is_secondary:
-			var league_dir := LeagueSettingsSync.find_league_dir(riot_client_location)
-			var master_persisted := AppPaths.SHARED_GAME_SETTINGS_DIR.path_join("PersistedSettings.json")
-			if not league_dir.is_empty() and FileAccess.file_exists(master_persisted):
-				_lcu_injector.start_injection(league_dir, master_persisted)
+	# Trigger real-time LCU API Watchdog for Summoner Stats and Settings Injection
+	_start_lcu_watchdog(profile_name)
 
 
 func _begin_stop(button: Control) -> void:

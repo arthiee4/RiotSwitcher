@@ -132,6 +132,12 @@ func add_profile(profile_name: String, background_path: String, has_custom_name:
 		"directory_name": directory_name,
 		"has_custom_name": has_custom_name,
 		"description": description.strip_edges(),
+		"summoner_name": "",
+		"summoner_level": 0,
+		"rank_tier": "UNRANKED",
+		"rank_division": "",
+		"rank_lp": 0,
+		"profile_icon_id": 0,
 	}
 	_profiles.append(new_profile)
 	if not _save_profiles_file():
@@ -401,6 +407,63 @@ func update_profile(
 	print("ProfileManager: Profile '%s' successfully updated to '%s'." % [old_name, trimmed_new_name])
 	return true
 
+
+## Updates live account statistics (summoner name, level, rank tier, division, LP)
+## captured from the LCU API and persists to disk. Thread-safe.
+func update_profile_stats(profile_name: String, stats: Dictionary, emit_signal: bool = false) -> bool:
+	_profiles_lock.lock()
+	var profile := _find_profile_unsafe(profile_name)
+	if profile.is_empty():
+		_profiles_lock.unlock()
+		return false
+
+	var changed := false
+	if stats.has("summoner_name"):
+		var new_name: String = str(stats["summoner_name"]).strip_edges()
+		if not new_name.is_empty() and new_name != str(profile.get("summoner_name", "")):
+			profile["summoner_name"] = new_name
+			changed = true
+	if stats.has("summoner_level"):
+		var new_lvl: int = int(stats["summoner_level"])
+		if new_lvl > 0 and new_lvl != int(profile.get("summoner_level", 0)):
+			profile["summoner_level"] = new_lvl
+			changed = true
+	if stats.has("rank_tier"):
+		var new_tier: String = str(stats["rank_tier"]).to_upper().strip_edges()
+		if not new_tier.is_empty() and new_tier != str(profile.get("rank_tier", "")).to_upper():
+			profile["rank_tier"] = new_tier
+			changed = true
+	if stats.has("rank_division"):
+		var new_div: String = str(stats["rank_division"]).to_upper().strip_edges()
+		if new_div != str(profile.get("rank_division", "")).to_upper():
+			profile["rank_division"] = new_div
+			changed = true
+	if stats.has("rank_lp"):
+		var new_lp: int = int(stats["rank_lp"])
+		if new_lp != int(profile.get("rank_lp", 0)):
+			profile["rank_lp"] = new_lp
+			changed = true
+	if stats.has("profile_icon_id"):
+		var new_icon: int = int(stats["profile_icon_id"])
+		if new_icon != int(profile.get("profile_icon_id", 0)):
+			profile["profile_icon_id"] = new_icon
+			changed = true
+
+	if changed:
+		_save_profiles_file()
+	_profiles_lock.unlock()
+
+	if changed:
+		if emit_signal:
+			profiles_updated.emit()
+		print("ProfileManager: Stats updated for profile '%s' (Tier: %s %s, Level: %s)." % [
+			profile_name,
+			profile.get("rank_tier", "UNRANKED"),
+			profile.get("rank_division", ""),
+			profile.get("summoner_level", 0)
+		])
+	return true
+
 #endregion
 
 #region Public API — session backup/restore
@@ -530,6 +593,24 @@ func _normalize_profiles() -> void:
 			changed = true
 		if not profile.has("description"):
 			profile["description"] = ""
+			changed = true
+		if not profile.has("summoner_name"):
+			profile["summoner_name"] = ""
+			changed = true
+		if not profile.has("summoner_level"):
+			profile["summoner_level"] = 0
+			changed = true
+		if not profile.has("rank_tier"):
+			profile["rank_tier"] = "UNRANKED"
+			changed = true
+		if not profile.has("rank_division"):
+			profile["rank_division"] = ""
+			changed = true
+		if not profile.has("rank_lp"):
+			profile["rank_lp"] = 0
+			changed = true
+		if not profile.has("profile_icon_id"):
+			profile["profile_icon_id"] = 0
 			changed = true
 		normalized.append(profile)
 	if changed:

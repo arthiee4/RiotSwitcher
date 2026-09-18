@@ -43,7 +43,16 @@ static var _mutex := Mutex.new()
 ## Returns true while the process identified by [param pid] is running.
 ## Pure in-process check: no shell spawn, sub-millisecond, UI-safe.
 static func is_pid_alive(pid: int) -> bool:
-	return pid > 0 and OS.is_process_running(pid)
+	if pid <= 0:
+		return false
+	_await_fresh_snapshot()
+	_mutex.lock()
+	for pids in _pids_by_name.values():
+		if pid in (pids as Array):
+			_mutex.unlock()
+			return true
+	_mutex.unlock()
+	return false
 
 
 ## Kicks a background snapshot refresh as early as possible (call once at app
@@ -97,13 +106,13 @@ static func is_running(process_name: String) -> bool:
 	_mutex.lock()
 	var pids: Array = (_pids_by_name.get(process_name.to_lower(), []) as Array).duplicate()
 	_mutex.unlock()
-	return _any_pid_alive(pids)
+	return not pids.is_empty()
 
 
 ## Returns true while any known process is still running.
 ## Hot path (presence watchdog): never spawns tasklist on the calling thread
 ## and never blocks; a stale (or missing) snapshot is rebuilt by a background
-## thread while the current answer comes from cached PIDs validated in-process.
+## thread while the current answer comes from cached PIDs.
 static func are_any_running() -> bool:
 	_mutex.lock()
 	var pids := _collect_known_pids_locked()
@@ -111,33 +120,20 @@ static func are_any_running() -> bool:
 	_mutex.unlock()
 	if stale:
 		_request_snapshot_refresh()
-	return _any_pid_alive(pids)
+	return not pids.is_empty()
 
 
 ## Polls until every known process is gone or the timeout elapses.
 ## Returns true if all processes exited in time. Blocking — use from a thread.
-## Only the initial capture spawns tasklist; the hot poll loop validates PIDs
-## purely in-process (OS.is_process_running — zero shell spawns).
-##
-## Re-scan fires a second kill for survivors / re-spawned children but does NOT
-## expand the PID set being waited on — that prevented processes from ever
-## being considered "done" when Vanguard respawned new client instances.
 static func wait_until_all_dead(timeout_ms := KILL_TIMEOUT_MS) -> bool:
-	_await_fresh_snapshot()
-	_mutex.lock()
-	var pids := _collect_known_pids_locked()
-	_mutex.unlock()
-
 	var elapsed := 0
 	var last_rekill := 0
 	while elapsed < timeout_ms:
-		if not _any_pid_alive(pids):
+		refresh_now()
+		if not are_any_running():
 			return true
 		OS.delay_msec(POLL_INTERVAL_MS)
 		elapsed += POLL_INTERVAL_MS
-		# Fire a second kill every 2s for any survivors or Vanguard re-spawns,
-		# but do NOT expand pids — adding new PIDs would cause an infinite loop
-		# when the client re-spawns helper processes after being killed.
 		if elapsed - last_rekill >= WAIT_RESCAN_MS:
 			kill_all()
 			last_rekill = elapsed
