@@ -16,6 +16,7 @@ var _original_profile_data: Dictionary = {}
 var _current_bg_path: String = ""
 var _is_open: bool = false
 var _anim_tween: Tween = null
+var _cascade_tweens: Array[Tween] = []
 
 @onready var _backdrop: ColorRect = $backdrop if has_node("backdrop") else find_child("backdrop", true, false)
 @onready var _panel: Panel = $Panel if has_node("Panel") else find_child("Panel", true, false)
@@ -40,7 +41,9 @@ func _ready() -> void:
 		profile_manager = ProfileManager
 
 	_cancel_button.pressed.connect(close)
+	_cancel_button.set_meta("sfx", &"cancel")
 	_save_button.pressed.connect(_on_save_pressed)
+	_save_button.set_meta("sfx", &"confirm")
 	_name_input.text_changed.connect(_on_name_text_changed)
 	_name_input.text_submitted.connect(func(_text): _on_save_pressed())
 	if _desc_input:
@@ -93,23 +96,116 @@ func open_edit(profile_data: Dictionary) -> void:
 
 	_is_open = true
 	visible = true
+	SfxManager.open()
 
-	if _anim_tween and _anim_tween.is_valid():
-		_anim_tween.kill()
+	_kill_cascade()
 
-	# Initial smooth zoom & fade animation
+	# Backdrop fade + subtle scale-in of the whole panel around its center
 	_backdrop.modulate.a = 0.0
 	_panel.modulate.a = 0.0
-	_panel.scale = Vector2(0.94, 0.94)
 	_panel.pivot_offset = _panel.size * 0.5
+	_panel.scale = Vector2(0.96, 0.96)
 
 	_anim_tween = create_tween().set_parallel(true)
-	_anim_tween.tween_property(_backdrop, "modulate:a", 1.0, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	_anim_tween.tween_property(_panel, "modulate:a", 1.0, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	_anim_tween.tween_property(_panel, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_anim_tween.tween_property(_backdrop, "modulate:a", 1.0, 0.16).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_anim_tween.tween_property(_panel, "modulate:a", 1.0, 0.10).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_anim_tween.tween_property(_panel, "scale", Vector2.ONE, 0.24).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+	_play_cascade()
 
 	_name_input.grab_focus()
 	_name_input.select_all()
+
+
+func _kill_cascade() -> void:
+	if _anim_tween and _anim_tween.is_valid():
+		_anim_tween.kill()
+	for tw in _cascade_tweens:
+		if tw and tw.is_valid():
+			tw.kill()
+	_cascade_tweens.clear()
+
+
+func _play_cascade() -> void:
+	# Fast, subtle stagger (~0.2s total) so the modal feels snappy.
+	# 1. Title — fade in
+	var title_node := _panel.get_node_or_null("title") as Control
+	if title_node:
+		title_node.modulate.a = 0.0
+		var tw := title_node.create_tween()
+		_cascade_tweens.append(tw)
+		tw.tween_property(title_node, "modulate:a", 1.0, 0.10).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	# 2. Inputs (profile_name, profile_description) — fade + subtle scale pop
+	var input_nodes: Array[Control] = []
+	var p_name := _panel.get_node_or_null("profile_name") as Control
+	var p_desc := _panel.get_node_or_null("profile_description") as Control
+	if p_name: input_nodes.append(p_name)
+	if p_desc: input_nodes.append(p_desc)
+
+	for i in range(input_nodes.size()):
+		var inp := input_nodes[i]
+		inp.modulate.a = 0.0
+		inp.scale = Vector2(0.98, 0.98)
+		var delay := 0.02 + i * 0.02
+		var tw := inp.create_tween().set_parallel(true)
+		_cascade_tweens.append(tw)
+		tw.tween_property(inp, "modulate:a", 1.0, 0.10).set_delay(delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tw.tween_property(inp, "scale", Vector2.ONE, 0.16).set_delay(delay).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+	# 3. Bg label
+	var bg_label := _panel.get_node_or_null("bg_select/Label") as Control
+	if bg_label:
+		bg_label.modulate.a = 0.0
+		var tw := bg_label.create_tween()
+		_cascade_tweens.append(tw)
+		tw.tween_property(bg_label, "modulate:a", 1.0, 0.10).set_delay(0.04).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	# 4. Background thumbnails — quick ripple stagger
+	if _backgrounds_container:
+		var bg_children := _backgrounds_container.get_children()
+		for i in range(bg_children.size()):
+			var bg_card := bg_children[i] as Control
+			if not bg_card or not is_instance_valid(bg_card):
+				continue
+			bg_card.modulate.a = 0.0
+			var sz := bg_card.size
+			if sz.x > 0 and sz.y > 0:
+				bg_card.pivot_offset = sz * 0.5
+			bg_card.scale = Vector2(0.92, 0.92)
+			var delay: float = 0.04 + i * 0.012
+			var tw := bg_card.create_tween().set_parallel(true)
+			_cascade_tweens.append(tw)
+			tw.tween_property(bg_card, "modulate:a", 1.0, 0.10).set_delay(delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+			tw.tween_property(bg_card, "scale", Vector2.ONE, 0.16).set_delay(delay).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+	# 5. Upload row + actions
+	var bottom_nodes: Array[Control] = []
+	var upload_node := _panel.get_node_or_null("upload_custom_bg") as Control
+	var actions_node := _panel.get_node_or_null("actions") as Control
+	if upload_node: bottom_nodes.append(upload_node)
+	if actions_node: bottom_nodes.append(actions_node)
+
+	for b_node in bottom_nodes:
+		b_node.modulate.a = 0.0
+		b_node.scale = Vector2(0.98, 0.98)
+		var tw := b_node.create_tween().set_parallel(true)
+		_cascade_tweens.append(tw)
+		tw.tween_property(b_node, "modulate:a", 1.0, 0.10).set_delay(0.07).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tw.tween_property(b_node, "scale", Vector2.ONE, 0.16).set_delay(0.07).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+	# 6. Preview card — quick zoom pop
+	var preview_node := _panel.get_node_or_null("preview") as Control
+	if preview_node:
+		preview_node.modulate.a = 0.0
+		var sz := preview_node.size
+		if sz.x > 0 and sz.y > 0:
+			preview_node.pivot_offset = sz * 0.5
+		preview_node.scale = Vector2(0.94, 0.94)
+		var tw := preview_node.create_tween().set_parallel(true)
+		_cascade_tweens.append(tw)
+		tw.tween_property(preview_node, "modulate:a", 1.0, 0.12).set_delay(0.05).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tw.tween_property(preview_node, "scale", Vector2.ONE, 0.18).set_delay(0.05).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 ## Closes the modal with a smooth fade-out animation.
@@ -118,13 +214,12 @@ func close() -> void:
 		return
 	_is_open = false
 
-	if _anim_tween and _anim_tween.is_valid():
-		_anim_tween.kill()
+	_kill_cascade()
 
 	_anim_tween = create_tween().set_parallel(true)
-	_anim_tween.tween_property(_backdrop, "modulate:a", 0.0, 0.14).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	_anim_tween.tween_property(_panel, "modulate:a", 0.0, 0.14).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	_anim_tween.tween_property(_panel, "scale", Vector2(0.95, 0.95), 0.14).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_anim_tween.tween_property(_backdrop, "modulate:a", 0.0, 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_anim_tween.tween_property(_panel, "modulate:a", 0.0, 0.10).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_anim_tween.tween_property(_panel, "scale", Vector2(0.97, 0.97), 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	_anim_tween.chain().tween_callback(func(): visible = false)
 
 
@@ -220,6 +315,7 @@ func _on_save_pressed() -> void:
 
 func _on_backdrop_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
+		SfxManager.cancel()
 		close()
 
 
@@ -227,6 +323,7 @@ func _input(event: InputEvent) -> void:
 	if not _is_open:
 		return
 	if event is InputEventKey and event.keycode == KEY_ESCAPE and event.is_pressed():
+		SfxManager.cancel()
 		close()
 		get_viewport().set_input_as_handled()
 
@@ -235,6 +332,7 @@ func _show_error(message: String) -> void:
 	if _error_label:
 		_error_label.text = message
 		_error_label.visible = true
+	SfxManager.error()
 
 
 func _hide_error() -> void:

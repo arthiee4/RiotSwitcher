@@ -48,7 +48,11 @@ const HOVER_FADE_OUT_TIME := 0.08
 const HOVER_SCALE_FACTOR := 1.04
 
 ## Full profile dictionary from ProfileManager. Set right after instantiation.
-var profile_data: Dictionary = {}
+var profile_data: Dictionary = {}:
+	set(val):
+		profile_data = val
+		if is_instance_valid(_hover_info) and _hover_info.visible:
+			_show_hover_info()
 
 var client_is_running := false
 var _is_interactable := true
@@ -59,14 +63,54 @@ var _is_mouse_down := false
 var _drag_start_pos := Vector2.ZERO
 
 @onready var _context_menu: Control = get_node_or_null("card/context_menu")
-@onready var _delete_button: TextureButton = get_node_or_null("card/context_menu/Panel/delete/TextureButton")
-@onready var _edit_button: TextureButton = get_node_or_null("card/context_menu/Panel/edit/TextureButton")
+@onready var _delete_button: BaseButton = (find_child("delete_button", true, false) as BaseButton)
+@onready var _edit_button: BaseButton = (find_child("edit_button", true, false) as BaseButton)
 @onready var _glow_effect: Control = $glow if has_node("glow") else find_child("glow", true, false)
 @onready var _button: Button = get_node_or_null("card/card_inner/Button")
 @onready var _state_icon: TextureRect = get_node_or_null("card/card_inner/Button/TextureRect")
 @onready var _card: Control = get_node_or_null("card")
 @onready var _hover_info: Control = $hover_info if has_node("hover_info") else null
-@onready var _desc_label: Label = $hover_info/desc_label if has_node("hover_info/desc_label") else null
+@onready var _name_level_row: Control = $hover_info/vbox/name_level_row if has_node("hover_info/vbox/name_level_row") else find_child("name_level_row", true, false)
+@onready var _summoner_name: Label = $hover_info/vbox/name_level_row/summoner_name if has_node("hover_info/vbox/name_level_row/summoner_name") else find_child("summoner_name", true, false)
+@onready var _summoner_level: Label = $hover_info/vbox/name_level_row/summoner_level if has_node("hover_info/vbox/name_level_row/summoner_level") else find_child("summoner_level", true, false)
+@onready var _rank_badge: TextureRect = $hover_info/vbox/rank_row/rank_badge if has_node("hover_info/vbox/rank_row/rank_badge") else find_child("rank_badge", true, false)
+@onready var _rank_tier_label: Label = $hover_info/vbox/rank_row/rank_tier_label if has_node("hover_info/vbox/rank_row/rank_tier_label") else find_child("rank_tier_label", true, false)
+@onready var _separator: Control = $hover_info/vbox/separator if has_node("hover_info/vbox/separator") else find_child("separator", true, false)
+@onready var _desc_label: Label = $hover_info/vbox/desc_label if has_node("hover_info/vbox/desc_label") else (find_child("desc_label", true, false) as Label)
+@onready var _profile_name_label: Label = get_node_or_null("profile_name") if has_node("profile_name") else (find_child("profile_name", true, false) as Label)
+
+const RANKS_DIR := "res://assets/icons/ranks/"
+
+const TIER_COLORS: Dictionary = {
+	"IRON": Color("a19d94"),
+	"BRONZE": Color("cd7f32"),
+	"SILVER": Color("b5c4d4"),
+	"GOLD": Color("f1a80a"),
+	"PLATINUM": Color("20c5a0"),
+	"EMERALD": Color("12cc73"),
+	"DIAMOND": Color("4aa7ff"),
+	"MASTER": Color("a855f7"),
+	"GRANDMASTER": Color("ef4444"),
+	"CHALLENGER": Color("f59e0b"),
+	"UNRANKED": Color("888c98"),
+}
+
+const TIER_NAMES: Dictionary = {
+	"IRON": "Iron",
+	"BRONZE": "Bronze",
+	"SILVER": "Silver",
+	"GOLD": "Gold",
+	"PLATINUM": "Platinum",
+	"EMERALD": "Emerald",
+	"DIAMOND": "Diamond",
+	"MASTER": "Master",
+	"GRANDMASTER": "Grandmaster",
+	"CHALLENGER": "Challenger",
+	"UNRANKED": "Unranked",
+}
+
+static var _badge_cache: Dictionary = {}
+static var is_any_card_dragging: bool = false
 
 var _hover_tween: Tween = null
 var _glow_tween: Tween = null
@@ -85,19 +129,34 @@ func _ready() -> void:
 
 	if _delete_button:
 		_delete_button.pressed.connect(_on_delete_button_pressed)
+		_delete_button.set_meta("sfx", &"cancel")
+		if _delete_button is Button:
+			(_delete_button as Button).text = tr("Delete")
 	if _edit_button:
 		_edit_button.pressed.connect(_on_edit_button_pressed)
+		if _edit_button is Button:
+			(_edit_button as Button).text = tr("Edit")
 	if _card:
 		_card.gui_input.connect(_on_card_gui_input)
 	if _button and _button is Button:
 		if not _button.pressed.is_connected(_on_profile_button_pressed):
 			_button.pressed.connect(_on_profile_button_pressed)
+		_button.set_meta("sfx", &"confirm")
 		_button.mouse_entered.connect(_on_card_mouse_entered)
 		_button.mouse_exited.connect(_on_card_mouse_exited)
 	if _context_menu:
 		_context_menu.visible = false
 	if _hover_info:
 		_hover_info.visible = false
+		_hover_info.custom_minimum_size = Vector2(280.0, 0.0)
+		_hover_info.size = Vector2(280.0, 0.0)
+		var vbox: Control = _hover_info.get_node_or_null("vbox")
+		if vbox:
+			vbox.custom_minimum_size = Vector2(244.0, 0.0)
+			vbox.size = Vector2(244.0, 0.0)
+		if _desc_label:
+			_desc_label.custom_minimum_size = Vector2(244.0, 0.0)
+			_desc_label.size = Vector2(244.0, 0.0)
 	if _glow_effect:
 		_glow_effect.modulate.a = 0.0
 		_glow_effect.scale = Vector2(0.96, 0.96)
@@ -199,10 +258,14 @@ func _on_card_gui_input(event: InputEvent) -> void:
 
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_RIGHT and event.is_pressed():
-			_context_menu.visible = not _context_menu.visible
-			if _context_menu.visible:
+			var opening := not _context_menu.visible
+			_context_menu.visible = opening
+			if opening:
 				_hide_hover_info()
-				_context_menu.global_position = get_global_mouse_position()
+				_position_and_animate_context_menu()
+				SfxManager.open()
+			else:
+				SfxManager.cancel()
 			get_viewport().set_input_as_handled()
 			return
 
@@ -210,6 +273,7 @@ func _on_card_gui_input(event: InputEvent) -> void:
 			if event.is_pressed():
 				if _context_menu and _context_menu.visible:
 					_context_menu.visible = false
+					SfxManager.cancel()
 					get_viewport().set_input_as_handled()
 					return
 				if profile_data.is_empty():
@@ -220,15 +284,21 @@ func _on_card_gui_input(event: InputEvent) -> void:
 
 				_is_mouse_down = true
 				_drag_start_pos = event.global_position
+				_hide_hover_info(true)
 			else:
+				var was_down := _is_mouse_down
 				_is_mouse_down = false
+				var parent_grid: Node = get_parent()
+				var is_dragging: bool = is_any_card_dragging or (parent_grid != null and parent_grid.has_method("is_dragging_card") and bool(parent_grid.is_dragging_card()))
+				if was_down and not is_dragging and get_global_rect().has_point(event.global_position):
+					_on_card_mouse_entered()
 
 	elif event is InputEventMouseMotion and _is_mouse_down:
 		if event.global_position.distance_to(_drag_start_pos) >= DRAG_THRESHOLD:
 			_is_mouse_down = false
 			if _context_menu:
 				_context_menu.visible = false
-			_hide_hover_info()
+			_hide_hover_info(true)
 			var parent_grid = get_parent()
 			if parent_grid and parent_grid.has_method("start_card_drag"):
 				parent_grid.start_card_drag(self, event.global_position)
@@ -244,12 +314,39 @@ func _input(event: InputEvent) -> void:
 		if not _context_menu.get_global_rect().has_point(event.position):
 			_context_menu.visible = false
 
+
+func _position_and_animate_context_menu() -> void:
+	if not _context_menu:
+		return
+	var mouse_pos := get_global_mouse_position()
+	var vp_size := get_viewport_rect().size
+	var menu_size := _context_menu.size
+	if menu_size == Vector2.ZERO:
+		menu_size = Vector2(148, 86)
+
+	# Keep fully visible inside the window boundaries
+	var target_x: float = clampf(mouse_pos.x, 8.0, vp_size.x - menu_size.x - 8.0)
+	var target_y: float = clampf(mouse_pos.y, 8.0, vp_size.y - menu_size.y - 8.0)
+	_context_menu.global_position = Vector2(target_x, target_y)
+
+	# Punchy, smooth entrance
+	_context_menu.pivot_offset = Vector2(0, 0)
+	_context_menu.scale = Vector2(0.92, 0.92)
+	_context_menu.modulate.a = 0.0
+	var tw := create_tween().set_parallel(true)
+	tw.tween_property(_context_menu, "scale", Vector2.ONE, 0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(_context_menu, "modulate:a", 1.0, 0.10)
+
 #endregion
 
 #region Visual state & Hover Info
 
 func _on_card_mouse_entered() -> void:
-	if Engine.is_editor_hint() or not _is_interactable:
+	if Engine.is_editor_hint() or not _is_interactable or _is_mouse_down or is_any_card_dragging:
+		return
+
+	var parent_grid = get_parent()
+	if parent_grid and parent_grid.has_method("is_dragging_card") and parent_grid.is_dragging_card():
 		return
 
 	if _glow_effect:
@@ -259,10 +356,7 @@ func _on_card_mouse_entered() -> void:
 		_glow_tween.tween_property(_glow_effect, "modulate:a", 1.0, HOVER_FADE_IN_TIME).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 		_glow_tween.tween_property(_glow_effect, "scale", Vector2(HOVER_SCALE_FACTOR, HOVER_SCALE_FACTOR), HOVER_FADE_IN_TIME + 0.02).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
-	var description: String = profile_data.get("description", "").strip_edges()
-	if not description.is_empty() and _hover_info and _desc_label:
-		_desc_label.text = description
-		_show_hover_info()
+	_show_hover_info()
 
 
 func _on_card_mouse_exited() -> void:
@@ -284,40 +378,181 @@ func _on_card_mouse_exited() -> void:
 	_hide_hover_info()
 
 
+func _load_badge_texture(path: String) -> Texture2D:
+	if ResourceLoader.exists(path):
+		var tex := load(path) as Texture2D
+		if tex:
+			return tex
+	var real_path := ProjectSettings.globalize_path(path)
+	if FileAccess.file_exists(real_path):
+		var img := Image.load_from_file(real_path)
+		if img and not img.is_empty():
+			return ImageTexture.create_from_image(img)
+	return null
+
+
+func _resolve_rank_badge(tier: String) -> Texture2D:
+	var clean_tier := tier.to_lower().strip_edges()
+	if clean_tier.is_empty():
+		clean_tier = "unranked"
+	if _badge_cache.has(clean_tier):
+		return _badge_cache[clean_tier]
+
+	var cap := clean_tier.capitalize()
+	var candidates := [
+		"Season_2022_-_" + cap,
+		"Season_2023_-_" + cap,
+		clean_tier,
+		cap,
+		"Emblem_" + cap,
+	]
+	for cand in candidates:
+		for ext in ["png", "webp", "svg", "jpg"]:
+			var tex := _load_badge_texture(RANKS_DIR.path_join("%s.%s" % [cand, ext]))
+			if tex:
+				_badge_cache[clean_tier] = tex
+				return tex
+
+	# Fallback for missing tier emblems (e.g. older asset packs)
+	if clean_tier == "emerald":
+		var fallback_tex := _resolve_rank_badge("platinum")
+		if fallback_tex:
+			_badge_cache[clean_tier] = fallback_tex
+			return fallback_tex
+	elif clean_tier == "iron":
+		var fallback_tex := _resolve_rank_badge("bronze")
+		if fallback_tex:
+			_badge_cache[clean_tier] = fallback_tex
+			return fallback_tex
+
+	_badge_cache[clean_tier] = null
+	return null
+
+
 func _show_hover_info() -> void:
-	if not _hover_info or (_context_menu and _context_menu.visible) or not _is_interactable:
+	if not _hover_info or (_context_menu and _context_menu.visible) or not _is_interactable or _is_mouse_down or is_any_card_dragging:
 		return
+
+	var parent_grid = get_parent()
+	if parent_grid and parent_grid.has_method("is_dragging_card") and parent_grid.is_dragging_card():
+		return
+
+	var raw_nick: String = profile_data.get("summoner_name", "").strip_edges()
+	var display_nick: String = raw_nick if not raw_nick.is_empty() else profile_data.get("profile_name", "Account")
+	var level: int = int(profile_data.get("summoner_level", 0))
+	var tier: String = str(profile_data.get("rank_tier", "UNRANKED")).to_upper().strip_edges()
+	if tier.is_empty():
+		tier = "UNRANKED"
+	var division: String = str(profile_data.get("rank_division", "")).to_upper().strip_edges()
+	if division == "NA":
+		division = ""
+	var lp: int = int(profile_data.get("rank_lp", 0))
+	var description: String = profile_data.get("description", "").strip_edges()
+
+	var is_unscanned: bool = raw_nick.is_empty() and level <= 0
+
+	# 1. Nick & Level (hidden if unscanned to avoid duplicating card profile name)
+	if _name_level_row:
+		_name_level_row.visible = not is_unscanned
+	if _summoner_name:
+		if is_unscanned:
+			_summoner_name.visible = false
+		else:
+			_summoner_name.visible = true
+			_summoner_name.text = raw_nick
+	if _summoner_level:
+		if not is_unscanned and level > 0:
+			_summoner_level.visible = true
+			_summoner_level.text = "Nv. %d" % level
+		else:
+			_summoner_level.visible = false
+
+	# 2. Rank Tier & LP text + color
+	if _rank_tier_label:
+		if is_unscanned:
+			_rank_tier_label.text = tr("Waiting for first login...")
+			_rank_tier_label.add_theme_color_override("font_color", Color("888c98"))
+		else:
+			var tier_display: String = tr(TIER_NAMES.get(tier, tier.capitalize()))
+			if tier != "UNRANKED" and not division.is_empty():
+				_rank_tier_label.text = "%s %s - %d LP" % [tier_display, division, lp]
+			elif tier != "UNRANKED":
+				_rank_tier_label.text = "%s - %d LP" % [tier_display, lp]
+			else:
+				_rank_tier_label.text = tier_display
+
+			var tier_color: Color = TIER_COLORS.get(tier, Color("888c98"))
+			_rank_tier_label.add_theme_color_override("font_color", tier_color)
+
+	# 3. Rank Badge icon
+	if _rank_badge:
+		if is_unscanned or tier == "UNRANKED":
+			_rank_badge.visible = false
+		else:
+			var badge_tex := _resolve_rank_badge(tier)
+			if badge_tex:
+				_rank_badge.texture = badge_tex
+				_rank_badge.visible = true
+			else:
+				_rank_badge.visible = false
+
+	const HOVER_W := 280.0
+	const CONTENT_W := 244.0 # HOVER_W - 18 - 18
+
+	_hover_info.custom_minimum_size.x = HOVER_W
+	_hover_info.size.x = HOVER_W
+	var vbox: Control = _hover_info.get_node_or_null("vbox")
+	if vbox:
+		vbox.custom_minimum_size.x = CONTENT_W
+		vbox.size.x = CONTENT_W
+
+	# 4. Separator & Description
+	var has_desc := not description.is_empty()
+	if _separator:
+		_separator.visible = has_desc
+	if _desc_label:
+		_desc_label.visible = has_desc
+		_desc_label.custom_minimum_size = Vector2(CONTENT_W, 0.0)
+		_desc_label.size.x = CONTENT_W
+		if has_desc:
+			_desc_label.text = description
 
 	if _hover_tween and _hover_tween.is_valid():
 		_hover_tween.kill()
 
-	# Recalculate dynamic container dimensions based on text content & padding
-	_hover_info.visible = true
-	_hover_info.reset_size()
-	var min_sz := _hover_info.get_combined_minimum_size()
-	var card_w: float = size.x if size.x > 0 else 181.0
-	var final_w: float = maxf(min_sz.x, _hover_info.size.x)
-	var final_h: float = maxf(min_sz.y, _hover_info.size.y)
+	var final_h: float = _hover_info.get_combined_minimum_size().y
+	final_h = clampf(final_h, 54.0, 360.0)
 
-	_hover_info.size = Vector2(final_w, final_h)
-	# Center horizontally above card with 7px gap
-	_hover_info.position = Vector2((card_w - final_w) * 0.5, -final_h - 7.0)
-	_hover_info.pivot_offset = Vector2(final_w * 0.5, final_h)
+	var card_w: float = size.x if size.x > 0.0 else 181.0
+	var pos_x: float = (card_w - HOVER_W) * 0.5
+	# Always place hover card cleanly below the profile card
+	var pos_y: float = size.y + 10.0
+
+	_hover_info.custom_minimum_size = Vector2(HOVER_W, final_h)
+	_hover_info.size = Vector2(HOVER_W, final_h)
+	_hover_info.position = Vector2(pos_x, pos_y)
+	_hover_info.pivot_offset = Vector2(HOVER_W * 0.5, 0.0)
 
 	_hover_info.modulate.a = 0.0
-	_hover_info.scale = Vector2(0.94, 0.94)
+	_hover_info.scale = Vector2(0.97, 0.97)
+	_hover_info.visible = true
 
 	_hover_tween = create_tween().set_parallel(true)
-	_hover_tween.tween_property(_hover_info, "modulate:a", 1.0, 0.08).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
-	_hover_tween.tween_property(_hover_info, "scale", Vector2.ONE, 0.09).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_hover_tween.tween_property(_hover_info, "modulate:a", 1.0, 0.09).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	_hover_tween.tween_property(_hover_info, "scale", Vector2.ONE, 0.10).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 
-func _hide_hover_info() -> void:
+func _hide_hover_info(instant: bool = false) -> void:
 	if not _hover_info or not _hover_info.visible:
 		return
 
 	if _hover_tween and _hover_tween.is_valid():
 		_hover_tween.kill()
+
+	if instant:
+		_hover_info.modulate.a = 0.0
+		_hover_info.visible = false
+		return
 
 	_hover_tween = create_tween().set_parallel(true)
 	_hover_tween.tween_property(_hover_info, "modulate:a", 0.0, 0.05).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
