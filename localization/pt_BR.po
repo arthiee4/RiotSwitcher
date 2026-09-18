@@ -215,3 +215,178 @@ msgstr "Exclui permanentemente todos os perfis e dados de sessão salvos."
 #: src/ui/shared_settings.gd
 msgid "Settings are locked while a profile is running. Close the game to modify."
 msgstr "Configurações bloqueadas enquanto o perfil estiver aberto. Feche o jogo para alterar."
+
+#: src/ui/profile_button.gd
+msgid "Waiting for first login..."
+msgstr "Aguardando primeiro login..."
+
+msgid "Iron"
+msgstr "Ferro"
+
+msgid "Bronze"
+msgstr "Bronze"
+
+msgid "Silver"
+msgstr "Prata"
+
+msgid "Gold"
+msgstr "Ouro"
+
+msgid "Platinum"
+msgstr "Platina"
+
+msgid "Emerald"
+msgstr "Esmeralda"
+
+msgid "Diamond"
+msgstr "Diamante"
+
+msgid "Master"
+msgstr "Mestre"
+
+msgid "Grandmaster"
+msgstr "Grão-Mestre"
+
+msgid "Challenger"
+msgstr "Desafiante"
+
+msgid "Unranked"
+msgstr "Sem Rank"
+
+#: scenes/settings_menu.tscn
+msgid "Riot Logs & Cache"
+msgstr "Logs e Cache da Riot"
+
+#: scenes/settings_menu.tscn
+msgid "Clean"
+msgstr "Limpar"
+
+#: src/ui/clean_logs.gd
+msgid "Cleaning..."
+msgstr "Limpando..."
+
+#: src/ui/clean_logs.gd
+msgid "Freed %s"
+msgstr "Liberou %s"
+
+#: src/ui/clean_logs.gd
+msgid "Already clean (0 B)"
+msgstr "Já limpo (0 B)"
+
+#: scenes/settings_menu.tscn
+msgid "Permanently removes old log files and crash dumps to reclaim disk space."
+msgstr "Remove permanentemente arquivos de log e relatórios de falha para liberar espaço."
+
+#: src/ui/profile_button.gd
+msgid "Edit"
+msgstr "Editar"
+
+#: scenes/settings_menu.tscn
+msgid "Backup Profiles"
+msgstr "Backup de Perfis"
+
+#: scenes/settings_menu.tscn
+msgid "Export"
+msgstr "Exportar"
+
+#: scenes/settings_menu.tscn
+msgid "Import"
+msgstr "Importar"
+
+#: scenes/settings_menu.tscn
+msgid "Export or import an encrypted backup (.zip) with all profiles, sessions, and backgrounds."
+msgstr "Exporte ou importe um backup criptografado (.zip) com todas as contas, sessões e imagens."
+
+msgid "Importing"
+msgstr "Importando"
+
+msgid "Exporting"
+msgstr "Exportando"
+
+msgid "Importing..."
+msgstr "Importando..."
+
+msgid "Exporting..."
+msgstr "Exportando..."
+
+msgid "Success!"
+msgstr "Sucesso!"
+
+msgid "Export completed!"
+msgstr "Exportação concluída!"
+
+msgid "Import completed!"
+msgstr "Importação concluída!"
+
+msgid "Exported %d profile(s) successfully!"
+msgstr "%d perfil(is) exportado(s) com sucesso!"
+
+msgid "Imported %d profile(s) successfully!"
+msgstr "%d perfil(is) importado(s) com sucesso!"
+
+msgid "Failed"
+msgstr "Falha"
+
+msgid "Exported"
+msgstr "Exportado"
+
+msgid "Restored %d"
+msgstr "Restaurado (%d)"
+
+msgid "Close"
+msgstr "Fechar"
+
+msgid "Gathering profile data..."
+msgstr "Coletando dados dos perfis..."
+
+msgid "Writing manifest..."
+msgstr "Gerando manifesto..."
+
+msgid "Packing session files (%d/%d)..."
+msgstr "Empacotando sessões (%d/%d)..."
+
+msgid "Packing background images (%d/%d)..."
+msgstr "Empacotando imagens de fundo (%d/%d)..."
+
+msgid "Encrypting backup archive..."
+msgstr "Criptografando arquivo de backup..."
+
+msgid "Saving file to disk..."
+msgstr "Salvando arquivo no disco..."
+
+msgid "Backup exported successfully!"
+msgstr "Backup exportado com sucesso!"
+
+msgid "Reading backup file..."
+msgstr "Lendo arquivo de backup..."
+
+msgid "Verifying security and decrypting..."
+msgstr "Verificando segurança e descriptografando..."
+
+msgid "Opening archive..."
+msgstr "Abrindo arquivo..."
+
+msgid "Restoring files (%d/%d)..."
+msgstr "Restaurando arquivos (%d/%d)..."
+
+msgid "Updating profile manager..."
+msgstr "Atualizando gerenciador de perfis..."
+
+msgid "Profiles imported successfully!"
+msgstr "Perfis importados com sucesso!"
+
+#: src/ui/systemtray.gd
+msgid "Exit"
+msgstr "Sair"
+
+msgid "Error"
+msgstr "Erro"
+
+msgid "Preparing..."
+msgstr "Preparando..."
+
+msgid "Export failed."
+msgstr "Falha ao exportar."
+
+msgid "Import failed."
+msgstr "Falha ao importar."

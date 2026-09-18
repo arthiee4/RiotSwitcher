@@ -211,3 +211,165 @@ msgstr "Chọn ngôn ngữ hiển thị cho ứng dụng."
 #: scenes/settings_menu.tscn
 msgid "Permanently deletes all saved account profiles and session data."
 msgstr "Xóa vĩnh viễn tất cả hồ sơ tài khoản đã lưu và dữ liệu session."
+
+#: scenes/settings_menu.tscn
+msgid "Riot Logs & Cache"
+msgstr "Log và Cache của Riot"
+
+#: scenes/settings_menu.tscn
+msgid "Clean"
+msgstr "Dọn dẹp"
+
+#: scenes/settings_menu.tscn
+msgid "Permanently removes old log files and crash dumps to reclaim disk space."
+msgstr "Xóa vĩnh viễn các file log và crash dump cũ để giải phóng không gian đĩa."
+
+#: scenes/settings_menu.tscn
+msgid "Backup Profiles"
+msgstr "Sao lưu hồ sơ"
+
+#: scenes/settings_menu.tscn
+msgid "Export"
+msgstr "Xuất"
+
+#: scenes/settings_menu.tscn
+msgid "Import"
+msgstr "Nhập"
+
+#: scenes/settings_menu.tscn
+msgid "Export or import an encrypted backup (.zip) with all profiles, sessions, and backgrounds."
+msgstr "Xuất hoặc nhập bản sao lưu được mã hóa (.zip) với tất cả hồ sơ, phiên và hình nền."
+
+#: scenes/settings_menu.tscn
+msgid "Share in-game settings (only works with League of Legends closed)."
+msgstr "Chia sẻ cài đặt trong trò chơi cho tất cả hồ sơ (chỉ hoạt động khi LoL đã tắt)."
+
+#: src/ui/profile_button.gd
+msgid "Edit"
+msgstr "Chỉnh sửa"
+
+#: src/ui/profile_button.gd
+msgid "Waiting for first login..."
+msgstr "Chờ đăng nhập lần đầu..."
+
+#: src/ui/systemtray.gd
+msgid "Exit"
+msgstr "Thoát"
+
+#: src/ui/clean_logs.gd
+msgid "Cleaning..."
+msgstr "Đang dọn dẹp..."
+
+#: src/ui/clean_logs.gd
+msgid "Freed %s"
+msgstr "Đã giải phóng %s"
+
+#: src/ui/clean_logs.gd
+msgid "Already clean (0 B)"
+msgstr "Đã sạch (0 B)"
+
+#: src/ui/shared_settings.gd
+msgid "Settings are locked while a profile is running. Close the game to modify."
+msgstr "Cài đặt bị khóa khi hồ sơ đang chạy. Đóng trò chơi để chỉnh sửa."
+
+msgid "Iron"
+msgstr "Sắt"
+
+msgid "Bronze"
+msgstr "Đồng"
+
+msgid "Silver"
+msgstr "Bạc"
+
+msgid "Gold"
+msgstr "Vàng"
+
+msgid "Platinum"
+msgstr "Bạch kim"
+
+msgid "Emerald"
+msgstr "Ngọc lục bảo"
+
+msgid "Diamond"
+msgstr "Kim cương"
+
+msgid "Master"
+msgstr "Bậc thầy"
+
+msgid "Grandmaster"
+msgstr "Đại sư"
+
+msgid "Challenger"
+msgstr "Thách đấu"
+
+msgid "Unranked"
+msgstr "Chưa xếp hạng"
+
+msgid "Importing"
+msgstr "Đang nhập"
+
+msgid "Exporting"
+msgstr "Đang xuất"
+
+msgid "Success!"
+msgstr "Thành công!"
+
+msgid "Exported %d profile(s) successfully!"
+msgstr "Đã xuất %d hồ sơ thành công!"
+
+msgid "Imported %d profile(s) successfully!"
+msgstr "Đã nhập %d hồ sơ thành công!"
+
+msgid "Failed"
+msgstr "Thất bại"
+
+msgid "Close"
+msgstr "Đóng"
+
+msgid "Preparing..."
+msgstr "Đang chuẩn bị..."
+
+msgid "Gathering profile data..."
+msgstr "Đang thu thập dữ liệu hồ sơ..."
+
+msgid "Writing manifest..."
+msgstr "Đang ghi manifest..."
+
+msgid "Packing session files (%d/%d)..."
+msgstr "Đang đóng gói session (%d/%d)..."
+
+msgid "Packing background images (%d/%d)..."
+msgstr "Đang đóng gói hình nền (%d/%d)..."
+
+msgid "Encrypting backup archive..."
+msgstr "Đang mã hóa bản sao lưu..."
+
+msgid "Saving file to disk..."
+msgstr "Đang lưu file vào ổ đĩa..."
+
+msgid "Reading backup file..."
+msgstr "Đang đọc file sao lưu..."
+
+msgid "Verifying security and decrypting..."
+msgstr "Đang xác minh bảo mật và giải mã..."
+
+msgid "Opening archive..."
+msgstr "Đang mở kho lưu trữ..."
+
+msgid "Restoring files (%d/%d)..."
+msgstr "Đang khôi phục file (%d/%d)..."
+
+msgid "Updating profile manager..."
+msgstr "Đang cập nhật trình quản lý hồ sơ..."
+
+msgid "Profiles imported successfully!"
+msgstr "Đã nhập hồ sơ thành công!"
+
+msgid "Error"
+msgstr "Lỗi"
+
+msgid "Export failed."
+msgstr "Xuất thất bại."
+
+msgid "Import failed."
+msgstr "Nhập thất bại."
