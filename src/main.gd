@@ -71,7 +71,7 @@ func _play_startup_entrance() -> void:
 	# Initial states for elements
 	var riot_lbl := home_view.get_node_or_null("riot") as Control if home_view else null
 	var switcher_lbl := home_view.get_node_or_null("switcher") as Control if home_view else null
-	var version_lbl := home_view.get_node_or_null("version") as Control if home_view else null
+	var version_lbl := home_view.get_node_or_null("version") as Label if home_view else null
 
 	if riot_lbl:
 		riot_lbl.modulate.a = 0.0
@@ -80,6 +80,7 @@ func _play_startup_entrance() -> void:
 		switcher_lbl.modulate.a = 0.0
 		switcher_lbl.position.y -= 12.0
 	if version_lbl:
+		version_lbl.text = "beta  Ana %s" % Constants.APP_VERSION
 		version_lbl.modulate.a = 0.0
 	if left_menu_handler:
 		left_menu_handler.modulate.a = 0.0

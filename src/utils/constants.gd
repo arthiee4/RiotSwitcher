@@ -2,6 +2,11 @@ extends Node
 
 ## Global constants for RiotSwitcher
 
+# App version (must match the GitHub release tag, e.g. tag "Ana-0.3.4" -> "0.3.4")
+const APP_VERSION: String = "0.3.4"
+const GITHUB_RELEASES_API: String = "https://api.github.com/repos/arthiee4/RiotSwitcher/releases/latest"
+const GITHUB_RELEASES_PAGE: String = "https://github.com/arthiee4/RiotSwitcher/releases/latest"
+
 # Riot Client & Process Names
 const PROCESS_RIOT_CLIENT: String = "Riot Client.exe"
 const PROCESS_VALORANT: String = "VALORANT.exe"
