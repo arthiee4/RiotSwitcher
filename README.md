@@ -9,7 +9,7 @@ Downloading from untrusted sources may compromise your computer's security.
 ---
 
 <p align="center">
-  <img src="assets/example-vANA.webp" alt="Stay Signed In Guide">
+  <img src=".github/assets/example-vANA.webp" alt="Stay Signed In Guide">
 </p>
 
 ## Riot Switcher
@@ -46,13 +46,13 @@ If you don't check "Stay signed in," Riot Switcher won't be able to handle autom
 1. Create your account profile.
 
 <p align="center">
-  <img src="assets/example2-vANA.webp" alt="Create Profile Example">
+  <img src=".github/assets/example2-vANA.webp" alt="Create Profile Example">
 </p>
 
 2. Go to Home, and press play button on the account.
 3. **IMPORTANT:** On the Riot login screen, **check "Stay signed in"** and log in. This step is crucial for automatic login to work!
 
-![Stay Signed In Guide](assets/stay_signed_in.gif)
+![Stay Signed In Guide](.github/assets/stay_signed_in.gif)
 
 Done! Your account is ready for one-click switching.
 

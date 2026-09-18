@@ -55,6 +55,11 @@ const REG_KEYS: Array[String] = [
 
 static var _io_mutex := Mutex.new()
 
+# Cached League directory path: avoids re-scanning JSON/YAML/registry on every watchdog tick.
+static var _cached_league_dir: String = ""
+static var _league_dir_cache_msec: int = -60001  # Forces a fresh lookup on first call.
+const LEAGUE_DIR_CACHE_TTL_MS := 30000
+
 
 
 # Resolves the configured source profile with deterministic directory_name lookup and legacy migration.
@@ -502,7 +507,7 @@ static func _apply_master_snapshot_unlocked(league_config_dir: String, profile_m
 	return ApplyResult.SUCCESS
 
 
-# Sets or removes the Windows Read-Only attribute on a file.
+# Sets or removes the Windows Read-Only attribute on a single file.
 static func set_file_readonly_windows(file_path: String, readonly: bool) -> void:
 	if OS.get_name() != "Windows":
 		return
@@ -510,17 +515,19 @@ static func set_file_readonly_windows(file_path: String, readonly: bool) -> void
 	var global_path := ProjectSettings.globalize_path(file_path) if file_path.begins_with("user://") or file_path.begins_with("res://") else file_path
 	global_path = global_path.replace("/", "\\")
 	var output: Array = []
+	# blocking=true: attrib must finish before the caller copies/deletes the file.
 	OS.execute("attrib", [flag, global_path], output, true, false)
 
 
+# Applies or removes read-only on every file inside a directory tree.
 static func _set_dir_readonly_windows(dir_path: String, readonly: bool) -> void:
 	if OS.get_name() != "Windows":
 		return
 	var flag := "+R" if readonly else "-R"
 	var global_path := ProjectSettings.globalize_path(dir_path) if dir_path.begins_with("user://") or dir_path.begins_with("res://") else dir_path
 	global_path = global_path.replace("/", "\\")
-	var output: Array = []
-	OS.execute("attrib", [flag, global_path + "\\*.*", "/S"], output, true, false)
+	# /S = apply to all files in subdirectories.
+	OS.create_process("attrib", [flag, global_path + "\\*.*", "/S"])
 
 
 # Cleans up Read-Only flags on all League config files when sync is disabled.
@@ -542,6 +549,21 @@ static func cleanup_readonly_flags(league_config_dir: String) -> void:
 
 # Locates the League of Legends install directory using multiple robust sources.
 static func find_league_dir(riot_client_location: String = "") -> String:
+	# Return cached path if it is still valid and the directory still exists.
+	var now_ms := Time.get_ticks_msec()
+	if not _cached_league_dir.is_empty() \
+			and (now_ms - _league_dir_cache_msec) < LEAGUE_DIR_CACHE_TTL_MS \
+			and DirAccess.dir_exists_absolute(_cached_league_dir):
+		return _cached_league_dir
+
+	var found := _find_league_dir_uncached(riot_client_location)
+	_cached_league_dir = found
+	_league_dir_cache_msec = now_ms
+	return found
+
+
+# Internal: performs the full multi-source scan without touching the cache.
+static func _find_league_dir_uncached(riot_client_location: String = "") -> String:
 	# 1.
 	var from_installs := _league_dir_from_installs_json()
 	if not from_installs.is_empty():

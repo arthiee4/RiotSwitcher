@@ -9,12 +9,15 @@
 # Binary Tools
 rcedit-x64.exe
 
-# Build Artifacts
+# Build Artifacts & Backups
 *.exe
 *.pck
 *.tmp
 /build/dist/
+/build/image_backup/
+/build/baseline/
 /build/*.zip
+/build/build_history.json
 
 # User Data & sensitive configs
 Data/profiles_data.json
