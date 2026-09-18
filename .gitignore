@@ -9,6 +9,9 @@
 # Binary Tools
 rcedit-x64.exe
 
+# UPX / linker temp files left by the addon build
+/addons/catui-builder/bin/~*
+
 # Vendored addon source repo (has its own .git); only addons/ is shipped
 /native/
 
