@@ -1,66 +1,53 @@
 # Riot Switcher
 
-** IMPORTANT SECURITY NOTICE:**
+**IMPORTANT SECURITY NOTICE**
 
-**Always download Riot Switcher ONLY from the official source.**  
-**Do NOT trust unknown links or unofficial websites.**  
-Downloading from untrusted sources may compromise your computer's security.
+Always download Riot Switcher from the official source only. Do not trust unknown links or unofficial websites. Downloading from untrusted sources may compromise your computer's security.
 
 ---
 
 <p align="center">
-  <img src=".github/assets/example-vANA.webp" alt="Stay Signed In Guide">
+  <img src=".github/assets/example-vANA.webp" alt="Riot Switcher">
 </p>
 
-## Riot Switcher
+## What is Riot Switcher
 
-**Riot Switcher** is a custom launcher created for League of Legends players to manage multiple accounts in a simple, fast, and organized way.
+A custom launcher for League of Legends that makes managing multiple accounts simple. It stores the login session of each account and switches between them in one click.
 
-> **Note:** Riot Switcher is currently only available for League of Legends. Valorant support is planned for future updates.
+Only League of Legends is supported for now. Valorant support is planned for future updates.
 
 ## How It Works
 
-1. **Save Current Account:** Captures local credentials from the Riot Client.
-2. **Switch Account:** Copies the selected profile to the client's folder.
-3. **Automatic Login:** Riot Client opens directly in the chosen account.
-4. **Updates:** Future support for profile updates, per-account language settings, and additional integrations.
+Each account lives in its own profile with its own session files. When you launch a profile, Riot Switcher swaps the Riot Client session to that account and opens the client already signed in.
 
-##  How to Use Riot Switcher Properly
+## How to Use
 
-After creating your account profile inside Riot Switcher, click on the **Play** button for the selected profile.
-
-When the Riot Client opens:
-- Log in normally.
-- **IMPORTANT:** Make sure to check the **"Stay signed in"** checkbox before logging in.
-
-If you don't check "Stay signed in," Riot Switcher won't be able to handle automatic login properly in the future.
-
-### Quick Steps:
-1. Create your account profile.
+Create a profile and log in once on the Riot Client with "Stay signed in" checked. From then on, just press play on the profile you want.
 
 <p align="center">
-  <img src=".github/assets/example2-vANA.webp" alt="Create Profile Example">
+  <img src=".github/assets/example2-vANA.webp" alt="Create a profile">
 </p>
 
-2. Go to Home, and press play button on the account.
-3. **IMPORTANT:** On the Riot login screen, **check "Stay signed in"** and log in. This step is crucial for automatic login to work!
+**IMPORTANT:** always check "Stay signed in" on the Riot login screen. Without it, automatic login will not work.
 
-![Stay Signed In Guide](.github/assets/stay_signed_in.gif)
+![Stay signed in](.github/assets/stay_signed_in.gif)
 
-Done! Your account is ready for one-click switching.
+## Building
+
+Open the project in the Godot editor. The Catui Builder addon adds a panel at the bottom of the editor: pick the engine modules you want and press Build. The result is a lightweight Godot template used to export Riot Switcher.
 
 ## AI Usage
 
-Generative AI is strictly prohibited, AI assisted tools are allowed for development tasks such as research, debugging, documentation, and code assistance. Contributions must always be understood, reviewed, and maintained by the person submitting them. Be efficient, but not dumb. Vibe coded contributions are NOT accepted.
+Generative AI is strictly prohibited. AI assisted tools are allowed for development tasks such as research, debugging, documentation and code assistance. Contributions must always be understood, reviewed and maintained by the person submitting them. Be efficient, but not dumb. Vibe coded contributions are not accepted.
 
 ## License and Disclaimer
 
 This is a personal project created for educational and organizational purposes only.
 
-**Riot Switcher is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Riot Games, Inc., or any of its subsidiaries or affiliates.**
+Riot Switcher is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Riot Games, Inc., or any of its subsidiaries or affiliates.
 
-All product and company names are trademarks™ or registered® trademarks of their respective holders. The use of these names, logos, and brands does not imply endorsement.
+All product and company names are trademarks or registered trademarks of their respective holders. The use of these names and brands does not imply endorsement.
 
-**Use of Riot Switcher is at your own risk. The developer does not take responsibility for any consequences, including penalties or bans, resulting from its use.**
+Use of Riot Switcher is at your own risk. The developer is not responsible for any consequences, including penalties or bans, resulting from its use.
 
-Made with ❤️ using Godot Engine.
+Made with Godot Engine.
