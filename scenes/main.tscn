@@ -3927,7 +3927,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/h_separation = 24
 theme_override_constants/v_separation = 25
-columns = 4
+columns = 5
 script = ExtResource("2_gqmmt")
 
 [node name="leftmenu_side" type="Control" parent="." unique_id=1813265131]
