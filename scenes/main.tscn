@@ -3913,7 +3913,6 @@ offset_bottom = -17.0
 theme_override_colors/font_color = Color(1, 1, 0.988235, 0.662745)
 theme_override_fonts/font = ExtResource("2_tuiqe")
 theme_override_font_sizes/font_size = 12
-text = "beta  Ana 0.3.4"
 
 [node name="GridContainer" type="GridContainer" parent="home" unique_id=1971424930]
 layout_mode = 1

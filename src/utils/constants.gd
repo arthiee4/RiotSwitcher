@@ -3,7 +3,9 @@ extends Node
 ## Global constants for RiotSwitcher
 
 # App version (must match the GitHub release tag, e.g. tag "Ana-0.3.4" -> "0.3.4")
-const APP_VERSION: String = "0.3.4"
+const APP_VERSION: String = "0.4.0"
+const APP_CODENAME: String = "Ana"
+const APP_CHANNEL: String = "beta"
 const GITHUB_RELEASES_API: String = "https://api.github.com/repos/arthiee4/RiotSwitcher/releases/latest"
 const GITHUB_RELEASES_PAGE: String = "https://github.com/arthiee4/RiotSwitcher/releases/latest"
 

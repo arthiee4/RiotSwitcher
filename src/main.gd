@@ -80,7 +80,7 @@ func _play_startup_entrance() -> void:
 		switcher_lbl.modulate.a = 0.0
 		switcher_lbl.position.y -= 12.0
 	if version_lbl:
-		version_lbl.text = "beta  Ana %s" % Constants.APP_VERSION
+		version_lbl.text = "%s  %s %s" % [Constants.APP_CHANNEL, Constants.APP_CODENAME, Constants.APP_VERSION]
 		version_lbl.modulate.a = 0.0
 	if left_menu_handler:
 		left_menu_handler.modulate.a = 0.0
