@@ -1,17 +1,151 @@
 [gd_scene format=3 uid="uid://c3bkupcrd1a2b"]
 
 [ext_resource type="Script" uid="uid://kghctfpxt0ji" path="res://src/ui/profile_backup_controller.gd" id="1_backupctrl"]
-[ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="2_bold"]
+[ext_resource type="FontFile" uid="uid://bfy024uro6jv4" path="res://assets/fonts/BeaufortforLoL-Bold.otf" id="2_bold"]
+[ext_resource type="FontFile" uid="uid://dfei6q4y1tko7" path="res://assets/fonts/Spiegel-Regular.otf" id="3_body"]
+[ext_resource type="Script" uid="uid://bkl6g25jwb47h" path="res://addons/StyleboxFancy/StyleBoxFancy.gd" id="4_sbfancy"]
+[ext_resource type="Script" uid="uid://cjmmhbp1b5312" path="res://addons/StyleboxFancy/StyleBorder.gd" id="5_sbborder"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_left = 2
-border_width_top = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 0.337255)
-border_blend = true
+[sub_resource type="Resource" id="Resource_border_left_outer"]
+script = ExtResource("5_sbborder")
+color = Color(0.4706, 0.3529, 0.1569, 0.88)
+width_left = 2
+width_top = 1
+width_right = 1
+width_bottom = 1
 
-[node name="backup_profiles" type="Control"]
+[sub_resource type="Resource" id="Resource_border_card_inner"]
+script = ExtResource("5_sbborder")
+color = Color(0.7843, 0.6667, 0.4314, 0.18)
+width_left = 1
+width_top = 1
+width_right = 1
+width_bottom = 1
+inset_left = 3
+inset_top = 3
+inset_right = 3
+inset_bottom = 3
+
+[sub_resource type="StyleBox" id="StyleBox_6fer0"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("4_sbfancy")
+color = Color(0.02, 0.02, 0.02, 0.82)
+borders = Array[ExtResource("5_sbborder")]([SubResource("Resource_border_left_outer"), SubResource("Resource_border_card_inner")])
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = 0.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = 0.0
+
+[sub_resource type="Resource" id="Resource_btn_left_border"]
+script = ExtResource("5_sbborder")
+color = Color(0.4706, 0.3529, 0.1569, 1)
+width_left = 2
+width_top = 1
+width_right = 1
+width_bottom = 1
+
+[sub_resource type="StyleBox" id="StyleBoxFancy_btn_export"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 12.0
+content_margin_top = -1.0
+content_margin_right = 12.0
+content_margin_bottom = -1.0
+script = ExtResource("4_sbfancy")
+color = Color(0.1176, 0.1373, 0.1569, 1)
+borders = Array[ExtResource("5_sbborder")]([SubResource("Resource_btn_left_border")])
+corner_radius_top_left = 6
+corner_radius_bottom_left = 6
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = 0.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = 0.0
+
+[sub_resource type="Resource" id="Resource_btn_left_hov_border"]
+script = ExtResource("5_sbborder")
+color = Color(0.82, 0.72, 0.48, 0.85)
+width_left = 2
+width_top = 1
+width_right = 1
+width_bottom = 1
+
+[sub_resource type="StyleBox" id="StyleBoxFancy_btn_export_hover"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 12.0
+content_margin_top = -1.0
+content_margin_right = 12.0
+content_margin_bottom = -1.0
+script = ExtResource("4_sbfancy")
+color = Color(0.1725, 0.1608, 0.1333, 1)
+borders = Array[ExtResource("5_sbborder")]([SubResource("Resource_btn_left_hov_border")])
+corner_radius_top_left = 6
+corner_radius_bottom_left = 6
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = 0.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = 0.0
+
+[sub_resource type="Resource" id="Resource_btn_right_border"]
+script = ExtResource("5_sbborder")
+color = Color(0.4706, 0.3529, 0.1569, 1)
+width_left = 1
+width_top = 1
+width_right = 2
+width_bottom = 1
+
+[sub_resource type="StyleBox" id="StyleBoxFancy_btn_import"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 12.0
+content_margin_top = -1.0
+content_margin_right = 12.0
+content_margin_bottom = -1.0
+script = ExtResource("4_sbfancy")
+color = Color(0.1176, 0.1373, 0.1569, 1)
+borders = Array[ExtResource("5_sbborder")]([SubResource("Resource_btn_right_border")])
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = 0.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = 0.0
+
+[sub_resource type="Resource" id="Resource_btn_right_hov_border"]
+script = ExtResource("5_sbborder")
+color = Color(0.82, 0.72, 0.48, 0.85)
+width_left = 1
+width_top = 1
+width_right = 2
+width_bottom = 1
+
+[sub_resource type="StyleBox" id="StyleBoxFancy_btn_import_hover"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 12.0
+content_margin_top = -1.0
+content_margin_right = 12.0
+content_margin_bottom = -1.0
+script = ExtResource("4_sbfancy")
+color = Color(0.1725, 0.1608, 0.1333, 1)
+borders = Array[ExtResource("5_sbborder")]([SubResource("Resource_btn_right_hov_border")])
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = 0.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = 0.0
+
+[node name="backup_profiles" type="Control" unique_id=1780757667]
 custom_minimum_size = Vector2(536, 120)
 layout_mode = 3
 anchors_preset = 0
@@ -20,68 +154,84 @@ offset_bottom = 120.0
 mouse_filter = 1
 script = ExtResource("1_backupctrl")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=1938153650]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+theme_override_styles/panel = SubResource("StyleBox_6fer0")
 
-[node name="Label" type="Label" parent="Panel"]
+[node name="Label" type="Label" parent="Panel" unique_id=868537204]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 12.0
 offset_right = 400.0
 offset_bottom = 41.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.9412, 0.902, 0.8235, 1)
 theme_override_fonts/font = ExtResource("2_bold")
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 20
 text = "Backup Profiles"
 
-[node name="export_button" type="Button" parent="Panel"]
+[node name="export_button" type="Button" parent="Panel" unique_id=953102265]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 46.0
-offset_right = 106.0
+offset_right = 114.0
 offset_bottom = 78.0
 mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFancy_btn_export")
+theme_override_styles/pressed = SubResource("StyleBoxFancy_btn_export_hover")
+theme_override_styles/hover = SubResource("StyleBoxFancy_btn_export_hover")
 text = "Export"
 
-[node name="import_button" type="Button" parent="Panel"]
+[node name="import_button" type="Button" parent="Panel" unique_id=1311823924]
 layout_mode = 0
-offset_left = 116.0
+offset_left = 124.0
 offset_top = 46.0
-offset_right = 206.0
+offset_right = 222.0
 offset_bottom = 78.0
 mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFancy_btn_import")
+theme_override_styles/pressed = SubResource("StyleBoxFancy_btn_import_hover")
+theme_override_styles/hover = SubResource("StyleBoxFancy_btn_import_hover")
 text = "Import"
 
-[node name="status_label" type="Label" parent="Panel"]
+[node name="status_label" type="Label" parent="Panel" unique_id=391522534]
 layout_mode = 0
-offset_left = 220.0
+offset_left = 236.0
 offset_top = 50.0
-offset_right = 510.0
+offset_right = 516.0
 offset_bottom = 74.0
-theme_override_colors/font_color = Color(1, 1, 1, 0.65)
-theme_override_fonts/font = ExtResource("2_bold")
-theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.7843, 0.6667, 0.4314, 0.9)
+theme_override_fonts/font = ExtResource("3_body")
+theme_override_font_sizes/font_size = 13
 
-[node name="export_dialog" type="FileDialog" parent="."]
+[node name="Label2" type="Label" parent="Panel" unique_id=1982619270]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 84.0
+offset_right = 520.0
+offset_bottom = 110.0
+theme_override_colors/font_color = Color(0.6275, 0.6078, 0.549, 1)
+theme_override_fonts/font = ExtResource("3_body")
+theme_override_font_sizes/font_size = 13
+text = "Export or import an encrypted backup (.zip) with all profiles, sessions, and backgrounds."
+
+[node name="export_dialog" type="FileDialog" parent="." unique_id=1649549224]
 title = "Export Backup"
 size = Vector2i(650, 450)
 ok_button_text = "Export"
-file_mode = 4
 access = 2
-use_native_dialog = true
 filters = PackedStringArray("*.zip ; RiotSwitcher Backup (*.zip)")
+use_native_dialog = true
 
-[node name="import_dialog" type="FileDialog" parent="."]
-title = "Import Backup"
+[node name="import_dialog" type="FileDialog" parent="." unique_id=1635776629]
+title = "Open a File"
 size = Vector2i(650, 450)
 ok_button_text = "Import"
 file_mode = 0
 access = 2
-use_native_dialog = true
 filters = PackedStringArray("*.zip ; RiotSwitcher Backup (*.zip)")
+use_native_dialog = true

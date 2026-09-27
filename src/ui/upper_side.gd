@@ -1,7 +1,7 @@
 class_name UpperSide
 extends Control
 
-# Drag handle for the borderless window: dragging this bar moves the window.
+# Drag handle for the borderless window.
 
 var _dragging := false
 var _drag_offset := Vector2.ZERO

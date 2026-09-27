@@ -798,4 +798,3 @@ func _cleanup_orphaned_background(old_bg_path: String, excluding_profile_name: S
 			return # Still in use by another profile
 
 	DirAccess.remove_absolute(old_bg_path)
-

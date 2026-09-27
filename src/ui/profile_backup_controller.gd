@@ -13,12 +13,35 @@ var _worker_thread: Thread = null
 var _progress_modal: BackupProgressModal = null
 
 
+const FONT_BODY: FontFile = preload("res://assets/fonts/Spiegel-Regular.otf")
+
+
 func _ready() -> void:
+	var panel_node := get_node_or_null("Panel") as Control
+	if panel_node:
+		var desc_lbl := panel_node.get_node_or_null("Label2") as Label
+		if not desc_lbl:
+			desc_lbl = Label.new()
+			desc_lbl.name = "Label2"
+			panel_node.add_child(desc_lbl)
+		desc_lbl.offset_left = 16.0
+		desc_lbl.offset_top = 84.0
+		desc_lbl.offset_right = 520.0
+		desc_lbl.offset_bottom = 110.0
+		desc_lbl.add_theme_font_override("font", FONT_BODY)
+		desc_lbl.add_theme_font_size_override("font_size", 13)
+		desc_lbl.add_theme_color_override("font_color", Color(0.6275, 0.6078, 0.549, 1.0))
+		desc_lbl.text = tr("Export or import an encrypted backup (.zip) with all profiles, sessions, and backgrounds.")
+
 	if _export_btn:
+		_export_btn.offset_top = 46.0
+		_export_btn.offset_bottom = 78.0
 		_export_btn.text = tr("Export")
 		_export_btn.pressed.connect(_on_export_pressed)
 
 	if _import_btn:
+		_import_btn.offset_top = 46.0
+		_import_btn.offset_bottom = 78.0
 		_import_btn.text = tr("Import")
 		_import_btn.pressed.connect(_on_import_pressed)
 
@@ -102,7 +125,7 @@ func _on_export_finished(res: Dictionary) -> void:
 			_progress_modal.finish_error(err_msg)
 		if _status_label:
 			_status_label.text = tr("Failed")
-			_status_label.add_theme_color_override("font_color", Color(1.0, 0.04, 0.14, 1.0))
+			_status_label.add_theme_color_override("font_color", Color(0.9098, 0.251, 0.3412, 1.0))
 
 
 func _on_import_file_selected(path: String) -> void:
@@ -143,14 +166,14 @@ func _on_import_finished(res: Dictionary) -> void:
 			_progress_modal.finish_success(msg)
 		if _status_label:
 			_status_label.text = tr("Restored %d") % count
-			_status_label.add_theme_color_override("font_color", Color(1, 1, 1, 1.0))
+			_status_label.add_theme_color_override("font_color", Color(0.9412, 0.902, 0.8235, 1.0))
 	else:
 		var err_msg: String = res.get("error", tr("Import failed."))
 		if _progress_modal:
 			_progress_modal.finish_error(err_msg)
 		if _status_label:
 			_status_label.text = tr("Failed")
-			_status_label.add_theme_color_override("font_color", Color(1.0, 0.04, 0.14, 1.0))
+			_status_label.add_theme_color_override("font_color", Color(0.9098, 0.251, 0.3412, 1.0))
 
 
 func _notify_progress(pct: float, msg: String) -> void:

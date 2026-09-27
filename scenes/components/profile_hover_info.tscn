@@ -1,28 +1,50 @@
 [gd_scene format=3 uid="uid://c6xk4y8v2rabm"]
 
-[ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="1_bold"]
-[ext_resource type="FontFile" uid="uid://csusmm2bxfqsy" path="res://assets/fonts/Raleway-Regular.ttf" id="2_regular"]
+[ext_resource type="FontFile" uid="uid://bfy024uro6jv4" path="res://assets/fonts/BeaufortforLoL-Bold.otf" id="1_bold"]
+[ext_resource type="FontFile" uid="uid://dfei6q4y1tko7" path="res://assets/fonts/Spiegel-Regular.otf" id="2_regular"]
+[ext_resource type="Script" uid="uid://bkl6g25jwb47h" path="res://addons/StyleboxFancy/StyleBoxFancy.gd" id="3_sbfancy"]
+[ext_resource type="Script" uid="uid://cjmmhbp1b5312" path="res://addons/StyleboxFancy/StyleBorder.gd" id="4_sbborder"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover_panel"]
+[sub_resource type="Resource" id="Resource_hover_border_outer"]
+script = ExtResource("4_sbborder")
+color = Color(0.55, 0.42, 0.18, 1)
+width_left = 2
+width_top = 1
+width_right = 1
+width_bottom = 1
+
+[sub_resource type="Resource" id="Resource_hover_border_inner"]
+script = ExtResource("4_sbborder")
+color = Color(0.7843, 0.6667, 0.4314, 0.22)
+width_left = 1
+width_top = 1
+width_right = 1
+width_bottom = 1
+inset_left = 2
+inset_top = 2
+inset_right = 2
+inset_bottom = 2
+
+[sub_resource type="StyleBox" id="StyleBoxFlat_hover_panel"]
+resource_local_to_scene = false
+resource_name = ""
 content_margin_left = 18.0
-content_margin_top = 15.0
+content_margin_top = 14.0
 content_margin_right = 18.0
-content_margin_bottom = 15.0
-bg_color = Color(0.0687983, 0.0687983, 0.0687983, 0.98)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.16862746)
-border_blend = true
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 12
+content_margin_bottom = 14.0
+script = ExtResource("3_sbfancy")
+color = Color(0.0039, 0.0392, 0.0745, 0.98)
+borders = Array[ExtResource("4_sbborder")]([SubResource("Resource_hover_border_outer"), SubResource("Resource_hover_border_inner")])
+corner_radius_top_left = 18
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 13
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = -7.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = 0.0
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_sep"]
-color = Color(1, 1, 1, 0.054902)
+color = Color(0.4706, 0.3529, 0.1569, 0.65)
 
 [node name="profile_hover_info" type="PanelContainer" unique_id=1107368368]
 z_index = 50
@@ -36,7 +58,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_hover_panel")
 custom_minimum_size = Vector2(244, 0)
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="name_level_row" type="HBoxContainer" parent="vbox" unique_id=163655427]
 custom_minimum_size = Vector2(244, 0)
@@ -47,7 +69,7 @@ theme_override_constants/separation = 10
 [node name="summoner_name" type="Label" parent="vbox/name_level_row" unique_id=231256783]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.9412, 0.902, 0.8235, 1)
 theme_override_fonts/font = ExtResource("1_bold")
 theme_override_font_sizes/font_size = 18
 text = "Summoner"
@@ -55,9 +77,9 @@ text_overrun_behavior = 3
 
 [node name="summoner_level" type="Label" parent="vbox/name_level_row" unique_id=379262385]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 0.75)
+theme_override_colors/font_color = Color(0.7843, 0.6667, 0.4314, 1)
 theme_override_fonts/font = ExtResource("1_bold")
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 13
 text = "Nv. 0"
 
 [node name="rank_row" type="HBoxContainer" parent="vbox" unique_id=673543579]
@@ -76,7 +98,7 @@ stretch_mode = 5
 [node name="rank_tier_label" type="Label" parent="vbox/rank_row" unique_id=835068112]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.85098, 0.85098, 0.882353, 1)
+theme_override_colors/font_color = Color(0.8039, 0.7451, 0.5686, 1)
 theme_override_fonts/font = ExtResource("1_bold")
 theme_override_font_sizes/font_size = 15
 text = "Unranked"
@@ -91,7 +113,7 @@ theme_override_styles/separator = SubResource("StyleBoxLine_sep")
 custom_minimum_size = Vector2(244, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.760784, 0.768627, 0.823529, 0.95)
+theme_override_colors/font_color = Color(0.6275, 0.6078, 0.549, 1)
 theme_override_constants/line_spacing = 3
 theme_override_fonts/font = ExtResource("2_regular")
 theme_override_font_sizes/font_size = 13

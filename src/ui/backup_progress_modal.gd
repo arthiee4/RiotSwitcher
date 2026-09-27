@@ -11,6 +11,20 @@ signal closed
 @onready var _progress_bar: ProgressBar = $Panel/VBoxContainer/ProgressBar
 @onready var _action_button: Button = $Panel/VBoxContainer/action_button
 
+
+func set_accent_color(accent: Color) -> void:
+	if not _progress_bar:
+		return
+	var fill := _progress_bar.get_theme_stylebox("fill")
+	if not fill:
+		return
+	var fill_copy := fill.duplicate(true) as StyleBox
+	if fill_copy is StyleBoxFlat:
+		var fill_flat := fill_copy as StyleBoxFlat
+		var alpha := fill_flat.bg_color.a
+		fill_flat.bg_color = accent
+		fill_flat.bg_color.a = alpha if alpha > 0.01 else 0.9
+		_progress_bar.add_theme_stylebox_override("fill", fill_copy)
 var _is_active := false
 var _dot_timer := 0.0
 var _dot_count := 0
@@ -70,7 +84,7 @@ func open_modal(is_import: bool) -> void:
 	_dot_timer = 0.0
 
 	if _title_label:
-		_title_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+		_title_label.add_theme_color_override("font_color", Color(0.9412, 0.902, 0.8235, 1.0))
 		_render_status(_current_dots())
 
 	if _progress_bar:
@@ -116,7 +130,7 @@ func finish_success(message: String) -> void:
 	if _title_label:
 		_status_text = message if message != "" else tr("Success!")
 		_title_label.text = _status_text
-		_title_label.add_theme_color_override("font_color", Color(1, 1, 1, 1.0))
+		_title_label.add_theme_color_override("font_color", Color(0.9412, 0.902, 0.8235, 1.0))
 
 	# Wait a brief moment to show success, then fade out smoothly
 	var tw := create_tween()
@@ -135,7 +149,7 @@ func finish_error(error_message: String) -> void:
 	if _title_label:
 		_status_text = error_message if error_message != "" else tr("Error")
 		_title_label.text = _status_text
-		_title_label.add_theme_color_override("font_color", Color(1.0, 0.04, 0.14, 1.0))
+		_title_label.add_theme_color_override("font_color", Color(0.9098, 0.251, 0.3412, 1.0))
 
 	if _action_button:
 		_action_button.text = tr("Close")

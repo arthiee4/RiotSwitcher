@@ -3,9 +3,9 @@ extends Node
 # Global constants for RiotSwitcher
 
 # App version (must match the GitHub release tag, e.g. tag "Ana-0.3.4" -> "0.3.4")
-const APP_VERSION: String = "0.4.0"
+const APP_VERSION: String = "0.5.0"
 const APP_CODENAME: String = "Ana"
-const APP_CHANNEL: String = "beta"
+const APP_CHANNEL: String = ""
 const GITHUB_RELEASES_API: String = "https://api.github.com/repos/arthiee4/RiotSwitcher/releases/latest"
 const GITHUB_RELEASES_PAGE: String = "https://github.com/arthiee4/RiotSwitcher/releases/latest"
 
@@ -34,8 +34,8 @@ const TWEEN_DURATION_NORMAL: float = 0.25
 const CARD_HOVER_SCALE: Vector2 = Vector2(1.03, 1.03)
 const CARD_NORMAL_SCALE: Vector2 = Vector2(1.0, 1.0)
 
-# Colors
-const COLOR_PRIMARY: Color = Color("d32f2f")
-const COLOR_BG_DARK: Color = Color("0f0f12")
-const COLOR_CARD_BG: Color = Color("1a1a20")
-const COLOR_ACCENT: Color = Color("ff4655")
+# Colors (League of Legends Hextech Palette)
+const COLOR_PRIMARY: Color = Color("c89b3c")
+const COLOR_BG_DARK: Color = Color("010a13")
+const COLOR_CARD_BG: Color = Color("091428")
+const COLOR_ACCENT: Color = Color("0ac8b9")

@@ -1,35 +1,163 @@
 [gd_scene format=3 uid="uid://c8v7kmus1he0q"]
 
-[ext_resource type="FontFile" uid="uid://c08w5jcfwr4pe" path="res://assets/fonts/Raleway-Light.ttf" id="1_e2qsc"]
+[ext_resource type="FontFile" uid="uid://dfei6q4y1tko7" path="res://assets/fonts/Spiegel-Regular.otf" id="1_e2qsc"]
 [ext_resource type="Script" uid="uid://ddc452vo3rcuh" path="res://src/ui/settings_menu.gd" id="1_settingsctrl"]
-[ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="2_tuiqe"]
+[ext_resource type="FontFile" uid="uid://bfy024uro6jv4" path="res://assets/fonts/BeaufortforLoL-Bold.otf" id="2_tuiqe"]
 [ext_resource type="Script" uid="uid://blac5x4qv3t14" path="res://src/ui/vanguard.gd" id="3_vanguard"]
 [ext_resource type="Script" uid="uid://t8yek8vtavjl" path="res://src/ui/lang.gd" id="4_lang"]
 [ext_resource type="Script" uid="uid://cmdk7tdac0cnw" path="res://src/ui/toggle_setting.gd" id="5_toggle"]
 [ext_resource type="Script" uid="uid://btr4ti6tqximu" path="res://src/ui/shared_settings.gd" id="6_shared"]
 [ext_resource type="Script" uid="uid://ci22pic4pb3ci" path="res://src/ui/delete_all_profiles.gd" id="7_deleteall"]
-[ext_resource type="Script" uid="uid://jei1kf2i30pm" path="res://src/ui/clean_logs.gd" id="8_cleanlogs"]
+[ext_resource type="Script" uid="uid://by8sirqbusqkv" path="res://src/ui/accent_setting.gd" id="8_cleanlogs"]
+[ext_resource type="Script" uid="uid://b1u45irgqc1nd" path="res://src/ui/resolution_setting.gd" id="9_resolution"]
 [ext_resource type="PackedScene" uid="uid://cx8v4kmoae7q1" path="res://scenes/components/backup_progress_modal.tscn" id="10_progressmodal"]
 [ext_resource type="PackedScene" uid="uid://c3bkupcrd1a2b" path="res://scenes/components/profile_backup_card.tscn" id="11_backupcard"]
+[ext_resource type="Texture2D" uid="uid://dseqg338dmthe" path="res://assets/icons/hextech/hextech-lines-bg.png" id="12_hexbg"]
+[ext_resource type="Texture2D" uid="uid://hcthreovvsjp" path="res://assets/icons/hextech/title_divider.png" id="13_divider"]
+[ext_resource type="Script" uid="uid://bkl6g25jwb47h" path="res://addons/StyleboxFancy/StyleBoxFancy.gd" id="14_sbfancy"]
+[ext_resource type="Script" uid="uid://cjmmhbp1b5312" path="res://addons/StyleboxFancy/StyleBorder.gd" id="15_sbborder"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_orfc4"]
-bg_color = Color(0, 0, 0, 1)
+bg_color = Color(0.0039, 0.0392, 0.0745, 0)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a8y0u"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_left = 2
-border_width_top = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 0.337255)
-border_blend = true
+[sub_resource type="Resource" id="Resource_border_left_outer"]
+script = ExtResource("15_sbborder")
+color = Color(0.4706, 0.3529, 0.1569, 0.88)
+width_left = 2
+width_top = 1
+width_right = 1
+width_bottom = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_right"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 0.337255)
-border_blend = true
+[sub_resource type="Resource" id="Resource_border_card_inner"]
+script = ExtResource("15_sbborder")
+color = Color(0.7843, 0.6667, 0.4314, 0.18)
+width_left = 1
+width_top = 1
+width_right = 1
+width_bottom = 1
+inset_left = 3
+inset_top = 3
+inset_right = 3
+inset_bottom = 3
+
+[sub_resource type="StyleBox" id="StyleBoxFlat_a8y0u"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("14_sbfancy")
+color = Color(0.02, 0.02, 0.02, 0.82)
+borders = Array[ExtResource("15_sbborder")]([SubResource("Resource_border_left_outer"), SubResource("Resource_border_card_inner")])
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = 0.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = 0.0
+
+[sub_resource type="Resource" id="Resource_btn_right_border"]
+script = ExtResource("15_sbborder")
+color = Color(0.4706, 0.3529, 0.1569, 1)
+width_left = 1
+width_top = 1
+width_right = 2
+width_bottom = 1
+
+[sub_resource type="StyleBox" id="StyleBoxFancy_btn_right"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 12.0
+content_margin_top = -1.0
+content_margin_right = 12.0
+content_margin_bottom = -1.0
+script = ExtResource("14_sbfancy")
+color = Color(0.1176, 0.1373, 0.1569, 1)
+borders = Array[ExtResource("15_sbborder")]([SubResource("Resource_btn_right_border")])
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = 0.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = 0.0
+
+[sub_resource type="Resource" id="Resource_btn_right_hov_border"]
+script = ExtResource("15_sbborder")
+color = Color(0.82, 0.72, 0.48, 0.85)
+width_left = 1
+width_top = 1
+width_right = 2
+width_bottom = 1
+
+[sub_resource type="StyleBox" id="StyleBoxFancy_btn_right_hover"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 12.0
+content_margin_top = -1.0
+content_margin_right = 12.0
+content_margin_bottom = -1.0
+script = ExtResource("14_sbfancy")
+color = Color(0.1725, 0.1608, 0.1333, 1)
+borders = Array[ExtResource("15_sbborder")]([SubResource("Resource_btn_right_hov_border")])
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = 0.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = 0.0
+
+[sub_resource type="Resource" id="Resource_btn_left_border"]
+script = ExtResource("15_sbborder")
+color = Color(0.4706, 0.3529, 0.1569, 1)
+width_left = 2
+width_top = 1
+width_right = 1
+width_bottom = 1
+
+[sub_resource type="StyleBox" id="StyleBoxFancy_btn_left"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 12.0
+content_margin_top = -1.0
+content_margin_right = 12.0
+content_margin_bottom = -1.0
+script = ExtResource("14_sbfancy")
+color = Color(0.1176, 0.1373, 0.1569, 1)
+borders = Array[ExtResource("15_sbborder")]([SubResource("Resource_btn_left_border")])
+corner_radius_top_left = 6
+corner_radius_bottom_left = 6
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = 0.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = 0.0
+
+[sub_resource type="Resource" id="Resource_btn_left_hov_border"]
+script = ExtResource("15_sbborder")
+color = Color(0.82, 0.72, 0.48, 0.85)
+width_left = 2
+width_top = 1
+width_right = 1
+width_bottom = 1
+
+[sub_resource type="StyleBox" id="StyleBoxFancy_btn_left_hover"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 12.0
+content_margin_top = -1.0
+content_margin_right = 12.0
+content_margin_bottom = -1.0
+script = ExtResource("14_sbfancy")
+color = Color(0.1725, 0.1608, 0.1333, 1)
+borders = Array[ExtResource("15_sbborder")]([SubResource("Resource_btn_left_hov_border")])
+corner_radius_top_left = 6
+corner_radius_bottom_left = 6
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = 0.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = 0.0
 
 [node name="settings_menu" type="Control" unique_id=1837348613]
 z_index = 99
@@ -51,14 +179,41 @@ offset_bottom = 720.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_orfc4")
 
+[node name="hextech_lines" type="TextureRect" parent="Panel" unique_id=328800752]
+visible = false
+modulate = Color(1, 1, 1, 0.35)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("12_hexbg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="title_divider" type="TextureRect" parent="Panel" unique_id=328800753]
+modulate = Color(0.784314, 0.666667, 0.431373, 0.6)
+layout_mode = 0
+offset_left = 53.0
+offset_top = 72.0
+offset_right = 363.0
+offset_bottom = 78.0
+mouse_filter = 2
+texture = ExtResource("13_divider")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="Label" type="Label" parent="." unique_id=594308262]
 layout_mode = 0
 offset_left = 133.0
 offset_top = 45.0
-offset_right = 335.0
+offset_right = 420.0
 offset_bottom = 105.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 51
+theme_override_font_sizes/font_size = 42
 text = "Settings"
 
 [node name="GridContainer" type="GridContainer" parent="." unique_id=375675035]
@@ -96,9 +251,9 @@ offset_left = 16.0
 offset_top = 12.0
 offset_right = 400.0
 offset_bottom = 41.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.9412, 0.902, 0.8235, 1)
 theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 20
 text = "Appear Offline"
 
 [node name="CheckButton" type="CheckButton" parent="GridContainer/AppearOffline/Panel" unique_id=2001004]
@@ -116,7 +271,7 @@ offset_left = 16.0
 offset_top = 84.0
 offset_right = 520.0
 offset_bottom = 110.0
-theme_override_colors/font_color = Color(1, 1, 1, 0.65)
+theme_override_colors/font_color = Color(0.6275, 0.6078, 0.549, 1)
 theme_override_fonts/font = ExtResource("1_e2qsc")
 theme_override_font_sizes/font_size = 13
 text = "Hides your online presence in Riot Client and supported games."
@@ -135,7 +290,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_right")
+theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
 
 [node name="Label" type="Label" parent="GridContainer/syncsettings/Panel" unique_id=2101409681]
 layout_mode = 0
@@ -143,9 +298,9 @@ offset_left = 16.0
 offset_top = 12.0
 offset_right = 400.0
 offset_bottom = 41.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.9412, 0.902, 0.8235, 1)
 theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 20
 text = "Game settings"
 
 [node name="CheckButton" type="CheckButton" parent="GridContainer/syncsettings/Panel" unique_id=1146379550]
@@ -164,6 +319,10 @@ offset_top = 45.0
 offset_right = 300.0
 offset_bottom = 77.0
 mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFancy_btn_right")
+theme_override_styles/pressed = SubResource("StyleBoxFancy_btn_right_hover")
+theme_override_styles/hover = SubResource("StyleBoxFancy_btn_right_hover")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFancy_btn_right_hover")
 
 [node name="Label2" type="Label" parent="GridContainer/syncsettings/Panel" unique_id=1157821865]
 layout_mode = 0
@@ -171,7 +330,7 @@ offset_left = 16.0
 offset_top = 84.0
 offset_right = 520.0
 offset_bottom = 110.0
-theme_override_colors/font_color = Color(1, 1, 1, 0.65)
+theme_override_colors/font_color = Color(0.6275, 0.6078, 0.549, 1)
 theme_override_fonts/font = ExtResource("1_e2qsc")
 theme_override_font_sizes/font_size = 13
 text = "Share in-game settings (only works with League of Legends closed)."
@@ -198,27 +357,33 @@ offset_left = 16.0
 offset_top = 12.0
 offset_right = 400.0
 offset_bottom = 41.0
-theme_override_colors/font_color = Color(0.81502, 3.58574e-06, 7.70092e-07, 1)
+theme_override_colors/font_color = Color(0.9412, 0.902, 0.8235, 1)
 theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 20
 text = "Vanguard"
 
 [node name="restart" type="Button" parent="GridContainer/vanguard/Panel" unique_id=76478765]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 46.0
-offset_right = 96.0
+offset_right = 102.0
 offset_bottom = 78.0
 mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFancy_btn_left")
+theme_override_styles/pressed = SubResource("StyleBoxFancy_btn_left_hover")
+theme_override_styles/hover = SubResource("StyleBoxFancy_btn_left_hover")
 text = "Start"
 
 [node name="close" type="Button" parent="GridContainer/vanguard/Panel" unique_id=1340708423]
 layout_mode = 0
-offset_left = 106.0
+offset_left = 112.0
 offset_top = 46.0
-offset_right = 186.0
+offset_right = 198.0
 offset_bottom = 78.0
 mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFancy_btn_right")
+theme_override_styles/pressed = SubResource("StyleBoxFancy_btn_right_hover")
+theme_override_styles/hover = SubResource("StyleBoxFancy_btn_right_hover")
 text = "Stop"
 
 [node name="Label2" type="Label" parent="GridContainer/vanguard/Panel" unique_id=1847120391]
@@ -227,7 +392,7 @@ offset_left = 16.0
 offset_top = 84.0
 offset_right = 520.0
 offset_bottom = 110.0
-theme_override_colors/font_color = Color(1, 1, 1, 0.65)
+theme_override_colors/font_color = Color(0.6275, 0.6078, 0.549, 1)
 theme_override_fonts/font = ExtResource("1_e2qsc")
 theme_override_font_sizes/font_size = 13
 text = "Manage Riot Vanguard anti-cheat service and tray process."
@@ -246,7 +411,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_right")
+theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
 
 [node name="Label" type="Label" parent="GridContainer/lang/Panel" unique_id=1194137669]
 layout_mode = 0
@@ -254,9 +419,9 @@ offset_left = 16.0
 offset_top = 12.0
 offset_right = 400.0
 offset_bottom = 41.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.9412, 0.902, 0.8235, 1)
 theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 20
 text = "Language"
 
 [node name="OptionButton" type="OptionButton" parent="GridContainer/lang/Panel" unique_id=614759420]
@@ -266,6 +431,10 @@ offset_top = 46.0
 offset_right = 240.0
 offset_bottom = 78.0
 mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFancy_btn_right")
+theme_override_styles/pressed = SubResource("StyleBoxFancy_btn_right_hover")
+theme_override_styles/hover = SubResource("StyleBoxFancy_btn_right_hover")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFancy_btn_right_hover")
 
 [node name="Label2" type="Label" parent="GridContainer/lang/Panel" unique_id=1293847561]
 layout_mode = 0
@@ -273,7 +442,7 @@ offset_left = 16.0
 offset_top = 84.0
 offset_right = 520.0
 offset_bottom = 110.0
-theme_override_colors/font_color = Color(1, 1, 1, 0.65)
+theme_override_colors/font_color = Color(0.6275, 0.6078, 0.549, 1)
 theme_override_fonts/font = ExtResource("1_e2qsc")
 theme_override_font_sizes/font_size = 13
 text = "Select the display language for the application."
@@ -300,18 +469,21 @@ offset_left = 16.0
 offset_top = 12.0
 offset_right = 400.0
 offset_bottom = 41.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.9412, 0.902, 0.8235, 1)
 theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 20
 text = "Delete all profiles"
 
 [node name="Button" type="Button" parent="GridContainer/deleteall/Panel" unique_id=12594093]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 46.0
-offset_right = 110.0
+offset_right = 114.0
 offset_bottom = 78.0
 mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFancy_btn_left")
+theme_override_styles/pressed = SubResource("StyleBoxFancy_btn_left_hover")
+theme_override_styles/hover = SubResource("StyleBoxFancy_btn_left_hover")
 text = "Delete"
 
 [node name="Label2" type="Label" parent="GridContainer/deleteall/Panel" unique_id=1948572839]
@@ -320,7 +492,7 @@ offset_left = 16.0
 offset_top = 84.0
 offset_right = 520.0
 offset_bottom = 110.0
-theme_override_colors/font_color = Color(1, 1, 1, 0.65)
+theme_override_colors/font_color = Color(0.6275, 0.6078, 0.549, 1)
 theme_override_fonts/font = ExtResource("1_e2qsc")
 theme_override_font_sizes/font_size = 13
 text = "Permanently deletes all saved account profiles and session data."
@@ -339,7 +511,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_right")
+theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
 
 [node name="Label" type="Label" parent="GridContainer/cleanlogs/Panel" unique_id=1999001003]
 layout_mode = 0
@@ -347,29 +519,65 @@ offset_left = 16.0
 offset_top = 12.0
 offset_right = 400.0
 offset_bottom = 41.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.9412, 0.902, 0.8235, 1)
 theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 22
-text = "Riot Logs & Cache"
+theme_override_font_sizes/font_size = 20
+text = "Theme"
 
-[node name="Button" type="Button" parent="GridContainer/cleanlogs/Panel" unique_id=1999001004]
+[node name="OptionButton" type="OptionButton" parent="GridContainer/cleanlogs/Panel" unique_id=1999001004]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 46.0
-offset_right = 110.0
+offset_right = 226.0
 offset_bottom = 78.0
 mouse_default_cursor_shape = 2
-text = "Clean"
+item_count = 10
+popup/item_0/text = "White"
+popup/item_0/id = 0
+popup/item_1/text = "Gold"
+popup/item_1/id = 1
+popup/item_2/text = "Red"
+popup/item_2/id = 2
+popup/item_3/text = "Blue"
+popup/item_3/id = 3
+popup/item_4/text = "Green"
+popup/item_4/id = 4
+popup/item_5/text = "Violet"
+popup/item_5/id = 5
+popup/item_6/text = "Cyan"
+popup/item_6/id = 6
+popup/item_7/text = "Orange"
+popup/item_7/id = 7
+popup/item_8/text = "Pink"
+popup/item_8/id = 8
+popup/item_9/text = "Gray"
+popup/item_9/id = 9
+theme_override_styles/normal = SubResource("StyleBoxFancy_btn_left")
+theme_override_styles/pressed = SubResource("StyleBoxFancy_btn_left_hover")
+theme_override_styles/hover = SubResource("StyleBoxFancy_btn_left_hover")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFancy_btn_left_hover")
 
-[node name="status_label" type="Label" parent="GridContainer/cleanlogs/Panel" unique_id=1999001005]
+[node name="UIOptionButton" type="OptionButton" parent="GridContainer/cleanlogs/Panel" unique_id=1999001005]
 layout_mode = 0
-offset_left = 124.0
-offset_top = 50.0
-offset_right = 450.0
-offset_bottom = 74.0
-theme_override_colors/font_color = Color(1, 1, 1, 0.65)
-theme_override_fonts/font = ExtResource("2_tuiqe")
-theme_override_font_sizes/font_size = 14
+offset_left = 238.0
+offset_top = 46.0
+offset_right = 448.0
+offset_bottom = 78.0
+mouse_default_cursor_shape = 2
+item_count = 4
+popup/item_0/text = "Cyberpunk"
+popup/item_0/id = 0
+popup/item_1/text = "Classic"
+popup/item_1/id = 1
+popup/item_2/text = "League Client"
+popup/item_2/id = 2
+popup/item_3/text = "Soon more themes..."
+popup/item_3/id = 3
+popup/item_3/disabled = true
+theme_override_styles/normal = SubResource("StyleBoxFancy_btn_right")
+theme_override_styles/pressed = SubResource("StyleBoxFancy_btn_right_hover")
+theme_override_styles/hover = SubResource("StyleBoxFancy_btn_right_hover")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFancy_btn_right_hover")
 
 [node name="Label2" type="Label" parent="GridContainer/cleanlogs/Panel" unique_id=1999001006]
 layout_mode = 0
@@ -377,10 +585,60 @@ offset_left = 16.0
 offset_top = 84.0
 offset_right = 520.0
 offset_bottom = 110.0
-theme_override_colors/font_color = Color(1, 1, 1, 0.65)
+theme_override_colors/font_color = Color(0.6275, 0.6078, 0.549, 1)
 theme_override_fonts/font = ExtResource("1_e2qsc")
 theme_override_font_sizes/font_size = 13
-text = "Permanently removes old log files and crash dumps to reclaim disk space."
+text = "Choose the interface accent used by navigation and the animated background."
+
+[node name="resolution" type="Control" parent="GridContainer" unique_id=2027001001]
+custom_minimum_size = Vector2(536, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+script = ExtResource("9_resolution")
+
+[node name="Panel" type="Panel" parent="GridContainer/resolution" unique_id=2027001002]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
+
+[node name="Label" type="Label" parent="GridContainer/resolution/Panel" unique_id=2027001003]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 400.0
+offset_bottom = 41.0
+theme_override_colors/font_color = Color(0.9412, 0.902, 0.8235, 1)
+theme_override_fonts/font = ExtResource("2_tuiqe")
+theme_override_font_sizes/font_size = 20
+text = "Resolution"
+
+[node name="OptionButton" type="OptionButton" parent="GridContainer/resolution/Panel" unique_id=2027001004]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 46.0
+offset_right = 240.0
+offset_bottom = 78.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFancy_btn_left")
+theme_override_styles/pressed = SubResource("StyleBoxFancy_btn_left_hover")
+theme_override_styles/hover = SubResource("StyleBoxFancy_btn_left_hover")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFancy_btn_left_hover")
+
+[node name="Label2" type="Label" parent="GridContainer/resolution/Panel" unique_id=2027001005]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 84.0
+offset_right = 520.0
+offset_bottom = 110.0
+theme_override_colors/font_color = Color(0.6275, 0.6078, 0.549, 1)
+theme_override_fonts/font = ExtResource("1_e2qsc")
+theme_override_font_sizes/font_size = 13
+text = "Changes the application window size."
 
 [node name="backup_profiles" parent="GridContainer" unique_id=2026001001 instance=ExtResource("11_backupcard")]
 layout_mode = 2

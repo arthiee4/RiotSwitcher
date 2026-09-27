@@ -1,36 +1,43 @@
 [gd_scene format=3 uid="uid://b1hxr13dcdq3c"]
 
 [ext_resource type="Script" uid="uid://bc7qhx1yer8kc" path="res://src/ui/left_menu_handler.gd" id="1_leftmenu"]
-[ext_resource type="Texture2D" uid="uid://cvvwo42jdh7uj" path="res://assets/icons/ui/icon_add.png" id="2_addicon"]
-[ext_resource type="Texture2D" uid="uid://ivql3vhhafwm" path="res://assets/icons/ui/icon_settings.png" id="3_settingsicon"]
+[ext_resource type="Texture2D" uid="uid://spw7crlolwoa" path="res://assets/icons/ui/icon_add.svg" id="2_addicon"]
+[ext_resource type="Texture2D" uid="uid://3syptduwhphh" path="res://assets/icons/ui/icon_settings.svg" id="3_settingsicon"]
 [ext_resource type="Texture2D" uid="uid://dgdxtpsyq0png" path="res://assets/icons/no_bg.png" id="4_logo"]
-[ext_resource type="Texture2D" uid="uid://ckd8w1e1vnaef" path="res://assets/icons/ui/icon_home.png" id="5_homeicon"]
+[ext_resource type="Texture2D" uid="uid://c31d88eqkupo5" path="res://assets/icons/ui/icon_home.svg" id="5_homeicon"]
 [ext_resource type="Shader" path="res://shaders/menu_glow.gdshader" id="6_glowshader"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dswpw"]
 shader = ExtResource("6_glowshader")
 shader_parameter/rect_size = Vector2(0.02, 0.1)
-shader_parameter/bness = 1.6
-shader_parameter/fall_off_scale = 1.5
+shader_parameter/bness = 1.45
+shader_parameter/fall_off_scale = 1.6
 shader_parameter/b_offset = 0.35
-shader_parameter/glow_color = Color(1, 0.04, 0.14, 1)
+shader_parameter/glow_color = Color(0.7843, 0.6078, 0.2353, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hmayk"]
-bg_color = Color(0.692886, 0, 0.240296, 1)
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
+bg_color = Color(0.7843, 0.6078, 0.2353, 1)
+border_width_right = 1
+border_color = Color(0.9412, 0.902, 0.8235, 0.9)
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_puk3f"]
 bg_color = Color(1, 1, 1, 0)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
 
 [sub_resource type="Theme" id="Theme_niru7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g3u3r"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
+bg_color = Color(0.7843, 0.6667, 0.4314, 0.06)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.7843, 0.6667, 0.4314, 0.22)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u7l1t"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -55,18 +62,7 @@ anchor_bottom = 1.0
 offset_right = -6.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.0687983, 0.0687983, 0.0687983, 1)
-
-[node name="border" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 79.0
-offset_right = -6.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 1, 1, 0.054902)
+color = Color(0.0039, 0.0392, 0.0745, 0.98)
 
 [node name="iconhighlight" type="Control" parent="."]
 layout_mode = 1
@@ -76,9 +72,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -43.5
-offset_top = -49.0
-offset_right = -36.5
-offset_bottom = -15.0
+offset_top = -86.0
+offset_right = -39.5
+offset_bottom = -50.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -98,7 +94,7 @@ offset_bottom = 81.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.552941, 0, 0, 1)
+color = Color(0.7843, 0.6078, 0.2353, 1)
 
 [node name="Panel" type="Panel" parent="iconhighlight"]
 layout_mode = 1
@@ -122,23 +118,39 @@ offset_bottom = 853.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.136826, 0.136826, 0.136826, 1)
+color = Color(0.7843, 0.6078, 0.2353, 0.35)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -6.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 14
 alignment = 1
 
 [node name="home_button" type="Panel" parent="VBoxContainer"]
-custom_minimum_size = Vector2(52, 52)
+custom_minimum_size = Vector2(54, 54)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_puk3f")
+
+[node name="selected_panel" type="Panel" parent="VBoxContainer/home_button"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_g3u3r")
 
 [node name="Button" type="Button" parent="VBoxContainer/home_button"]
 layout_mode = 1
@@ -152,43 +164,38 @@ theme = SubResource("Theme_niru7")
 flat = true
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/home_button/Button"]
-modulate = Color(1, 0, 0, 1)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -18.5
-offset_top = -18.5
-offset_right = 18.5
-offset_bottom = 18.5
+anchors_preset = -1
+anchor_left = 0.22
+anchor_top = 0.22
+anchor_right = 0.78
+anchor_bottom = 0.78
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("5_homeicon")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="selected_panel" type="Panel" parent="VBoxContainer/home_button"]
+[node name="add_profile_button" type="Panel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(54, 54)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_u7l1t")
+
+[node name="selected_panel" type="Panel" parent="VBoxContainer/add_profile_button"]
 visible = false
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -25.0
-offset_top = -25.0
-offset_right = 25.0
-offset_bottom = 25.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_g3u3r")
-
-[node name="add_profile_button" type="Panel" parent="VBoxContainer"]
-custom_minimum_size = Vector2(52, 52)
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_u7l1t")
 
 [node name="Button" type="Button" parent="VBoxContainer/add_profile_button"]
 layout_mode = 1
@@ -203,41 +210,37 @@ flat = true
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/add_profile_button/Button"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -18.5
-offset_top = -18.5
-offset_right = 18.5
-offset_bottom = 18.5
+anchors_preset = -1
+anchor_left = 0.22
+anchor_top = 0.22
+anchor_right = 0.78
+anchor_bottom = 0.78
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_addicon")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="selected_panel" type="Panel" parent="VBoxContainer/add_profile_button"]
+[node name="settings_button" type="Panel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(54, 54)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_8fd5k")
+
+[node name="selected_panel" type="Panel" parent="VBoxContainer/settings_button"]
 visible = false
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -25.0
-offset_top = -25.0
-offset_right = 25.0
-offset_bottom = 25.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_g3u3r")
-
-[node name="settings_button" type="Panel" parent="VBoxContainer"]
-custom_minimum_size = Vector2(52, 52)
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_8fd5k")
 
 [node name="Button" type="Button" parent="VBoxContainer/settings_button"]
 layout_mode = 1
@@ -252,49 +255,43 @@ flat = true
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/settings_button/Button"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -18.5
-offset_top = -18.5
-offset_right = 18.5
-offset_bottom = 18.5
+anchors_preset = -1
+anchor_left = 0.22
+anchor_top = 0.22
+anchor_right = 0.78
+anchor_bottom = 0.78
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_settingsicon")
-
-[node name="selected_panel" type="Panel" parent="VBoxContainer/settings_button"]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -25.0
-offset_top = -25.0
-offset_right = 25.0
-offset_bottom = 25.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_g3u3r")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="logo" type="TextureRect" parent="."]
-custom_minimum_size = Vector2(49, 49)
+custom_minimum_size = Vector2(44, 44)
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -24.0
-offset_top = 10.0
-offset_right = 25.0
-offset_bottom = 59.0
+offset_left = -25.0
+offset_top = 16.0
+offset_right = 19.0
+offset_bottom = 60.0
 grow_horizontal = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 texture = ExtResource("4_logo")
 expand_mode = 1
-stretch_mode = 6
+stretch_mode = 5
+
+[node name="border" type="ColorRect" parent="."]
+z_index = 3
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 79.0
+offset_right = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.7843, 0.6667, 0.4314, 0.18)

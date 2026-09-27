@@ -689,4 +689,3 @@ static func _remove_dir_recursive(path: String) -> void:
 		item = dir.get_next()
 	dir.list_dir_end()
 	DirAccess.remove_absolute(path)
-

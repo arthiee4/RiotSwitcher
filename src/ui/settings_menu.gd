@@ -10,7 +10,36 @@ var _cascade_tweens: Array[Tween] = []
 
 
 func _ready() -> void:
-	pass
+	_reorder_cards()
+	var title_lbl: Label = _title_label if _title_label else get_node_or_null("Label") as Label
+	if title_lbl:
+		title_lbl.offset_left = 133.0
+		title_lbl.offset_top = 45.0
+		title_lbl.offset_right = 600.0
+		title_lbl.offset_bottom = 105.0
+		title_lbl.add_theme_font_size_override("font_size", 42)
+		title_lbl.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	var main_div := get_node_or_null("Panel/title_divider") as TextureRect
+	if main_div:
+		main_div.offset_left = 53.0
+		main_div.offset_top = 72.0
+		main_div.offset_right = 363.0
+		main_div.offset_bottom = 78.0
+		main_div.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		main_div.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	# Colors and StyleBoxes remain authored in the scene.
+
+
+func _reorder_cards() -> void:
+	if not _container:
+		return
+	var preferred: Array[String] = ["cleanlogs", "resolution", "AppearOffline", "syncsettings", "vanguard", "lang", "deleteall"]
+	var index: int = 0
+	for card_name in preferred:
+		var card := _container.get_node_or_null(card_name)
+		if card:
+			_container.move_child(card, index)
+			index += 1
 
 
 # Plays a crisp, staggered cascade entrance animation for all settings cards.

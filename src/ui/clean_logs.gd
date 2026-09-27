@@ -55,10 +55,10 @@ func _on_initial_scan_finished(bytes: int) -> void:
 		return
 	if bytes > 0:
 		_status_label.text = "(%s)" % RiotDiskCleaner.format_bytes(bytes)
-		_status_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.65))
+		_status_label.add_theme_color_override("font_color", Color(0.7843, 0.6667, 0.4314, 0.9))
 	else:
 		_status_label.text = tr("Already clean (0 B)")
-		_status_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.45))
+		_status_label.add_theme_color_override("font_color", Color(0.6275, 0.6078, 0.549, 0.65))
 
 
 func _on_clean_pressed() -> void:
@@ -72,7 +72,7 @@ func _on_clean_pressed() -> void:
 
 	if _status_label:
 		_status_label.text = tr("Cleaning...")
-		_status_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.65))
+		_status_label.add_theme_color_override("font_color", Color(0.7843, 0.6667, 0.4314, 0.9))
 
 	_run_in_thread(_execute_clean)
 
@@ -98,7 +98,7 @@ func _on_clean_finished(freed_bytes: int) -> void:
 		if freed_bytes > 0:
 			var formatted := RiotDiskCleaner.format_bytes(freed_bytes)
 			_status_label.text = tr("Freed %s") % formatted
-			_status_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+			_status_label.add_theme_color_override("font_color", Color(0.9412, 0.902, 0.8235, 1.0))
 
 			# Animate status label.
 			_status_label.pivot_offset = _status_label.size * 0.5
@@ -107,4 +107,4 @@ func _on_clean_finished(freed_bytes: int) -> void:
 			tw.tween_property(_status_label, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		else:
 			_status_label.text = tr("Already clean (0 B)")
-			_status_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.55))
+			_status_label.add_theme_color_override("font_color", Color(0.6275, 0.6078, 0.549, 0.75))

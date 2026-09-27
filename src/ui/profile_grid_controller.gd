@@ -981,4 +981,3 @@ func _exit_tree() -> void:
 	_stop_settings_watchdog()
 	# Join the background snapshot thread so it never outlives the app.
 	RiotProcesses.shutdown()
-

@@ -31,12 +31,21 @@ var _cascade_tweens: Array[Tween] = []
 @onready var _error_label: Label = $Panel/error/Label if has_node("Panel/error/Label") else find_child("Label", true, false)
 
 
+const TOTAL_PRESET_BACKGROUNDS := 20
+const DIVIDER_TEX: Texture2D = preload("res://assets/icons/hextech/title_divider.png")
+const ADD_ICON_TEX: Texture2D = preload("res://assets/icons/ui/icon_add.svg")
+const FONT_DISPLAY: FontFile = preload("res://assets/fonts/BeaufortforLoL-Bold.otf")
+const FONT_BODY: FontFile = preload("res://assets/fonts/Spiegel-Regular.otf")
+
+
 func _ready() -> void:
 	visible = false
 	_hide_error()
 
 	if not profile_manager:
 		profile_manager = ProfileManager
+
+	_ensure_modal_layout_and_backgrounds()
 
 	_cancel_button.pressed.connect(close)
 	_cancel_button.set_meta("sfx", &"cancel")
@@ -52,6 +61,8 @@ func _ready() -> void:
 
 	# Disable card interactions in preview mode
 	if _preview_button:
+		if _preview_button.has_method("set_preview_mode"):
+			_preview_button.set_preview_mode(true)
 		_preview_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var card_btn := _preview_button.get_node_or_null("card")
 		if card_btn:
@@ -61,6 +72,196 @@ func _ready() -> void:
 			card_inner_btn.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	_connect_preset_buttons()
+
+
+func _ensure_modal_layout_and_backgrounds() -> void:
+	var preview_node := _panel.get_node_or_null("preview") as Control if _panel else null
+	if preview_node:
+		preview_node.anchor_left = 0.0
+		preview_node.anchor_top = 0.0
+		preview_node.anchor_right = 0.0
+		preview_node.anchor_bottom = 0.0
+		preview_node.offset_left = 540.0
+		preview_node.offset_top = 175.0
+		preview_node.offset_right = 812.0
+		preview_node.offset_bottom = 300.0
+		var prev_lbl := preview_node.get_node_or_null("Label") as Label
+		if prev_lbl:
+			prev_lbl.anchor_left = 0.0
+			prev_lbl.anchor_top = 0.0
+			prev_lbl.anchor_right = 0.0
+			prev_lbl.anchor_bottom = 0.0
+			prev_lbl.offset_left = 0.0
+			prev_lbl.offset_top = 0.0
+			prev_lbl.offset_right = 272.0
+			prev_lbl.offset_bottom = 26.0
+			prev_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+			preview_node.move_child(prev_lbl, 0)
+		var div := preview_node.get_node_or_null("preview_divider") as TextureRect
+		if not div:
+			div = TextureRect.new()
+			div.name = "preview_divider"
+			preview_node.add_child(div)
+		div.anchor_left = 0.0
+		div.anchor_top = 0.0
+		div.anchor_right = 0.0
+		div.anchor_bottom = 0.0
+		div.offset_left = 0.0
+		div.offset_top = 30.0
+		div.offset_right = 272.0
+		div.offset_bottom = 36.0
+		div.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		div.texture = DIVIDER_TEX
+		div.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		div.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		div.modulate = Color(0.784314, 0.666667, 0.431373, 0.6)
+		preview_node.move_child(div, 1)
+		if _preview_button:
+			_preview_button.custom_minimum_size = Vector2(181.0, 50.0)
+			_preview_button.anchor_left = 0.0
+			_preview_button.anchor_top = 0.0
+			_preview_button.anchor_right = 0.0
+			_preview_button.anchor_bottom = 0.0
+			if "pivot_offset_ratio" in _preview_button:
+				_preview_button.set("pivot_offset_ratio", Vector2(0.5, 0.5))
+			_preview_button.pivot_offset = Vector2.ZERO
+			_preview_button.scale = Vector2(1.5, 1.5)
+			_preview_button.offset_left = 45.25
+			_preview_button.offset_top = 62.5
+			_preview_button.offset_right = 226.25
+			_preview_button.offset_bottom = 112.5
+			preview_node.move_child(_preview_button, 2)
+
+	if not _backgrounds_container:
+		return
+	var bg_select := _panel.get_node_or_null("bg_select") as Control if _panel else null
+	if bg_select:
+		bg_select.offset_bottom = 420.0
+	_backgrounds_container.offset_bottom = 250.0
+	var upload_node := _panel.get_node_or_null("upload_custom_bg") as Control if _panel else null
+	if upload_node:
+		upload_node.set_anchors_preset(Control.PRESET_TOP_LEFT)
+		upload_node.offset_left = 46.0
+		upload_node.offset_top = 452.0
+		upload_node.offset_right = 462.0
+		upload_node.offset_bottom = 500.0
+		upload_node.custom_minimum_size = Vector2(416.0, 48.0)
+		upload_node.size = Vector2(416.0, 48.0)
+
+		var bar_bg := upload_node.get_node_or_null("bar_bg") as Panel
+		if not bar_bg:
+			bar_bg = Panel.new()
+			bar_bg.name = "bar_bg"
+			upload_node.add_child(bar_bg)
+			upload_node.move_child(bar_bg, 0)
+		bar_bg.set_anchors_preset(Control.PRESET_TOP_LEFT)
+		bar_bg.offset_left = 0.0
+		bar_bg.offset_top = 0.0
+		bar_bg.offset_right = 416.0
+		bar_bg.offset_bottom = 48.0
+		bar_bg.custom_minimum_size = Vector2(416.0, 48.0)
+		bar_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var bar_style := StyleBoxFancy.new()
+		bar_style.color = Color(0.07058824, 0.07058824, 0.07058824, 1.0)
+		bar_style.corner_detail = 8
+		bar_style.corner_radius_top_left = 8
+		bar_style.corner_radius_top_right = 4
+		bar_style.corner_radius_bottom_right = 8
+		bar_style.corner_radius_bottom_left = 4
+		bar_style.corner_curvature_top_left = 0.0
+		bar_style.corner_curvature_top_right = -7.0
+		bar_style.corner_curvature_bottom_right = 0.0
+		bar_style.corner_curvature_bottom_left = -7.0
+		var b_outer := StyleBorder.new()
+		b_outer.color = Color(0.4706, 0.3529, 0.1569, 0.85)
+		b_outer.width_left = 2
+		b_outer.width_top = 1
+		b_outer.width_right = 1
+		b_outer.width_bottom = 1
+		var b_inner := StyleBorder.new()
+		b_inner.color = Color(0.7843, 0.6667, 0.4314, 0.20)
+		b_inner.set_width_all(1)
+		b_inner.inset_left = 2
+		b_inner.inset_top = 2
+		b_inner.inset_right = 2
+		b_inner.inset_bottom = 2
+		var bar_borders: Array[StyleBorder] = [b_outer, b_inner]
+		bar_style.borders = bar_borders
+		bar_bg.add_theme_stylebox_override("panel", bar_style)
+
+		var icon_node := upload_node.get_node_or_null("icon") as TextureRect
+		if not icon_node:
+			icon_node = TextureRect.new()
+			icon_node.name = "icon"
+			upload_node.add_child(icon_node)
+		icon_node.set_anchors_preset(Control.PRESET_TOP_LEFT)
+		icon_node.offset_left = 16.0
+		icon_node.offset_top = 15.0
+		icon_node.offset_right = 34.0
+		icon_node.offset_bottom = 33.0
+		icon_node.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		icon_node.texture = ADD_ICON_TEX
+		icon_node.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon_node.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon_node.modulate = Color.WHITE
+
+		var up_lbl := upload_node.get_node_or_null("Label") as Label
+		if up_lbl:
+			up_lbl.set_anchors_preset(Control.PRESET_TOP_LEFT)
+			up_lbl.offset_left = 42.0
+			up_lbl.offset_top = 0.0
+			up_lbl.offset_right = 230.0
+			up_lbl.offset_bottom = 48.0
+			up_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+			up_lbl.add_theme_font_override("font", FONT_DISPLAY)
+			up_lbl.add_theme_font_size_override("font_size", 13)
+			up_lbl.add_theme_color_override("font_color", Color(0.7843, 0.6667, 0.4314, 1.0))
+
+		if _browse_button:
+			_browse_button.set_anchors_preset(Control.PRESET_TOP_LEFT)
+			_browse_button.offset_left = 308.0
+			_browse_button.offset_top = 8.0
+			_browse_button.offset_right = 404.0
+			_browse_button.offset_bottom = 40.0
+
+	var template_panel: Panel = null
+	if _backgrounds_container.get_child_count() > 0:
+		template_panel = _backgrounds_container.get_child(0) as Panel
+
+	while _backgrounds_container.get_child_count() < TOTAL_PRESET_BACKGROUNDS and template_panel:
+		var next_num := _backgrounds_container.get_child_count() + 1
+		var dup := template_panel.duplicate() as Panel
+		dup.name = "bgexample%d" % next_num
+		_backgrounds_container.add_child(dup)
+
+	var card_w := 98.0
+	var card_h := 40.0
+	var gap_x := 8.0
+	var gap_y := 8.0
+	var children := _backgrounds_container.get_children()
+	for i in range(children.size()):
+		var card := children[i] as Panel
+		if not card:
+			continue
+		var col := i % 4
+		var row := int(i / 4)
+		var x := col * (card_w + gap_x)
+		var y := row * (card_h + gap_y)
+		card.offset_left = x
+		card.offset_top = y
+		card.offset_right = x + card_w
+		card.offset_bottom = y + card_h
+		var tex_rect := card.get_node_or_null("TextureRect") as TextureRect
+		if tex_rect:
+			tex_rect.offset_left = 0.0
+			tex_rect.offset_top = 0.0
+			tex_rect.offset_right = 0.0
+			tex_rect.offset_bottom = 0.0
+			tex_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			tex_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+			var img_path := "res://assets/backgrounds/profiles_bg/%d.webp" % (i + 1)
+			if ResourceLoader.exists(img_path):
+				tex_rect.texture = load(img_path)
 
 
 func _connect_preset_buttons() -> void:

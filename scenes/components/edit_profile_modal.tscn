@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bwm4r2kefw1yq"]
 
 [ext_resource type="Script" uid="uid://bk6y0xtdfy2ac" path="res://src/ui/edit_profile_controller.gd" id="1_editctrl"]
-[ext_resource type="FontFile" uid="uid://bpump1v2onhl0" path="res://assets/fonts/Raleway-Bold.ttf" id="2_raleway_bold"]
-[ext_resource type="FontFile" uid="uid://c08w5jcfwr4pe" path="res://assets/fonts/Raleway-Light.ttf" id="3_raleway_light"]
+[ext_resource type="FontFile" uid="uid://bfy024uro6jv4" path="res://assets/fonts/BeaufortforLoL-Bold.otf" id="2_raleway_bold"]
+[ext_resource type="FontFile" uid="uid://dfei6q4y1tko7" path="res://assets/fonts/Spiegel-Regular.otf" id="3_raleway_light"]
 [ext_resource type="Texture2D" uid="uid://s1o3n3furub3" path="res://assets/backgrounds/profiles_bg/1.webp" id="4_bg1"]
 [ext_resource type="Texture2D" uid="uid://b2qwlyi8mcf62" path="res://assets/backgrounds/profiles_bg/2.webp" id="5_bg2"]
 [ext_resource type="Texture2D" uid="uid://d4mkb6xfmh8ej" path="res://assets/backgrounds/profiles_bg/3.webp" id="6_bg3"]
@@ -16,150 +16,233 @@
 [ext_resource type="Texture2D" uid="uid://dqjcfkpy2meof" path="res://assets/backgrounds/profiles_bg/11.webp" id="14_bg11"]
 [ext_resource type="Texture2D" uid="uid://d25ai16dxf64j" path="res://assets/backgrounds/profiles_bg/12.webp" id="15_bg12"]
 [ext_resource type="PackedScene" uid="uid://b8nrrv40q70su" path="res://scenes/components/profile_button.tscn" id="16_profilebtn"]
+[ext_resource type="Texture2D" uid="uid://hcthreovvsjp" path="res://assets/icons/hextech/title_divider.png" id="17_divider"]
+[ext_resource type="Script" uid="uid://bkl6g25jwb47h" path="res://addons/StyleboxFancy/StyleBoxFancy.gd" id="18_sbfancy"]
+[ext_resource type="Script" uid="uid://cjmmhbp1b5312" path="res://addons/StyleboxFancy/StyleBorder.gd" id="19_sbborder"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal_panel"]
-bg_color = Color(0.0687983, 0.0687983, 0.0687983, 0.98)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.16862746)
-border_blend = true
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 12
-anti_aliasing_size = 1.5
+[sub_resource type="Resource" id="Resource_modal_outer"]
+script = ExtResource("19_sbborder")
+color = Color(0.55, 0.42, 0.18, 1)
+width_left = 2
+width_top = 1
+width_right = 1
+width_bottom = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_input_box"]
-bg_color = Color(0.05, 0.05, 0.055, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.054902)
-corner_radius_top_left = 3
+[sub_resource type="Resource" id="Resource_modal_inner"]
+script = ExtResource("19_sbborder")
+color = Color(0.7843, 0.6667, 0.4314, 0.25)
+width_left = 1
+width_top = 1
+width_right = 1
+width_bottom = 1
+inset_left = 3
+inset_top = 3
+inset_right = 3
+inset_bottom = 3
+
+[sub_resource type="StyleBox" id="StyleBoxFlat_modal_panel"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("18_sbfancy")
+color = Color(0.0039, 0.0392, 0.0745, 0.98)
+borders = Array[ExtResource("19_sbborder")]([SubResource("Resource_modal_outer"), SubResource("Resource_modal_inner")])
+corner_radius_top_left = 43
+corner_radius_bottom_right = 43
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = -7.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = -7.0
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_blur = 16
+
+[sub_resource type="Resource" id="Resource_inp_outer"]
+script = ExtResource("19_sbborder")
+color = Color(0.4706, 0.3529, 0.1569, 0.9)
+width_left = 2
+width_top = 1
+width_right = 1
+width_bottom = 1
+
+[sub_resource type="Resource" id="Resource_inp_inner"]
+script = ExtResource("19_sbborder")
+color = Color(0.7843, 0.6667, 0.4314, 0.2)
+width_left = 1
+width_top = 1
+width_right = 1
+width_bottom = 1
+inset_left = 2
+inset_top = 2
+inset_right = 2
+inset_bottom = 2
+
+[sub_resource type="StyleBox" id="StyleBoxFlat_input_box"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("18_sbfancy")
+color = Color(0.0039, 0.0392, 0.0745, 0.92)
+borders = Array[ExtResource("19_sbborder")]([SubResource("Resource_inp_outer"), SubResource("Resource_inp_inner")])
+corner_radius_top_left = 6
 corner_radius_top_right = 3
-corner_radius_bottom_right = 3
+corner_radius_bottom_right = 6
 corner_radius_bottom_left = 3
-corner_detail = 10
-anti_aliasing_size = 1.5
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = -7.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = -7.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lineedit"]
 content_margin_left = 10.0
 content_margin_right = 10.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg_card"]
-bg_color = Color(0.08, 0.08, 0.09, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.054902)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 10
-anti_aliasing_size = 1.5
+[sub_resource type="Resource" id="Resource_bg_border"]
+script = ExtResource("19_sbborder")
+color = Color(0.4706, 0.3529, 0.1569, 0.85)
+width_left = 1
+width_top = 1
+width_right = 1
+width_bottom = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg_card_hover"]
-bg_color = Color(1, 1, 1, 0.06)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.16)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 10
-anti_aliasing_size = 1.5
+[sub_resource type="StyleBox" id="StyleBoxFlat_bg_card"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("18_sbfancy")
+color = Color(0.0039, 0.0392, 0.0745, 1)
+borders = Array[ExtResource("19_sbborder")]([SubResource("Resource_bg_border")])
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = 0.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = 0.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_browser_btn"]
-bg_color = Color(0.1, 0.1, 0.11, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.054902)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 10
-anti_aliasing_size = 1.5
+[sub_resource type="Resource" id="Resource_bg_hov_border"]
+script = ExtResource("19_sbborder")
+color = Color(0.82, 0.72, 0.48, 0.55)
+width_left = 1
+width_top = 1
+width_right = 1
+width_bottom = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_browser_hover"]
-bg_color = Color(0.15, 0.15, 0.17, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.12)
-corner_radius_top_left = 3
+[sub_resource type="StyleBox" id="StyleBoxFlat_bg_card_hover"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("18_sbfancy")
+color = Color(0.7843, 0.6667, 0.4314, 0.04)
+borders = Array[ExtResource("19_sbborder")]([SubResource("Resource_bg_hov_border")])
+corner_radius_top_left = 5
 corner_radius_top_right = 3
-corner_radius_bottom_right = 3
+corner_radius_bottom_right = 5
 corner_radius_bottom_left = 3
-corner_detail = 10
-anti_aliasing_size = 1.5
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = -7.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = -7.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cancel_btn"]
-bg_color = Color(0.1, 0.1, 0.11, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.054902)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 10
-anti_aliasing_size = 1.5
+[sub_resource type="Resource" id="Resource_btn_border"]
+script = ExtResource("19_sbborder")
+color = Color(0.4706, 0.3529, 0.1569, 1)
+width_left = 1
+width_top = 1
+width_right = 2
+width_bottom = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cancel_hover"]
-bg_color = Color(0.15, 0.15, 0.17, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.12)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 10
-anti_aliasing_size = 1.5
+[sub_resource type="StyleBox" id="StyleBoxFlat_browser_btn"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("18_sbfancy")
+color = Color(0.1176, 0.1373, 0.1569, 1)
+borders = Array[ExtResource("19_sbborder")]([SubResource("Resource_btn_border")])
+corner_radius_top_left = 7
+corner_radius_bottom_left = 7
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = 0.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = 0.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_save_btn"]
-bg_color = Color(0.819608, 0, 0.180392, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 10
-anti_aliasing_size = 1.5
+[sub_resource type="Resource" id="Resource_btn_hov_border"]
+script = ExtResource("19_sbborder")
+color = Color(0.82, 0.72, 0.48, 0.85)
+width_left = 1
+width_top = 1
+width_right = 2
+width_bottom = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_save_pressed"]
-bg_color = Color(0.65, 0, 0.14, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 10
-anti_aliasing_size = 1.5
+[sub_resource type="StyleBox" id="StyleBoxFlat_browser_hover"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("18_sbfancy")
+color = Color(0.1725, 0.1608, 0.1333, 1)
+borders = Array[ExtResource("19_sbborder")]([SubResource("Resource_btn_hov_border")])
+corner_radius_top_left = 7
+corner_radius_bottom_left = 7
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = 0.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = 0.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_save_hover"]
-bg_color = Color(0.92, 0.05, 0.22, 1)
-corner_radius_top_left = 3
+[sub_resource type="StyleBox" id="StyleBoxFlat_cancel_btn"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("18_sbfancy")
+color = Color(0.1176, 0.1373, 0.1569, 1)
+borders = Array[ExtResource("19_sbborder")]([SubResource("Resource_btn_border")])
+corner_radius_top_left = 5
 corner_radius_top_right = 3
-corner_radius_bottom_right = 3
+corner_radius_bottom_right = 5
 corner_radius_bottom_left = 3
-corner_detail = 10
-anti_aliasing_size = 1.5
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = -7.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = -7.0
+
+[sub_resource type="StyleBox" id="StyleBoxFlat_cancel_hover"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("18_sbfancy")
+color = Color(0.1725, 0.1608, 0.1333, 1)
+borders = Array[ExtResource("19_sbborder")]([SubResource("Resource_btn_hov_border")])
+corner_radius_top_left = 5
+corner_radius_top_right = 3
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 3
+corner_curvature_top_left = 0.0
+corner_curvature_top_right = -7.0
+corner_curvature_bottom_right = 0.0
+corner_curvature_bottom_left = -7.0
 
 [node name="edit_profile_modal" type="Control" unique_id=328792013]
 layout_mode = 3
@@ -178,7 +261,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.745098)
+color = Color(0.0039, 0.02, 0.04, 0.82)
 
 [node name="Panel" type="Panel" parent="." unique_id=1010735486]
 layout_mode = 1
@@ -201,8 +284,9 @@ offset_left = 46.0
 offset_top = 26.0
 offset_right = 420.0
 offset_bottom = 76.0
+theme_override_colors/font_color = Color(0.9412, 0.902, 0.8235, 1)
 theme_override_fonts/font = ExtResource("2_raleway_bold")
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 32
 text = "EDIT PROFILE"
 
 [node name="profile_name" type="Control" parent="Panel" unique_id=421910262]
@@ -217,9 +301,9 @@ layout_mode = 0
 offset_top = 2.0
 offset_right = 150.0
 offset_bottom = 25.0
-theme_override_colors/font_color = Color(1, 1, 1, 0.8)
-theme_override_fonts/font = ExtResource("3_raleway_light")
-theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.7843, 0.6667, 0.4314, 1)
+theme_override_fonts/font = ExtResource("2_raleway_bold")
+theme_override_font_sizes/font_size = 13
 text = "Profile name"
 
 [node name="Panel" type="Panel" parent="Panel/profile_name" unique_id=182577402]
@@ -236,8 +320,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("2_raleway_bold")
-theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.9412, 0.902, 0.8235, 1)
+theme_override_colors/font_placeholder_color = Color(0.6275, 0.6078, 0.549, 0.65)
+theme_override_fonts/font = ExtResource("3_raleway_light")
+theme_override_font_sizes/font_size = 15
 theme_override_styles/normal = SubResource("StyleBoxEmpty_lineedit")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_lineedit")
 placeholder_text = "name"
@@ -255,9 +341,9 @@ layout_mode = 0
 offset_top = 2.0
 offset_right = 180.0
 offset_bottom = 25.0
-theme_override_colors/font_color = Color(1, 1, 1, 0.8)
-theme_override_fonts/font = ExtResource("3_raleway_light")
-theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.7843, 0.6667, 0.4314, 1)
+theme_override_fonts/font = ExtResource("2_raleway_bold")
+theme_override_font_sizes/font_size = 13
 text = "Profile description"
 
 [node name="Panel" type="Panel" parent="Panel/profile_description" unique_id=182577403]
@@ -274,7 +360,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("2_raleway_bold")
+theme_override_colors/font_color = Color(0.9412, 0.902, 0.8235, 1)
+theme_override_colors/font_placeholder_color = Color(0.6275, 0.6078, 0.549, 0.65)
+theme_override_fonts/font = ExtResource("3_raleway_light")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxEmpty_lineedit")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_lineedit")
@@ -292,9 +380,9 @@ offset_bottom = 360.0
 layout_mode = 0
 offset_right = 150.0
 offset_bottom = 23.0
-theme_override_colors/font_color = Color(1, 1, 1, 0.8)
-theme_override_fonts/font = ExtResource("3_raleway_light")
-theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.7843, 0.6667, 0.4314, 1)
+theme_override_fonts/font = ExtResource("2_raleway_bold")
+theme_override_font_sizes/font_size = 13
 text = "Choose your bg"
 
 [node name="backgrounds" type="Control" parent="Panel/bg_select" unique_id=885957197]
@@ -669,74 +757,85 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_bg_card_hover")
 flat = true
 
 [node name="upload_custom_bg" type="Control" parent="Panel" unique_id=531201861]
+custom_minimum_size = Vector2(416, 48)
 anchors_preset = 0
 offset_left = 46.0
-offset_top = 370.0
-offset_right = 430.0
-offset_bottom = 410.0
+offset_top = 452.0
+offset_right = 462.0
+offset_bottom = 500.0
+
+[node name="bar_bg" type="Panel" parent="Panel/upload_custom_bg" unique_id=1888491008]
+custom_minimum_size = Vector2(416, 48)
+layout_mode = 0
+offset_right = 416.0
+offset_bottom = 48.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_input_box")
 
 [node name="Label" type="Label" parent="Panel/upload_custom_bg" unique_id=1888491007]
 layout_mode = 0
-offset_top = 4.0
-offset_right = 160.0
-offset_bottom = 27.0
-theme_override_colors/font_color = Color(1, 1, 1, 0.8)
-theme_override_fonts/font = ExtResource("3_raleway_light")
-theme_override_font_sizes/font_size = 14
+offset_left = 42.0
+offset_right = 230.0
+offset_bottom = 48.0
+theme_override_colors/font_color = Color(0.7843, 0.6667, 0.4314, 1)
+theme_override_fonts/font = ExtResource("2_raleway_bold")
+theme_override_font_sizes/font_size = 13
 text = "Upload custom image "
+vertical_alignment = 1
 
 [node name="browser_button" type="Button" parent="Panel/upload_custom_bg" unique_id=173369636]
 layout_mode = 0
-offset_left = 160.0
-offset_right = 230.0
-offset_bottom = 28.0
+offset_left = 308.0
+offset_top = 8.0
+offset_right = 404.0
+offset_bottom = 40.0
 mouse_default_cursor_shape = 2
-theme_override_fonts/font = ExtResource("3_raleway_light")
+theme_override_colors/font_color = Color(0.8039, 0.7451, 0.5686, 1)
+theme_override_colors/font_hover_color = Color(0.9412, 0.902, 0.8235, 1)
+theme_override_fonts/font = ExtResource("2_raleway_bold")
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_browser_btn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_browser_hover")
 theme_override_styles/hover = SubResource("StyleBoxFlat_browser_hover")
-text = "browser"
+text = "BROWSE"
 
 [node name="preview" type="Control" parent="Panel" unique_id=2053533187]
 anchors_preset = 0
-offset_left = 665.0
-offset_top = 220.0
-offset_right = 765.0
-offset_bottom = 320.0
+offset_left = 540.0
+offset_top = 175.0
+offset_right = 812.0
+offset_bottom = 300.0
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="Panel/preview" unique_id=439495049]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -151.0
-offset_top = -70.0
-offset_right = -89.0
-offset_bottom = -41.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_right = 272.0
+offset_bottom = 26.0
+theme_override_colors/font_color = Color(0.9412, 0.902, 0.8235, 1)
 theme_override_fonts/font = ExtResource("2_raleway_bold")
 theme_override_font_sizes/font_size = 18
 text = "Preview"
 
+[node name="preview_divider" type="TextureRect" parent="Panel/preview" unique_id=439495050]
+modulate = Color(0.784314, 0.666667, 0.431373, 0.6)
+layout_mode = 0
+offset_top = 30.0
+offset_right = 272.0
+offset_bottom = 36.0
+mouse_filter = 2
+texture = ExtResource("17_divider")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="profile_button" parent="Panel/preview" unique_id=2034650739 instance=ExtResource("16_profilebtn")]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -90.0
-offset_top = -25.0
-offset_right = 91.0
-offset_bottom = 25.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_left = 45.25
+offset_top = 62.5
+offset_right = 226.25
+offset_bottom = 112.5
 scale = Vector2(1.5, 1.5)
-pivot_offset = Vector2(90, 25)
+preview_glow = false
+is_preview = true
 
 [node name="error" type="Control" parent="Panel" unique_id=802838178]
 anchors_preset = 0
@@ -752,7 +851,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(1, 0.22, 0.28, 1)
+theme_override_colors/font_color = Color(1, 0.28, 0.35, 1)
 theme_override_fonts/font = ExtResource("3_raleway_light")
 theme_override_font_sizes/font_size = 13
 text = "Error message here"
@@ -762,31 +861,36 @@ vertical_alignment = 1
 [node name="actions" type="HBoxContainer" parent="Panel" unique_id=453245029]
 layout_mode = 0
 offset_left = 540.0
-offset_top = 460.0
+offset_top = 464.0
 offset_right = 834.0
-offset_bottom = 502.0
+offset_bottom = 500.0
 theme_override_constants/separation = 12
+alignment = 2
 
 [node name="cancel_button" type="Button" parent="Panel/actions" unique_id=2999799]
 custom_minimum_size = Vector2(110, 0)
 layout_mode = 2
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.8039, 0.7451, 0.5686, 1)
+theme_override_colors/font_hover_color = Color(0.9412, 0.902, 0.8235, 1)
 theme_override_fonts/font = ExtResource("2_raleway_bold")
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_cancel_btn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_cancel_hover")
 theme_override_styles/hover = SubResource("StyleBoxFlat_cancel_hover")
 text = "Cancel"
 
 [node name="save_button" type="Button" parent="Panel/actions" unique_id=404411795]
+custom_minimum_size = Vector2(110, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.8039, 0.7451, 0.5686, 1)
+theme_override_colors/font_hover_color = Color(0.9412, 0.902, 0.8235, 1)
 theme_override_fonts/font = ExtResource("2_raleway_bold")
-theme_override_font_sizes/font_size = 15
-theme_override_styles/normal = SubResource("StyleBoxFlat_save_btn")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_save_pressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_save_hover")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_cancel_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cancel_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cancel_hover")
 text = "Save"
 
 [node name="FileDialog" type="FileDialog" parent="." unique_id=34446097]
