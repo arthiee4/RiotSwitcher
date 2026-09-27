@@ -1,4 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="44" height="24" viewBox="0 0 44 24">
-  <rect x="1" y="1" width="42" height="22" rx="11" fill="#C81E27" stroke="#FF4D55" stroke-width="2"/>
-  <circle cx="32" cy="12" r="7" fill="#FFFFFF"/>
+  <polygon points="4,2 40,2 42,4 42,20 40,22 4,22 2,20 2,4" fill="#091428" stroke="#C8AA6E" stroke-width="1.5"/>
+  <polygon points="5,4 39,4 40,5 40,19 39,20 5,20 4,19 4,5" fill="#052838" stroke="#0596AA" stroke-width="1" opacity="0.85"/>
+  <polygon points="32,4 40,12 32,20 24,12" fill="#0AC8B9" stroke="#F0E6D2" stroke-width="1.2"/>
+  <polygon points="32,7 37,12 32,17 27,12" fill="#CDFAFA" opacity="0.85"/>
 </svg>

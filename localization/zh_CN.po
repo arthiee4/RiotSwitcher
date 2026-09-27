@@ -373,3 +373,83 @@ msgstr "导出失败。"
 
 msgid "Import failed."
 msgstr "导入失败。"
+
+#: scenes/settings_menu.tscn
+msgid "Accent color"
+msgstr "强调色"
+
+#: scenes/settings_menu.tscn
+msgid "Choose the interface accent used by navigation and the animated background."
+msgstr "选择用于导航和动态背景的界面强调色。"
+
+#: scenes/settings_menu.tscn
+msgid "Resolution"
+msgstr "分辨率"
+
+#: scenes/settings_menu.tscn
+msgid "Changes the application window size."
+msgstr "更改应用程序窗口大小。"
+
+#: src/ui/accent_setting.gd
+msgid "White"
+msgstr "白色"
+
+#: src/ui/accent_setting.gd
+msgid "Red"
+msgstr "红色"
+
+#: src/ui/accent_setting.gd
+msgid "Blue"
+msgstr "蓝色"
+
+#: src/ui/accent_setting.gd
+msgid "Green"
+msgstr "绿色"
+
+#: src/ui/accent_setting.gd
+msgid "Violet"
+msgstr "紫罗兰"
+
+#: src/ui/accent_setting.gd
+msgid "Cyan"
+msgstr "青色"
+
+#: src/ui/accent_setting.gd
+msgid "Orange"
+msgstr "橙色"
+
+#: src/ui/accent_setting.gd
+msgid "Pink"
+msgstr "粉色"
+
+#: src/ui/accent_setting.gd
+msgid "Gray"
+msgstr "灰色"
+
+#: scenes/settings_menu.tscn
+msgid "Theme"
+msgstr "主题"
+
+#: src/ui/accent_setting.gd
+msgid "Cyberpunk"
+msgstr "赛博朋克"
+
+#: src/ui/accent_setting.gd
+msgid "Classic"
+msgstr "经典"
+
+#: src/ui/accent_setting.gd
+msgid "League Client"
+msgstr "英雄联盟客户端"
+
+#: src/ui/accent_setting.gd
+msgid "Soon more themes..."
+msgstr "更多主题即将推出..."
+
+#: src/ui/delete_all_profiles.gd
+msgid "Cancel"
+msgstr "取消"
+
+#: src/ui/delete_all_profiles.gd
+msgid "Are you sure you want to permanently delete all saved profiles? This action cannot be undone."
+msgstr "确定要永久删除所有已保存的账号配置吗？此操作无法撤销。"

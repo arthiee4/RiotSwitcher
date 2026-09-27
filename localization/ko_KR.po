@@ -373,3 +373,83 @@ msgstr "내보내기에 실패했습니다."
 
 msgid "Import failed."
 msgstr "가져오기에 실패했습니다."
+
+#: scenes/settings_menu.tscn
+msgid "Accent color"
+msgstr "강조 색상"
+
+#: scenes/settings_menu.tscn
+msgid "Choose the interface accent used by navigation and the animated background."
+msgstr "탐색 및 애니메이션 배경에 사용되는 인터페이스 강조 색상을 선택합니다."
+
+#: scenes/settings_menu.tscn
+msgid "Resolution"
+msgstr "해상도"
+
+#: scenes/settings_menu.tscn
+msgid "Changes the application window size."
+msgstr "애플리케이션 창 크기를 변경합니다."
+
+#: src/ui/accent_setting.gd
+msgid "White"
+msgstr "화이트"
+
+#: src/ui/accent_setting.gd
+msgid "Red"
+msgstr "레드"
+
+#: src/ui/accent_setting.gd
+msgid "Blue"
+msgstr "블루"
+
+#: src/ui/accent_setting.gd
+msgid "Green"
+msgstr "그린"
+
+#: src/ui/accent_setting.gd
+msgid "Violet"
+msgstr "바이올렛"
+
+#: src/ui/accent_setting.gd
+msgid "Cyan"
+msgstr "시안"
+
+#: src/ui/accent_setting.gd
+msgid "Orange"
+msgstr "오렌지"
+
+#: src/ui/accent_setting.gd
+msgid "Pink"
+msgstr "핑크"
+
+#: src/ui/accent_setting.gd
+msgid "Gray"
+msgstr "그레이"
+
+#: scenes/settings_menu.tscn
+msgid "Theme"
+msgstr "테마"
+
+#: src/ui/accent_setting.gd
+msgid "Cyberpunk"
+msgstr "사이버펑크"
+
+#: src/ui/accent_setting.gd
+msgid "Classic"
+msgstr "클래식"
+
+#: src/ui/accent_setting.gd
+msgid "League Client"
+msgstr "리그 클라이언트"
+
+#: src/ui/accent_setting.gd
+msgid "Soon more themes..."
+msgstr "더 많은 테마 준비 중..."
+
+#: src/ui/delete_all_profiles.gd
+msgid "Cancel"
+msgstr "취소"
+
+#: src/ui/delete_all_profiles.gd
+msgid "Are you sure you want to permanently delete all saved profiles? This action cannot be undone."
+msgstr "저장된 모든 프로필을 영구적으로 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."

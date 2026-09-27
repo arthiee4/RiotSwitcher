@@ -390,3 +390,83 @@ msgstr "Falha ao exportar."
 
 msgid "Import failed."
 msgstr "Falha ao importar."
+
+#: scenes/settings_menu.tscn
+msgid "Accent color"
+msgstr "Cor de destaque"
+
+#: scenes/settings_menu.tscn
+msgid "Choose the interface accent used by navigation and the animated background."
+msgstr "Escolha a cor de destaque usada na navegação e no fundo animado."
+
+#: scenes/settings_menu.tscn
+msgid "Resolution"
+msgstr "Resolução"
+
+#: scenes/settings_menu.tscn
+msgid "Changes the application window size."
+msgstr "Altera o tamanho da janela do aplicativo."
+
+#: src/ui/accent_setting.gd
+msgid "White"
+msgstr "Branco"
+
+#: src/ui/accent_setting.gd
+msgid "Red"
+msgstr "Vermelho"
+
+#: src/ui/accent_setting.gd
+msgid "Blue"
+msgstr "Azul"
+
+#: src/ui/accent_setting.gd
+msgid "Green"
+msgstr "Verde"
+
+#: src/ui/accent_setting.gd
+msgid "Violet"
+msgstr "Violeta"
+
+#: src/ui/accent_setting.gd
+msgid "Cyan"
+msgstr "Ciano"
+
+#: src/ui/accent_setting.gd
+msgid "Orange"
+msgstr "Laranja"
+
+#: src/ui/accent_setting.gd
+msgid "Pink"
+msgstr "Rosa"
+
+#: src/ui/accent_setting.gd
+msgid "Gray"
+msgstr "Cinza"
+
+#: scenes/settings_menu.tscn
+msgid "Theme"
+msgstr "Tema"
+
+#: src/ui/accent_setting.gd
+msgid "Cyberpunk"
+msgstr "Cyberpunk"
+
+#: src/ui/accent_setting.gd
+msgid "Classic"
+msgstr "Clássico"
+
+#: src/ui/accent_setting.gd
+msgid "League Client"
+msgstr "League Client"
+
+#: src/ui/accent_setting.gd
+msgid "Soon more themes..."
+msgstr "Em breve mais temas..."
+
+#: src/ui/delete_all_profiles.gd
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: src/ui/delete_all_profiles.gd
+msgid "Are you sure you want to permanently delete all saved profiles? This action cannot be undone."
+msgstr "Tem certeza de que deseja excluir permanentemente todos os perfis salvos? Esta ação não pode ser desfeita."
