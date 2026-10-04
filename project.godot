@@ -50,7 +50,7 @@ movie_writer/fps=30
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/catui-builder/plugin.cfg")
+enabled=PackedStringArray("res://addons/StyleboxFancy/plugin.cfg", "res://addons/catui-builder/plugin.cfg")
 
 [gui]
 
@@ -72,3 +72,4 @@ common/physics_jitter_fix=0.0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 anti_aliasing/quality/msaa_2d=2
+environment/defaults/default_clear_color=Color(0, 0, 0, 0)
