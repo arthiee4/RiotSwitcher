@@ -237,8 +237,8 @@ msgid "Import"
 msgstr "Importar"
 
 #: scenes/settings_menu.tscn
-msgid "Export or import an encrypted backup (.zip) with all profiles, sessions, and backgrounds."
-msgstr "Exporta o importa una copia cifrada (.zip) con todos los perfiles, sesiones e imágenes."
+msgid "Includes your login sessions: anyone with this file can sign in to your accounts."
+msgstr "Incluye tus sesiones: cualquiera con este archivo puede entrar en tus cuentas."
 
 #: scenes/settings_menu.tscn
 msgid "Share in-game settings (only works with League of Legends closed)."

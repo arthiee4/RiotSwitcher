@@ -31,7 +31,7 @@ func _ready() -> void:
 		desc_lbl.add_theme_font_override("font", FONT_BODY)
 		desc_lbl.add_theme_font_size_override("font_size", 13)
 		desc_lbl.add_theme_color_override("font_color", Color(0.6275, 0.6078, 0.549, 1.0))
-		desc_lbl.text = tr("Export or import an encrypted backup (.zip) with all profiles, sessions, and backgrounds.")
+		desc_lbl.text = tr("Includes your login sessions: anyone with this file can sign in to your accounts.")
 
 	if _export_btn:
 		_export_btn.offset_top = 46.0

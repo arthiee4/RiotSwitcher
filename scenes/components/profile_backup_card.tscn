@@ -217,7 +217,7 @@ offset_bottom = 110.0
 theme_override_colors/font_color = Color(0.6275, 0.6078, 0.549, 1)
 theme_override_fonts/font = ExtResource("3_body")
 theme_override_font_sizes/font_size = 13
-text = "Export or import an encrypted backup (.zip) with all profiles, sessions, and backgrounds."
+text = "Includes your login sessions: anyone with this file can sign in to your accounts."
 
 [node name="export_dialog" type="FileDialog" parent="." unique_id=1649549224]
 title = "Export Backup"
