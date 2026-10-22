@@ -45,8 +45,8 @@ static func get_cleanable_paths(riot_client_location: String = "") -> Array[Stri
 		if cfg is Dictionary:
 			rc_loc = String(cfg.get("RiotClientLocation", ""))
 	if not rc_loc.is_empty():
-		var rc_base := rc_loc.replace("\\", "/").get_base_dir()
-		var rc_logs := rc_base.path_join("Logs")
+		# RiotClientLocation is the client folder itself, so its logs live inside it, not in its parent.
+		var rc_logs := rc_loc.replace("\\", "/").rstrip("/").path_join("Logs")
 		if DirAccess.dir_exists_absolute(rc_logs) and not paths.has(rc_logs):
 			paths.append(rc_logs)
 
