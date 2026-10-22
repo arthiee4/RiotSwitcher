@@ -237,8 +237,8 @@ msgid "Import"
 msgstr "Importar"
 
 #: scenes/settings_menu.tscn
-msgid "Includes your login sessions: anyone with this file can sign in to your accounts."
-msgstr "Incluye tus sesiones: cualquiera con este archivo puede entrar en tus cuentas."
+msgid "Password-protected backup of your profiles and login sessions. Keep it private."
+msgstr "Copia protegida con contraseña de tus perfiles y sesiones. Guárdala en privado."
 
 #: scenes/settings_menu.tscn
 msgid "Share in-game settings (only works with League of Legends closed)."
@@ -453,3 +453,67 @@ msgstr "Cancelar"
 #: src/ui/delete_all_profiles.gd
 msgid "Are you sure you want to permanently delete all saved profiles? This action cannot be undone."
 msgstr "¿Estás seguro de que deseas eliminar permanentemente todos los perfiles guardados? Esta acción no se puede deshacer."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Set a password for this backup"
+msgstr "Elige una contraseña para esta copia"
+
+#: src/ui/backup_progress_modal.gd
+msgid "You will need it to import the backup. It cannot be recovered."
+msgstr "La necesitarás para importar la copia. No se puede recuperar."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Enter the backup password"
+msgstr "Introduce la contraseña de la copia"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Old backup format"
+msgstr "Formato de copia antiguo"
+
+#: src/ui/backup_progress_modal.gd
+msgid "This backup is not password-protected. After importing, export a new backup and delete this file."
+msgstr "Esta copia no está protegida con contraseña. Tras importarla, exporta una copia nueva y borra este archivo."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Password"
+msgstr "Contraseña"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Confirm password"
+msgstr "Confirmar contraseña"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Continue"
+msgstr "Continuar"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Use at least %d characters."
+msgstr "Usa al menos %d caracteres."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Passwords do not match."
+msgstr "Las contraseñas no coinciden."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Enter the password."
+msgstr "Introduce la contraseña."
+
+#: src/utils/profile_backup_service.gd
+msgid "Wrong password or damaged backup file."
+msgstr "Contraseña incorrecta o archivo de copia dañado."
+
+#: src/utils/profile_backup_service.gd
+msgid "A password is required to import this backup."
+msgstr "Se necesita una contraseña para importar esta copia."
+
+#: src/utils/profile_backup_service.gd
+msgid "Unsupported backup version (%d)."
+msgstr "Versión de copia no compatible (%d)."
+
+#: src/utils/profile_backup_service.gd
+msgid "Backup integrity check failed: file is corrupted or tampered with."
+msgstr "Fallo en la comprobación de integridad: el archivo está dañado o ha sido manipulado."
+
+#: src/utils/profile_backup_service.gd
+msgid "Decryption failed: corrupted data or invalid key."
+msgstr "Error al descifrar: datos dañados o clave no válida."

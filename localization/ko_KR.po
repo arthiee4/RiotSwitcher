@@ -237,8 +237,8 @@ msgid "Import"
 msgstr "가져오기"
 
 #: scenes/settings_menu.tscn
-msgid "Includes your login sessions: anyone with this file can sign in to your accounts."
-msgstr "로그인 세션이 포함됩니다: 이 파일을 가진 사람은 누구나 계정에 로그인할 수 있습니다."
+msgid "Password-protected backup of your profiles and login sessions. Keep it private."
+msgstr "프로필과 로그인 세션의 비밀번호 보호 백업입니다. 비공개로 보관하세요."
 
 #: scenes/settings_menu.tscn
 msgid "Share in-game settings (only works with League of Legends closed)."
@@ -453,3 +453,67 @@ msgstr "취소"
 #: src/ui/delete_all_profiles.gd
 msgid "Are you sure you want to permanently delete all saved profiles? This action cannot be undone."
 msgstr "저장된 모든 프로필을 영구적으로 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Set a password for this backup"
+msgstr "이 백업의 비밀번호를 설정하세요"
+
+#: src/ui/backup_progress_modal.gd
+msgid "You will need it to import the backup. It cannot be recovered."
+msgstr "백업을 가져올 때 필요하며, 복구할 수 없습니다."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Enter the backup password"
+msgstr "백업 비밀번호를 입력하세요"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Old backup format"
+msgstr "이전 백업 형식"
+
+#: src/ui/backup_progress_modal.gd
+msgid "This backup is not password-protected. After importing, export a new backup and delete this file."
+msgstr "이 백업은 비밀번호로 보호되지 않습니다. 가져온 후 새 백업을 내보내고 이 파일을 삭제하세요."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Password"
+msgstr "비밀번호"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Confirm password"
+msgstr "비밀번호 확인"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Continue"
+msgstr "계속"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Use at least %d characters."
+msgstr "%d자 이상 입력하세요."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Passwords do not match."
+msgstr "비밀번호가 일치하지 않습니다."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Enter the password."
+msgstr "비밀번호를 입력하세요."
+
+#: src/utils/profile_backup_service.gd
+msgid "Wrong password or damaged backup file."
+msgstr "비밀번호가 틀렸거나 백업 파일이 손상되었습니다."
+
+#: src/utils/profile_backup_service.gd
+msgid "A password is required to import this backup."
+msgstr "이 백업을 가져오려면 비밀번호가 필요합니다."
+
+#: src/utils/profile_backup_service.gd
+msgid "Unsupported backup version (%d)."
+msgstr "지원되지 않는 백업 버전입니다 (%d)."
+
+#: src/utils/profile_backup_service.gd
+msgid "Backup integrity check failed: file is corrupted or tampered with."
+msgstr "무결성 검사 실패: 파일이 손상되었거나 변조되었습니다."
+
+#: src/utils/profile_backup_service.gd
+msgid "Decryption failed: corrupted data or invalid key."
+msgstr "복호화 실패: 데이터가 손상되었거나 키가 올바르지 않습니다."

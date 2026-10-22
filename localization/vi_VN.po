@@ -237,8 +237,8 @@ msgid "Import"
 msgstr "Nhập"
 
 #: scenes/settings_menu.tscn
-msgid "Includes your login sessions: anyone with this file can sign in to your accounts."
-msgstr "Bao gồm phiên đăng nhập: bất kỳ ai có tệp này đều có thể đăng nhập tài khoản của bạn."
+msgid "Password-protected backup of your profiles and login sessions. Keep it private."
+msgstr "Bản sao lưu hồ sơ và phiên đăng nhập được bảo vệ bằng mật khẩu. Hãy giữ kín."
 
 #: scenes/settings_menu.tscn
 msgid "Share in-game settings (only works with League of Legends closed)."
@@ -453,3 +453,67 @@ msgstr "Hủy"
 #: src/ui/delete_all_profiles.gd
 msgid "Are you sure you want to permanently delete all saved profiles? This action cannot be undone."
 msgstr "Bạn có chắc chắn muốn xóa vĩnh viễn tất cả hồ sơ đã lưu không? Hành động này không thể hoàn tác."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Set a password for this backup"
+msgstr "Đặt mật khẩu cho bản sao lưu này"
+
+#: src/ui/backup_progress_modal.gd
+msgid "You will need it to import the backup. It cannot be recovered."
+msgstr "Bạn sẽ cần mật khẩu để nhập bản sao lưu. Không thể khôi phục mật khẩu."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Enter the backup password"
+msgstr "Nhập mật khẩu bản sao lưu"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Old backup format"
+msgstr "Định dạng sao lưu cũ"
+
+#: src/ui/backup_progress_modal.gd
+msgid "This backup is not password-protected. After importing, export a new backup and delete this file."
+msgstr "Bản sao lưu này không được bảo vệ bằng mật khẩu. Sau khi nhập, hãy xuất bản sao lưu mới và xóa tệp này."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Password"
+msgstr "Mật khẩu"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Confirm password"
+msgstr "Xác nhận mật khẩu"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Continue"
+msgstr "Tiếp tục"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Use at least %d characters."
+msgstr "Dùng ít nhất %d ký tự."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Passwords do not match."
+msgstr "Mật khẩu không khớp."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Enter the password."
+msgstr "Nhập mật khẩu."
+
+#: src/utils/profile_backup_service.gd
+msgid "Wrong password or damaged backup file."
+msgstr "Sai mật khẩu hoặc tệp sao lưu bị hỏng."
+
+#: src/utils/profile_backup_service.gd
+msgid "A password is required to import this backup."
+msgstr "Cần mật khẩu để nhập bản sao lưu này."
+
+#: src/utils/profile_backup_service.gd
+msgid "Unsupported backup version (%d)."
+msgstr "Phiên bản sao lưu không được hỗ trợ (%d)."
+
+#: src/utils/profile_backup_service.gd
+msgid "Backup integrity check failed: file is corrupted or tampered with."
+msgstr "Kiểm tra toàn vẹn thất bại: tệp bị hỏng hoặc đã bị chỉnh sửa."
+
+#: src/utils/profile_backup_service.gd
+msgid "Decryption failed: corrupted data or invalid key."
+msgstr "Giải mã thất bại: dữ liệu bị hỏng hoặc khóa không hợp lệ."

@@ -237,8 +237,8 @@ msgid "Import"
 msgstr "导入"
 
 #: scenes/settings_menu.tscn
-msgid "Includes your login sessions: anyone with this file can sign in to your accounts."
-msgstr "包含你的登录会话：任何拿到此文件的人都可以登录你的账号。"
+msgid "Password-protected backup of your profiles and login sessions. Keep it private."
+msgstr "受密码保护的配置文件和登录会话备份。请妥善保管。"
 
 #: scenes/settings_menu.tscn
 msgid "Share in-game settings (only works with League of Legends closed)."
@@ -453,3 +453,67 @@ msgstr "取消"
 #: src/ui/delete_all_profiles.gd
 msgid "Are you sure you want to permanently delete all saved profiles? This action cannot be undone."
 msgstr "确定要永久删除所有已保存的账号配置吗？此操作无法撤销。"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Set a password for this backup"
+msgstr "为此备份设置密码"
+
+#: src/ui/backup_progress_modal.gd
+msgid "You will need it to import the backup. It cannot be recovered."
+msgstr "导入备份时需要此密码，且无法找回。"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Enter the backup password"
+msgstr "输入备份密码"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Old backup format"
+msgstr "旧版备份格式"
+
+#: src/ui/backup_progress_modal.gd
+msgid "This backup is not password-protected. After importing, export a new backup and delete this file."
+msgstr "此备份没有密码保护。导入后，请导出新的备份并删除此文件。"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Password"
+msgstr "密码"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Confirm password"
+msgstr "确认密码"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Continue"
+msgstr "继续"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Use at least %d characters."
+msgstr "请至少使用 %d 个字符。"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Passwords do not match."
+msgstr "两次输入的密码不一致。"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Enter the password."
+msgstr "请输入密码。"
+
+#: src/utils/profile_backup_service.gd
+msgid "Wrong password or damaged backup file."
+msgstr "密码错误或备份文件已损坏。"
+
+#: src/utils/profile_backup_service.gd
+msgid "A password is required to import this backup."
+msgstr "导入此备份需要密码。"
+
+#: src/utils/profile_backup_service.gd
+msgid "Unsupported backup version (%d)."
+msgstr "不支持的备份版本 (%d)。"
+
+#: src/utils/profile_backup_service.gd
+msgid "Backup integrity check failed: file is corrupted or tampered with."
+msgstr "完整性检查失败：文件已损坏或被篡改。"
+
+#: src/utils/profile_backup_service.gd
+msgid "Decryption failed: corrupted data or invalid key."
+msgstr "解密失败：数据已损坏或密钥无效。"

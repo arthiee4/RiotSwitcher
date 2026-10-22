@@ -294,8 +294,8 @@ msgid "Import"
 msgstr "Importar"
 
 #: scenes/settings_menu.tscn
-msgid "Includes your login sessions: anyone with this file can sign in to your accounts."
-msgstr "Inclui suas sessões: qualquer pessoa com este arquivo pode entrar nas suas contas."
+msgid "Password-protected backup of your profiles and login sessions. Keep it private."
+msgstr "Backup protegido por senha das suas contas e sessões. Mantenha-o privado."
 
 msgid "Importing"
 msgstr "Importando"
@@ -470,3 +470,67 @@ msgstr "Cancelar"
 #: src/ui/delete_all_profiles.gd
 msgid "Are you sure you want to permanently delete all saved profiles? This action cannot be undone."
 msgstr "Tem certeza de que deseja excluir permanentemente todos os perfis salvos? Esta ação não pode ser desfeita."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Set a password for this backup"
+msgstr "Defina uma senha para este backup"
+
+#: src/ui/backup_progress_modal.gd
+msgid "You will need it to import the backup. It cannot be recovered."
+msgstr "Você precisará dela para importar o backup. Ela não pode ser recuperada."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Enter the backup password"
+msgstr "Digite a senha do backup"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Old backup format"
+msgstr "Formato de backup antigo"
+
+#: src/ui/backup_progress_modal.gd
+msgid "This backup is not password-protected. After importing, export a new backup and delete this file."
+msgstr "Este backup não é protegido por senha. Após importar, exporte um novo backup e apague este arquivo."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Password"
+msgstr "Senha"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Confirm password"
+msgstr "Confirmar senha"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Continue"
+msgstr "Continuar"
+
+#: src/ui/backup_progress_modal.gd
+msgid "Use at least %d characters."
+msgstr "Use pelo menos %d caracteres."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Passwords do not match."
+msgstr "As senhas não coincidem."
+
+#: src/ui/backup_progress_modal.gd
+msgid "Enter the password."
+msgstr "Digite a senha."
+
+#: src/utils/profile_backup_service.gd
+msgid "Wrong password or damaged backup file."
+msgstr "Senha incorreta ou arquivo de backup danificado."
+
+#: src/utils/profile_backup_service.gd
+msgid "A password is required to import this backup."
+msgstr "É necessária uma senha para importar este backup."
+
+#: src/utils/profile_backup_service.gd
+msgid "Unsupported backup version (%d)."
+msgstr "Versão de backup não suportada (%d)."
+
+#: src/utils/profile_backup_service.gd
+msgid "Backup integrity check failed: file is corrupted or tampered with."
+msgstr "Falha na verificação de integridade: o arquivo está corrompido ou foi adulterado."
+
+#: src/utils/profile_backup_service.gd
+msgid "Decryption failed: corrupted data or invalid key."
+msgstr "Falha ao descriptografar: dados corrompidos ou chave inválida."
