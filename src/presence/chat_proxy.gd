@@ -133,7 +133,8 @@ func _poll_session(session: Dictionary) -> bool:
 		if raw_upstream.get_status() == StreamPeerTCP.STATUS_CONNECTED:
 			# Start TLS handshakes
 			var accept_err := client_tls.accept_stream(raw_client, session.tls_server_options)
-			var connect_err := upstream_tls.connect_to_stream(raw_upstream, _upstream_host, TLSOptions.client_unsafe())
+			# Verify Riot's certificate and hostname: the client authenticates over this link, so an unverified upstream would hand its token to any network attacker.
+			var connect_err := upstream_tls.connect_to_stream(raw_upstream, _upstream_host, TLSOptions.client())
 			if accept_err != OK or connect_err != OK:
 				printerr("[Presence/ChatProxy] Failed to initialize TLS streams (Client: %d, Upstream: %d)" % [accept_err, connect_err])
 				return false
