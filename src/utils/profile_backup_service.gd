@@ -1,13 +1,26 @@
 class_name ProfileBackupService
 extends RefCounted
 
-# Handles encrypted ZIP backup and restore for all RiotSwitcher profiles, login session files, and custom uploaded background images.
+# Handles password-protected ZIP backup and restore for all RiotSwitcher profiles, login session files, and custom uploaded background images.
 
 const MAGIC_BYTES := [0x52, 0x53, 0x42, 0x4B] # "RSBK" (RiotSwitcher Backup)
-const BACKUP_VERSION := 0x01
+const BACKUP_VERSION := 0x02
+const LEGACY_BACKUP_VERSION := 0x01
 
-# Key used for backup file obfuscation and integrity check.
-const SECRET_SEED := "RiotSwitcher_Vault_AES256_Secret_Key_2026_SecureBackup"
+# Legacy (v1) key, kept only to read old backups. It is public, so v1 files are obfuscated, not protected.
+const LEGACY_SECRET_SEED := "RiotSwitcher_Vault_AES256_Secret_Key_2026_SecureBackup"
+
+const MIN_PASSWORD_LENGTH := 8
+const KDF_ITERATIONS := 600000
+# Bounds for the iteration count read from a file, so a crafted header cannot stall the import thread.
+const KDF_MIN_ITERATIONS := 100000
+const KDF_MAX_ITERATIONS := 5000000
+const SALT_SIZE := 16
+const IV_SIZE := 16
+const MAC_SIZE := 32
+
+# v2 layout: magic(4) | version(1) | iterations u32(4) | salt(16) | iv(16) | plain length u64(8) | AES-256-CBC ciphertext | HMAC-SHA256(32) over everything before it.
+const V2_HEADER_SIZE := 4 + 1 + 4 + SALT_SIZE + IV_SIZE + 8
 
 const MANIFEST_PATH := "manifest.json"
 const PROFILES_DATA_REL := "data/profiles_data.json"
@@ -26,8 +39,32 @@ static func _sha256(data: PackedByteArray) -> PackedByteArray:
 	return ctx.finish()
 
 
-static func _get_key() -> PackedByteArray:
-	return SECRET_SEED.sha256_buffer() # Exact 32-byte key for AES-256
+static func _get_legacy_key() -> PackedByteArray:
+	return LEGACY_SECRET_SEED.sha256_buffer() # Exact 32-byte key for AES-256
+
+
+# PBKDF2-HMAC-SHA256 with a single 32-byte output block (RFC 8018).
+static func _pbkdf2_sha256(password: PackedByteArray, salt: PackedByteArray, iterations: int) -> PackedByteArray:
+	var crypto := Crypto.new()
+	var first_block := salt.duplicate()
+	first_block.append_array(PackedByteArray([0, 0, 0, 1]))
+	var u := crypto.hmac_digest(HashingContext.HASH_SHA256, password, first_block)
+	var result := u.duplicate()
+	for i in range(1, iterations):
+		u = crypto.hmac_digest(HashingContext.HASH_SHA256, password, u)
+		for j in range(32):
+			result[j] ^= u[j]
+	return result
+
+
+# Derives independent encryption and MAC keys from the password, so the MAC key never doubles as the AES key.
+static func _derive_keys(password: String, salt: PackedByteArray, iterations: int) -> Dictionary:
+	var crypto := Crypto.new()
+	var master := _pbkdf2_sha256(password.to_utf8_buffer(), salt, iterations)
+	return {
+		"enc": crypto.hmac_digest(HashingContext.HASH_SHA256, master, "RSBK v2 encryption".to_utf8_buffer()),
+		"mac": crypto.hmac_digest(HashingContext.HASH_SHA256, master, "RSBK v2 authentication".to_utf8_buffer()),
+	}
 
 
 static func _pkcs7_pad(data: PackedByteArray) -> PackedByteArray:
@@ -50,92 +87,130 @@ static func _pkcs7_unpad(data: PackedByteArray) -> PackedByteArray:
 	return data.slice(0, data.size() - pad_len)
 
 
-# Encrypts a raw ZIP payload into the RSBK authenticated container.
-static func encrypt_zip_payload(zip_bytes: PackedByteArray) -> PackedByteArray:
-	var key := _get_key()
-	var crypto := Crypto.new()
-	var iv := crypto.generate_random_bytes(16)
-	if iv.size() != 16:
-		printerr("ProfileBackupService: Failed to generate random 16-byte IV!")
-		return PackedByteArray()
-
-	var padded := _pkcs7_pad(zip_bytes)
+static func _aes_cbc(mode: AESContext.Mode, key: PackedByteArray, iv: PackedByteArray, data: PackedByteArray) -> PackedByteArray:
 	var aes := AESContext.new()
-	var err := aes.start(AESContext.MODE_CBC_ENCRYPT, key, iv)
-	if err != OK:
-		printerr("ProfileBackupService: AESContext start failed: ", err)
+	if aes.start(mode, key, iv) != OK:
+		return PackedByteArray()
+	var out := aes.update(data)
+	aes.finish()
+	return out
+
+
+# Returns the container version of a backup file, or 0 when it is not a RiotSwitcher backup.
+static func read_backup_version(file_path: String) -> int:
+	var file := FileAccess.open(file_path, FileAccess.READ)
+	if not file or file.get_length() < 5:
+		return 0
+	var header := file.get_buffer(5)
+	for i in range(4):
+		if header[i] != MAGIC_BYTES[i]:
+			return 0
+	return header[4]
+
+
+# Encrypts a raw ZIP payload into a v2 container protected by the given password.
+static func encrypt_zip_payload(zip_bytes: PackedByteArray, password: String) -> PackedByteArray:
+	if password.length() < MIN_PASSWORD_LENGTH:
+		printerr("ProfileBackupService: Refusing to encrypt with a password shorter than %d characters." % MIN_PASSWORD_LENGTH)
 		return PackedByteArray()
 
-	var encrypted := aes.update(padded)
-	aes.finish()
+	var crypto := Crypto.new()
+	var salt := crypto.generate_random_bytes(SALT_SIZE)
+	var iv := crypto.generate_random_bytes(IV_SIZE)
+	if salt.size() != SALT_SIZE or iv.size() != IV_SIZE:
+		printerr("ProfileBackupService: Failed to generate random salt/IV!")
+		return PackedByteArray()
 
-	var container := PackedByteArray()
-	# 1.
-	for b in MAGIC_BYTES:
-		container.append(b)
-	# 2.
-	container.append(BACKUP_VERSION)
-	# 3.
-	container.append_array(iv)
-	# 4.
-	var len_buf := StreamPeerBuffer.new()
-	len_buf.put_u64(zip_bytes.size())
-	container.append_array(len_buf.data_array)
-	# 5.
+	var keys := _derive_keys(password, salt, KDF_ITERATIONS)
+	var encrypted := _aes_cbc(AESContext.MODE_CBC_ENCRYPT, keys["enc"], iv, _pkcs7_pad(zip_bytes))
+	if encrypted.is_empty():
+		printerr("ProfileBackupService: AES encryption failed.")
+		return PackedByteArray()
+
+	var header := StreamPeerBuffer.new()
+	header.big_endian = true
+	header.put_data(PackedByteArray(MAGIC_BYTES))
+	header.put_u8(BACKUP_VERSION)
+	header.put_u32(KDF_ITERATIONS)
+	header.put_data(salt)
+	header.put_data(iv)
+	header.put_u64(zip_bytes.size())
+
+	var container := header.data_array
 	container.append_array(encrypted)
-	# 6.
-	var checksum := _sha256(container)
-	container.append_array(checksum)
-
+	container.append_array(crypto.hmac_digest(HashingContext.HASH_SHA256, keys["mac"], container))
 	return container
 
 
-# Decrypts an RSBK authenticated container back into the raw ZIP bytes.
-static func decrypt_zip_payload(container: PackedByteArray) -> Dictionary:
-	# Minimum valid size: 4 (magic) + 1 (ver) + 16 (IV) + 8 (len) + 16 (min 1 AES block) + 32 (checksum) = 77 bytes
-	if container.size() < 77:
-		return {"success": false, "error": "File is too small to be a valid RiotSwitcher backup."}
+# Decrypts a backup container back into the raw ZIP bytes. v2 needs the password; v1 uses the legacy built-in key and ignores it.
+static func decrypt_zip_payload(container: PackedByteArray, password: String = "") -> Dictionary:
+	if container.size() < 5:
+		return {"success": false, "error": _tr("File is too small to be a valid RiotSwitcher backup.")}
 
-	# Verify Magic
 	for i in range(4):
 		if container[i] != MAGIC_BYTES[i]:
-			return {"success": false, "error": "Invalid backup format or unsupported file type."}
+			return {"success": false, "error": _tr("Invalid backup format or unsupported file type.")}
 
 	var version: int = container[4]
+	if version == LEGACY_BACKUP_VERSION:
+		return _decrypt_legacy(container)
 	if version != BACKUP_VERSION:
-		return {"success": false, "error": "Unsupported backup version (%d)." % version}
+		return {"success": false, "error": _tr("Unsupported backup version (%d).") % version}
 
-	# Verify Checksum
+	# Smallest valid v2 file: header + one AES block + MAC.
+	if container.size() < V2_HEADER_SIZE + 16 + MAC_SIZE or (container.size() - V2_HEADER_SIZE - MAC_SIZE) % 16 != 0:
+		return {"success": false, "error": _tr("File is too small to be a valid RiotSwitcher backup.")}
+	if password.is_empty():
+		return {"success": false, "error": _tr("A password is required to import this backup.")}
+
+	var header := StreamPeerBuffer.new()
+	header.big_endian = true
+	header.data_array = container.slice(5, V2_HEADER_SIZE)
+	var iterations := header.get_u32()
+	var salt: PackedByteArray = header.get_data(SALT_SIZE)[1]
+	var iv: PackedByteArray = header.get_data(IV_SIZE)[1]
+	var plain_len := header.get_u64()
+	if iterations < KDF_MIN_ITERATIONS or iterations > KDF_MAX_ITERATIONS:
+		return {"success": false, "error": _tr("Invalid backup format or unsupported file type.")}
+
+	var keys := _derive_keys(password, salt, iterations)
+	var crypto := Crypto.new()
+	var mac_offset := container.size() - MAC_SIZE
+	var expected_mac := crypto.hmac_digest(HashingContext.HASH_SHA256, keys["mac"], container.slice(0, mac_offset))
+	# Verify before decrypting: a wrong password and a tampered file are indistinguishable by design.
+	if not crypto.constant_time_compare(expected_mac, container.slice(mac_offset)):
+		return {"success": false, "error": _tr("Wrong password or damaged backup file.")}
+
+	var decrypted := _pkcs7_unpad(_aes_cbc(AESContext.MODE_CBC_DECRYPT, keys["enc"], iv, container.slice(V2_HEADER_SIZE, mac_offset)))
+	if decrypted.is_empty() or decrypted.size() != plain_len:
+		return {"success": false, "error": _tr("Wrong password or damaged backup file.")}
+
+	return {"success": true, "zip_bytes": decrypted, "legacy": false}
+
+
+# Reads a v1 container, whose key is built into the app and whose checksum is unkeyed.
+static func _decrypt_legacy(container: PackedByteArray) -> Dictionary:
+	# Minimum valid size: 4 (magic) + 1 (ver) + 16 (IV) + 8 (len) + 16 (min 1 AES block) + 32 (checksum) = 77 bytes
+	if container.size() < 77:
+		return {"success": false, "error": _tr("File is too small to be a valid RiotSwitcher backup.")}
+
 	var payload_without_checksum := container.slice(0, container.size() - 32)
-	var file_checksum := container.slice(container.size() - 32)
-	var calc_checksum := _sha256(payload_without_checksum)
-
-	if file_checksum != calc_checksum:
-		return {"success": false, "error": "Backup integrity check failed: file is corrupted or tampered with."}
+	if _sha256(payload_without_checksum) != container.slice(container.size() - 32):
+		return {"success": false, "error": _tr("Backup integrity check failed: file is corrupted or tampered with.")}
 
 	var iv := container.slice(5, 21)
 	var len_buf := StreamPeerBuffer.new()
 	len_buf.data_array = container.slice(21, 29)
 	var orig_len := len_buf.get_u64()
 
-	var encrypted := container.slice(29, container.size() - 32)
-	var key := _get_key()
-	var aes := AESContext.new()
-	var err := aes.start(AESContext.MODE_CBC_DECRYPT, key, iv)
-	if err != OK:
-		return {"success": false, "error": "Failed to initialize decryption engine."}
-
-	var decrypted_padded := aes.update(encrypted)
-	aes.finish()
-
-	var decrypted := _pkcs7_unpad(decrypted_padded)
+	var decrypted := _pkcs7_unpad(_aes_cbc(AESContext.MODE_CBC_DECRYPT, _get_legacy_key(), iv, container.slice(29, container.size() - 32)))
 	if decrypted.is_empty():
-		return {"success": false, "error": "Decryption failed: corrupted data or invalid key."}
+		return {"success": false, "error": _tr("Decryption failed: corrupted data or invalid key.")}
 
 	if orig_len > 0 and decrypted.size() != orig_len:
 		decrypted = decrypted.slice(0, orig_len)
 
-	return {"success": true, "zip_bytes": decrypted}
+	return {"success": true, "zip_bytes": decrypted, "legacy": true}
 
 
 # Recursively collects all files inside a directory and returns an array of relative paths.
@@ -160,8 +235,8 @@ static func _collect_files_recursive(dir_path: String, rel_prefix: String = "") 
 	return result
 
 
-# Exports all profiles, sessions, and custom backgrounds into an encrypted ZIP file.
-static func export_backup(dest_file_path: String, progress_cb: Callable = Callable()) -> Dictionary:
+# Exports all profiles, sessions, and custom backgrounds into a ZIP file encrypted with the given password.
+static func export_backup(dest_file_path: String, password: String, progress_cb: Callable = Callable()) -> Dictionary:
 	if progress_cb.is_valid():
 		progress_cb.call(0.05, _tr("Gathering profile data..."))
 
@@ -252,7 +327,7 @@ static func export_backup(dest_file_path: String, progress_cb: Callable = Callab
 		return {"success": false, "error": _tr("Failed to build archive payload.")}
 
 	# Encrypt container
-	var encrypted_container := encrypt_zip_payload(raw_zip_bytes)
+	var encrypted_container := encrypt_zip_payload(raw_zip_bytes, password)
 	if encrypted_container.is_empty():
 		return {"success": false, "error": _tr("Encryption error while generating backup.")}
 
@@ -278,8 +353,8 @@ static func export_backup(dest_file_path: String, progress_cb: Callable = Callab
 	}
 
 
-# Imports an encrypted ZIP backup file, restoring accounts, sessions, and backgrounds.
-static func import_backup(src_file_path: String, progress_cb: Callable = Callable()) -> Dictionary:
+# Imports an encrypted ZIP backup file, restoring accounts, sessions, and backgrounds. The password is ignored for legacy (v1) files.
+static func import_backup(src_file_path: String, password: String, progress_cb: Callable = Callable()) -> Dictionary:
 	if progress_cb.is_valid():
 		progress_cb.call(0.05, _tr("Reading backup file..."))
 
@@ -293,7 +368,7 @@ static func import_backup(src_file_path: String, progress_cb: Callable = Callabl
 	if progress_cb.is_valid():
 		progress_cb.call(0.15, _tr("Verifying security and decrypting..."))
 
-	var decrypt_res := decrypt_zip_payload(file_bytes)
+	var decrypt_res := decrypt_zip_payload(file_bytes, password)
 	if not decrypt_res.get("success", false):
 		return {"success": false, "error": decrypt_res.get("error", _tr("Decryption failed."))}
 
@@ -382,4 +457,5 @@ static func import_backup(src_file_path: String, progress_cb: Callable = Callabl
 	return {
 		"success": true,
 		"profile_count": actual_count,
+		"legacy": decrypt_res.get("legacy", false),
 	}

@@ -11,6 +11,9 @@ extends Control
 
 var _worker_thread: Thread = null
 var _progress_modal: BackupProgressModal = null
+# Backup waiting for the password prompt: "export" or "import", plus the chosen file.
+var _pending_action := ""
+var _pending_path := ""
 
 
 const FONT_BODY: FontFile = preload("res://assets/fonts/Spiegel-Regular.otf")
@@ -31,7 +34,7 @@ func _ready() -> void:
 		desc_lbl.add_theme_font_override("font", FONT_BODY)
 		desc_lbl.add_theme_font_size_override("font_size", 13)
 		desc_lbl.add_theme_color_override("font_color", Color(0.6275, 0.6078, 0.549, 1.0))
-		desc_lbl.text = tr("Includes your login sessions: anyone with this file can sign in to your accounts.")
+		desc_lbl.text = tr("Password-protected backup of your profiles and login sessions. Keep it private.")
 
 	if _export_btn:
 		_export_btn.offset_top = 46.0
@@ -65,6 +68,8 @@ func _find_progress_modal() -> void:
 	var found = root.find_child("backup_progress_modal", true, false)
 	if found is BackupProgressModal:
 		_progress_modal = found
+		_progress_modal.prompt_confirmed.connect(_on_prompt_confirmed)
+		_progress_modal.prompt_cancelled.connect(_on_prompt_cancelled)
 
 
 func _on_export_pressed() -> void:
@@ -90,22 +95,48 @@ func _on_export_file_selected(path: String) -> void:
 	if not path.to_lower().ends_with(".zip"):
 		path += ".zip"
 
-	if _progress_modal:
-		_progress_modal.open_modal(false)
+	# The password can only be collected through the modal; without it there is no safe way to export.
+	if not _progress_modal:
+		printerr("ProfileBackupController: Progress modal not found; cannot ask for the backup password.")
+		return
 
 	_set_buttons_enabled(false)
+	_pending_action = "export"
+	_pending_path = path
+	_progress_modal.prompt_password(false)
+
+
+func _on_prompt_confirmed(password: String) -> void:
+	var action := _pending_action
+	var path := _pending_path
+	_pending_action = ""
+	_pending_path = ""
+	if action == "export":
+		_start_export(path, password)
+	elif action == "import":
+		_start_import(path, password)
+
+
+func _on_prompt_cancelled() -> void:
+	_pending_action = ""
+	_pending_path = ""
+	_set_buttons_enabled(true)
+
+
+func _start_export(path: String, password: String) -> void:
+	_progress_modal.open_modal(false)
 
 	if _worker_thread and _worker_thread.is_started():
 		_worker_thread.wait_to_finish()
 	_worker_thread = Thread.new()
-	_worker_thread.start(_run_export.bind(path))
+	_worker_thread.start(_run_export.bind(path, password))
 
 
-func _run_export(dest_path: String) -> void:
+func _run_export(dest_path: String, password: String) -> void:
 	var progress_cb := func(pct: float, msg: String):
 		_notify_progress.call_deferred(pct, msg)
 
-	var res := ProfileBackupService.export_backup(dest_path, progress_cb)
+	var res := ProfileBackupService.export_backup(dest_path, password, progress_cb)
 	_on_export_finished.call_deferred(res)
 
 
@@ -132,22 +163,37 @@ func _on_import_file_selected(path: String) -> void:
 	if path.is_empty() or not FileAccess.file_exists(path):
 		return
 
+	_set_buttons_enabled(false)
+	var version := ProfileBackupService.read_backup_version(path)
+	var needs_prompt := version == ProfileBackupService.BACKUP_VERSION or version == ProfileBackupService.LEGACY_BACKUP_VERSION
+	if not _progress_modal or not needs_prompt:
+		# Not a backup we can read: let the import report the error.
+		_start_import(path, "")
+		return
+
+	_pending_action = "import"
+	_pending_path = path
+	if version == ProfileBackupService.LEGACY_BACKUP_VERSION:
+		_progress_modal.prompt_legacy_notice()
+	else:
+		_progress_modal.prompt_password(true)
+
+
+func _start_import(path: String, password: String) -> void:
 	if _progress_modal:
 		_progress_modal.open_modal(true)
-
-	_set_buttons_enabled(false)
 
 	if _worker_thread and _worker_thread.is_started():
 		_worker_thread.wait_to_finish()
 	_worker_thread = Thread.new()
-	_worker_thread.start(_run_import.bind(path))
+	_worker_thread.start(_run_import.bind(path, password))
 
 
-func _run_import(src_path: String) -> void:
+func _run_import(src_path: String, password: String) -> void:
 	var progress_cb := func(pct: float, msg: String):
 		_notify_progress.call_deferred(pct, msg)
 
-	var res := ProfileBackupService.import_backup(src_path, progress_cb)
+	var res := ProfileBackupService.import_backup(src_path, password, progress_cb)
 	_on_import_finished.call_deferred(res)
 
 
