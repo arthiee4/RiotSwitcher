@@ -21,6 +21,20 @@ static func is_safe_dir_name(dir_name: String) -> bool:
 	return not dir_name.is_empty() and dir_name != "." and dir_name != ".." and dir_name.is_valid_filename()
 
 
+# True for no background, a bundled res:// background, or a file directly inside BACKGROUNDS_DIR.
+static func is_safe_background_path(path: String) -> bool:
+	if path.is_empty():
+		return true
+	if path.begins_with("res://"):
+		return not path.contains("..")
+	if not path.begins_with(BACKGROUNDS_DIR):
+		return false
+	# Only reject what can leave the folder: legacy backgrounds kept their original file names, which may contain other reserved characters.
+	var file_name := path.trim_prefix(BACKGROUNDS_DIR)
+	return not file_name.is_empty() and file_name != "." and file_name != ".." \
+			and not file_name.contains("/") and not file_name.contains("\\") and not file_name.contains(":")
+
+
 # Joins rel_path onto base_dir, or returns "" when rel_path could escape base_dir (absolute path, drive letter or ".." segment).
 static func join_contained(base_dir: String, rel_path: String) -> String:
 	var rel := rel_path.replace("\\", "/")

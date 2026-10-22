@@ -168,7 +168,7 @@ func delete_profile(profile_name: String) -> bool:
 			printerr("ProfileManager: Failed to fully delete directory: ", profile_dir)
 
 	var background_path: String = profile.get("custom_background_image", "")
-	if background_path.begins_with(AppPaths.BACKGROUNDS_DIR) and FileAccess.file_exists(background_path):
+	if background_path.begins_with(AppPaths.BACKGROUNDS_DIR) and AppPaths.is_safe_background_path(background_path) and FileAccess.file_exists(background_path):
 		DirAccess.remove_absolute(background_path)
 
 	# If the deleted profile was the shared settings source, clear the configuration
@@ -554,10 +554,18 @@ func _normalize_profiles() -> void:
 			# Imported or hand-edited data may carry names like "../.." that would point session copies and deletes outside PROFILES_DIR.
 			profile["directory_name"] = _resolve_unique_directory_name(_sanitize_directory_name(str(profile.get("profile_name", "profile"))))
 			changed = true
+		elif not profile["directory_name"] is String:
+			profile["directory_name"] = dir_name
+			changed = true
 		if not profile.has("first_time_opened"):
 			profile["first_time_opened"] = false
 			changed = true
 		if not profile.has("custom_background_image"):
+			profile["custom_background_image"] = ""
+			changed = true
+		var bg = profile["custom_background_image"]
+		if not bg is String or not AppPaths.is_safe_background_path(bg):
+			# Background files get loaded and deleted later, so a crafted path must never reach disk access.
 			profile["custom_background_image"] = ""
 			changed = true
 		if not profile.has("has_custom_name"):
@@ -797,7 +805,7 @@ func _rename_profile_directory(old_dir_name: String, new_dir_name: String) -> bo
 
 # Removes old custom background if no other profile references it.
 func _cleanup_orphaned_background(old_bg_path: String, excluding_profile_name: String) -> void:
-	if not old_bg_path.begins_with(AppPaths.BACKGROUNDS_DIR) or not FileAccess.file_exists(old_bg_path):
+	if not old_bg_path.begins_with(AppPaths.BACKGROUNDS_DIR) or not AppPaths.is_safe_background_path(old_bg_path) or not FileAccess.file_exists(old_bg_path):
 		return
 
 	for p: Dictionary in _profiles:
