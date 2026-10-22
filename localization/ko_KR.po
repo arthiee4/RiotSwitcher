@@ -505,3 +505,15 @@ msgstr "비밀번호가 틀렸거나 백업 파일이 손상되었습니다."
 #: src/utils/profile_backup_service.gd
 msgid "A password is required to import this backup."
 msgstr "이 백업을 가져오려면 비밀번호가 필요합니다."
+
+#: src/utils/profile_backup_service.gd
+msgid "Unsupported backup version (%d)."
+msgstr "지원되지 않는 백업 버전입니다 (%d)."
+
+#: src/utils/profile_backup_service.gd
+msgid "Backup integrity check failed: file is corrupted or tampered with."
+msgstr "무결성 검사 실패: 파일이 손상되었거나 변조되었습니다."
+
+#: src/utils/profile_backup_service.gd
+msgid "Decryption failed: corrupted data or invalid key."
+msgstr "복호화 실패: 데이터가 손상되었거나 키가 올바르지 않습니다."

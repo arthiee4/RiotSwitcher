@@ -505,3 +505,15 @@ msgstr "密码错误或备份文件已损坏。"
 #: src/utils/profile_backup_service.gd
 msgid "A password is required to import this backup."
 msgstr "导入此备份需要密码。"
+
+#: src/utils/profile_backup_service.gd
+msgid "Unsupported backup version (%d)."
+msgstr "不支持的备份版本 (%d)。"
+
+#: src/utils/profile_backup_service.gd
+msgid "Backup integrity check failed: file is corrupted or tampered with."
+msgstr "完整性检查失败：文件已损坏或被篡改。"
+
+#: src/utils/profile_backup_service.gd
+msgid "Decryption failed: corrupted data or invalid key."
+msgstr "解密失败：数据已损坏或密钥无效。"

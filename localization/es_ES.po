@@ -505,3 +505,15 @@ msgstr "Contraseña incorrecta o archivo de copia dañado."
 #: src/utils/profile_backup_service.gd
 msgid "A password is required to import this backup."
 msgstr "Se necesita una contraseña para importar esta copia."
+
+#: src/utils/profile_backup_service.gd
+msgid "Unsupported backup version (%d)."
+msgstr "Versión de copia no compatible (%d)."
+
+#: src/utils/profile_backup_service.gd
+msgid "Backup integrity check failed: file is corrupted or tampered with."
+msgstr "Fallo en la comprobación de integridad: el archivo está dañado o ha sido manipulado."
+
+#: src/utils/profile_backup_service.gd
+msgid "Decryption failed: corrupted data or invalid key."
+msgstr "Error al descifrar: datos dañados o clave no válida."

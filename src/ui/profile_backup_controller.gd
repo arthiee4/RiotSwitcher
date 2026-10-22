@@ -143,6 +143,7 @@ func _run_export(dest_path: String, password: String) -> void:
 func _on_export_finished(res: Dictionary) -> void:
 	if _worker_thread and _worker_thread.is_started():
 		_worker_thread.wait_to_finish()
+	_worker_thread = null # Drops the bound callable, which holds the password.
 
 	_set_buttons_enabled(true)
 
@@ -166,7 +167,12 @@ func _on_import_file_selected(path: String) -> void:
 	_set_buttons_enabled(false)
 	var version := ProfileBackupService.read_backup_version(path)
 	var needs_prompt := version == ProfileBackupService.BACKUP_VERSION or version == ProfileBackupService.LEGACY_BACKUP_VERSION
-	if not _progress_modal or not needs_prompt:
+	if needs_prompt and not _progress_modal:
+		# The password and the legacy notice can only be shown through the modal.
+		printerr("ProfileBackupController: Progress modal not found; cannot import this backup.")
+		_set_buttons_enabled(true)
+		return
+	if not needs_prompt:
 		# Not a backup we can read: let the import report the error.
 		_start_import(path, "")
 		return
@@ -200,6 +206,7 @@ func _run_import(src_path: String, password: String) -> void:
 func _on_import_finished(res: Dictionary) -> void:
 	if _worker_thread and _worker_thread.is_started():
 		_worker_thread.wait_to_finish()
+	_worker_thread = null # Drops the bound callable, which holds the password.
 
 	_set_buttons_enabled(true)
 

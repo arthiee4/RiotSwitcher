@@ -522,3 +522,15 @@ msgstr "Senha incorreta ou arquivo de backup danificado."
 #: src/utils/profile_backup_service.gd
 msgid "A password is required to import this backup."
 msgstr "É necessária uma senha para importar este backup."
+
+#: src/utils/profile_backup_service.gd
+msgid "Unsupported backup version (%d)."
+msgstr "Versão de backup não suportada (%d)."
+
+#: src/utils/profile_backup_service.gd
+msgid "Backup integrity check failed: file is corrupted or tampered with."
+msgstr "Falha na verificação de integridade: o arquivo está corrompido ou foi adulterado."
+
+#: src/utils/profile_backup_service.gd
+msgid "Decryption failed: corrupted data or invalid key."
+msgstr "Falha ao descriptografar: dados corrompidos ou chave inválida."

@@ -14,7 +14,7 @@ const MIN_PASSWORD_LENGTH := 8
 const KDF_ITERATIONS := 600000
 # Bounds for the iteration count read from a file, so a crafted header cannot stall the import thread.
 const KDF_MIN_ITERATIONS := 100000
-const KDF_MAX_ITERATIONS := 5000000
+const KDF_MAX_ITERATIONS := 2000000
 const SALT_SIZE := 16
 const IV_SIZE := 16
 const MAC_SIZE := 32

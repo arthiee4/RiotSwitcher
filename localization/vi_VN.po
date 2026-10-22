@@ -505,3 +505,15 @@ msgstr "Sai mật khẩu hoặc tệp sao lưu bị hỏng."
 #: src/utils/profile_backup_service.gd
 msgid "A password is required to import this backup."
 msgstr "Cần mật khẩu để nhập bản sao lưu này."
+
+#: src/utils/profile_backup_service.gd
+msgid "Unsupported backup version (%d)."
+msgstr "Phiên bản sao lưu không được hỗ trợ (%d)."
+
+#: src/utils/profile_backup_service.gd
+msgid "Backup integrity check failed: file is corrupted or tampered with."
+msgstr "Kiểm tra toàn vẹn thất bại: tệp bị hỏng hoặc đã bị chỉnh sửa."
+
+#: src/utils/profile_backup_service.gd
+msgid "Decryption failed: corrupted data or invalid key."
+msgstr "Giải mã thất bại: dữ liệu bị hỏng hoặc khóa không hợp lệ."

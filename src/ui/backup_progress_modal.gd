@@ -47,6 +47,10 @@ var _password_input: LineEdit = null
 var _confirm_input: LineEdit = null
 var _hint_label: Label = null
 var _prompt_buttons: HBoxContainer = null
+var _cancel_button: Button = null
+var _continue_button: Button = null
+# Pending fade-out; a new prompt or operation must cancel it or it would hide the modal mid-use.
+var _close_tween: Tween = null
 
 
 func _ready() -> void:
@@ -95,6 +99,7 @@ func _render_status(dots: String) -> void:
 
 func open_modal(is_import: bool) -> void:
 	_ensure_nodes()
+	_kill_close_tween()
 	_set_prompt_visible(false)
 	_is_active = true
 	_status_text = tr("Importing") if is_import else tr("Exporting")
@@ -156,13 +161,7 @@ func finish_success(message: String) -> void:
 		_title_label.add_theme_color_override("font_color", Color(0.9412, 0.902, 0.8235, 1.0))
 
 	# Wait a brief moment to show success, then fade out smoothly
-	var tw := create_tween()
-	tw.tween_interval(0.9)
-	tw.tween_property(self, "modulate:a", 0.0, 0.20)
-	tw.finished.connect(func():
-		visible = false
-		closed.emit()
-	)
+	_fade_out(0.20, 0.9)
 
 
 func finish_error(error_message: String) -> void:
@@ -191,7 +190,13 @@ func prompt_legacy_notice() -> void:
 
 func _show_prompt(mode: PromptMode) -> void:
 	_ensure_nodes()
+	_kill_close_tween()
 	_build_prompt_nodes()
+	# Set texts on every prompt so a language change in Settings applies.
+	_password_input.placeholder_text = tr("Password")
+	_confirm_input.placeholder_text = tr("Confirm password")
+	_cancel_button.text = tr("Cancel")
+	_continue_button.text = tr("Continue")
 	_prompt_mode = mode
 	_is_active = false
 
@@ -240,8 +245,8 @@ func _build_prompt_nodes() -> void:
 	var vbox := _panel.get_node("VBoxContainer") as VBoxContainer
 	var insert_at := _title_label.get_index() + 1
 
-	_password_input = _make_password_input(tr("Password"))
-	_confirm_input = _make_password_input(tr("Confirm password"))
+	_password_input = _make_password_input()
+	_confirm_input = _make_password_input()
 	_password_input.text_submitted.connect(func(_t: String): _on_prompt_continue())
 	_confirm_input.text_submitted.connect(func(_t: String): _on_prompt_continue())
 
@@ -256,8 +261,10 @@ func _build_prompt_nodes() -> void:
 	_prompt_buttons.name = "prompt_buttons"
 	_prompt_buttons.alignment = BoxContainer.ALIGNMENT_CENTER
 	_prompt_buttons.add_theme_constant_override("separation", 12)
-	_prompt_buttons.add_child(_make_prompt_button(tr("Cancel"), _on_prompt_cancel))
-	_prompt_buttons.add_child(_make_prompt_button(tr("Continue"), _on_prompt_continue))
+	_cancel_button = _make_prompt_button(_on_prompt_cancel)
+	_continue_button = _make_prompt_button(_on_prompt_continue)
+	_prompt_buttons.add_child(_cancel_button)
+	_prompt_buttons.add_child(_continue_button)
 
 	for node: Control in [_password_input, _confirm_input, _hint_label, _prompt_buttons]:
 		vbox.add_child(node)
@@ -265,19 +272,17 @@ func _build_prompt_nodes() -> void:
 		insert_at += 1
 
 
-func _make_password_input(placeholder: String) -> LineEdit:
+func _make_password_input() -> LineEdit:
 	var input := LineEdit.new()
 	input.secret = true
-	input.placeholder_text = placeholder
 	input.custom_minimum_size = Vector2(300, 34)
 	input.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	input.max_length = 128
 	return input
 
 
-func _make_prompt_button(text: String, on_pressed: Callable) -> Button:
+func _make_prompt_button(on_pressed: Callable) -> Button:
 	var button := Button.new()
-	button.text = text
 	button.custom_minimum_size = Vector2(110, 32)
 	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	button.pressed.connect(on_pressed)
@@ -346,18 +351,29 @@ func _on_prompt_cancel() -> void:
 	if _prompt_mode == PromptMode.NONE:
 		return
 	_set_prompt_visible(false)
-	var tw := create_tween()
-	tw.tween_property(self, "modulate:a", 0.0, 0.15)
-	tw.finished.connect(func():
-		visible = false
-		prompt_cancelled.emit()
-	)
+	# Emit right away so the caller re-enables its buttons even if the fade is cut short.
+	prompt_cancelled.emit()
+	_fade_out(0.15)
 
 
 func _on_action_button_pressed() -> void:
-	var tw := create_tween()
-	tw.tween_property(self, "modulate:a", 0.0, 0.15)
-	tw.finished.connect(func():
+	_fade_out(0.15)
+
+
+func _fade_out(duration: float, delay: float = 0.0) -> void:
+	_kill_close_tween()
+	_close_tween = create_tween()
+	if delay > 0.0:
+		_close_tween.tween_interval(delay)
+	_close_tween.tween_property(self, "modulate:a", 0.0, duration)
+	_close_tween.finished.connect(func():
+		_close_tween = null
 		visible = false
 		closed.emit()
 	)
+
+
+func _kill_close_tween() -> void:
+	if _close_tween and _close_tween.is_valid():
+		_close_tween.kill()
+	_close_tween = null
