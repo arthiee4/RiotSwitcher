@@ -161,7 +161,9 @@ func delete_profile(profile_name: String) -> bool:
 	profiles_updated.emit()
 
 	var profile_dir := AppPaths.PROFILES_DIR.path_join(profile.get("directory_name", ""))
-	if DirAccess.dir_exists_absolute(profile_dir):
+	if not AppPaths.is_safe_dir_name(str(profile.get("directory_name", ""))):
+		printerr("ProfileManager: Refusing to delete unsafe profile directory: ", profile_dir)
+	elif DirAccess.dir_exists_absolute(profile_dir):
 		if _remove_dir_recursive(profile_dir) != OK:
 			printerr("ProfileManager: Failed to fully delete directory: ", profile_dir)
 
@@ -544,8 +546,13 @@ func _normalize_profiles() -> void:
 			changed = true
 			continue
 		var profile: Dictionary = entry
-		if str(profile.get("directory_name", "")).is_empty():
+		var dir_name := str(profile.get("directory_name", ""))
+		if dir_name.is_empty():
 			profile["directory_name"] = _sanitize_directory_name(str(profile.get("profile_name", "profile")))
+			changed = true
+		elif not AppPaths.is_safe_dir_name(dir_name):
+			# Imported or hand-edited data may carry names like "../.." that would point session copies and deletes outside PROFILES_DIR.
+			profile["directory_name"] = _resolve_unique_directory_name(_sanitize_directory_name(str(profile.get("profile_name", "profile"))))
 			changed = true
 		if not profile.has("first_time_opened"):
 			profile["first_time_opened"] = false
@@ -586,7 +593,7 @@ func _normalize_profiles() -> void:
 
 func _sanitize_directory_name(profile_name: String) -> String:
 	var sanitized := profile_name.validate_filename().replace(" ", "_")
-	if sanitized.is_empty():
+	if not AppPaths.is_safe_dir_name(sanitized):
 		sanitized = "profile_%d" % Time.get_unix_time_from_system()
 	return sanitized
 

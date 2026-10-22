@@ -348,10 +348,13 @@ static func import_backup(src_file_path: String, progress_cb: Callable = Callabl
 			target_path = AppPaths.PROFILES_FILE
 		elif zip_file.begins_with(PROFILES_DIR_PREFIX):
 			var rel := zip_file.trim_prefix(PROFILES_DIR_PREFIX)
-			target_path = AppPaths.PROFILES_DIR.path_join(rel)
+			target_path = AppPaths.join_contained(AppPaths.PROFILES_DIR, rel)
 		elif zip_file.begins_with(BACKGROUNDS_DIR_PREFIX):
 			var rel := zip_file.trim_prefix(BACKGROUNDS_DIR_PREFIX)
-			target_path = AppPaths.BACKGROUNDS_DIR.path_join(rel)
+			target_path = AppPaths.join_contained(AppPaths.BACKGROUNDS_DIR, rel)
+
+		if target_path == "" and zip_file != PROFILES_DATA_REL:
+			printerr("ProfileBackupService: Skipping unsafe or unknown archive entry: ", zip_file)
 
 		if target_path != "":
 			var target_dir := target_path.get_base_dir()
