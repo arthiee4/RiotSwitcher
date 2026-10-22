@@ -294,8 +294,8 @@ msgid "Import"
 msgstr "Importar"
 
 #: scenes/settings_menu.tscn
-msgid "Export or import an encrypted backup (.zip) with all profiles, sessions, and backgrounds."
-msgstr "Exporte ou importe um backup criptografado (.zip) com todas as contas, sessões e imagens."
+msgid "Includes your login sessions: anyone with this file can sign in to your accounts."
+msgstr "Inclui suas sessões: qualquer pessoa com este arquivo pode entrar nas suas contas."
 
 msgid "Importing"
 msgstr "Importando"

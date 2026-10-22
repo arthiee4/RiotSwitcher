@@ -237,8 +237,8 @@ msgid "Import"
 msgstr "가져오기"
 
 #: scenes/settings_menu.tscn
-msgid "Export or import an encrypted backup (.zip) with all profiles, sessions, and backgrounds."
-msgstr "모든 프로필, 세션, 배경을 포함한 암호화된 백업(.zip)을 내보내거나 가져옵니다."
+msgid "Includes your login sessions: anyone with this file can sign in to your accounts."
+msgstr "로그인 세션이 포함됩니다: 이 파일을 가진 사람은 누구나 계정에 로그인할 수 있습니다."
 
 #: scenes/settings_menu.tscn
 msgid "Share in-game settings (only works with League of Legends closed)."
