@@ -161,12 +161,14 @@ func delete_profile(profile_name: String) -> bool:
 	profiles_updated.emit()
 
 	var profile_dir := AppPaths.PROFILES_DIR.path_join(profile.get("directory_name", ""))
-	if DirAccess.dir_exists_absolute(profile_dir):
+	if not AppPaths.is_safe_dir_name(str(profile.get("directory_name", ""))):
+		printerr("ProfileManager: Refusing to delete unsafe profile directory: ", profile_dir)
+	elif DirAccess.dir_exists_absolute(profile_dir):
 		if _remove_dir_recursive(profile_dir) != OK:
 			printerr("ProfileManager: Failed to fully delete directory: ", profile_dir)
 
 	var background_path: String = profile.get("custom_background_image", "")
-	if background_path.begins_with(AppPaths.BACKGROUNDS_DIR) and FileAccess.file_exists(background_path):
+	if background_path.begins_with(AppPaths.BACKGROUNDS_DIR) and AppPaths.is_safe_background_path(background_path) and FileAccess.file_exists(background_path):
 		DirAccess.remove_absolute(background_path)
 
 	# If the deleted profile was the shared settings source, clear the configuration
@@ -544,13 +546,26 @@ func _normalize_profiles() -> void:
 			changed = true
 			continue
 		var profile: Dictionary = entry
-		if str(profile.get("directory_name", "")).is_empty():
+		var dir_name := str(profile.get("directory_name", ""))
+		if dir_name.is_empty():
 			profile["directory_name"] = _sanitize_directory_name(str(profile.get("profile_name", "profile")))
+			changed = true
+		elif not AppPaths.is_safe_dir_name(dir_name):
+			# Imported or hand-edited data may carry names like "../.." that would point session copies and deletes outside PROFILES_DIR.
+			profile["directory_name"] = _resolve_unique_directory_name(_sanitize_directory_name(str(profile.get("profile_name", "profile"))))
+			changed = true
+		elif not profile["directory_name"] is String:
+			profile["directory_name"] = dir_name
 			changed = true
 		if not profile.has("first_time_opened"):
 			profile["first_time_opened"] = false
 			changed = true
 		if not profile.has("custom_background_image"):
+			profile["custom_background_image"] = ""
+			changed = true
+		var bg = profile["custom_background_image"]
+		if not bg is String or not AppPaths.is_safe_background_path(bg):
+			# Background files get loaded and deleted later, so a crafted path must never reach disk access.
 			profile["custom_background_image"] = ""
 			changed = true
 		if not profile.has("has_custom_name"):
@@ -586,7 +601,7 @@ func _normalize_profiles() -> void:
 
 func _sanitize_directory_name(profile_name: String) -> String:
 	var sanitized := profile_name.validate_filename().replace(" ", "_")
-	if sanitized.is_empty():
+	if not AppPaths.is_safe_dir_name(sanitized):
 		sanitized = "profile_%d" % Time.get_unix_time_from_system()
 	return sanitized
 
@@ -790,7 +805,7 @@ func _rename_profile_directory(old_dir_name: String, new_dir_name: String) -> bo
 
 # Removes old custom background if no other profile references it.
 func _cleanup_orphaned_background(old_bg_path: String, excluding_profile_name: String) -> void:
-	if not old_bg_path.begins_with(AppPaths.BACKGROUNDS_DIR) or not FileAccess.file_exists(old_bg_path):
+	if not old_bg_path.begins_with(AppPaths.BACKGROUNDS_DIR) or not AppPaths.is_safe_background_path(old_bg_path) or not FileAccess.file_exists(old_bg_path):
 		return
 
 	for p: Dictionary in _profiles:
